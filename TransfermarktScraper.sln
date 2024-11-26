@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34622.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TransfermarktScraper", "TransfermarktScraper\TransfermarktScraper.csproj", "{F5D725BA-C7DF-4AA4-8024-2CB764BD11BF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TransfermarktScraper", "TransfermarktScraper\TransfermarktScraper.csproj", "{F5D725BA-C7DF-4AA4-8024-2CB764BD11BF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TransfermarktScraperWeb.Server", "TransfermarktScraperWeb.Server\TransfermarktScraperWeb.Server.csproj", "{88D6C781-88ED-4113-842F-5BAAAB69D395}"
+EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "transfermarktscraperweb.client", "transfermarktscraperweb.client\transfermarktscraperweb.client.esproj", "{8596B7EB-43F2-4E6B-BFDA-E7D08DB60782}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,16 @@ Global
 		{F5D725BA-C7DF-4AA4-8024-2CB764BD11BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F5D725BA-C7DF-4AA4-8024-2CB764BD11BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F5D725BA-C7DF-4AA4-8024-2CB764BD11BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{88D6C781-88ED-4113-842F-5BAAAB69D395}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88D6C781-88ED-4113-842F-5BAAAB69D395}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88D6C781-88ED-4113-842F-5BAAAB69D395}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88D6C781-88ED-4113-842F-5BAAAB69D395}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8596B7EB-43F2-4E6B-BFDA-E7D08DB60782}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8596B7EB-43F2-4E6B-BFDA-E7D08DB60782}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8596B7EB-43F2-4E6B-BFDA-E7D08DB60782}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{8596B7EB-43F2-4E6B-BFDA-E7D08DB60782}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8596B7EB-43F2-4E6B-BFDA-E7D08DB60782}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8596B7EB-43F2-4E6B-BFDA-E7D08DB60782}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

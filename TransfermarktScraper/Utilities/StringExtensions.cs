@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace TransfermarktScraper;
+namespace TransfermarktScraper.Utilities;
 
 internal static class StringExtensions
 {

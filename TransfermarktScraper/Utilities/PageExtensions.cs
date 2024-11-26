@@ -1,6 +1,6 @@
 ﻿using HtmlAgilityPack;
 using PuppeteerSharp;
-namespace TransfermarktScraper;
+namespace TransfermarktScraper.Utilities;
 
 public static class PageExtensions
 {

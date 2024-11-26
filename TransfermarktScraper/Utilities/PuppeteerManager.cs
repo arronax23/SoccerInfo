@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.Logging;
 using PuppeteerSharp;
 
-namespace TransfermarktScraper;
+namespace TransfermarktScraper.Utilities;
 
- public class PuppeteerManager(ILogger<PuppeteerManager> logger)
+public class PuppeteerManager(ILogger<PuppeteerManager> logger)
 {
     private IBrowser _browser = null!;
     private IPage _page = null!;
@@ -33,7 +33,7 @@ namespace TransfermarktScraper;
         }
         catch (Exception ex)
         {
-            logger.LogInformation($"Catched exception:\n"+ ex.Message);
+            logger.LogInformation($"Catched exception:\n" + ex.Message);
             logger.LogInformation("Start Chrome download");
             var browserFetcher = new BrowserFetcher();
             await browserFetcher.DownloadAsync();

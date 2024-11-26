@@ -1,6 +1,6 @@
 ﻿using HtmlAgilityPack;
 
-namespace TransfermarktScraper;
+namespace TransfermarktScraper.Utilities;
 
 public class Traverser
 {
@@ -37,6 +37,28 @@ public class Traverser
         foreach (var child in node.ChildNodes)
         {
             DFS(child, endSelectorsPredicate, selectorsPredicate);
+        }
+    }
+
+
+    public void DFS(HtmlNode node, Predicate<HtmlNode> endSelectorsPredicate)
+    {
+        //Console.WriteLine("Traversing");
+        if (node.NodeType == HtmlNodeType.Text)
+        {
+            return;
+        }
+        else if (endSelectorsPredicate(node))
+        {
+            _foundNodes.Add(node);
+            return;
+        }
+
+        //Console.WriteLine(node.OuterHtml);
+
+        foreach (var child in node.ChildNodes)
+        {
+            DFS(child, endSelectorsPredicate);
         }
     }
 
