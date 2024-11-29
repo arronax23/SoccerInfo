@@ -3,6 +3,7 @@ import "./App.css";
 
 function App() {
   const [teams, setTeams] = useState();
+  const [players, setPlayers] = useState();
 
   useEffect(() => {
     getTeams();
@@ -11,7 +12,9 @@ function App() {
     teams &&
     teams.map((team) => (
       <div>
-        <h3 className="team-header" onClick={showSquads}>{team.name}</h3>
+        <h3 id={team.id} className="team-header" onClick={showSquads}>
+          {team.name}
+        </h3>
         <table
           key={team.id}
           className="table table-striped"
@@ -26,11 +29,10 @@ function App() {
             </tr>
           </thead>
           <tbody>
-            {team.players.map((player) => (
+            {players && players.map((player) => (
               <tr key={player.id}>
                 <td>{player.name}</td>
-                <td      className="face-image-p">
-                  {" "}
+                <td className="face-image-p">
                   <img
                     className="face-image"
                     src={`data:image/jpeg;base64,${player.faceImageBase64}`}
@@ -38,11 +40,11 @@ function App() {
                 </td>
                 <td>{player.position}</td>
                 {player.nationalityImageBase64Collection.map(
-                  (nationalities) => (
-                    <td    className="nationality-image-p">
+                  (nationality) => (
+                    <td className="nationality-image-p">
                       <img
                         className="nationality-image"
-                        src={`data:image/jpeg;base64,${nationalities.base64Image}`}
+                        src={`data:image/jpeg;base64,${nationality}`}
                       />
                     </td>
                   )
@@ -58,12 +60,19 @@ function App() {
   async function getTeams() {
     const response = await fetch("api/GetTeams");
     const data = await response.json();
-    console.log(data);
     setTeams(data);
   }
 
-  async function showSquads(e){
-    console.log(e.target.nextSibling.classList.toggle('show'))
+  async function GetPlayers(teamId) {
+    const response = await fetch(`api/GetPlayers/${teamId}`);
+    const data = await response.json();
+    console.log(data);
+    setPlayers(data);
+  } 
+
+  async function showSquads(e) {
+    await GetPlayers(e.target.id);
+    console.log(e.target.nextSibling.classList.toggle("show"));
   }
 }
 

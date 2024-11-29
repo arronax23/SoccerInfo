@@ -51,9 +51,8 @@ public class PlayersController(
             JOIN Teams t ON t.Id = p.TeamId
             JOIN NationalityImages ni ON ni.PlayerId = p.Id
             WHERE t.Id = {teamId}")
-                        .ToList()
+            .ToList()
             .GroupBy(x => x.Id)
-
             .Select(y => new PlayerDto()
             {
                 Id = y.Key,
