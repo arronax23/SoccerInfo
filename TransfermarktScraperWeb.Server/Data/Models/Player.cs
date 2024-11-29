@@ -9,5 +9,4 @@ public class Player
     public ICollection<NationalityImage>? NationalityImageBase64Collection { get; set; }
     public int TeamId { get; set; }
 
-
 }

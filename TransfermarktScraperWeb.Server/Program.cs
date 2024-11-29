@@ -3,6 +3,7 @@ using TransfermarktScraper;
 using TransfermarktScraper.Utilities;
 using TransfermarktScraperWeb.Server;
 using TransfermarktScraperWeb.Server.Data;
+using TransfermarktScraperWeb.Server.Sql;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<TransfermarktExtractor>();
 builder.Services.AddScoped<ImageFetcher>();
 builder.Services.AddSingleton<PuppeteerManager>();
+builder.Services.AddTransient<ISqlExecutor, SqlExecutor>();
 
 builder.Services.AddHttpClient();
 builder.Services.AddAutoMapper(typeof(IAssemblyMarker));

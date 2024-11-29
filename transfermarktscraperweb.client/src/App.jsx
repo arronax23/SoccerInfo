@@ -11,7 +11,7 @@ function App() {
     teams &&
     teams.map((team) => (
       <div>
-        <h3>{team.name}</h3>
+        <h3 className="team-header" onClick={showSquads}>{team.name}</h3>
         <table
           key={team.id}
           className="table table-striped"
@@ -29,17 +29,19 @@ function App() {
             {team.players.map((player) => (
               <tr key={player.id}>
                 <td>{player.name}</td>
-                <td>
+                <td      className="face-image-p">
                   {" "}
                   <img
+                    className="face-image"
                     src={`data:image/jpeg;base64,${player.faceImageBase64}`}
                   />
                 </td>
                 <td>{player.position}</td>
                 {player.nationalityImageBase64Collection.map(
                   (nationalities) => (
-                    <td>
+                    <td    className="nationality-image-p">
                       <img
+                        className="nationality-image"
                         src={`data:image/jpeg;base64,${nationalities.base64Image}`}
                       />
                     </td>
@@ -58,6 +60,10 @@ function App() {
     const data = await response.json();
     console.log(data);
     setTeams(data);
+  }
+
+  async function showSquads(e){
+    console.log(e.target.nextSibling.classList.toggle('show'))
   }
 }
 

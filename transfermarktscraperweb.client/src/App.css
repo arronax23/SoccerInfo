@@ -5,6 +5,41 @@
     text-align: center;
 }
 
+.team-header {
+    width: 80vw;
+    cursor: pointer;
+    background: #000;
+
+    color: #FFF;
+}
+
+.table-striped.show {
+    position: relative;
+    visibility: visible;
+    transform: scaleY(1);
+    transition: all .5s ease-in; 
+}
+
+.table-striped{
+    position: absolute;
+    visibility: hidden;
+    width: 80vw;
+    transform: scaleY(0); 
+    transform-origin: top;
+}
+
+.face-image-p , .nationality-image-p {
+ overflow: hidden;
+}
+
+.face-image {
+    max-height: 4rem
+}
+
+.team-header:hover {
+    opacity: .7;
+}
+
 tr:nth-child(even) {
     background: #F2F2F2;
 }
@@ -16,4 +51,17 @@ tr:nth-child(odd) {
 th, td {
     padding-left: 1rem;
     padding-right: 1rem;
+}
+
+
+@keyframes slide-animation {
+    0% {
+        height: 0
+    }
+    50% {
+        height: 50%;
+    }
+    100% {
+        height: 100%;
+    }
 }
