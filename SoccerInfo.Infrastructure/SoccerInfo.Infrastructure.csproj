@@ -4,7 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <SpaRoot>..\transfermarktscraperweb.client</SpaRoot>
+    <SpaRoot>..\soccerinfo.web.client</SpaRoot>
     <SpaProxyLaunchCommand>npm run dev</SpaProxyLaunchCommand>
     <SpaProxyServerUrl>https://localhost:5173</SpaProxyServerUrl>
   </PropertyGroup>
@@ -25,10 +25,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SoccerInfo.API\SoccerInfo.API.csproj" />
-    <ProjectReference Include="..\transfermarktscraperweb.client\soccerInfo.web.client.esproj">
+    <ProjectReference Include="..\SoccerInfo.Extractor\SoccerInfo.Extractor.csproj" />
+    <ProjectReference Include="..\soccerInfo.web.client\soccerInfo.web.client.esproj">
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="..\TransfermarktScraper\SoccerInfo.Extractor.csproj" />
+    <ProjectReference Include="..\SoccerInfo.Application\SoccerInfo.Application.csproj" />
   </ItemGroup>
 
 </Project>

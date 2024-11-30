@@ -7,8 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SoccerInfo.Shared\SoccerInfo.Shared.csproj" />
-    <ProjectReference Include="..\TransfermarktScraperWeb.Server\SoccerInfo.Infrastructure.csproj" />
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SoccerInfo.Extractor\SoccerInfo.Extractor.csproj" />
+    <ProjectReference Include="..\SoccerInfo.Persistence\SoccerInfo.Persistence.csproj" />
   </ItemGroup>
 
 </Project>

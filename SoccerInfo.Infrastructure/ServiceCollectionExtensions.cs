@@ -17,9 +17,11 @@ static class ServiceCollectionExtensions
     private static Type[] GetAssemblyMarkers()
     {
         return [
-            typeof(SoccerInfo.Infrastructure.IAssemblyMarker),
+            typeof(SoccerInfo.API.IAssemblyMarker),
             typeof(SoccerInfo.Application.IAssemblyMarker),
-            typeof(SoccerInfo.Extractor.IAssemblyMarker)
+            typeof(SoccerInfo.Extractor.IAssemblyMarker),
+            typeof(SoccerInfo.Persistence.IAssemblyMarker),
+            typeof(SoccerInfo.Infrastructure.IAssemblyMarker),
         ];
     }
 }

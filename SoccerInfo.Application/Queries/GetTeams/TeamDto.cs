@@ -1,4 +1,4 @@
-﻿namespace SoccerInfo.Application.Commands.GetTeams;
+﻿namespace SoccerInfo.Application.Queries.GetTeams;
 
 public class TeamDto
 {

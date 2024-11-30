@@ -1,8 +1,8 @@
 ﻿using SoccerInfo.Shared.CQRS;
 
-namespace SoccerInfo.Application.Commands.GetTeams;
+namespace SoccerInfo.Application.Queries.GetTeams;
 
-internal class GetTeamsQuery : IQuery<IEnumerable<TeamDto>>
+public class GetTeamsQuery : IQuery<IEnumerable<TeamDto>>
 {
 }
 

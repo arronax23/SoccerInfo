@@ -1,7 +1,7 @@
-﻿using SoccerInfo.Infrastructure.Sql;
+﻿using SoccerInfo.Persistence.Sql;
 using SoccerInfo.Shared.CQRS;
 
-namespace SoccerInfo.Application.Commands.GetTeams;
+namespace SoccerInfo.Application.Queries.GetTeams;
 
 internal class GetTeamsQueryHandler(ISqlExecutor sqlExecutor) : IQueryHandler<GetTeamsQuery, IEnumerable<TeamDto>>
 {

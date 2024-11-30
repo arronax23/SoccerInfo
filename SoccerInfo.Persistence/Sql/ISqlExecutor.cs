@@ -1,4 +1,4 @@
-﻿namespace SoccerInfo.Infrastructure.Sql;
+﻿namespace SoccerInfo.Persistence.Sql;
 public interface ISqlExecutor
 {
     public IQueryable<TResult> SqlQueryRaw<TResult>(string sql, params object[] parameters);

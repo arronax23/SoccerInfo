@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
 using SoccerInfo.Extractor.Dto;
-using SoccerInfo.Infrastructure.Data.Models;
+using SoccerInfo.Persistence.Data.Models;
 
 
-namespace SoccerInfo.API.MapperProfiles;
+namespace SoccerInfo.Application.Commands.ExtarctPlayers;
 
-public class PlayersProfile : Profile
+public class AutomapperProfile : Profile
 {
-    public PlayersProfile()
+    public AutomapperProfile()
     {
         CreateMap<string, NationalityImage>()
             .ForMember(dest => dest.Base64Image, opt => opt.MapFrom(src => src));

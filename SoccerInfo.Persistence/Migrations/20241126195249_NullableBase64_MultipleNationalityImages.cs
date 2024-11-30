@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace SoccerInfo.Infrastructure.Migrations
+namespace SoccerInfo.Persistence.Migrations
 {
     /// <inheritdoc />
     public partial class NullableBase64_MultipleNationalityImages : Migration

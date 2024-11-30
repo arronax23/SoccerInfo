@@ -1,4 +1,4 @@
-﻿namespace SoccerInfo.Infrastructure.Data.Models;
+﻿namespace SoccerInfo.Persistence.Data.Models;
 
 
 public class Player

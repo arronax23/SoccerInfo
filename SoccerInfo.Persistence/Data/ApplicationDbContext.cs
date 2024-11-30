@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SoccerInfo.Infrastructure.Data.Models; 
+using SoccerInfo.Persistence.Data.Models; 
 
 namespace SoccerInfoWeb.Server.Data;
 

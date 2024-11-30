@@ -2,7 +2,7 @@
 
 namespace SoccerInfo.Application.Commands.ExtarctPlayers;
 
-internal class ExtarctPlayersCommand : ICommand
+public class ExtarctPlayersCommand : ICommand
 {
 
 }

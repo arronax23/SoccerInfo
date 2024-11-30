@@ -2,9 +2,9 @@
 using System.Runtime.CompilerServices;
 using SoccerInfoWeb.Server.Data;
 
-namespace SoccerInfo.Infrastructure.Sql;
+namespace SoccerInfo.Persistence.Sql;
 
-class SqlExecutor(ApplicationDbContext context) : ISqlExecutor
+public class SqlExecutor(ApplicationDbContext context) : ISqlExecutor
 {
     public IQueryable<TResult> SqlQueryRaw<TResult>(string sql, params object[] parameters)
     {

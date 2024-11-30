@@ -1,4 +1,4 @@
-﻿namespace SoccerInfo.Application.Commands.ExtarctPlayers;
+﻿namespace SoccerInfo.Application.Queries.GetPlayers;
 
 public class PlayerDto
 {
