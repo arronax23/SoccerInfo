@@ -1,6 +1,6 @@
 ﻿using HtmlAgilityPack;
 
-namespace TransfermarktScraper.Utilities;
+namespace SoccerInfo.Extractor.Utilities;
 
 public class Traverser
 {

@@ -1,4 +1,4 @@
-﻿namespace TransfermarktScraperWeb.Server.Controllers.Dtos;
+﻿namespace SoccerInfo.Infrastructure.Controllers;
 
 public class TeamDto
 {

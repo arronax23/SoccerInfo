@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TransfermarktScraperWeb.Server.Data.Models;
+using SoccerInfo.Infrastructure.Data.Models; 
 
-namespace TransfermarktScraperWeb.Server.Data;
+namespace SoccerInfoWeb.Server.Data;
 
 public class ApplicationDbContext : DbContext
 {

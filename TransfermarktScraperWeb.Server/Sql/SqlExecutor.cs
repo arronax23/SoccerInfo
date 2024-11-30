@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Runtime.CompilerServices;
-using TransfermarktScraperWeb.Server.Data;
+using SoccerInfoWeb.Server.Data;
 
-namespace TransfermarktScraperWeb.Server.Sql;
+namespace SoccerInfo.Infrastructure.Sql;
 
 class SqlExecutor(ApplicationDbContext context) : ISqlExecutor
 {

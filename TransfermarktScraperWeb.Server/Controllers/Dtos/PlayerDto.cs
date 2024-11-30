@@ -1,6 +1,4 @@
-﻿using TransfermarktScraperWeb.Server.Data.Models;
-
-namespace TransfermarktScraperWeb.Server.Controllers.Dtos;
+﻿namespace SoccerInfo.Infrastructure.Controllers;
 
 public class PlayerDto
 {

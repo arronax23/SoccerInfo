@@ -5,6 +5,15 @@
     text-align: center;
 }
 
+
+.main-header {
+    font-size: 4rem;
+}
+
+.main-header-svg{
+    height: 4rem;
+}
+
 .team-header {
     width: 80vw;
     cursor: pointer;
@@ -17,7 +26,7 @@
     position: relative;
     visibility: visible;
     transform: scaleY(1);
-    transition: all .5s ease-in; 
+    transition: transform .5s ease-in; 
 }
 
 .table-striped{
@@ -28,8 +37,8 @@
     transform-origin: top;
 }
 
-.face-image-p , .nationality-image-p {
- overflow: hidden;
+.nationality-image {
+    margin-right: .5rem;
 }
 
 .face-image {

@@ -1,4 +1,4 @@
-﻿namespace TransfermarktScraperWeb.Server.Data.Models;
+﻿namespace SoccerInfo.Infrastructure.Data.Models;
 
 public class NationalityImage
 {

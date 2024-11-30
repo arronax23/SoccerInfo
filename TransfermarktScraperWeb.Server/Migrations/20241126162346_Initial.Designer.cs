@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using TransfermarktScraperWeb.Server.Data;
+using SoccerInfoWeb.Server.Data;
 
 #nullable disable
 
-namespace TransfermarktScraperWeb.Server.Migrations
+namespace SoccerInfo.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("20241126162346_Initial")]
@@ -24,7 +24,7 @@ namespace TransfermarktScraperWeb.Server.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("TransfermarktScraperWeb.Server.Data.Models.Player", b =>
+            modelBuilder.Entity("SoccerInfoWeb.Server.Data.Models.Player", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -54,7 +54,7 @@ namespace TransfermarktScraperWeb.Server.Migrations
                     b.ToTable("Players");
                 });
 
-            modelBuilder.Entity("TransfermarktScraperWeb.Server.Data.Models.Team", b =>
+            modelBuilder.Entity("SoccerInfoWeb.Server.Data.Models.Team", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -71,16 +71,16 @@ namespace TransfermarktScraperWeb.Server.Migrations
                     b.ToTable("Teams");
                 });
 
-            modelBuilder.Entity("TransfermarktScraperWeb.Server.Data.Models.Player", b =>
+            modelBuilder.Entity("SoccerInfoWeb.Server.Data.Models.Player", b =>
                 {
-                    b.HasOne("TransfermarktScraperWeb.Server.Data.Models.Team", null)
+                    b.HasOne("SoccerInfoWeb.Server.Data.Models.Team", null)
                         .WithMany("Players")
                         .HasForeignKey("TeamId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("TransfermarktScraperWeb.Server.Data.Models.Team", b =>
+            modelBuilder.Entity("SoccerInfoWeb.Server.Data.Models.Team", b =>
                 {
                     b.Navigation("Players");
                 });

@@ -1,4 +1,4 @@
-﻿namespace TransfermarktScraper.Dto;
+﻿namespace SoccerInfo.Extractor.Dto;
 
 public class PlayersExtractionDto
 {

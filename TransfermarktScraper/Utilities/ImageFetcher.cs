@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 
-namespace TransfermarktScraper.Utilities;
+namespace SoccerInfo.Extractor.Utilities;
 public class ImageFetcher(
     ILogger<ImageFetcher> logger,
     IHttpClientFactory httpClientFactory)

@@ -1,6 +1,6 @@
-@TransfermarktScraperWeb.Server_HostAddress = http://localhost:5288
+@SoccerInfoWeb.Server_HostAddress = http://localhost:5288
 
-GET {{TransfermarktScraperWeb.Server_HostAddress}}/weatherforecast/
+GET {{SoccerInfoWeb.Server_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###

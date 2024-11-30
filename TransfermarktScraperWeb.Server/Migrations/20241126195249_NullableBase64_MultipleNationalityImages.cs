@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace TransfermarktScraperWeb.Server.Migrations
+namespace SoccerInfo.Infrastructure.Migrations
 {
     /// <inheritdoc />
     public partial class NullableBase64_MultipleNationalityImages : Migration

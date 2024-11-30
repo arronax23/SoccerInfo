@@ -1,6 +1,6 @@
 ﻿using HtmlAgilityPack;
 using PuppeteerSharp;
-namespace TransfermarktScraper.Utilities;
+namespace SoccerInfo.Extractor.Utilities;
 
 public static class PageExtensions
 {

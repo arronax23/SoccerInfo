@@ -1,5 +1,4 @@
-﻿namespace TransfermarktScraperWeb.Server.Sql;
-
+﻿namespace SoccerInfo.Infrastructure.Sql;
 public interface ISqlExecutor
 {
     public IQueryable<TResult> SqlQueryRaw<TResult>(string sql, params object[] parameters);

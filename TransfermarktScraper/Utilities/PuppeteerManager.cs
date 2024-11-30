@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using PuppeteerSharp;
 
-namespace TransfermarktScraper.Utilities;
+namespace SoccerInfo.Extractor.Utilities;
 
 public class PuppeteerManager(ILogger<PuppeteerManager> logger)
 {

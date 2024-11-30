@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
-using TransfermarktScraper.Dto;
-using TransfermarktScraperWeb.Server.Data.Models;
+using SoccerInfo.Extractor.Dto;
+using SoccerInfo.Infrastructure.Data.Models;
 
-namespace TransfermarktScraperWeb.Server.MapperProfiles;
+
+namespace SoccerInfo.Infrastructure.MapperProfiles;
 
 public class PlayersProfile :  Profile
 {

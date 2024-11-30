@@ -1,11 +1,11 @@
 ﻿using HtmlAgilityPack.CssSelectors.NetCore;
 using HtmlAgilityPack;
 using PuppeteerSharp;
-using TransfermarktScraper.Utilities;
-using static TransfermarktScraper.Dto.PlayersExtractionDto;
-using TransfermarktScraper.Dto;
+using SoccerInfo.Extractor.Utilities;
+using static SoccerInfo.Extractor.Dto.PlayersExtractionDto;
+using SoccerInfo.Extractor.Dto;
 
-namespace TransfermarktScraper
+namespace SoccerInfo.Extractor
 {
     public class TransfermarktExtractor(
         PuppeteerManager puppeteerManager,

@@ -1,5 +1,4 @@
-﻿namespace TransfermarktScraperWeb.Server;
-
+﻿namespace SoccerInfo.Infrastructure;
 public interface IAssemblyMarker
 {
 }

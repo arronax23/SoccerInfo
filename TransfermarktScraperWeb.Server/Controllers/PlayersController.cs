@@ -1,14 +1,12 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using TransfermarktScraper;
-using TransfermarktScraperWeb.Server.Controllers.Dtos;
-using TransfermarktScraperWeb.Server.Data;
-using TransfermarktScraperWeb.Server.Data.Models;
-using TransfermarktScraperWeb.Server.Sql;
-using static TransfermarktScraperWeb.Server.Controllers.Dtos.PlayerDto;
+using SoccerInfo.Extractor;
+using SoccerInfo.Infrastructure.Controllers;
+using SoccerInfo.Infrastructure.Data.Models;
+using SoccerInfo.Infrastructure.Sql;
+using SoccerInfoWeb.Server.Data;
 
-namespace TransfermarktScraperWeb.Server.Controllers;
+namespace SoccerInfoWeb.Server.Controllers;
 
 [ApiController]
 public class PlayersController(
@@ -63,7 +61,7 @@ public class PlayersController(
             });
     }
 
-    public class PlayerData
+    private class PlayerData
     {
         public int Id { get; set; }
         public string Name { get; set; } = null!;

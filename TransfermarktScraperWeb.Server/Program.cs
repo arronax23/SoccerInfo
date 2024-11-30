@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
-using TransfermarktScraper;
-using TransfermarktScraper.Utilities;
-using TransfermarktScraperWeb.Server;
-using TransfermarktScraperWeb.Server.Data;
-using TransfermarktScraperWeb.Server.Sql;
+using SoccerInfo.Extractor.Utilities;
+using SoccerInfo.Extractor;
+using SoccerInfo.Infrastructure;
+using SoccerInfoWeb.Server.Data;
+using SoccerInfo.Infrastructure.Sql;
 
 var builder = WebApplication.CreateBuilder(args);
 
