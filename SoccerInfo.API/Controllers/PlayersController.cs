@@ -1,19 +1,13 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using SoccerInfo.Extractor;
-using SoccerInfo.Infrastructure.Controllers;
-using SoccerInfo.Infrastructure.Data.Models;
-using SoccerInfo.Infrastructure.Sql;
-using SoccerInfoWeb.Server.Data;
-
-namespace SoccerInfoWeb.Server.Controllers;
+using SoccerInfo.Shared.CQRS;
+namespace SoccerInfoWeb.API.Controllers;
 
 [ApiController]
 public class PlayersController(
-    TransfermarktExtractor transfermarktExtractor,
-    ApplicationDbContext dbContext,
-    ISqlExecutor sqlExecutor,
-    IMapper mapper) : ControllerBase
+    IQueryDispatcher queryDispatcher,
+    ICommandDispatcher commandDispatcher
+    ) : ControllerBase
 {
     [HttpPost]
     [Route("api/ExtarctPlayers")]
@@ -37,8 +31,7 @@ public class PlayersController(
     [HttpGet("api/GetTeams")]
     public IEnumerable<TeamDto> GetTeams()
     {
-        return sqlExecutor
-            .SqlQuery<TeamDto>(@"SELECT [Id], [Name] FROM Teams");
+        queryDispatcher.Send(new GetTeamsQuery())
     }
     [HttpGet("api/GetPlayers/{teamId}")]
     public IEnumerable<PlayerDto> GetPlayers(int teamId)

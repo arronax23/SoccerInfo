@@ -1,4 +1,4 @@
-﻿namespace SoccerInfo.Infrastructure.Controllers;
+﻿namespace SoccerInfo.Application.Commands.ExtarctPlayers;
 
 public class PlayerDto
 {

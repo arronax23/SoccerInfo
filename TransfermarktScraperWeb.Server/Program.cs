@@ -4,6 +4,7 @@ using SoccerInfo.Extractor;
 using SoccerInfo.Infrastructure;
 using SoccerInfoWeb.Server.Data;
 using SoccerInfo.Infrastructure.Sql;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,7 +16,8 @@ builder.Services.AddSingleton<PuppeteerManager>();
 builder.Services.AddTransient<ISqlExecutor, SqlExecutor>();
 
 builder.Services.AddHttpClient();
-builder.Services.AddAutoMapper(typeof(IAssemblyMarker));
+builder.Services.RegisterAutoMapper();
+builder.Services.RegisterMediatR();
 
 //using (var sp = builder.Services.BuildServiceProvider()){
 //    var t = sp.GetRequiredService<TransfermarktExtractor>();
@@ -47,7 +49,10 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
-app.MapControllers();
+builder.Services
+    .AddControllers()
+    .AddApplicationPart(Assembly.GetAssembly(typeof(SoccerInfo.API.IAssemblyMarker))!);
+
 
 app.MapFallbackToFile("/index.html");
 

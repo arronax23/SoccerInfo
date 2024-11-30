@@ -1,4 +1,2 @@
 ﻿namespace SoccerInfo.Infrastructure;
-public interface IAssemblyMarker
-{
-}
+public interface IAssemblyMarker;

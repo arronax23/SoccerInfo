@@ -3,9 +3,9 @@ using SoccerInfo.Extractor.Dto;
 using SoccerInfo.Infrastructure.Data.Models;
 
 
-namespace SoccerInfo.Infrastructure.MapperProfiles;
+namespace SoccerInfo.API.MapperProfiles;
 
-public class PlayersProfile :  Profile
+public class PlayersProfile : Profile
 {
     public PlayersProfile()
     {
