@@ -9,6 +9,8 @@ using SoccerInfo.Extractor.Parsers;
 namespace SoccerInfo.Extractor
 {
     public class SoccerDataExtractor(
+        LeagueParser leagueParser,
+        TeamParser teamParser,
         PlayerParser playerParser,
         PuppeteerManager puppeteerManager)
     {
@@ -24,19 +26,26 @@ namespace SoccerInfo.Extractor
             {
                 var page = await puppeteerManager.InitializePage(headless: true);
                 await page.GoToAsync(leagueLink, WaitUntilNavigation.Networkidle0);
+                
+                var leagueNode = await page.CreateHtmlNodeFromPage();
+                var league = await leagueParser.Parse(leagueNode);
 
-                var wholePageNode = await page.CreateHtmlNodeFromPage();
-                var teamsNodes = wholePageNode.QuerySelector("table.items").QuerySelectorAll(".hauptlink a[title]");
+
+                await puppeteerManager.CloseBrowser();
+
+                var teamsNodes = leagueNode.QuerySelector("table.items").QuerySelectorAll(".hauptlink a[title]");
                 var teamsLinks = teamsNodes.Select(x => BASE_URI + x.GetAttributeValue("href", "Not found"));
 
-                foreach (var link in teamsLinks)
+                foreach (var teamLink in teamsLinks)
                 {
-                    await page.GoToAsync($"{link}");
+                    await page.GoToAsync($"{teamLink}");
                     await page.WaitForNetworkIdleAsync();
 
                     var node = await page.CreateHtmlNodeFromPage();
-                    extraction.Leagues.Select(x => x.Teams);
+                    league.Teams.Add(await GetTeam(node));
                 }
+
+                extraction.Leagues.Add(league);
 
                 await puppeteerManager.CloseBrowser();
             }
@@ -62,32 +71,23 @@ namespace SoccerInfo.Extractor
             };
         }
 
-        private async Task Leagues(HtmlNode node)
+        private async Task<TeamDto> GetTeam(HtmlNode node)
         {
+            var team = await teamParser.Parse(node);
 
-        }
-
-            private async Task<TeamDto> GetTeamPlayers(HtmlNode node)
-        {
-            var teamDto  = new TeamDto();
-
-            var tableNode = node.QuerySelector("table.items");
-
-            var teamName = node.QuerySelector(".data-header__headline-container").InnerText.FormatExtractedStrings();
-            teamDto.TeamName = teamName;
-            await Console.Out.WriteLineAsync(teamName);
+            var playersTableNode = node.QuerySelector("table.items");
 
             Traverser traverser = new Traverser();
-            traverser.DFS(tableNode, EndSelectorsSpecification);
-            var results = traverser.FoundNodes;
+            traverser.DFS(playersTableNode, EndSelectorsSpecification);
+            var playersNodes = traverser.FoundNodes;
 
-            foreach (var item in results)
+            foreach (var playerNode in playersNodes)
             {
-                var player  = await playerParser.Parse(item);
-                teamDto.Players.Add(player);
+                var player = await playerParser.Parse(playerNode);
+                team.Players.Add(player);
             }
 
-            return teamDto;
+            return team;
         }
 
         private bool EndSelectorsSpecification(HtmlNode node)

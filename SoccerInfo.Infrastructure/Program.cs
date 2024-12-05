@@ -6,10 +6,14 @@ using SoccerInfo.Persistence.Sql;
 using SoccerInfoWeb.Server.Data;
 using SoccerInfo.Shared.CQRS;
 using SoccerInfo.Infrastructure.CQRS;
+using SoccerInfo.Extractor.Parsers;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddScoped<SoccerDataExtractor>();
+builder.Services.AddScoped<LeagueParser>();
+builder.Services.AddScoped<TeamParser>();
+builder.Services.AddScoped<PlayerParser>();
 builder.Services.AddScoped<ImageFetcher>();
 builder.Services.AddSingleton<PuppeteerManager>();
 builder.Services.AddTransient<ISqlExecutor, SqlExecutor>();

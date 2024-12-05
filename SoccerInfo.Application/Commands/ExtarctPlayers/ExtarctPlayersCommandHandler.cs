@@ -15,15 +15,15 @@ namespace SoccerInfo.Application.Commands.ExtarctPlayers
         {
             var extraction = await soccerDataExtractor.Extarct();
 
-            var teams = extraction.Leagues.Select(x => new Team()
-            {
-                Name = x.TeamName,
-                Players = mapper.Map<ICollection<Player>>(x.Players)
-            });
+            //var teams = extraction.Leagues.Select(x => new Team()
+            //{
+            //    Name = x.TeamName,
+            //    Players = mapper.Map<ICollection<Player>>(x.Players)
+            //});
 
 
-            await dbContext.Teams.AddRangeAsync(teams);
-            await dbContext.SaveChangesAsync();
+            //await dbContext.Teams.AddRangeAsync(teams);
+            //await dbContext.SaveChangesAsync();
         }
     }
 }
