@@ -18,4 +18,20 @@
     <ProjectReference Include="..\SoccerInfo.Shared\SoccerInfo.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="TeamLinks.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>TeamLinks.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="TeamLinks.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>TeamLinks.Designer.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
 </Project>

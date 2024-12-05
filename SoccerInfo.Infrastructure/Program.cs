@@ -9,7 +9,7 @@ using SoccerInfo.Infrastructure.CQRS;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddScoped<TransfermarktExtractor>();
+builder.Services.AddScoped<SoccerDataExtractor>();
 builder.Services.AddScoped<ImageFetcher>();
 builder.Services.AddSingleton<PuppeteerManager>();
 builder.Services.AddTransient<ISqlExecutor, SqlExecutor>();

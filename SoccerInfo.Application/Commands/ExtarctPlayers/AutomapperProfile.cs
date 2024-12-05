@@ -12,7 +12,7 @@ public class AutomapperProfile : Profile
         CreateMap<string, NationalityImage>()
             .ForMember(dest => dest.Base64Image, opt => opt.MapFrom(src => src));
 
-        CreateMap<PlayersExtractionDto.PlayerDto, Player>()
+        CreateMap<ExtractionDto.PlayerDto, Player>()
             .ForMember(dest => dest.NationalityImageBase64Collection, opt => opt.MapFrom(src => src.NationalityImageBase64Collection));
 
     }

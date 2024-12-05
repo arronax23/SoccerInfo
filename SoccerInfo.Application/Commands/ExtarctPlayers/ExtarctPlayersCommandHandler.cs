@@ -8,14 +8,14 @@ namespace SoccerInfo.Application.Commands.ExtarctPlayers
 {
     internal class ExtarctPlayersCommandHandler(
         ApplicationDbContext dbContext,
-        TransfermarktExtractor transfermarktExtractor,
+        SoccerDataExtractor soccerDataExtractor,
         IMapper mapper) : ICommandHandler<ExtarctPlayersCommand>
     {
         public async Task Handle(ExtarctPlayersCommand request, CancellationToken cancellationToken)
         {
-            var extraction = await transfermarktExtractor.Extarct();
+            var extraction = await soccerDataExtractor.Extarct();
 
-            var teams = extraction.Extraction.Select(x => new Team()
+            var teams = extraction.Leagues.Select(x => new Team()
             {
                 Name = x.TeamName,
                 Players = mapper.Map<ICollection<Player>>(x.Players)

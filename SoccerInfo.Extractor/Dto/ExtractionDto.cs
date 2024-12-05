@@ -1,0 +1,30 @@
+﻿namespace SoccerInfo.Extractor.Dto;
+
+public class ExtractionDto
+{
+    public List<LeagueDto> Leagues { get; set; } = new List<LeagueDto>();
+
+    public class LeagueDto
+    {
+        public string LeagueName { get; set; } = null!;
+        public string? LeagueImageBase64 { get; set; }
+        public List<TeamDto> Teams { get; set; } = new List<TeamDto>();
+    }
+
+    public class TeamDto
+    {
+        public string TeamName { get; set; } = null!;
+        public string? TeamImageBase64 { get; set; }
+        public List<PlayerDto> Players { get; set; } = new List<PlayerDto>();
+    }
+
+    public class PlayerDto
+    {
+        public string PlayerName { get; set; } = null!;
+        public string Position { get; set; } = null!;
+        public string? FaceImageBase64 { get; set; }
+        public List<string?> NationalityImageBase64Collection { get; set; } = new List<string?> { };
+    }
+
+
+}

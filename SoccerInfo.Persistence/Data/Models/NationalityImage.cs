@@ -6,3 +6,4 @@ public class NationalityImage
     public string? Base64Image { get; set; }
     public int PlayerId { get; set; }
 }
+
