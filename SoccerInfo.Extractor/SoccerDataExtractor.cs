@@ -30,9 +30,6 @@ namespace SoccerInfo.Extractor
                 var leagueNode = await page.CreateHtmlNodeFromPage();
                 var league = await leagueParser.Parse(leagueNode);
 
-
-                await puppeteerManager.CloseBrowser();
-
                 var teamsNodes = leagueNode.QuerySelector("table.items").QuerySelectorAll(".hauptlink a[title]");
                 var teamsLinks = teamsNodes.Select(x => BASE_URI + x.GetAttributeValue("href", "Not found"));
 
@@ -59,15 +56,15 @@ namespace SoccerInfo.Extractor
             return new List<string>()
             {
                 TeamLinks.PremierLeague,
-                TeamLinks.Bundesliga,
-                TeamLinks.SerieA,
-                TeamLinks.LaLiga,
-                TeamLinks.Ligue1,
-                TeamLinks.LigaPortugal,
-                TeamLinks.JupilerProLeague,
-                TeamLinks.Eredivisie,
-                TeamLinks.SuperLig,
-                TeamLinks.Ekstraklasa
+                //TeamLinks.Bundesliga,
+                //TeamLinks.SerieA,
+                //TeamLinks.LaLiga,
+                //TeamLinks.Ligue1,
+                //TeamLinks.LigaPortugal,
+                //TeamLinks.JupilerProLeague,
+                //TeamLinks.Eredivisie,
+                //TeamLinks.SuperLig,
+                //TeamLinks.Ekstraklasa
             };
         }
 

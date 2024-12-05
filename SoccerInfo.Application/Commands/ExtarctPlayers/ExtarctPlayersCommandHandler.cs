@@ -2,6 +2,7 @@
 using SoccerInfo.Extractor;
 using SoccerInfo.Persistence.Data.Models;
 using SoccerInfo.Shared.CQRS;
+using SoccerInfo.Shared.Utilities;
 using SoccerInfoWeb.Server.Data;
 
 namespace SoccerInfo.Application.Commands.ExtarctPlayers
@@ -15,6 +16,7 @@ namespace SoccerInfo.Application.Commands.ExtarctPlayers
         {
             var extraction = await soccerDataExtractor.Extarct();
 
+            await JsonSerializerToFile.Save(extraction, "scraped_data_1.json");
             //var teams = extraction.Leagues.Select(x => new Team()
             //{
             //    Name = x.TeamName,

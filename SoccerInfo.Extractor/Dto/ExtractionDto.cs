@@ -23,7 +23,12 @@ public class ExtractionDto
     public class PlayerDto
     {
         public string Name { get; set; } = null!;
+        public int? Number { get; set; }
         public string Position { get; set; } = null!;
+        public int Age { get; set; }
+        public float? MarketValue { get; set; }
+        public string? MarketValueUnit { get; set; }
+        public DateTime DateOfBirth { get; set; }
         public string? FaceImageBase64 { get; set; }
         public List<string?> NationalityImageBase64Collection { get; set; } = new List<string?> { };
     }

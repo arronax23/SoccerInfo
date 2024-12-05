@@ -1,13 +1,13 @@
-﻿using System.Runtime.CompilerServices;
-
-namespace SoccerInfo.Extractor.Utilities;
+﻿namespace SoccerInfo.Extractor.Utilities;
 
 internal static class StringExtensions
 {
     public static string FormatExtractedStrings(this string text)
     {
-        if (text.Contains("&nbsp"))
-            text = text.Split("&nbsp")[0];
+        text = text.Replace("&nbsp", " ");
+        text = text.Replace("&nbsp;", " ");
+        text = text.Replace("&amp", "&");
+        text = text.Replace("&amp;", "&");
 
         return text.Trim();
     }
