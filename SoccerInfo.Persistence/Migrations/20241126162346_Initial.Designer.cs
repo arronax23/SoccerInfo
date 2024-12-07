@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
-using SoccerInfoWeb.Server.Data;
+using SoccerInfo.Persistence.Data;
 
 #nullable disable
 

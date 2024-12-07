@@ -5,6 +5,7 @@ using SoccerInfo.Extractor.Utilities;
 using static SoccerInfo.Extractor.Dto.ExtractionDto;
 using SoccerInfo.Extractor.Dto;
 using SoccerInfo.Extractor.Parsers;
+using System.Collections.Generic;
 
 namespace SoccerInfo.Extractor
 {
@@ -12,6 +13,7 @@ namespace SoccerInfo.Extractor
         LeagueParser leagueParser,
         TeamParser teamParser,
         PlayerParser playerParser,
+        NationalityImageParser nationalityImageParser,
         PuppeteerManager puppeteerManager)
     {
         private readonly string BASE_URI = "https://www.transfermarkt.pl";
@@ -43,10 +45,9 @@ namespace SoccerInfo.Extractor
                 }
 
                 extraction.Leagues.Add(league);
-
-                await puppeteerManager.CloseBrowser();
             }
 
+            await puppeteerManager.CloseBrowser();
             return extraction;
         }
 
@@ -56,7 +57,7 @@ namespace SoccerInfo.Extractor
             return new List<string>()
             {
                 TeamLinks.PremierLeague,
-                //TeamLinks.Bundesliga,
+                TeamLinks.Bundesliga,
                 //TeamLinks.SerieA,
                 //TeamLinks.LaLiga,
                 //TeamLinks.Ligue1,
@@ -80,11 +81,29 @@ namespace SoccerInfo.Extractor
 
             foreach (var playerNode in playersNodes)
             {
-                var player = await playerParser.Parse(playerNode);
-                team.Players.Add(player);
+                team.Players.Add(await GetPlayer(playerNode));
             }
 
             return team;
+        }
+
+        private async Task<PlayerDto> GetPlayer(HtmlNode node)
+        {
+           var player = await playerParser.Parse(node);
+           var nationalityImageNodes = node.QuerySelectorAll("img.flaggenrahmen");
+
+            foreach (var nationalityImageNode in nationalityImageNodes)
+            {
+                var nationalityImage = await GetNationalityImage(nationalityImageNode);
+                player.NationalityImages.Add(nationalityImage);
+            }
+
+            return player;
+        }
+
+        private async Task<NationalityImageDto> GetNationalityImage(HtmlNode node)
+        {
+            return await nationalityImageParser.Parse(node);
         }
 
         private bool EndSelectorsSpecification(HtmlNode node)

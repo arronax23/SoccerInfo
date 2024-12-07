@@ -30,8 +30,13 @@ public class ExtractionDto
         public string? MarketValueUnit { get; set; }
         public DateTime DateOfBirth { get; set; }
         public string? FaceImageBase64 { get; set; }
-        public List<string?> NationalityImageBase64Collection { get; set; } = new List<string?> { };
+        public List<NationalityImageDto?> NationalityImages { get; set; } = new List<NationalityImageDto?>();
+
     }
 
-
+    public class NationalityImageDto
+    {
+        public string Country { get; set; } = null!;
+        public string? Base64Image { get; set; } = null!;
+    }
 }

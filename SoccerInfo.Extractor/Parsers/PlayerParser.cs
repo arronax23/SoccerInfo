@@ -26,12 +26,6 @@ public class PlayerParser(
                 node.QuerySelector("img.bilderrahmen-fixed").GetAttributeValue("data-src", "notFound"))
         };
 
-        foreach (var flag in node.QuerySelectorAll("img.flaggenrahmen"))
-        {
-            player.NationalityImageBase64Collection.Add(
-                await imageFetcher.Fetch(flag.GetAttributeValue("src", "notFound")));
-        }
-
         return player;
     }
 

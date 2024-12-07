@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using SoccerInfo.Application.Commands.ExtarctPlayers;
+using SoccerInfo.Application.Commands.UpdateTest;
 using SoccerInfo.Application.Queries.GetPlayers;
 using SoccerInfo.Application.Queries.GetTeams;
 using SoccerInfo.Shared.CQRS;
@@ -16,6 +17,14 @@ public class PlayersController(
     public async Task<IActionResult> ExtarctPlayers()
     {
         await commandDispatcher.Send(new ExtarctPlayersCommand());
+        return Ok();
+    }
+
+    [HttpPost]
+    [Route("api/UpdateTest")]
+    public async Task<IActionResult> UpdateTest()
+    {
+        await commandDispatcher.Send(new UpdateTestCommand());
         return Ok();
     }
 

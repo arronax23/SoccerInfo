@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SoccerInfo.Persistence.Data;
 
@@ -11,9 +12,11 @@ using SoccerInfo.Persistence.Data;
 namespace SoccerInfo.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241207155654_Add_Country_Name_to_NationalityImages")]
+    partial class Add_Country_Name_to_NationalityImages
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,11 +54,11 @@ namespace SoccerInfo.Persistence.Migrations
 
             modelBuilder.Entity("SoccerInfo.Persistence.Data.Models.NationalityImage", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("NationalityImageId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("NationalityImageId"));
 
                     b.Property<string>("Base64Image")
                         .HasColumnType("nvarchar(max)");
@@ -67,7 +70,7 @@ namespace SoccerInfo.Persistence.Migrations
                     b.Property<int>("PlayerId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("NationalityImageId");
 
                     b.HasIndex("PlayerId");
 

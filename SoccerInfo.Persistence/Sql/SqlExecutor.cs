@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Runtime.CompilerServices;
-using SoccerInfoWeb.Server.Data;
+using SoccerInfo.Persistence.Data;
 
 namespace SoccerInfo.Persistence.Sql;
 

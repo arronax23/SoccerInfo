@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SoccerInfo.Persistence.Data;
 
@@ -11,9 +12,11 @@ using SoccerInfo.Persistence.Data;
 namespace SoccerInfo.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241207111508_ExtendedDataModels")]
+    partial class ExtendedDataModels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,23 +54,19 @@ namespace SoccerInfo.Persistence.Migrations
 
             modelBuilder.Entity("SoccerInfo.Persistence.Data.Models.NationalityImage", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("NationalityImageId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("NationalityImageId"));
 
                     b.Property<string>("Base64Image")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Country")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("PlayerId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("NationalityImageId");
 
                     b.HasIndex("PlayerId");
 
@@ -143,7 +142,7 @@ namespace SoccerInfo.Persistence.Migrations
             modelBuilder.Entity("SoccerInfo.Persistence.Data.Models.NationalityImage", b =>
                 {
                     b.HasOne("SoccerInfo.Persistence.Data.Models.Player", null)
-                        .WithMany("NationalityImages")
+                        .WithMany("NationalityImageBase64Collection")
                         .HasForeignKey("PlayerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -160,11 +159,9 @@ namespace SoccerInfo.Persistence.Migrations
 
             modelBuilder.Entity("SoccerInfo.Persistence.Data.Models.Team", b =>
                 {
-                    b.HasOne("SoccerInfo.Persistence.Data.Models.League", "League")
+                    b.HasOne("SoccerInfo.Persistence.Data.Models.League", null)
                         .WithMany("Teams")
                         .HasForeignKey("LeagueId");
-
-                    b.Navigation("League");
                 });
 
             modelBuilder.Entity("SoccerInfo.Persistence.Data.Models.League", b =>
@@ -174,7 +171,7 @@ namespace SoccerInfo.Persistence.Migrations
 
             modelBuilder.Entity("SoccerInfo.Persistence.Data.Models.Player", b =>
                 {
-                    b.Navigation("NationalityImages");
+                    b.Navigation("NationalityImageBase64Collection");
                 });
 
             modelBuilder.Entity("SoccerInfo.Persistence.Data.Models.Team", b =>
