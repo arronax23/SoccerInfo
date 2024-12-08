@@ -22,7 +22,7 @@ public class AutomapperProfile : Profile
             .ForMember(x => x.TeamId, opt => opt.Ignore());
 
         CreateMap<NationalityImageDto, NationalityImage>()
-            .ForMember(x => x.Id, opt => opt.Ignore())
-            .ForMember(x => x.PlayerId, opt => opt.Ignore());
+            .ForMember(x => x.Id, opt => opt.Ignore());
+            ///.ForMember(x => x.Players, opt => opt.Ignore());
     }
 }

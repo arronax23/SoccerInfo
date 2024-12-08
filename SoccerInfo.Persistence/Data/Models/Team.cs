@@ -1,6 +1,8 @@
-﻿namespace SoccerInfo.Persistence.Data.Models;
+﻿using SoccerInfo.Persistence.Data.Models.Abstractions;
 
-public class Team : IEquatable<Team>
+namespace SoccerInfo.Persistence.Data.Models;
+
+public class Team : IEntity,  IEquatable<Team>
 {
     public int Id { get; set; }
     public string Name { get; set; } = null!;

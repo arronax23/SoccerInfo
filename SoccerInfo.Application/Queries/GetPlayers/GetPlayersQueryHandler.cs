@@ -11,7 +11,8 @@ namespace SoccerInfo.Application.Queries.GetPlayers
                 sqlExecutor
                 .SqlQueryRaw<PlayerData>(
                     $@"SELECT p.[Id], p.[Name], p.[Position], p.[FaceImageBase64], ni.[Base64Image] as NationalityImage FROM Players p
-                    JOIN NationalityImages ni ON ni.PlayerId = p.Id
+                    JOIN NationalityImagePlayer nip ON nip.PlayerId = p.Id
+                    JOIN NationalityImages ni ON nip.NationalityImageId = ni.Id
                     WHERE p.TeamId = {request.TeamId}")
                 .ToList()
                 .GroupBy(x => x.Id)

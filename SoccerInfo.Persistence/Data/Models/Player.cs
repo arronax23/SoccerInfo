@@ -1,7 +1,7 @@
-﻿namespace SoccerInfo.Persistence.Data.Models;
+﻿using SoccerInfo.Persistence.Data.Models.Abstractions;
+namespace SoccerInfo.Persistence.Data.Models;
 
-
-public class Player : IEquatable<Player>
+public class Player : IEntity, IEquatable<Player>
 {
     public int Id { get; set; }
     public string Name { get; set; } = null!;
@@ -19,7 +19,7 @@ public class Player : IEquatable<Player>
     {
         if (other == null) 
             return false;
-        else if (this.Name == other.Name)
+        else if (this.Name == other.Name && this.DateOfBirth == other.DateOfBirth)
             return true;
         else
             return false;

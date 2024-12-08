@@ -4,105 +4,116 @@ using SoccerInfo.Extractor;
 using SoccerInfo.Extractor.Dto;
 using SoccerInfo.Persistence.Data;
 using SoccerInfo.Persistence.Data.Models;
+using SoccerInfo.Persistence.Data.Models.Abstractions;
 using SoccerInfo.Shared.CQRS;
 using System.Text.Json;
 
-namespace SoccerInfo.Application.Commands.UpdateTest
+namespace SoccerInfo.Application.Commands.UpdateTest;
+
+internal class UpdateTestCommandHandler(
+    ApplicationDbContext dbContext,
+    SoccerDataExtractor soccerDataExtractor,
+    IMapper mapper) : ICommandHandler<UpdateTestCommand>
 {
-    internal class UpdateTestCommandHandler(
-        ApplicationDbContext dbContext,
-        SoccerDataExtractor soccerDataExtractor,
-        IMapper mapper) : ICommandHandler<UpdateTestCommand>
+    public async Task Handle(UpdateTestCommand request, CancellationToken cancellationToken)
     {
-        public async Task Handle(UpdateTestCommand request, CancellationToken cancellationToken)
+        string fileName = "scraped_data_3.json";
+        string jsonString = File.ReadAllText(fileName);
+
+        ExtractionDto extraction = JsonSerializer.Deserialize<ExtractionDto>(jsonString)!;
+
+        var extractedLeagues = mapper.Map<IEnumerable<League>>(extraction.Leagues);
+        EliminateNationalityImageDuplicates(extractedLeagues);
+
+
+        dbContext.AttachRange(extractedLeagues);
+
+        var dbLeagues = 
+            dbContext.Leagues
+            .AsNoTracking()
+            .Include(x => x.Teams)
+            .ThenInclude(y => y.Players)
+            .ThenInclude(z => z.NationalityImages);
+
+
+        foreach (var dbLeague in dbLeagues)
         {
-            string fileName = "scraped_data_3.json";
-            string jsonString = File.ReadAllText(fileName);
-
-            ExtractionDto extraction = JsonSerializer.Deserialize<ExtractionDto>(jsonString)!;
-
-            var extractedLeagues = mapper.Map<IEnumerable<League>>(extraction.Leagues);
-            PrepareTeams(extractedLeagues);
-
-
-            dbContext.AttachRange(extractedLeagues);
-
-            var dbTeams = dbContext.Teams.Include(x => x.Players).ThenInclude(y => y.NationalityImages);
-
-            foreach (var dbTeam in dbTeams)
+            if (dbLeague != null)
             {
-                var extractedTeam = extractedLeagues.SelectMany(x => x!.Teams!).SingleOrDefault(dbTeam.Equals);
-                if (extractedTeam != null)
+                var extractedLeague = extractedLeagues.SingleOrDefault(dbLeague.Equals);
+                ChangeEntityTracking(extractedLeague, dbLeague);
+
+                foreach (var dbTeam in dbLeague.Teams)
                 {
-                    extractedTeam.Id = dbTeam.Id;
-                    dbContext.Entry(dbTeam).State = EntityState.Detached;
-                    dbContext.Entry(extractedTeam).State = EntityState.Modified;
-
-                    foreach (var dbPlayer in dbTeam.Players)
+                    var extractedTeam = extractedLeague.Teams.SingleOrDefault(dbTeam.Equals);
+                    if (extractedTeam != null)
                     {
-                        var extractedPlayer = extractedTeam.Players.SingleOrDefault(dbPlayer.Equals);
+                        ChangeEntityTracking(extractedTeam, dbTeam);
 
-                        if (extractedPlayer != null)
+                        foreach (var dbPlayer in dbTeam.Players)
                         {
-                            extractedPlayer.Id = dbPlayer.Id;
-                            dbContext.Entry(dbPlayer).State = EntityState.Detached;
-                            dbContext.Entry(extractedPlayer).State = EntityState.Modified;
+                            var extractedPlayer = extractedTeam.Players.SingleOrDefault(dbPlayer.Equals);
 
-                            foreach (var dbNationalityImage in dbPlayer.NationalityImages!)
+                            if (extractedPlayer != null)
                             {
-                                var extractedNationalityImage = extractedPlayer!.NationalityImages!.SingleOrDefault(dbNationalityImage.Equals);
+                                ChangeEntityTracking(extractedPlayer, dbPlayer);
 
-                                if (extractedNationalityImage != null)
+                                foreach (var dbNationalityImage in dbPlayer.NationalityImages!)
                                 {
-                                    extractedNationalityImage.Id = dbNationalityImage.Id; 
-                                    dbContext.Entry(dbNationalityImage).State = EntityState.Detached;
-                                    dbContext.Entry(extractedNationalityImage).State = EntityState.Modified;
+                                    var extractedNationalityImage = extractedPlayer!.NationalityImages!.SingleOrDefault(dbNationalityImage.Equals);
+
+                                    if (extractedNationalityImage != null)
+                                    {
+                                        ChangeEntityTracking(extractedNationalityImage, dbNationalityImage);
+                                    }
                                 }
                             }
                         }
                     }
                 }
             }
-
-
-            await Console.Out.WriteLineAsync();
-       
-            await dbContext.SaveChangesAsync();
-
-            //foreach (var dbLeague in dbLeagues)
-            //{
-            //    var extractedLeague = extractedLeagues.SingleOrDefault(dbLeague.Equals);
-            //    if (extractedLeague != null)
-            //    {
-            //        extractedLeague.Id = dbLeague.Id;
-            //        foreach (var dbTeam in dbLeague.Teams)
-            //        {
-            //            var extractedTeam = extractedLeague.Teams.SingleOrDefault(dbTeam.Equals);
-            //            if (extractedTeam != null)
-            //            {
-            //                extractedTeam.Id = dbTeam.Id;
-            //                foreach (var dbPlayer in dbTeam.Players)
-            //                {
-            //                    var extractedPlayer = extractedTeam.Players.SingleOrDefault(dbPlayer.Equals);
-            //                    if (extractedPlayer != null)
-            //                    {
-            //                        extractedPlayer.Id = dbPlayer.Id;
-            //                    }
-            //                }
-            //            }
-            //        }
-            //    }
-            //}
-
         }
 
-        private void PrepareTeams(IEnumerable<League> leagues)
+        await Console.Out.WriteLineAsync();
+   
+        await dbContext.SaveChangesAsync();
+    }
+
+    public void ChangeEntityTracking<T>(T extractedData, T currentEntity)
+        where T : IEntity
+    {
+        extractedData.Id = currentEntity.Id;
+        //dbContext.Entry(currentEntity).State = EntityState.Detached;
+        dbContext.Entry(extractedData).State = EntityState.Modified;
+    }
+
+
+    public void EliminateNationalityImageDuplicates(IEnumerable<League>? extractedLeagues)
+    {
+        var p = extractedLeagues!.SelectMany(x => x.Teams).SelectMany(y => y.Players);
+        var im = p.SelectMany(x => x.NationalityImages);
+
+        var duplicates = im
+            .GroupBy(n => n.Base64Image)
+            .Where(g => g.Count() > 1);
+
+        foreach (var group in duplicates)
         {
-            foreach (var league in leagues)
+            var masterImage = group.First();
+            var duplicateImages = group.Skip(1).ToList();
+
+            foreach (var duplicate in duplicateImages)
             {
-                foreach (var team in league.Teams!)
+                var affectedPlayers = p
+                    .Where(p => p.NationalityImages != null && p.NationalityImages.Contains(duplicate));
+
+                foreach (var player in affectedPlayers)
                 {
-                    team.League = league;
+                    player!.NationalityImages!.Remove(duplicate);
+                    if (!player.NationalityImages.Contains(masterImage))
+                    {
+                        player.NationalityImages.Add(masterImage);
+                    }
                 }
             }
         }
