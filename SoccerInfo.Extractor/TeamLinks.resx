@@ -130,7 +130,7 @@
     <value>https://www.transfermarkt.pl/eredivisie/startseite/wettbewerb/NL1</value>
   </data>
   <data name="LigaPortugal" xml:space="preserve">
-    <value>https://www.transfermarkt.pl/liga-portugal/startseite/wettbewerb/PO11</value>
+    <value>https://www.transfermarkt.pl/liga-portugal/startseite/wettbewerb/PO1</value>
   </data>
   <data name="Ligue1" xml:space="preserve">
     <value>https://www.transfermarkt.pl/ligue-1/startseite/wettbewerb/FR1</value>
@@ -146,5 +146,11 @@
   </data>
   <data name="Bundesliga" xml:space="preserve">
     <value>https://www.transfermarkt.pl/bundesliga/startseite/wettbewerb/L1</value>
+  </data>
+  <data name="AustrianBundesliga" xml:space="preserve">
+    <value>https://www.transfermarkt.pl/bundesliga/startseite/wettbewerb/A1</value>
+  </data>
+  <data name="SuperLeague1" xml:space="preserve">
+    <value>https://www.transfermarkt.pl/super-league-1/startseite/wettbewerb/GR1</value>
   </data>
 </root>

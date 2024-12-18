@@ -1,86 +1,25 @@
-import { useEffect, useState } from "react";
+import { BrowserRouter, Routes, Route } from "react-router";
 import "./App.css";
+import Navbar from "./nav/Navbar";
+import LeaguesView from "./views/LeaguesView/LeaguesView";
+import LeagueView from "./views/LeagueView/LeagueView";
+import TeamView from "./views/TeamView/TeamView";
+import BackButton from "./nav/BackButton";
+import PlayersView from "./views/PlayersTab/PlayersView"
 
 function App() {
-  const [teams, setTeams] = useState();
-  const [players, setPlayers] = useState();
-
-  useEffect(() => {
-    getTeams();
-  }, []);
   return (
-    <div>
-      <header className="main-header">
-        Soccer Info{" "}
-        <img className="main-header-svg" src={"soccer-favicon.svg"} />
-      </header>
-      {teams &&
-        teams.map((team) => (
-          <div>
-            <h3 id={team.id} className="team-header" onClick={showSquads}>
-              {team.name}
-            </h3>
-            <table
-              key={team.id}
-              className="table table-striped"
-              aria-labelledby="tabelLabel"
-            >
-              <thead>
-                <tr>
-                  <th>Naza</th>
-                  <th>Zdjęcie</th>
-                  <th>Pozycja</th>
-                  <th>Narodowość</th>
-                </tr>
-              </thead>
-              <tbody>
-                {players &&
-                  players.map((player) => (
-                    <tr key={player.id}>
-                      <td>{player.name}</td>
-                      <td>
-                        <img
-                          className="face-image"
-                          src={`data:image/jpeg;base64,${player.faceImageBase64}`}
-                        />
-                      </td>
-                      <td>{player.position}</td>
-                      <td>
-                        {player.nationalityImageBase64Collection.map(
-                          (nationality) => (
-                            <img
-                              className="nationality-image"
-                              src={`data:image/jpeg;base64,${nationality}`}
-                            />
-                          )
-                        )}
-                      </td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
-          </div>
-        ))}
-    </div>
+    <BrowserRouter>
+      <Navbar />
+      <BackButton />
+      <Routes>
+        <Route path="/" element={<LeaguesView />} />
+        <Route path="/league/:leagueId" element={<LeagueView />} />
+        <Route path="/team/:teamId" element={<TeamView />} />
+        <Route path="/players" element={<PlayersView />} />
+      </Routes>
+    </BrowserRouter>
   );
-
-  async function getTeams() {
-    const response = await fetch("api/GetTeams");
-    const data = await response.json();
-    setTeams(data);
-  }
-
-  async function GetPlayers(teamId) {
-    const response = await fetch(`api/GetPlayers/${teamId}`);
-    const data = await response.json();
-    console.log(data);
-    setPlayers(data);
-  }
-
-  async function showSquads(e) {
-    await GetPlayers(e.target.id);
-    console.log(e.target.nextSibling.classList.toggle("show"));
-  }
 }
 
 export default App;

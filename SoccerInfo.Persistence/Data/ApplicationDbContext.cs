@@ -11,4 +11,9 @@ public class ApplicationDbContext : DbContext
     public DbSet<Team> Teams { get; set; }
     public DbSet<Player> Players { get; set; }
     public DbSet<NationalityImage> NationalityImages { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(IAssemblyMarker).Assembly);
+    }
 }

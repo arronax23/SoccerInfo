@@ -1,4 +1,5 @@
-﻿using SoccerInfo.Persistence.Sql;
+﻿using SoccerInfo.Application.Queries.Dtos;
+using SoccerInfo.Persistence.Sql;
 using SoccerInfo.Shared.CQRS;
 
 namespace SoccerInfo.Application.Queries.GetTeams;
@@ -9,7 +10,7 @@ internal class GetTeamsQueryHandler(ISqlExecutor sqlExecutor) : IQueryHandler<Ge
     {
         return Task.FromResult(
             sqlExecutor
-            .SqlQuery<TeamDto>(@"SELECT [Id], [Name] FROM Teams")
+            .SqlQuery<TeamDto>(@$"SELECT Id, Name, TeamImageBase64 FROM Teams where LeagueId = {request.LeagueId}")
             .AsEnumerable());
     }
 }

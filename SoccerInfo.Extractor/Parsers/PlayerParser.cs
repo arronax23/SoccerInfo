@@ -1,20 +1,21 @@
 ﻿using HtmlAgilityPack;
 using HtmlAgilityPack.CssSelectors.NetCore;
 using SoccerInfo.Extractor.Utilities;
-using static SoccerInfo.Extractor.Dto.ExtractionDto;
+using static SoccerInfo.Extractor.Dto.ExtractionData;
 
 namespace SoccerInfo.Extractor.Parsers;
 public class PlayerParser(
     ImageFetcher imageFetcher)
 {
-    public async Task<PlayerDto> Parse(HtmlNode node)
+    public async Task<PlayerData> Parse(HtmlNode node)
     {
-        await Console.Out.WriteLineAsync(node.QuerySelector(".zentriert").InnerText);
+        await Console.Out.WriteLineAsync(node.QuerySelector(".hauptlink").InnerText.FormatExtractedStrings());
         var (dateOfBirth, age) = ParseAgeAndDateOfBirth(node.QuerySelectorAll(".zentriert").ElementAt(1).InnerText);
         var (marketValue, marketValueUnit) = ParseMarketValue(node.QuerySelector(".rechts.hauptlink").InnerText);
 
-        var player = new PlayerDto()
+        var player = new PlayerData()
         {
+            TransfermarktURL = node.QuerySelector(".hauptlink a").GetAttributeValue("href", "notFound"),
             Name = node.QuerySelector(".hauptlink").InnerText.FormatExtractedStrings(),
             Number = ParseNumber(node.QuerySelector(".rueckennummer").InnerText.Trim()),
             Position = node.QuerySelectorAll("tr").Last().InnerText.FormatExtractedStrings(),
@@ -28,7 +29,6 @@ public class PlayerParser(
 
         return player;
     }
-
 
     private int? ParseNumber(string inputNumber)
     {

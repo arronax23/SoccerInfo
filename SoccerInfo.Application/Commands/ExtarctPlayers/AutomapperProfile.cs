@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using SoccerInfo.Persistence.Data.Models;
-using static SoccerInfo.Extractor.Dto.ExtractionDto;
+using static SoccerInfo.Extractor.Dto.ExtractionData;
 
 
 namespace SoccerInfo.Application.Commands.ExtarctPlayers;
@@ -9,19 +9,19 @@ public class AutomapperProfile : Profile
 {
     public AutomapperProfile()
     {
-        CreateMap<LeagueDto, League>()
+        CreateMap<LeagueData, League>()
             .ForMember(x => x.Id, opt => opt.Ignore());
 
-        CreateMap<TeamDto, Team>()
+        CreateMap<TeamData, Team>()
             .ForMember(x => x.TeamImageBase64, opt => opt.MapFrom(z => z.TeamImageBase64))
             .ForMember(x => x.Id, opt => opt.Ignore())
             .ForMember(x => x.LeagueId, opt => opt.Ignore());
 
-        CreateMap<PlayerDto, Player>()
+        CreateMap<PlayerData, Player>()
             .ForMember(x => x.Id, opt => opt.Ignore())
             .ForMember(x => x.TeamId, opt => opt.Ignore());
 
-        CreateMap<NationalityImageDto, NationalityImage>()
+        CreateMap<NationalityImageData, NationalityImage>()
             .ForMember(x => x.Id, opt => opt.Ignore());
             ///.ForMember(x => x.Players, opt => opt.Ignore());
     }

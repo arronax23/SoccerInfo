@@ -12,8 +12,9 @@ public class Player : IEntity, IEquatable<Player>
     public DateTime DateOfBirth { get; set; }
     public string? FaceImageBase64 { get; set; }
     public ICollection<NationalityImage>? NationalityImages { get; set; }
+    public int TransfermarktId { get; set; }
+    public string TransfermarktURL { get; set; } = null!;
     public int TeamId { get; set; }
-
 
     public bool Equals(Player? other)
     {

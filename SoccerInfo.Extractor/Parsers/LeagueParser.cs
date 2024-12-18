@@ -1,15 +1,15 @@
 ﻿using HtmlAgilityPack;
 using HtmlAgilityPack.CssSelectors.NetCore;
 using SoccerInfo.Extractor.Utilities;
-using static SoccerInfo.Extractor.Dto.ExtractionDto;
+using static SoccerInfo.Extractor.Dto.ExtractionData;
 
 namespace SoccerInfo.Extractor.Parsers;
 public class LeagueParser(
     ImageFetcher imageFetcher)
 {
-    public async Task<LeagueDto> Parse(HtmlNode node)
+    public async Task<LeagueData> Parse(HtmlNode node)
     {
-        return new LeagueDto()
+        return new LeagueData()
         {
             Name = node.QuerySelector(".data-header__headline-container").InnerText.FormatExtractedStrings(),
             Country = node.QuerySelector(".data-header__club").InnerText.FormatExtractedStrings(),

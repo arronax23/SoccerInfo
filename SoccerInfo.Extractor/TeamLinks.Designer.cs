@@ -61,6 +61,15 @@ namespace SoccerInfo.Extractor {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to https://www.transfermarkt.pl/bundesliga/startseite/wettbewerb/A1.
+        /// </summary>
+        internal static string AustrianBundesliga {
+            get {
+                return ResourceManager.GetString("AustrianBundesliga", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to https://www.transfermarkt.pl/bundesliga/startseite/wettbewerb/L1.
         /// </summary>
         internal static string Bundesliga {
@@ -106,7 +115,7 @@ namespace SoccerInfo.Extractor {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to https://www.transfermarkt.pl/liga-portugal/startseite/wettbewerb/PO11.
+        ///   Looks up a localized string similar to https://www.transfermarkt.pl/liga-portugal/startseite/wettbewerb/PO1.
         /// </summary>
         internal static string LigaPortugal {
             get {
@@ -138,6 +147,15 @@ namespace SoccerInfo.Extractor {
         internal static string SerieA {
             get {
                 return ResourceManager.GetString("SerieA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to https://www.transfermarkt.pl/super-league-1/startseite/wettbewerb/GR1.
+        /// </summary>
+        internal static string SuperLeague1 {
+            get {
+                return ResourceManager.GetString("SuperLeague1", resourceCulture);
             }
         }
         

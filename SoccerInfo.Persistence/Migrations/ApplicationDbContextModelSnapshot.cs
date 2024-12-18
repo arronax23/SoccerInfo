@@ -17,22 +17,22 @@ namespace SoccerInfo.Persistence.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.0")
+                .HasAnnotation("ProductVersion", "8.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("NationalityImagePlayer", b =>
                 {
-                    b.Property<int>("NationalityImagesId")
+                    b.Property<int>("NationalityImageId")
                         .HasColumnType("int");
 
-                    b.Property<int>("PlayersId")
+                    b.Property<int>("PlayerId")
                         .HasColumnType("int");
 
-                    b.HasKey("NationalityImagesId", "PlayersId");
+                    b.HasKey("NationalityImageId", "PlayerId");
 
-                    b.HasIndex("PlayersId");
+                    b.HasIndex("PlayerId");
 
                     b.ToTable("NationalityImagePlayer");
                 });
@@ -118,6 +118,13 @@ namespace SoccerInfo.Persistence.Migrations
                     b.Property<int>("TeamId")
                         .HasColumnType("int");
 
+                    b.Property<int>("TransfermarktId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TransfermarktURL")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("TeamId");
@@ -154,13 +161,13 @@ namespace SoccerInfo.Persistence.Migrations
                 {
                     b.HasOne("SoccerInfo.Persistence.Data.Models.NationalityImage", null)
                         .WithMany()
-                        .HasForeignKey("NationalityImagesId")
+                        .HasForeignKey("NationalityImageId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("SoccerInfo.Persistence.Data.Models.Player", null)
                         .WithMany()
-                        .HasForeignKey("PlayersId")
+                        .HasForeignKey("PlayerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

@@ -1,42 +1,19 @@
 using Microsoft.AspNetCore.Mvc;
-using SoccerInfo.Application.Commands.ExtarctPlayers;
-using SoccerInfo.Application.Commands.UpdateTest;
-using SoccerInfo.Application.Queries.GetPlayers;
-using SoccerInfo.Application.Queries.GetTeams;
+using SoccerInfo.Application.Queries.Dtos;
+using SoccerInfo.Application.Queries.SearchPlayers;
 using SoccerInfo.Shared.CQRS;
+
 namespace SoccerInfoWeb.API.Controllers;
 
 [ApiController]
-public class PlayersController(
-    IQueryDispatcher queryDispatcher,
-    ICommandDispatcher commandDispatcher
-    ) : ControllerBase
+public class PlayersController(IQueryDispatcher queryDispatcher) : ControllerBase
 {
-    [HttpPost]
-    [Route("api/ExtarctPlayers")]
-    public async Task<IActionResult> ExtarctPlayers()
+    [HttpGet("api/SearchPlayers/{keyword}")]
+    public async Task<IEnumerable<PlayerOverviewDto>> SearchPlayers(string keyword)
     {
-        await commandDispatcher.Send(new ExtarctPlayersCommand());
-        return Ok();
-    }
+        if (keyword == null || keyword.Length < 3)
+            return null;
 
-    [HttpPost]
-    [Route("api/UpdateTest")]
-    public async Task<IActionResult> UpdateTest()
-    {
-        await commandDispatcher.Send(new UpdateTestCommand());
-        return Ok();
-    }
-
-    [HttpGet("api/GetTeams")]
-    public async Task<IEnumerable<TeamDto>> GetTeams()
-    {
-        return await queryDispatcher.Send(new GetTeamsQuery());
-    }
-
-    [HttpGet("api/GetPlayers/{teamId}")]
-    public async Task<IEnumerable<PlayerDto>> GetPlayers(int teamId)
-    {
-        return await queryDispatcher.Send(new GetPlayersQuery() { TeamId = teamId });
+        return await queryDispatcher.Send(new SearchPlayersQuery() { Keyword = keyword });
     }
 }
