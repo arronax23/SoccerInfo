@@ -10,7 +10,7 @@ internal class GetPlayersQueryHandler(ISqlExecutor sqlExecutor) : IQueryHandler<
     {
         return Task.FromResult(
             sqlExecutor
-            .SqlQueryRaw<PlayerData>(
+            .SqlQueryRaw<PlayerModel>(
                 $@"SELECT 
                         p.Id,
                         p.Name,
@@ -40,7 +40,7 @@ internal class GetPlayersQueryHandler(ISqlExecutor sqlExecutor) : IQueryHandler<
     }
 
 
-    private class PlayerData
+    private class PlayerModel
     {
         public int Id { get; set; }
         public string Name { get; set; } = null!;

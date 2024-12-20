@@ -11,27 +11,8 @@ using SoccerInfo.Shared.CQRS;
 namespace SoccerInfoWeb.API.Controllers;
 
 [ApiController]
-public class LeaguesController(
-    IQueryDispatcher queryDispatcher,
-    ICommandDispatcher commandDispatcher
-    ) : ControllerBase
+public class LeaguesController(IQueryDispatcher queryDispatcher) : ControllerBase
 {
-    [HttpPost]
-    [Route("api/ExtarctPlayers")]
-    public async Task<IActionResult> ExtarctPlayers()
-    {
-        await commandDispatcher.Send(new ExtarctPlayersCommand());
-        return Ok();
-    }
-
-    [HttpPost]
-    [Route("api/UpdateTest")]
-    public async Task<IActionResult> UpdateTest()
-    {
-        await commandDispatcher.Send(new UpdateTestCommand());
-        return Ok();
-    }
-
     [HttpGet("api/GetTeams/{leagueId}")]
     public async Task<IEnumerable<TeamDto>> GetTeams(int leagueId)
     {
