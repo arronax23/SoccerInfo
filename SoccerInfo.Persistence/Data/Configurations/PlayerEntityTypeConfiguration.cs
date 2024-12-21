@@ -9,10 +9,10 @@ internal sealed class PlayerEntityTypeConfiguration : IEntityTypeConfiguration<P
         builder.HasMany(e => e.NationalityImages)
             .WithMany(e => e.Players)
             .UsingEntity(
-                "NationalityImagePlayer",
-                l => l.HasOne(typeof(NationalityImage)).WithMany().HasForeignKey("NationalityImageId").HasPrincipalKey(nameof(NationalityImage.Id)),
+                "NationalityPlayer",
+                l => l.HasOne(typeof(Nationality)).WithMany().HasForeignKey("NationalityId").HasPrincipalKey(nameof(Nationality.Id)),
                 r => r.HasOne(typeof(Player)).WithMany().HasForeignKey("PlayerId").HasPrincipalKey(nameof(Player.Id)),
-                j => j.HasKey("NationalityImageId", "PlayerId"));
+                j => j.HasKey("NationalityId", "PlayerId"));
 
     }
 }

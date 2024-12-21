@@ -14,7 +14,7 @@ builder.Services.AddScoped<SoccerDataExtractor>();
 builder.Services.AddScoped<LeagueParser>();
 builder.Services.AddScoped<TeamParser>();
 builder.Services.AddScoped<PlayerParser>();
-builder.Services.AddScoped<NationalityImageParser>();
+builder.Services.AddScoped<NationalityParser>();
 builder.Services.AddScoped<ImageFetcher>();
 builder.Services.AddSingleton<PuppeteerManager>();
 builder.Services.AddTransient<ISqlExecutor, SqlExecutor>();

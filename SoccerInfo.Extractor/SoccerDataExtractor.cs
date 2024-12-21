@@ -13,7 +13,7 @@ namespace SoccerInfo.Extractor
         LeagueParser leagueParser,
         TeamParser teamParser,
         PlayerParser playerParser,
-        NationalityImageParser nationalityImageParser,
+        NationalityParser nationalityImageParser,
         PuppeteerManager puppeteerManager)
     {
         private readonly string BASE_URI = "https://www.transfermarkt.pl";
@@ -165,7 +165,7 @@ namespace SoccerInfo.Extractor
             return player;
         }
 
-        private async Task<NationalityImageData> GetNationalityImage(HtmlNode node)
+        private async Task<NationalityData> GetNationalityImage(HtmlNode node)
         {
             return await nationalityImageParser.Parse(node);
         }

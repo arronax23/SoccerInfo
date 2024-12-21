@@ -12,17 +12,18 @@ internal class GetPlayersQueryHandler(ISqlExecutor sqlExecutor) : IQueryHandler<
             sqlExecutor
             .SqlQueryRaw<PlayerModel>(
                 $@"SELECT 
-                        p.Id,
-                        p.Name,
-                        p.Position,
-                        p.FaceImageBase64,
-                        p.Age, p.DateOfBirth, 
-                        p.MarketValue, p.MarketValueUnit, 
-                        ni.Base64Image as NationalityImage 
-                    FROM Players p
-                    JOIN NationalityImagePlayer nip ON nip.PlayerId = p.Id
-                    JOIN NationalityImages ni ON nip.NationalityImageId = ni.Id
-                    WHERE p.TeamId = {request.TeamId}")
+                    p.Id,
+                    p.Name,
+                    p.Position,
+                    p.FaceImageBase64,
+                    p.Age, p.DateOfBirth, 
+                    p.MarketValue, p.MarketValueUnit, 
+                    cf.ImageSvgBase64 as NationalityImage 
+                FROM Players p
+                JOIN NationalityPlayer np ON np.PlayerId = p.Id
+                JOIN Nationalities ni ON np.NationalityId = ni.Id
+                JOIN CountryFlags_Lookup cf ON ni.CountryFlagId = cf.Id
+                WHERE p.TeamId = {request.TeamId}")
             .ToList()
             .GroupBy(x => x.Id)
             .Select(y => new PlayerDto()

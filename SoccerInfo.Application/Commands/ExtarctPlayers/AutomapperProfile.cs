@@ -21,7 +21,7 @@ public class AutomapperProfile : Profile
             .ForMember(x => x.Id, opt => opt.Ignore())
             .ForMember(x => x.TeamId, opt => opt.Ignore());
 
-        CreateMap<NationalityImageData, NationalityImage>()
+        CreateMap<NationalityData, Nationality>()
             .ForMember(x => x.Id, opt => opt.Ignore());
             ///.ForMember(x => x.Players, opt => opt.Ignore());
     }

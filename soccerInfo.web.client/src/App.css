@@ -171,6 +171,7 @@ body {
 }
 
 .nationality-image {
+    width: 1rem;
     margin-right: .5rem;
     border: 2px solid black;
 }

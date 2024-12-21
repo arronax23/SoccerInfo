@@ -30,11 +30,11 @@ public class ExtractionData
         public string? MarketValueUnit { get; set; }
         public DateTime DateOfBirth { get; set; }
         public string? FaceImageBase64 { get; set; }
-        public List<NationalityImageData?> NationalityImages { get; set; } = new List<NationalityImageData?>();
+        public List<NationalityData?> NationalityImages { get; set; } = new List<NationalityData?>();
         public string TransfermarktURL { get; set; } = null!;
     }
 
-    public class NationalityImageData
+    public class NationalityData
     {
         public string Country { get; set; } = null!;
         public string? Base64Image { get; set; } = null!;

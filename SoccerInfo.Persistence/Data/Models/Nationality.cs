@@ -2,14 +2,16 @@
 
 namespace SoccerInfo.Persistence.Data.Models;
 
-public class NationalityImage : IEntity,  IEquatable<NationalityImage>
+public class Nationality : IEntity,  IEquatable<Nationality>
 {
     public int Id { get; set; }
     public string Country { get; set; } = null!;
     public string? Base64Image { get; set; }
     public ICollection<Player>? Players { get; set; }
+    public CountryFlag_Lookup? CountryFlag { get; set; }
+    public int? CountryFlagId { get; set; }
 
-    public bool Equals(NationalityImage? other)
+    public bool Equals(Nationality? other)
     {
         if (other == null)
             return false;

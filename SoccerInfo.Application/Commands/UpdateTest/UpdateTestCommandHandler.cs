@@ -103,14 +103,14 @@ internal class UpdateTestCommandHandler(
             SelectMany(y => y.Players!).
             SelectMany(z => z.NationalityImages!);
 
-        foreach (var dbImage in dbContext.NationalityImages.AsNoTracking())
+        foreach (var dbImage in dbContext.Nationalities.AsNoTracking())
         {
             var newImage = nationalityImages
                 .Where(x => x.Equals(dbImage))
                 .FirstOrDefault();
 
             if (newImage != null)
-                ChangeEntityTracking<NationalityImage, NationalityImageData>(newImage, dbImage);
+                ChangeEntityTracking<Nationality, NationalityData>(newImage, dbImage);
         }
     }
 

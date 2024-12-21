@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SoccerInfo.Persistence.Data;
 
@@ -11,9 +12,11 @@ using SoccerInfo.Persistence.Data;
 namespace SoccerInfo.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241220225950_Add_CountryFlag_Lookup")]
+    partial class Add_CountryFlag_Lookup
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,19 +25,19 @@ namespace SoccerInfo.Persistence.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("NationalityPlayer", b =>
+            modelBuilder.Entity("NationalityImagePlayer", b =>
                 {
-                    b.Property<int>("NationalityId")
+                    b.Property<int>("NationalityImageId")
                         .HasColumnType("int");
 
                     b.Property<int>("PlayerId")
                         .HasColumnType("int");
 
-                    b.HasKey("NationalityId", "PlayerId");
+                    b.HasKey("NationalityImageId", "PlayerId");
 
                     b.HasIndex("PlayerId");
 
-                    b.ToTable("NationalityPlayer", (string)null);
+                    b.ToTable("NationalityImagePlayer");
                 });
 
             modelBuilder.Entity("SoccerInfo.Persistence.Data.Models.CountryFlag_Lookup", b =>
@@ -59,7 +62,7 @@ namespace SoccerInfo.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CountryFlags_Lookup", (string)null);
+                    b.ToTable("CountryFlags_Lookup");
                 });
 
             modelBuilder.Entity("SoccerInfo.Persistence.Data.Models.League", b =>
@@ -86,10 +89,10 @@ namespace SoccerInfo.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Leagues", (string)null);
+                    b.ToTable("Leagues");
                 });
 
-            modelBuilder.Entity("SoccerInfo.Persistence.Data.Models.Nationality", b =>
+            modelBuilder.Entity("SoccerInfo.Persistence.Data.Models.NationalityImage", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -159,7 +162,7 @@ namespace SoccerInfo.Persistence.Migrations
 
                     b.HasIndex("TeamId");
 
-                    b.ToTable("Players", (string)null);
+                    b.ToTable("Players");
                 });
 
             modelBuilder.Entity("SoccerInfo.Persistence.Data.Models.Team", b =>
@@ -184,14 +187,14 @@ namespace SoccerInfo.Persistence.Migrations
 
                     b.HasIndex("LeagueId");
 
-                    b.ToTable("Teams", (string)null);
+                    b.ToTable("Teams");
                 });
 
-            modelBuilder.Entity("NationalityPlayer", b =>
+            modelBuilder.Entity("NationalityImagePlayer", b =>
                 {
-                    b.HasOne("SoccerInfo.Persistence.Data.Models.Nationality", null)
+                    b.HasOne("SoccerInfo.Persistence.Data.Models.NationalityImage", null)
                         .WithMany()
-                        .HasForeignKey("NationalityId")
+                        .HasForeignKey("NationalityImageId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -202,7 +205,7 @@ namespace SoccerInfo.Persistence.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("SoccerInfo.Persistence.Data.Models.Nationality", b =>
+            modelBuilder.Entity("SoccerInfo.Persistence.Data.Models.NationalityImage", b =>
                 {
                     b.HasOne("SoccerInfo.Persistence.Data.Models.CountryFlag_Lookup", "CountryFlag")
                         .WithMany()

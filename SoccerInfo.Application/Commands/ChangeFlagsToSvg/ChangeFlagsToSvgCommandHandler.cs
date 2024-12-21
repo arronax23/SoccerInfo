@@ -1,0 +1,160 @@
+﻿using Nager.Country;
+using Nager.Country.Translation;
+using SoccerInfo.Persistence.Data;
+using SoccerInfo.Persistence.Data.Models;
+using SoccerInfo.Shared.CQRS;
+using System.Globalization;
+using System.Net;
+using System.Reflection;
+
+namespace SoccerInfo.Application.Commands.ChangeFlagsToSvg;
+
+internal class ChangeFlagsToSvgCommandHandler(
+    ApplicationDbContext dbContext
+    ) : ICommandHandler<ChangeFlagsToSvgCommand>
+{
+    public async Task Handle(ChangeFlagsToSvgCommand request, CancellationToken cancellationToken)
+    {
+        //var countryNamesAndCodes = Some2();
+        //var nagerList = NagerTesting();
+
+        //var countryImgAndCode = ReadFiles();
+        //var d = CombineData(nagerList, countryImgAndCode);
+        //dbContext.CountryFlags_Lookup.AddRange(d);
+        //dbContext.SaveChanges();
+
+        Translate(dbContext.Nationalities, dbContext.CountryFlags_Lookup.ToList());
+        dbContext.SaveChanges();
+
+        //var nationalities = dbContext.Nationalities.Where(x => x.CountryFlagId == null).ToList();
+
+
+        //await Console.Out.WriteLineAsync();
+        //dbContext.SaveChanges();
+    }
+
+
+    private List<(string, string)> Some2()
+    {
+        List<(string, string)> countryNamesAndCodes = new List<(string, string)>();
+        foreach (var culture in CultureInfo.GetCultures(CultureTypes.SpecificCultures))
+        {
+            RegionInfo region = new RegionInfo(culture.Name);
+            if (!countryNamesAndCodes.Select(x => x.Item2).Contains(region.TwoLetterISORegionName))
+            {
+                countryNamesAndCodes.Add((region.EnglishName, region.TwoLetterISORegionName));
+            }
+        }
+        var sorted = countryNamesAndCodes.OrderBy(x => x.Item1).ToList();// Optional: Sort alphabetically
+
+        return sorted;
+    }
+
+    private List<(string, string)> ReadFiles()
+    {
+        var path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),"flags");
+        var txtFiles = Directory.EnumerateFiles(path, "*.svg");
+
+        List<(string, string)> countryImgAndCode = new List<(string, string)>();
+
+        foreach (var filePath in txtFiles)
+        {
+            string svgContent = File.ReadAllText(filePath);
+            string base64Data = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(svgContent));
+
+            string code = filePath.Split('\\').Last().Split('.').First().ToUpper().Trim();
+
+            countryImgAndCode.Add((base64Data, code));
+        }
+
+        return countryImgAndCode;
+    }
+
+
+    static List<(string, string)> NagerTesting()
+    {
+        List<(string, string)> nagerList = new List<(string, string)>();
+        var countryProvider = new CountryProvider();
+        var countries = countryProvider.GetCountries();
+        foreach (var country in countries)
+        {
+            Console.WriteLine($"{country.Alpha2Code} - {country.CommonName} - {country.OfficialName} - {country.NativeName}");
+            nagerList.Add((country.CommonName, country.Alpha2Code.ToString()));
+        }
+
+
+
+
+
+        Console.WriteLine(countries.Count());
+        return nagerList;
+    }
+
+    private void Translate(IEnumerable<Nationality> nationalities, List<CountryFlag_Lookup> countryFlags)
+    {
+        //List<(string, string, string)> list = new();
+        //var translationProvider = new TranslationProvider();
+        //var nagerList = NagerTesting();
+
+        //foreach (var nager in nagerList)
+        //{
+        //    list.Add((
+        //        nager.Item1,
+        //        nager.Item2,
+        //        translationProvider.GetCountryTranslatedName(nager.Item2, LanguageCode.PL)
+        //    ));
+        //}
+
+        foreach (var nat in nationalities)
+        {
+           // var result = list.SingleOrDefault(x => x.Item1 == nat.Country);
+
+           // if (result.Item1 == null && result.Item2 == null && result.Item3 == null)
+           //     Console.WriteLine($"NO Match: {nat.Country}");
+           //else
+           //{
+           //     nat.Country = result.Item1;
+           //}
+
+            var countryflag = countryFlags.SingleOrDefault(x => x.Name == nat.Country);
+            if (countryflag != null)
+            {
+                nat.CountryFlagId = countryflag.Id;
+            }
+
+        }
+    }
+
+
+    private List<CountryFlag_Lookup> CombineData(List<(string, string)> nagerList, List<(string, string)> countryImgAndCode)
+    {
+        List<CountryFlag_Lookup> countryFlag_Lookups = new();
+
+        foreach (var cimac in countryImgAndCode)
+        {
+            try
+            {
+                Console.WriteLine(cimac.Item2);
+                var nager = nagerList.Single(x => x.Item2 == cimac.Item2);
+                countryFlag_Lookups.Add(new CountryFlag_Lookup()
+                {
+                    Name = nager.Item1,
+                    TwoLetterISOCode = nager.Item2,
+                    ImageSvgBase64 = cimac.Item1
+                });
+
+                Console.WriteLine(cimac.Item2);
+            }
+            catch (Exception)
+            {
+                Console.WriteLine();
+            }
+
+
+        }
+
+        
+        return countryFlag_Lookups.OrderBy(x => x.Name).ToList();
+    }
+
+}

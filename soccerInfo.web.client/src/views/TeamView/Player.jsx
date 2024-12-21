@@ -31,7 +31,7 @@ const Player = ({
           nationalityImages.map((image) => (
             <img
               className="nationality-image"
-              src={`data:image/jpeg;base64,${image}`}
+              src={`data:image/svg+xml; base64, ${image}`}
             />
           ))}
       </div>

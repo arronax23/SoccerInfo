@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SoccerInfo.Persistence.Data;
 
@@ -11,9 +12,11 @@ using SoccerInfo.Persistence.Data;
 namespace SoccerInfo.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241221214738_Rename_NationalityImagesPlayer_To_NationalityPlayer_2")]
+    partial class Rename_NationalityImagesPlayer_To_NationalityPlayer_2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,15 +25,15 @@ namespace SoccerInfo.Persistence.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("NationalityPlayer", b =>
+            modelBuilder.Entity("NationalityImagePlayer", b =>
                 {
-                    b.Property<int>("NationalityId")
+                    b.Property<int>("NationalityImageId")
                         .HasColumnType("int");
 
                     b.Property<int>("PlayerId")
                         .HasColumnType("int");
 
-                    b.HasKey("NationalityId", "PlayerId");
+                    b.HasKey("NationalityImageId", "PlayerId");
 
                     b.HasIndex("PlayerId");
 
@@ -59,7 +62,7 @@ namespace SoccerInfo.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CountryFlags_Lookup", (string)null);
+                    b.ToTable("CountryFlags_Lookup");
                 });
 
             modelBuilder.Entity("SoccerInfo.Persistence.Data.Models.League", b =>
@@ -86,7 +89,7 @@ namespace SoccerInfo.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Leagues", (string)null);
+                    b.ToTable("Leagues");
                 });
 
             modelBuilder.Entity("SoccerInfo.Persistence.Data.Models.Nationality", b =>
@@ -159,7 +162,7 @@ namespace SoccerInfo.Persistence.Migrations
 
                     b.HasIndex("TeamId");
 
-                    b.ToTable("Players", (string)null);
+                    b.ToTable("Players");
                 });
 
             modelBuilder.Entity("SoccerInfo.Persistence.Data.Models.Team", b =>
@@ -184,14 +187,14 @@ namespace SoccerInfo.Persistence.Migrations
 
                     b.HasIndex("LeagueId");
 
-                    b.ToTable("Teams", (string)null);
+                    b.ToTable("Teams");
                 });
 
-            modelBuilder.Entity("NationalityPlayer", b =>
+            modelBuilder.Entity("NationalityImagePlayer", b =>
                 {
                     b.HasOne("SoccerInfo.Persistence.Data.Models.Nationality", null)
                         .WithMany()
-                        .HasForeignKey("NationalityId")
+                        .HasForeignKey("NationalityImageId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

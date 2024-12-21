@@ -11,7 +11,7 @@ public class Player : IEntity, IEquatable<Player>
     public string? MarketValueUnit { get; set; }
     public DateTime DateOfBirth { get; set; }
     public string? FaceImageBase64 { get; set; }
-    public ICollection<NationalityImage>? NationalityImages { get; set; }
+    public ICollection<Nationality>? NationalityImages { get; set; }
     public int TransfermarktId { get; set; }
     public string TransfermarktURL { get; set; } = null!;
     public int TeamId { get; set; }

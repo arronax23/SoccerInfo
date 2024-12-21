@@ -8,6 +8,8 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="Nager.Country" Version="4.0.0" />
+    <PackageReference Include="Nager.Country.Translation" Version="3.1.0" />
   </ItemGroup>
 
   <ItemGroup>
