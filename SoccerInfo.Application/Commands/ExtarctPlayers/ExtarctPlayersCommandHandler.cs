@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using SoccerInfo.Extractor;
+using SoccerInfo.FrontendScraper;
 using SoccerInfo.Persistence.Data;
 using SoccerInfo.Persistence.Data.Models;
 using SoccerInfo.Shared.CQRS;

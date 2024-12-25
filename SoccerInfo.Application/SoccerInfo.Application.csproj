@@ -13,7 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SoccerInfo.Extractor\SoccerInfo.Extractor.csproj" />
+    <ProjectReference Include="..\SoccerInfo.BackendScraper\SoccerInfo.BackendScraper.csproj" />
+    <ProjectReference Include="..\SoccerInfo.Extractor\SoccerInfo.FrontendScraper.csproj" />
     <ProjectReference Include="..\SoccerInfo.Persistence\SoccerInfo.Persistence.csproj" />
   </ItemGroup>
 

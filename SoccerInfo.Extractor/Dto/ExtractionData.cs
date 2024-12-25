@@ -1,4 +1,4 @@
-﻿namespace SoccerInfo.Extractor.Dto;
+﻿namespace SoccerInfo.FrontendScraper.Dto;
 
 public class ExtractionData
 {

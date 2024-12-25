@@ -1,3 +1,3 @@
-﻿namespace SoccerInfo.Extractor;
+﻿namespace SoccerInfo.FrontendScraper;
 
 public interface IAssemblyMarker;

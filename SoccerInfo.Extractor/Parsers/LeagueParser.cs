@@ -1,9 +1,10 @@
 ﻿using HtmlAgilityPack;
 using HtmlAgilityPack.CssSelectors.NetCore;
-using SoccerInfo.Extractor.Utilities;
-using static SoccerInfo.Extractor.Dto.ExtractionData;
+using SoccerInfo.FrontendScraper.Utilities;
+using static SoccerInfo.FrontendScraper.Dto.ExtractionData;
 
-namespace SoccerInfo.Extractor.Parsers;
+
+namespace SoccerInfo.FrontendScraper.Parsers;
 public class LeagueParser(
     ImageFetcher imageFetcher)
 {

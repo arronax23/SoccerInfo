@@ -19,17 +19,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="TeamLinks.Designer.cs">
+    <Compile Update="LeagueLink.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>TeamLinks.resx</DependentUpon>
+      <DependentUpon>LeagueLink.resx</DependentUpon>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="TeamLinks.resx">
+    <EmbeddedResource Update="LeagueLink.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>TeamLinks.Designer.cs</LastGenOutput>
+      <LastGenOutput>LeagueLink.Designer.cs</LastGenOutput>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>

@@ -1,4 +1,4 @@
-﻿namespace SoccerInfo.Extractor.Utilities;
+﻿namespace SoccerInfo.FrontendScraper.Utilities;
 
 internal static class StringExtensions
 {

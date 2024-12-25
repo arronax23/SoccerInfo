@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using PuppeteerSharp;
 
-namespace SoccerInfo.Extractor.Utilities;
+namespace SoccerInfo.FrontendScraper.Utilities;
 
 public class PuppeteerManager(ILogger<PuppeteerManager> logger)
 {

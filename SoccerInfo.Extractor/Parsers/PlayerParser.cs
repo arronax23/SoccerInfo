@@ -1,13 +1,12 @@
 ﻿using HtmlAgilityPack;
 using HtmlAgilityPack.CssSelectors.NetCore;
-using SoccerInfo.Extractor.Utilities;
+using SoccerInfo.FrontendScraper.Utilities;
 using System.Globalization;
 using System.Text.RegularExpressions;
-using static SoccerInfo.Extractor.Dto.ExtractionData;
+using static SoccerInfo.FrontendScraper.Dto.ExtractionData;
 
-namespace SoccerInfo.Extractor.Parsers;
-public class PlayerParser(
-    ImageFetcher imageFetcher)
+namespace SoccerInfo.FrontendScraper.Parsers;
+public class PlayerParser(ImageFetcher imageFetcher)
 {
     public async Task<PlayerData> Parse(HtmlNode node)
     {

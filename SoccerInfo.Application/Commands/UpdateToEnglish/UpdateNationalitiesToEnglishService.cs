@@ -1,6 +1,6 @@
 ﻿using HtmlAgilityPack.CssSelectors.NetCore;
 using Microsoft.EntityFrameworkCore;
-using SoccerInfo.Extractor.Utilities;
+using SoccerInfo.FrontendScraper.Utilities;
 using SoccerInfo.Persistence.Data;
 using SoccerInfo.Persistence.Data.Models;
 using System.Text.RegularExpressions;

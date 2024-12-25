@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using SoccerInfo.Extractor.Dto;
+using SoccerInfo.FrontendScraper.Dto;
 using SoccerInfo.Persistence.Data;
 using SoccerInfo.Persistence.Data.Models;
 using SoccerInfo.Persistence.Data.Models.Abstractions;
 using SoccerInfo.Shared.CQRS;
 using System.Text.Json;
-using static SoccerInfo.Extractor.Dto.ExtractionData;
+using static SoccerInfo.FrontendScraper.Dto.ExtractionData;
 
 namespace SoccerInfo.Application.Commands.UpdateTest;
 

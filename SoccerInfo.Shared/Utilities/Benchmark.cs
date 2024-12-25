@@ -24,4 +24,12 @@ public static class Benchmark
         Console.WriteLine($"Execution time for {methodName}: {(DateTime.Now - startDate).TotalSeconds}");
         return result;
     }
+
+    public static async Task<T> ExecuteAndMeasureTimeAsync<T>(Func<Task<T>> func, string methodName)
+    {
+        var startDate = DateTime.Now;
+        var result = await func();
+        Console.WriteLine($"Execution time for {methodName}: {(DateTime.Now - startDate).TotalSeconds}");
+        return result;
+    }
 }

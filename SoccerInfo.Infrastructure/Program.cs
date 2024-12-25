@@ -1,27 +1,24 @@
 using Microsoft.EntityFrameworkCore;
-using SoccerInfo.Extractor.Utilities;
-using SoccerInfo.Extractor;
+using SoccerInfo.FrontendScraper.Utilities;
+using SoccerInfo.FrontendScraper;
 using SoccerInfo.Infrastructure;
 using SoccerInfo.Persistence.Sql;
 using SoccerInfo.Shared.CQRS;
 using SoccerInfo.Infrastructure.CQRS;
-using SoccerInfo.Extractor.Parsers;
 using SoccerInfo.Persistence.Data;
-using SoccerInfo.Application.Commands.UpdateToEnglish;
+using SoccerInfo.Application;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddScoped<SoccerDataExtractor>();
-builder.Services.AddScoped<LeagueParser>();
-builder.Services.AddScoped<TeamParser>();
-builder.Services.AddScoped<PlayerParser>();
-builder.Services.AddScoped<NationalityParser>();
 builder.Services.AddScoped<ImageFetcher>();
 builder.Services.AddSingleton<PuppeteerManager>();
 builder.Services.AddTransient<ISqlExecutor, SqlExecutor>();
 builder.Services.AddScoped<IQueryDispatcher, QueryDispatcher>();
 builder.Services.AddScoped<ICommandDispatcher, CommandDispatcher>();
-builder.Services.AddScoped<UpdateNationalitiesToEnglishService>();
+
+
+builder.Services.AddApplicationServices();
+builder.Services.AddFrontendScraperServices();
 
 builder.Services.AddHttpClient();
 builder.Services.RegisterAutoMapper();

@@ -1,49 +1,45 @@
-﻿using SoccerInfo.Extractor.Utilities;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using SoccerInfo.Application.Commands.ExtractBackend;
+using SoccerInfo.BackendScraper;
 using SoccerInfo.Persistence.Data;
 using SoccerInfo.Shared.CQRS;
-using System.Net.Http.Json;
+using SoccerInfo.Shared.Utilities;
 
 namespace SoccerInfo.Application.Commands.ExtarctBackend;
 
 internal class ExtarctBackendCommandHandler(
-    ApplicationDbContext dbContext,
-    PuppeteerManager puppeteerManager,
-    IHttpClientFactory httpClientFactory)
-    : ICommandHandler<ExtarctBackendCommand>
+    ApplicationDbContext dbContext, 
+    MarketValueProgressScraper marketValueProgressScraper,
+    CustomMapper mapper
+    ) : ICommandHandler<ExtarctBackendCommand>
 {
     public async Task Handle(ExtarctBackendCommand request, CancellationToken cancellationToken)
     {
-        using (var client = httpClientFactory.CreateClient())
+        var players = dbContext.Players.Include(x => x.MarketValueProgress);
+        var extractedData = await Benchmark.ExecuteAndMeasureTimeAsync(async () => {
+            return await marketValueProgressScraper.Scrape(players.Select(x => x.TransfermarktId));
+        }, "Scrape All");
+
+
+        foreach (var player in players)
         {
-            var response = await client.GetAsync("https://www.transfermarkt.pl/ceapi/marketValueDevelopment/graph/247652");
+            var playerProgressExtarcted = extractedData.SingleOrDefault(x => x.PlayerTransfermarktId == player.TransfermarktId);
 
-            var a = await client.GetFromJsonAsync<ContentModel>("https://www.transfermarkt.pl/ceapi/marketValueDevelopment/graph/247652");
+            if (playerProgressExtarcted != null)
+            {
+                var marketValueChanges = mapper.Map(playerProgressExtarcted);
 
-        }
-    }
-
-    public class ContentModel
-    {
-        public IEnumerable<ListModel> List { get; set; }
-        public class ListModel
-        {
-            //public long X { get; set; }
-            //public long Y { get; set; }
-            public string Mw { get; set; }
-            public string Datum_mw { get; set; }
-            public string Verein { get; set; }
-            public int Age { get; set; }
-            public string Wappen { get; set; }
-
-            //"x": 1425423600000,
-            //"y": 100000,
-            //"mw": "100 tys. €",
-            //"datum_mw": "4 mar 2015",
-            //"verein": "Maccabi Haifa",
-            //"age": "19",
-            //"wappen": "https://tmssl.akamaized.net//images/wappen/profil/1064_1626682431.png?lm=1626682431"
-
+                player.AddNewMarketValueChanges(marketValueChanges);
+            }  
         }
 
+        dbContext.UpdateRange(players);
+
+        var entries = dbContext.ChangeTracker.Entries();
+
+        await dbContext.SaveChangesAsync();
+
+        await Console.Out.WriteLineAsync();
     }
 }
