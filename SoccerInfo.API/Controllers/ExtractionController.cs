@@ -8,24 +8,21 @@ namespace SoccerInfoWeb.API.Controllers;
 [ApiController]
 public class ExtractionController(ICommandDispatcher commandDispatcher) : ControllerBase
 {
-    [HttpPost]
-    [Route("api/ExtarctPlayers")]
+    [HttpPut("api/ExtarctPlayers")]
     public async Task<IActionResult> ExtarctPlayers()
     {
         await commandDispatcher.Send(new ExtarctPlayersCommand());
         return Ok();
     }
 
-    [HttpPost]
-    [Route("api/UpdateTest")]
+    [HttpPut("api/UpdateTest")]
     public async Task<IActionResult> UpdateTest()
     {
         await commandDispatcher.Send(new UpdateTestCommand());
         return Ok();
     }
 
-    [HttpPost]
-    [Route("api/ExtractBackend")]
+    [HttpPut("api/ExtractBackend")]
     public async Task<IActionResult> ExtractBackend()
     {
         await commandDispatcher.Send(new ExtarctBackendCommand());

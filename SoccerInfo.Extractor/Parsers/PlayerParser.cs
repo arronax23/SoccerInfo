@@ -1,6 +1,8 @@
 ﻿using HtmlAgilityPack;
 using HtmlAgilityPack.CssSelectors.NetCore;
 using SoccerInfo.Extractor.Utilities;
+using System.Globalization;
+using System.Text.RegularExpressions;
 using static SoccerInfo.Extractor.Dto.ExtractionData;
 
 namespace SoccerInfo.Extractor.Parsers;
@@ -12,10 +14,13 @@ public class PlayerParser(
         await Console.Out.WriteLineAsync(node.QuerySelector(".hauptlink").InnerText.FormatExtractedStrings());
         var (dateOfBirth, age) = ParseAgeAndDateOfBirth(node.QuerySelectorAll(".zentriert").ElementAt(1).InnerText);
         var (marketValue, marketValueUnit) = ParseMarketValue(node.QuerySelector(".rechts.hauptlink").InnerText);
+        var (transfermarktId, transfermarktURL) = ParseTransfermarktNavigationData(
+            node.QuerySelector(".hauptlink a").GetAttributeValue("href", "notFound"));
 
         var player = new PlayerData()
         {
-            TransfermarktURL = node.QuerySelector(".hauptlink a").GetAttributeValue("href", "notFound"),
+            TransfermarktId = transfermarktId,
+            TransfermarktURL = transfermarktURL,
             Name = node.QuerySelector(".hauptlink").InnerText.FormatExtractedStrings(),
             Number = ParseNumber(node.QuerySelector(".rueckennummer").InnerText.Trim()),
             Position = node.QuerySelectorAll("tr").Last().InnerText.FormatExtractedStrings(),
@@ -35,6 +40,14 @@ public class PlayerParser(
         return int.TryParse(inputNumber, out int number) ? number : null;
     }
 
+
+    private (int, string) ParseTransfermarktNavigationData(string transfermarktURL)
+    {
+        var transfermarktId = int.Parse(transfermarktURL.Split('/').Last());
+
+        return (transfermarktId, transfermarktURL);
+
+    }
     private (DateTime, int) ParseAgeAndDateOfBirth(string ageAndDateOfBirth)
     {
         var tab = ageAndDateOfBirth.Split('(', ')');
@@ -49,12 +62,23 @@ public class PlayerParser(
     {
         try
         {
-            var tab = marketValueText.Split(' ');
 
-            var marketValue = float.Parse(tab[0]);
-            var marketValueUnit = tab[1];
+            marketValueText = marketValueText.Replace("€", "").FormatExtractedStrings().Trim();
 
-            return (marketValue, marketValueUnit);
+            var match = Regex.Match(marketValueText, @"[\d.]+|[^\d\s.]+");
+
+            if (match.Success)
+            {
+                float marketValue = float.Parse(match.Value, CultureInfo.InvariantCulture);
+                string marketValueUnit = marketValueText.Trim().Substring(match.Value.Length).Trim();
+
+                return (marketValue, marketValueUnit);
+            }
+            else
+            {
+                Console.WriteLine($"Could not Extract from {marketValueText}");
+                return (null, null);
+            }
         }
         catch (Exception ex)
         {

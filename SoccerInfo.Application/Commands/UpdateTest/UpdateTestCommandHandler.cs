@@ -18,17 +18,19 @@ internal class UpdateTestCommandHandler(
     {
         using var transaction = dbContext.Database.BeginTransaction();
 
-        string fileName = "scraped_data_6.json";
+        string fileName = "scraped_data_7.json";
         string jsonString = File.ReadAllText(fileName);
 
         ExtractionData extraction = JsonSerializer.Deserialize<ExtractionData>(jsonString)!;
         var extractedLeagues = mapper.Map<IEnumerable<League>>(extraction.Leagues);
 
-        EliminateNationalityImageDuplicates(extractedLeagues);
+        EliminateNationalityDuplicates(extractedLeagues);
         dbContext.AttachRange(extractedLeagues);
 
 
-        ChangeNationalityImagesTracking(extractedLeagues);
+        ChangeNationalitiesTracking(extractedLeagues);
+
+        var dbCountryFlags = dbContext.CountryFlags_Lookup.AsNoTracking();
 
         var dbLeagues = 
             dbContext.Leagues
@@ -36,7 +38,7 @@ internal class UpdateTestCommandHandler(
             .AsSplitQuery()!
             .Include(x => x.Teams)!
             .ThenInclude(y => y.Players)!
-            .ThenInclude(z => z.NationalityImages);
+            .ThenInclude(z => z.Nationalities);
 
 
         foreach (var dbLeague in dbLeagues)
@@ -66,15 +68,15 @@ internal class UpdateTestCommandHandler(
             } 
         }
 
-        ClearNavgationData(extractedLeagues);
+        //ClearNavgationData(extractedLeagues);
 
-        var e = dbContext.ChangeTracker.Entries().ToList();
-        var e2 = dbContext.ChangeTracker.Entries().Where(x=> x.State == EntityState.Added).ToList();
-        var e3 = dbContext.ChangeTracker.Entries().Where(x=> x.State == EntityState.Modified).ToList();
-        var e4 = dbContext.ChangeTracker.Entries().Where(x=> x.State == EntityState.Unchanged).ToList();
-        var e5 = dbContext.ChangeTracker.Entries().Where(x=> x.State == EntityState.Detached).ToList();
+        var entries = dbContext.ChangeTracker.Entries().ToList();
+        var added = dbContext.ChangeTracker.Entries().Where(x => x.State == EntityState.Added).ToList();
+        var modified = dbContext.ChangeTracker.Entries().Where(x => x.State == EntityState.Modified).ToList();
+        var unchanged = dbContext.ChangeTracker.Entries().Where(x => x.State == EntityState.Unchanged).ToList();
+        var detached = dbContext.ChangeTracker.Entries().Where(x => x.State == EntityState.Detached).ToList();
 
-        var bds = extractedLeagues.SelectMany(x => x.Teams!).SelectMany(y => y.Players!).SelectMany(z => z.NationalityImages!).Count();
+        var bds = extractedLeagues.SelectMany(x => x.Teams!).SelectMany(y => y.Players!).SelectMany(z => z.Nationalities!).Count();
 
         await dbContext.SaveChangesAsync();    
 
@@ -96,17 +98,17 @@ internal class UpdateTestCommandHandler(
         }
     }
 
-    private void ChangeNationalityImagesTracking(IEnumerable<League>? extractedLeagues)
+    private void ChangeNationalitiesTracking(IEnumerable<League>? extractedLeagues)
     {
-        var nationalityImages = extractedLeagues!
+        var nationalities = extractedLeagues!
             .SelectMany(x => x.Teams!).
             SelectMany(y => y.Players!).
-            SelectMany(z => z.NationalityImages!);
+            SelectMany(z => z.Nationalities!);
 
         foreach (var dbImage in dbContext.Nationalities.AsNoTracking())
         {
-            var newImage = nationalityImages
-                .Where(x => x.Equals(dbImage))
+            var newImage = nationalities
+                .Where(x => x.Country == dbImage.Country_Lookup)
                 .FirstOrDefault();
 
             if (newImage != null)
@@ -115,26 +117,26 @@ internal class UpdateTestCommandHandler(
     }
 
 
-    private void ClearNavgationData(IEnumerable<League> extractedLeagues)
-    {
-        var nationalityImages = extractedLeagues
-            .SelectMany(x => x.Teams!)
-            .SelectMany(y => y.Players!)
-            .SelectMany(z => z.NationalityImages!);
+    //private void ClearNavgationData(IEnumerable<League> extractedLeagues)
+    //{
+    //    var nationalities = extractedLeagues
+    //        .SelectMany(x => x.Teams!)
+    //        .SelectMany(y => y.Players!)
+    //        .SelectMany(z => z.Nationalities!);
 
-        foreach (var image in nationalityImages)
-        {
-            image.Players = null;
-        }
-    }
+    //    foreach (var image in nationalities)
+    //    {
+    //        image.Players = null;
+    //    }
+    //}
 
-    private void EliminateNationalityImageDuplicates(IEnumerable<League>? extractedLeagues)
+    private void EliminateNationalityDuplicates(IEnumerable<League>? extractedLeagues)
     {
         var players = extractedLeagues!.SelectMany(x => x.Teams!).SelectMany(y => y.Players!);
-        var images = players.SelectMany(x => x.NationalityImages!);
+        var images = players.SelectMany(x => x.Nationalities!);
 
         var duplicates = images
-            .GroupBy(n => n.Base64Image)
+            .GroupBy(n => n.Country)
             .Where(g => g.Count() > 1);
 
         foreach (var group in duplicates)
@@ -145,15 +147,15 @@ internal class UpdateTestCommandHandler(
             foreach (var duplicate in duplicateImages)
             {
                 var affectedPlayers = players
-                    .Where(p => p.NationalityImages != null && p.NationalityImages.Contains(duplicate));
+                    .Where(p => p.Nationalities != null && p.Nationalities.Contains(duplicate));
 
                 foreach (var player in affectedPlayers)
                 {
-                    player!.NationalityImages!.Remove(duplicate);
+                    player!.Nationalities!.Remove(duplicate);
 
-                    if (!player.NationalityImages.Contains(masterImage))
+                    if (!player.Nationalities.Contains(masterImage))
                     {
-                        player.NationalityImages.Add(masterImage);
+                        player.Nationalities.Add(masterImage);
                     }
                 }
             }

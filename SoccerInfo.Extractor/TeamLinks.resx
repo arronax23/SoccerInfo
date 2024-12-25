@@ -142,7 +142,7 @@
     <value>https://www.transfermarkt.pl/serie-a/startseite/wettbewerb/IT1</value>
   </data>
   <data name="PremierLeague" xml:space="preserve">
-    <value>https://www.transfermarkt.pl/premier-league/startseite/wettbewerb/GB1</value>
+    <value>https://www.transfermarkt.com/premier-league/startseite/wettbewerb/GB1</value>
   </data>
   <data name="Bundesliga" xml:space="preserve">
     <value>https://www.transfermarkt.pl/bundesliga/startseite/wettbewerb/L1</value>

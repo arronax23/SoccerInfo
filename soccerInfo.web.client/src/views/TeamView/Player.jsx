@@ -19,12 +19,12 @@ const Player = ({
         src={`data:image/jpeg;base64,${faceImageBase64}`}
       />
       <p className="position">{position}</p>
-      <p className="age">Wiek: {age}</p>
+      <p className="age">Age: {age}</p>
       <p className="dateOfBirth">
-{new Date(dateOfBirth).toLocaleDateString("pl-PL")}
+        {new Date(dateOfBirth).toLocaleDateString("pl-PL")}
       </p>
       <p className="marketValue">
-        {marketValue} {marketValueUnit}
+        {marketValue}{marketValueUnit} €
       </p>
       <div className="nationalities">
         {nationalityImages &&

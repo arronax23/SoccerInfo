@@ -11,13 +11,13 @@ const Navbar = () => {
 
       <div className="nav-links">
         <Link className="not-decorated" to="/">
-          <div className="nav-item">Ligi</div>
+          <div className="nav-item">Leagues</div>
         </Link>
-        <div className="nav-item">Drużyny</div>
+        <div className="nav-item">Teams</div>
         <Link className="not-decorated" to="/players">
-        <div className="nav-item">Zawodnicy</div>
+        <div className="nav-item">Players</div>
         </Link>
-        <div className="nav-item">Statystyki</div>
+        <div className="nav-item">Stats</div>
       </div>
     </nav>
   );

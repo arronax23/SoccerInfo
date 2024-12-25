@@ -133,7 +133,7 @@ namespace SoccerInfo.Extractor {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to https://www.transfermarkt.pl/premier-league/startseite/wettbewerb/GB1.
+        ///   Looks up a localized string similar to https://www.transfermarkt.com/premier-league/startseite/wettbewerb/GB1.
         /// </summary>
         internal static string PremierLeague {
             get {

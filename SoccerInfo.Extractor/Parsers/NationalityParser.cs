@@ -9,8 +9,7 @@ public class NationalityParser(ImageFetcher imageFetcher)
     {
         return new NationalityData()
         {
-            Country = node.GetAttributeValue("title", "notFound"),
-            Base64Image = await imageFetcher.Fetch(node.GetAttributeValue("src", "notFound"))
+            Country = node.GetAttributeValue("title", "notFound")
         };
     }
 }

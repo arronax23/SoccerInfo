@@ -19,7 +19,7 @@ internal class ExtarctPlayersCommandHandler(
         if (extraction == null)
             return;
 
-        await JsonSerializerToFile.Save(extraction, "scraped_data_5.json");
+        await JsonSerializerToFile.Save(extraction, "scraped_data_8.json");
         var extractedLeagues = mapper.Map<IEnumerable<League>>(extraction.Leagues);
 
         await Console.Out.WriteLineAsync();

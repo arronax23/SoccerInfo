@@ -14,7 +14,8 @@ public class League : IEntity, IEquatable<League>
     {
         if (other == null)
             return false;
-        else if (this.Name == other.Name && this.Country == other.Country)
+        else if (this.Name == other.Name)
+        //else if (this.Name == other.Name && this.Country == other.Country)
             return true;
         else
             return false;

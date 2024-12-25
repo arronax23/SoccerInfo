@@ -7,6 +7,7 @@ using SoccerInfo.Shared.CQRS;
 using SoccerInfo.Infrastructure.CQRS;
 using SoccerInfo.Extractor.Parsers;
 using SoccerInfo.Persistence.Data;
+using SoccerInfo.Application.Commands.UpdateToEnglish;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +21,7 @@ builder.Services.AddSingleton<PuppeteerManager>();
 builder.Services.AddTransient<ISqlExecutor, SqlExecutor>();
 builder.Services.AddScoped<IQueryDispatcher, QueryDispatcher>();
 builder.Services.AddScoped<ICommandDispatcher, CommandDispatcher>();
+builder.Services.AddScoped<UpdateNationalitiesToEnglishService>();
 
 builder.Services.AddHttpClient();
 builder.Services.RegisterAutoMapper();

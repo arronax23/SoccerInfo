@@ -131,7 +131,7 @@ body {
     border-radius: 1rem;
     padding: 1rem;
     margin: .5rem;
-    box-shadow: 5px 5px 10px black;
+    box-shadow: 5px 5px 10px black;    
 }
 
 .team {
@@ -140,6 +140,10 @@ body {
 
 .player {
     width: 150px;
+}
+
+.player .player-image {
+    border-radius: .25rem;
 }
 
 

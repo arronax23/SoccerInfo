@@ -16,7 +16,7 @@ namespace SoccerInfo.Extractor
         NationalityParser nationalityImageParser,
         PuppeteerManager puppeteerManager)
     {
-        private readonly string BASE_URI = "https://www.transfermarkt.pl";
+        private readonly string BASE_URI = "https://www.transfermarkt.com";
         private readonly IList<Task> _extractionTasks = new List<Task>();
 
         public async Task<ExtractionData?> TryExtarct()
@@ -60,17 +60,17 @@ namespace SoccerInfo.Extractor
             return new List<string>()
             {
                 TeamLinks.PremierLeague,
-                //TeamLinks.Bundesliga,
-                //TeamLinks.SerieA,
-                //TeamLinks.LaLiga,
-                //TeamLinks.Ligue1,
+                TeamLinks.Bundesliga,
+                TeamLinks.SerieA,
+                TeamLinks.LaLiga,
+                TeamLinks.Ligue1,
                 //TeamLinks.LigaPortugal,
                 //TeamLinks.JupilerProLeague,
                 //TeamLinks.Eredivisie,
                 //TeamLinks.SuperLig,
                 //TeamLinks.Ekstraklasa,
-                TeamLinks.SuperLeague1,
-                TeamLinks.AustrianBundesliga
+                //TeamLinks.SuperLeague1,
+                //TeamLinks.AustrianBundesliga
             };
         }
 
@@ -159,7 +159,7 @@ namespace SoccerInfo.Extractor
             foreach (var nationalityImageNode in nationalityImageNodes)
             {
                 var nationalityImage = await GetNationalityImage(nationalityImageNode);
-                player.NationalityImages.Add(nationalityImage);
+                player.Nationalities.Add(nationalityImage);
             }
 
             return player;

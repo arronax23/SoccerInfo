@@ -6,7 +6,7 @@ internal sealed class PlayerEntityTypeConfiguration : IEntityTypeConfiguration<P
 {
     public void Configure(EntityTypeBuilder<Player> builder)
     {
-        builder.HasMany(e => e.NationalityImages)
+        builder.HasMany(e => e.Nationalities)
             .WithMany(e => e.Players)
             .UsingEntity(
                 "NationalityPlayer",

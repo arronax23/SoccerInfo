@@ -1,9 +1,11 @@
-﻿using Nager.Country;
+﻿using Microsoft.EntityFrameworkCore;
+using Nager.Country;
 using Nager.Country.Translation;
 using SoccerInfo.Persistence.Data;
 using SoccerInfo.Persistence.Data.Models;
 using SoccerInfo.Shared.CQRS;
 using System.Globalization;
+using System.Linq;
 using System.Net;
 using System.Reflection;
 
@@ -13,6 +15,8 @@ internal class ChangeFlagsToSvgCommandHandler(
     ApplicationDbContext dbContext
     ) : ICommandHandler<ChangeFlagsToSvgCommand>
 {
+    private readonly string[] extractCountriesCodes = ["ENG", "NIR", "SCT", "WLS", "XK"];
+
     public async Task Handle(ChangeFlagsToSvgCommand request, CancellationToken cancellationToken)
     {
         //var countryNamesAndCodes = Some2();
@@ -23,14 +27,64 @@ internal class ChangeFlagsToSvgCommandHandler(
         //dbContext.CountryFlags_Lookup.AddRange(d);
         //dbContext.SaveChanges();
 
-        Translate(dbContext.Nationalities, dbContext.CountryFlags_Lookup.ToList());
-        dbContext.SaveChanges();
+        //Translate(dbContext.Nationalities, dbContext.CountryFlags_Lookup.ToList());
+        //dbContext.SaveChanges();
 
         //var nationalities = dbContext.Nationalities.Where(x => x.CountryFlagId == null).ToList();
 
 
         //await Console.Out.WriteLineAsync();
         //dbContext.SaveChanges();
+
+
+        var files = ReadFiles();
+
+        var nationalities = dbContext.Nationalities.Include(x=> x.CountryFlag).Where(x => x.CountryFlagId == null);
+
+        var ENG = nationalities.Single(x => x.Country == "England");
+        var SCT = nationalities.Single(x => x.Country == "Scotland");
+        var WLS = nationalities.Single(x => x.Country == "Wales");
+        var NIR = nationalities.Single(x => x.Country == "Northern Ireland");
+        var XK = nationalities.Single(x => x.Country == "Kosovo");
+
+        ENG.CountryFlag = new CountryFlag_Lookup()
+        {
+            Name = ENG.Country,
+            ImageSvgBase64 = files.Single(x => x.Item2 == nameof(ENG)).Item1,
+            TwoLetterISOCode = files.Single(x => x.Item2 == nameof(ENG)).Item2
+        };
+
+        SCT.CountryFlag = new CountryFlag_Lookup()
+        {
+            Name = SCT.Country,
+            ImageSvgBase64 = files.Single(x => x.Item2 == nameof(SCT)).Item1,
+            TwoLetterISOCode = files.Single(x => x.Item2 == nameof(SCT)).Item2
+        };
+
+        WLS.CountryFlag = new CountryFlag_Lookup()
+        {
+            Name = WLS.Country,
+            ImageSvgBase64 = files.Single(x => x.Item2 == nameof(WLS)).Item1,
+            TwoLetterISOCode = files.Single(x => x.Item2 == nameof(WLS)).Item2
+        };
+
+        NIR.CountryFlag = new CountryFlag_Lookup()
+        {
+            Name = NIR.Country,
+            ImageSvgBase64 = files.Single(x => x.Item2 == nameof(NIR)).Item1,
+            TwoLetterISOCode = files.Single(x => x.Item2 == nameof(NIR)).Item2
+        };
+
+        XK.CountryFlag = new CountryFlag_Lookup()
+        {
+            Name = XK.Country,
+            ImageSvgBase64 = files.Single(x => x.Item2 == nameof(XK)).Item1,
+            TwoLetterISOCode = files.Single(x => x.Item2 == nameof(XK)).Item2
+        };
+
+
+        dbContext.SaveChanges();
+
     }
 
 
@@ -66,6 +120,8 @@ internal class ChangeFlagsToSvgCommandHandler(
 
             countryImgAndCode.Add((base64Data, code));
         }
+
+        countryImgAndCode = countryImgAndCode.Where(x => extractCountriesCodes.Contains(x.Item2)).ToList();
 
         return countryImgAndCode;
     }

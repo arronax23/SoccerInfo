@@ -6,7 +6,7 @@ public class Nationality : IEntity,  IEquatable<Nationality>
 {
     public int Id { get; set; }
     public string Country { get; set; } = null!;
-    public string? Base64Image { get; set; }
+    public string Country_Lookup { get; set; } = null!;
     public ICollection<Player>? Players { get; set; }
     public CountryFlag_Lookup? CountryFlag { get; set; }
     public int? CountryFlagId { get; set; }
