@@ -66,7 +66,9 @@ body {
 
 .l-img, .t-img {
     background: white;
+    border: 3px solid black;
     border-radius: .5rem;
+    box-shadow: 5px 5px 10px black;
     padding: .5rem;
 }
 
@@ -177,7 +179,7 @@ body {
 .nationality-image {
     width: 1rem;
     margin-right: .5rem;
-    border: 2px solid black;
+    border: 1px solid white;
 }
 
 
@@ -278,3 +280,23 @@ a.not-decorated {
     margin-left: auto;
 }
 
+/* PlayerDetailsView */
+
+.market-value-tooltip .row{
+    padding: 5px; 
+}
+.market-value-tooltip .date{
+    color: #fff;
+    background: #000;
+}
+
+.market-value-tooltip img.team-img {
+    height: 2rem;
+}
+
+.chart {
+    border-radius: 1rem;
+    padding: .5rem;
+    background: #fff;
+    display: inline-block;
+}

@@ -6,6 +6,7 @@ import LeagueView from "./views/LeagueView/LeagueView";
 import TeamView from "./views/TeamView/TeamView";
 import BackButton from "./nav/BackButton";
 import PlayersView from "./views/PlayersTab/PlayersView"
+import PlayerDetailsView from "./views/PlayerDetailsView/PlayerDetailsView";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/league/:leagueId" element={<LeagueView />} />
         <Route path="/team/:teamId" element={<TeamView />} />
         <Route path="/players" element={<PlayersView />} />
+        <Route path="/player/:playerId" element={<PlayerDetailsView />} />
       </Routes>
     </BrowserRouter>
   );

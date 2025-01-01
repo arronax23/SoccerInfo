@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using SoccerInfo.Application.Commands.ExtractBackend;
 using SoccerInfo.BackendScraper;
 using SoccerInfo.Persistence.Data;

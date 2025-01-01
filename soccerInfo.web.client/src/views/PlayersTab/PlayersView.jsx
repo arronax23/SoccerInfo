@@ -17,7 +17,7 @@ const PlayersView = () => {
           onChange={(e) => setKeyword(e.target.value)}
           className="search__input"
           type="text"
-          placeholder="Szukaj zawodników"
+          placeholder="Search players"
         ></input>
       </div>
       <div className="found-players">

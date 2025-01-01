@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router";
 
 const Player = ({
   id,
@@ -11,8 +12,10 @@ const Player = ({
   marketValueUnit,
   nationalityImages,
 }) => {
+  const navigate = useNavigate();
+
   return (
-    <div id={id} className="player">
+    <div id={id} onClick={() => navigate(`/player/${id}`)} className="player">
       <h1 className="player-header">{name}</h1>
       <img
         className="player-image"
