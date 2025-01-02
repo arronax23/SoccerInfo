@@ -16,10 +16,9 @@ internal class GetPlayerDetailsQueryHandler(
     {
         var player = dbContext.Players
             .Include(x => x.Nationalities)
-            .ThenInclude(y => y.);
-
-            //.Include(x => x.MarketValueProgress)
-            //.SingleOrDefault(x => x.Id == request.PlayerId);
+            .ThenInclude(y => y.)
+            .Include(x => x.MarketValueProgress)
+            .SingleOrDefault(x => x.Id == request.PlayerId);
 
         if (player == null)
             return Task.FromResult(new PlayerDetailsDto());
