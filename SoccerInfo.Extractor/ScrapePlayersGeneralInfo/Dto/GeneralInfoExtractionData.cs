@@ -1,6 +1,6 @@
-﻿namespace SoccerInfo.FrontendScraper.Dto;
+﻿namespace SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo.Dto;
 
-public class ExtractionData
+public class GeneralInfoExtractionData
 {
     public List<LeagueData> Leagues { get; set; } = new List<LeagueData>();
 

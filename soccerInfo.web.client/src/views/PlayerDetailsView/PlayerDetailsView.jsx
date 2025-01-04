@@ -13,7 +13,7 @@ const PlayerDetailsView = () => {
   }, []);
 
   return (
-    <div>
+    <div className="player-details-container">
       {playerGeneralInfo && (
         <PlayerGeneralInfo playerGeneralInfo={playerGeneralInfo} />
       )}
@@ -30,7 +30,6 @@ const PlayerDetailsView = () => {
       console.log(data);
 
       if (data.marketValueChanges != null) {
-        data.marketValueChanges ??
           setMarketValueChanges(data.marketValueChanges);
       }
 

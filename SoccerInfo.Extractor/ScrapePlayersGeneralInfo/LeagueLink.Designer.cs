@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SoccerInfo.FrontendScraper {
+namespace SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace SoccerInfo.FrontendScraper {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SoccerInfo.FrontendScraper.LeagueLink", typeof(LeagueLink).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo.LeagueLink", typeof(LeagueLink).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

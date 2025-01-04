@@ -60,6 +60,12 @@ body {
     margin: 0 1rem 0 1rem;
 }
 
+/* Hover card */
+
+.league:hover, .team:hover, .player:hover {
+    cursor: pointer;
+    opacity: .7;
+}
 
 
 /* League  */
@@ -90,10 +96,7 @@ body {
     margin: .5rem;
     box-shadow: 5px 5px 10px black;
 }
-.league:hover {
-    cursor: pointer;
-    opacity: .65;
-}
+
 
 .league .country-flag {
     position: absolute;
@@ -158,10 +161,6 @@ body {
     max-height: 4rem
 }
 
-.team:hover {
-    cursor: pointer;
-    opacity: .7;
-}
 
 
 .team-header, .player-header{
@@ -180,6 +179,7 @@ body {
     width: 1rem;
     margin-right: .5rem;
     border: 1px solid white;
+    border-radius: .1rem;
 }
 
 
@@ -282,6 +282,90 @@ a.not-decorated {
 
 /* PlayerDetailsView */
 
+
+.player-details-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+.player-general-info{
+    width: 700px;
+    background: #fff; 
+    padding: .5rem;
+    border-radius: 1rem;
+
+    display: grid;
+    grid-template-rows: 50px 50px 50px 50px 50px;
+    grid-template-columns: auto;
+    grid-template-areas: 
+      "portrait name"
+      "portrait age"
+      "portrait position"
+      "nationalities birthDate"
+      "nationalities marketValue";    
+}
+
+.player-general-info .portrait {
+    grid-area: portrait;
+    align-self: center;
+}
+
+.player-general-info .nationalities {
+    grid-area: nationalities;
+    align-self: center;
+}
+
+
+.player-general-info .name {
+    grid-area: name;
+}
+
+.player-general-info .age {
+    grid-area: age;
+}
+
+.player-general-info .position {
+    grid-area: position;
+}
+
+.player-general-info .birth-date {
+    grid-area: birthDate;
+}
+
+.player-general-info .market-value {
+    grid-area: marketValue;
+}
+
+
+.player-general-info img.nationality-img{
+    height: 50px;
+    margin: 0 .25rem;
+    border: 3px solid #000;
+    border-radius: .25rem;
+}
+
+.player-general-info .label {
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.player-general-info .content {
+    border-bottom: 2px solid black;
+}
+
+.player-general-info .market-value .content {
+    border-bottom: unset;
+}
+
+.player-general-info .portrait img {
+    border: 3px solid black;
+    border-radius: .25rem;
+}
+
+
+
 .market-value-tooltip .row{
     padding: 5px; 
 }
@@ -298,5 +382,4 @@ a.not-decorated {
     border-radius: 1rem;
     padding: .5rem;
     background: #fff;
-    display: inline-block;
 }

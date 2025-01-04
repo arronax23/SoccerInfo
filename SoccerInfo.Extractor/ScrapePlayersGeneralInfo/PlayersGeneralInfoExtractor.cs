@@ -2,14 +2,14 @@
 using HtmlAgilityPack;
 using PuppeteerSharp;
 using SoccerInfo.Shared.Utilities;
-using SoccerInfo.FrontendScraper.Parsers;
-using SoccerInfo.FrontendScraper.Dto;
 using SoccerInfo.FrontendScraper.Utilities;
-using static SoccerInfo.FrontendScraper.Dto.ExtractionData;
+using static SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo.Dto.GeneralInfoExtractionData;
+using SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo.Parsers;
+using SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo.Dto;
 
-namespace SoccerInfo.FrontendScraper;
+namespace SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo;
 
-public class SoccerDataExtractor(
+public class PlayersGeneralInfoExtractor(
     LeagueParser leagueParser,
     TeamParser teamParser,
     PlayerParser playerParser,
@@ -19,7 +19,7 @@ public class SoccerDataExtractor(
     private readonly string BASE_URI = "https://www.transfermarkt.com";
     private readonly IList<Task> _extractionTasks = new List<Task>();
 
-    public async Task<ExtractionData?> TryExtarct()
+    public async Task<GeneralInfoExtractionData?> TryExtarct()
     {
         try
         {
@@ -27,7 +27,7 @@ public class SoccerDataExtractor(
         }
         catch (Exception ex)
         {
-            Console.WriteLine("Extraction has been stopped by following exception:");  
+            Console.WriteLine("Extraction has been stopped by following exception:");
             Console.WriteLine(ex.ToString());
 
             await puppeteerManager.CloseBrowser();
@@ -36,9 +36,9 @@ public class SoccerDataExtractor(
         }
     }
 
-    private async Task<ExtractionData> Extarct()
+    private async Task<GeneralInfoExtractionData> Extarct()
     {
-        var extraction = new ExtractionData();
+        var extraction = new GeneralInfoExtractionData();
 
         var leagueLinks = GetLeagueLinks();
 
@@ -74,7 +74,7 @@ public class SoccerDataExtractor(
         };
     }
 
-    private async Task GetLeague(ExtractionData extraction, string leagueLink)
+    private async Task GetLeague(GeneralInfoExtractionData extraction, string leagueLink)
     {
         IPage page;
 
@@ -124,13 +124,15 @@ public class SoccerDataExtractor(
         var playersTableNode = node.QuerySelector("table.items");
 
         IReadOnlyCollection<HtmlNode>? playersNodes = null;
-        var t_DFS = Benchmark.ExecuteAndGetTime(() => {
+        var t_DFS = Benchmark.ExecuteAndGetTime(() =>
+        {
             Traverser traverser = new Traverser();
             traverser.DFS(playersTableNode, EndSelectorsSpecification);
             playersNodes = traverser.FoundNodes;
-        },"DFS");
+        }, "DFS");
 
-        var t_Q = Benchmark.ExecuteAndGetTime(() => {
+        var t_Q = Benchmark.ExecuteAndGetTime(() =>
+        {
             var odd = node.QuerySelectorAll(".odd");
             var even = node.QuerySelectorAll(".even");
             var results = odd.Union(even);
@@ -153,8 +155,8 @@ public class SoccerDataExtractor(
 
     private async Task<PlayerData> GetPlayer(HtmlNode node)
     {
-       var player = await playerParser.Parse(node);
-       var nationalityImageNodes = node.QuerySelectorAll("img.flaggenrahmen");
+        var player = await playerParser.Parse(node);
+        var nationalityImageNodes = node.QuerySelectorAll("img.flaggenrahmen");
 
         foreach (var nationalityImageNode in nationalityImageNodes)
         {

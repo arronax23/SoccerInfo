@@ -1,8 +1,8 @@
 ﻿using HtmlAgilityPack;
 using SoccerInfo.FrontendScraper.Utilities;
-using static SoccerInfo.FrontendScraper.Dto.ExtractionData;
+using static SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo.Dto.GeneralInfoExtractionData;
 
-namespace SoccerInfo.FrontendScraper.Parsers;
+namespace SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo.Parsers;
 public class NationalityParser(ImageFetcher imageFetcher)
 {
     public async Task<NationalityData> Parse(HtmlNode node)

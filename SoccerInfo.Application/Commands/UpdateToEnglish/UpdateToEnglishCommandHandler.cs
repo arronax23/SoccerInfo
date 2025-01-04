@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using SoccerInfo.FrontendScraper.Dto;
+using SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo.Dto;
 using SoccerInfo.Persistence.Data;
 using SoccerInfo.Persistence.Data.Models;
 using SoccerInfo.Persistence.Data.Models.Abstractions;
 using SoccerInfo.Shared.CQRS;
 using System.Text.Json;
-using static SoccerInfo.FrontendScraper.Dto.ExtractionData;
+using static SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo.Dto.GeneralInfoExtractionData;
 
 namespace SoccerInfo.Application.Commands.UpdateToEnglish;
 
@@ -22,7 +22,7 @@ internal class UpdateToEnglishCommandHandler(
         string fileName = "scraped_data_8.json";
         string jsonString = File.ReadAllText(fileName);
 
-        ExtractionData extraction = JsonSerializer.Deserialize<ExtractionData>(jsonString)!;
+        GeneralInfoExtractionData extraction = JsonSerializer.Deserialize<GeneralInfoExtractionData>(jsonString)!;
         var extractedLeagues = mapper.Map<IEnumerable<League>>(extraction.Leagues);
 
         EliminateNationalityDuplicates(extractedLeagues);

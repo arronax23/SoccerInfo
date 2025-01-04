@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using SoccerInfo.FrontendScraper;
+using SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo;
 using SoccerInfo.Persistence.Data;
 using SoccerInfo.Persistence.Data.Models;
 using SoccerInfo.Shared.CQRS;
@@ -9,7 +9,7 @@ namespace SoccerInfo.Application.Commands.ExtarctPlayers;
 
 internal class ExtarctPlayersCommandHandler(
     ApplicationDbContext dbContext,
-    SoccerDataExtractor soccerDataExtractor,
+    PlayersGeneralInfoExtractor soccerDataExtractor,
     IMapper mapper) : ICommandHandler<ExtarctPlayersCommand>
 {
     public async Task Handle(ExtarctPlayersCommand request, CancellationToken cancellationToken)

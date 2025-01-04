@@ -3,9 +3,9 @@ using HtmlAgilityPack.CssSelectors.NetCore;
 using SoccerInfo.FrontendScraper.Utilities;
 using System.Globalization;
 using System.Text.RegularExpressions;
-using static SoccerInfo.FrontendScraper.Dto.ExtractionData;
+using static SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo.Dto.GeneralInfoExtractionData;
 
-namespace SoccerInfo.FrontendScraper.Parsers;
+namespace SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo.Parsers;
 public class PlayerParser(ImageFetcher imageFetcher)
 {
     public async Task<PlayerData> Parse(HtmlNode node)

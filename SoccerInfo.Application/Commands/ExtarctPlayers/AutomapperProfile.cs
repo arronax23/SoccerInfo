@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using SoccerInfo.Persistence.Data.Models;
-using static SoccerInfo.FrontendScraper.Dto.ExtractionData;
+using static SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo.Dto.GeneralInfoExtractionData;
 
 
 namespace SoccerInfo.Application.Commands.ExtarctPlayers;

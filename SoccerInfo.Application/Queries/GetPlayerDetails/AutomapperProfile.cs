@@ -12,6 +12,7 @@ public class AutomapperProfile : Profile
         CreateMap<Player, PlayerDetailsDto>()
             .ForMember(x => x.MarketValueChanges, opt => opt.Ignore());
 
-        CreateMap<Nationality, NationalityDto>();
+        CreateMap<Nationality, NationalityDto>()
+            .ForMember(x => x.CountryFlagBase64Image, opt => opt.MapFrom(y => y.CountryFlag!.ImageSvgBase64));
     }
 }

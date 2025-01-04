@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="LeagueLink.Designer.cs">
+    <Compile Update="ScrapePlayersGeneralInfo\LeagueLink.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>LeagueLink.resx</DependentUpon>
@@ -27,11 +27,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="LeagueLink.resx">
+    <EmbeddedResource Update="ScrapePlayersGeneralInfo\LeagueLink.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>LeagueLink.Designer.cs</LastGenOutput>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ScrapePlayersCharacterstic\" />
   </ItemGroup>
 
 </Project>
