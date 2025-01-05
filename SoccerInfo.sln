@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoccerInfo.Application", "S
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoccerInfo.Persistence", "SoccerInfo.Persistence\SoccerInfo.Persistence.csproj", "{9166F80F-1C2B-4578-B2EF-6EF95910C542}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoccerInfo.FrontendScraper", "SoccerInfo.Extractor\SoccerInfo.FrontendScraper.csproj", "{80CF5216-D3E5-4032-9189-9DAB1ADD1C1D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoccerInfo.FrontendScraper", "SoccerInfo.FrontendScraper\SoccerInfo.FrontendScraper.csproj", "{80CF5216-D3E5-4032-9189-9DAB1ADD1C1D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoccerInfo.Infrastructure", "SoccerInfo.Infrastructure\SoccerInfo.Infrastructure.csproj", "{242FF027-CDC9-4073-960F-536F3FD48EDB}"
 EndProject

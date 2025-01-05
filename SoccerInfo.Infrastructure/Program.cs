@@ -11,7 +11,6 @@ using SoccerInfo.Application;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddScoped<ImageFetcher>();
-builder.Services.AddSingleton<PuppeteerManager>();
 builder.Services.AddTransient<ISqlExecutor, SqlExecutor>();
 builder.Services.AddScoped<IQueryDispatcher, QueryDispatcher>();
 builder.Services.AddScoped<ICommandDispatcher, CommandDispatcher>();

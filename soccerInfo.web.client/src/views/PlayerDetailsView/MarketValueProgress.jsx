@@ -101,7 +101,12 @@ const chartOptions = {
 
   return (
     series && (
+      <div className="chart-conatiner">
+        <div className="header">
+          Market value progress
+        </div>
       <Chart className="chart" options={chartOptions} series={series} type="area" width={700} height={300} />
+      </div>
     )
   );
 

@@ -1,0 +1,30 @@
+﻿namespace SoccerInfo.Shared.Utilities;
+public static class StringExtensions
+{
+    public static float ParseToFloat(this string text) => float.Parse(text);
+    public static int ParseToInt(this string text) => int.Parse(text);
+    public static DateTime ParseToDate(this string text) => DateTime.Parse(text);
+    public static float? TryParseToFloat(this string text)
+    {
+        if (float.TryParse(text, out var result))
+            return result;
+        else
+            return null;
+    }
+
+    public static int? TryParseToInt(this string text)
+    {
+        if (int.TryParse(text, out var result))
+            return result;
+        else
+            return null;
+    }
+
+    public static DateTime? TryParseToDate(this string text)
+    {
+        if (DateTime.TryParse(text, out var result))
+            return result;
+        else
+            return null;
+    }
+}

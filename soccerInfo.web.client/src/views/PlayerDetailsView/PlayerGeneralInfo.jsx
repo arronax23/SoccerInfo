@@ -4,6 +4,9 @@ const PlayerGeneralInfo = ({ playerGeneralInfo }) => {
   console.log("playerGeneralInfo", playerGeneralInfo);
   return (
     <div className="player-general-info">
+      <div className="header">
+        General information
+      </div>
       <div className="portrait">
         <img
           src={`data:image/jpeg;base64,${playerGeneralInfo.faceImageBase64}`}

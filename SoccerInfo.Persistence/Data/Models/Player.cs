@@ -1,8 +1,9 @@
 ﻿using SoccerInfo.Persistence.Data.Models.Abstractions;
+using SoccerInfo.Persistence.Data.Models.PlayerCharacteristicsAggregate;
 
 namespace SoccerInfo.Persistence.Data.Models;
 
-public class Player : IEntity, IEquatable<Player>
+public partial class Player : IEntity, IEquatable<Player>
 {
     public int Id { get; set; }
     public string Name { get; set; } = null!;
@@ -16,6 +17,7 @@ public class Player : IEntity, IEquatable<Player>
     public string TransfermarktURL { get; set; } = null!;
     public ICollection<Nationality> Nationalities { get; set; } = null!;
     public ICollection<MarketValueChange> MarketValueProgress { get; private set; } = null!;
+    public PlayerCharacteristic? Characteristics { get;  internal set; }
     public int TeamId { get; set; }
 
     public void AddNewMarketValueChanges(IEnumerable<MarketValueChange> marketValueChanges)

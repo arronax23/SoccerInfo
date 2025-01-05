@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SoccerInfo.Persistence.Data;
 
@@ -11,9 +12,11 @@ using SoccerInfo.Persistence.Data;
 namespace SoccerInfo.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250109203334_Add_Player_Charcteristics")]
+    partial class Add_Player_Charcteristics
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -200,7 +203,7 @@ namespace SoccerInfo.Persistence.Migrations
                     b.ToTable("Players");
                 });
 
-            modelBuilder.Entity("SoccerInfo.Persistence.Data.Models.PlayerCharacteristicsAggregate.GoalKeeperStats", b =>
+            modelBuilder.Entity("SoccerInfo.Persistence.Data.Models.PlayerCahracteristicsAggregate.GoalKeeperStats", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -214,8 +217,11 @@ namespace SoccerInfo.Persistence.Migrations
                     b.Property<int?>("GoalsConceded")
                         .HasColumnType("int");
 
-                    b.Property<int>("LeagueId")
-                        .HasColumnType("int");
+                    b.Property<string>("League")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LeagueBase64Image")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("MatchesPlayed")
                         .HasColumnType("int");
@@ -228,14 +234,12 @@ namespace SoccerInfo.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LeagueId");
-
                     b.HasIndex("PlayerCharacteristicId");
 
                     b.ToTable("GoalKeeperStats");
                 });
 
-            modelBuilder.Entity("SoccerInfo.Persistence.Data.Models.PlayerCharacteristicsAggregate.OutfieldPlayerStats", b =>
+            modelBuilder.Entity("SoccerInfo.Persistence.Data.Models.PlayerCahracteristicsAggregate.OutfieldPlayerStats", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -249,8 +253,11 @@ namespace SoccerInfo.Persistence.Migrations
                     b.Property<int?>("Goals")
                         .HasColumnType("int");
 
-                    b.Property<int>("LeagueId")
-                        .HasColumnType("int");
+                    b.Property<string>("League")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LeagueBase64Image")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("MatchesPlayed")
                         .HasColumnType("int");
@@ -263,14 +270,12 @@ namespace SoccerInfo.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LeagueId");
-
                     b.HasIndex("PlayerCharacteristicId");
 
                     b.ToTable("OutfieldPlayerStats");
                 });
 
-            modelBuilder.Entity("SoccerInfo.Persistence.Data.Models.PlayerCharacteristicsAggregate.PlayerCharacteristic", b =>
+            modelBuilder.Entity("SoccerInfo.Persistence.Data.Models.PlayerCahracteristicsAggregate.PlayerCharacteristic", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -278,13 +283,13 @@ namespace SoccerInfo.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime?>("ClubJoinDate")
+                    b.Property<DateTime>("ClubJoinDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("ContractExpirationDate")
+                    b.Property<DateTime>("ContractExpirationDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<float?>("Height")
+                    b.Property<float>("Height")
                         .HasColumnType("real");
 
                     b.Property<string>("LeadingFoot")
@@ -301,7 +306,7 @@ namespace SoccerInfo.Persistence.Migrations
                     b.ToTable("PlayerCharacteristics", (string)null);
                 });
 
-            modelBuilder.Entity("SoccerInfo.Persistence.Data.Models.PlayerCharacteristicsAggregate.SocialMedia", b =>
+            modelBuilder.Entity("SoccerInfo.Persistence.Data.Models.PlayerCahracteristicsAggregate.SocialMedia", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -323,31 +328,6 @@ namespace SoccerInfo.Persistence.Migrations
                     b.HasIndex("PlayerCharacteristicId");
 
                     b.ToTable("Socials", (string)null);
-                });
-
-            modelBuilder.Entity("SoccerInfo.Persistence.Data.Models.PlayerCharacteristicsAggregate.StatsLeague", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Base64Image")
-                        .HasMaxLength(-1)
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Name")
-                        .IsUnique()
-                        .HasFilter("[Name] IS NOT NULL");
-
-                    b.ToTable("StatsLeagues", (string)null);
                 });
 
             modelBuilder.Entity("SoccerInfo.Persistence.Data.Models.Team", b =>
@@ -417,49 +397,33 @@ namespace SoccerInfo.Persistence.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("SoccerInfo.Persistence.Data.Models.PlayerCharacteristicsAggregate.GoalKeeperStats", b =>
+            modelBuilder.Entity("SoccerInfo.Persistence.Data.Models.PlayerCahracteristicsAggregate.GoalKeeperStats", b =>
                 {
-                    b.HasOne("SoccerInfo.Persistence.Data.Models.PlayerCharacteristicsAggregate.StatsLeague", "League")
-                        .WithMany("GoalKeeperStats")
-                        .HasForeignKey("LeagueId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SoccerInfo.Persistence.Data.Models.PlayerCharacteristicsAggregate.PlayerCharacteristic", null)
+                    b.HasOne("SoccerInfo.Persistence.Data.Models.PlayerCahracteristicsAggregate.PlayerCharacteristic", null)
                         .WithMany("GoalKeeperStats")
                         .HasForeignKey("PlayerCharacteristicId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("League");
                 });
 
-            modelBuilder.Entity("SoccerInfo.Persistence.Data.Models.PlayerCharacteristicsAggregate.OutfieldPlayerStats", b =>
+            modelBuilder.Entity("SoccerInfo.Persistence.Data.Models.PlayerCahracteristicsAggregate.OutfieldPlayerStats", b =>
                 {
-                    b.HasOne("SoccerInfo.Persistence.Data.Models.PlayerCharacteristicsAggregate.StatsLeague", "League")
-                        .WithMany("OutfieldPlayerStats")
-                        .HasForeignKey("LeagueId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SoccerInfo.Persistence.Data.Models.PlayerCharacteristicsAggregate.PlayerCharacteristic", null)
+                    b.HasOne("SoccerInfo.Persistence.Data.Models.PlayerCahracteristicsAggregate.PlayerCharacteristic", null)
                         .WithMany("OutfieldPlayerStats")
                         .HasForeignKey("PlayerCharacteristicId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("League");
                 });
 
-            modelBuilder.Entity("SoccerInfo.Persistence.Data.Models.PlayerCharacteristicsAggregate.PlayerCharacteristic", b =>
+            modelBuilder.Entity("SoccerInfo.Persistence.Data.Models.PlayerCahracteristicsAggregate.PlayerCharacteristic", b =>
                 {
                     b.HasOne("SoccerInfo.Persistence.Data.Models.Player", null)
                         .WithOne("Characteristics")
-                        .HasForeignKey("SoccerInfo.Persistence.Data.Models.PlayerCharacteristicsAggregate.PlayerCharacteristic", "PlayerId")
+                        .HasForeignKey("SoccerInfo.Persistence.Data.Models.PlayerCahracteristicsAggregate.PlayerCharacteristic", "PlayerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("SoccerInfo.Persistence.Data.Models.PlayerCharacteristicsAggregate.BrithPlace", "BrithPlace", b1 =>
+                    b.OwnsOne("SoccerInfo.Persistence.Data.Models.PlayerCahracteristicsAggregate.BrithPlace", "BrithPlace", b1 =>
                         {
                             b1.Property<int>("PlayerCharacteristicId")
                                 .HasColumnType("int");
@@ -478,7 +442,7 @@ namespace SoccerInfo.Persistence.Migrations
                                 .HasForeignKey("PlayerCharacteristicId");
                         });
 
-                    b.OwnsOne("SoccerInfo.Persistence.Data.Models.PlayerCharacteristicsAggregate.NationalTeam", "NationalTeam", b1 =>
+                    b.OwnsOne("SoccerInfo.Persistence.Data.Models.PlayerCahracteristicsAggregate.NationalTeam", "NationalTeam", b1 =>
                         {
                             b1.Property<int>("PlayerCharacteristicId")
                                 .HasColumnType("int");
@@ -505,9 +469,9 @@ namespace SoccerInfo.Persistence.Migrations
                     b.Navigation("NationalTeam");
                 });
 
-            modelBuilder.Entity("SoccerInfo.Persistence.Data.Models.PlayerCharacteristicsAggregate.SocialMedia", b =>
+            modelBuilder.Entity("SoccerInfo.Persistence.Data.Models.PlayerCahracteristicsAggregate.SocialMedia", b =>
                 {
-                    b.HasOne("SoccerInfo.Persistence.Data.Models.PlayerCharacteristicsAggregate.PlayerCharacteristic", null)
+                    b.HasOne("SoccerInfo.Persistence.Data.Models.PlayerCahracteristicsAggregate.PlayerCharacteristic", null)
                         .WithMany("Socials")
                         .HasForeignKey("PlayerCharacteristicId");
                 });
@@ -533,20 +497,13 @@ namespace SoccerInfo.Persistence.Migrations
                     b.Navigation("MarketValueProgress");
                 });
 
-            modelBuilder.Entity("SoccerInfo.Persistence.Data.Models.PlayerCharacteristicsAggregate.PlayerCharacteristic", b =>
+            modelBuilder.Entity("SoccerInfo.Persistence.Data.Models.PlayerCahracteristicsAggregate.PlayerCharacteristic", b =>
                 {
                     b.Navigation("GoalKeeperStats");
 
                     b.Navigation("OutfieldPlayerStats");
 
                     b.Navigation("Socials");
-                });
-
-            modelBuilder.Entity("SoccerInfo.Persistence.Data.Models.PlayerCharacteristicsAggregate.StatsLeague", b =>
-                {
-                    b.Navigation("GoalKeeperStats");
-
-                    b.Navigation("OutfieldPlayerStats");
                 });
 
             modelBuilder.Entity("SoccerInfo.Persistence.Data.Models.Team", b =>

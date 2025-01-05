@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SoccerInfo.Persistence.Data.Models; 
+using SoccerInfo.Persistence.Data.Models;
+using SoccerInfo.Persistence.Data.Models.PlayerCharacteristicsAggregate;
 
 namespace SoccerInfo.Persistence.Data;
 
@@ -13,6 +14,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<MarketValueChange> MarketValueChanges { get; set; }
     public DbSet<Nationality> Nationalities { get; set; }
     public DbSet<CountryFlag_Lookup> CountryFlags_Lookup { get; set; }
+    public DbSet<StatsLeague> StatsLeagues { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

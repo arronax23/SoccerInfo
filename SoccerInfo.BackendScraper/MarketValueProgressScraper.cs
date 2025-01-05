@@ -10,7 +10,7 @@ public class MarketValueProgressScraper(IHttpClientFactory httpClientFactory)
     {
         using var client = httpClientFactory.CreateClient();
 
-        List<MarketValueProgressData> collectiondata = new();
+        List<MarketValueProgressData> collectionData = new();
 
         await Parallel.ForEachAsync(
             playersTransfermarktIds,
@@ -19,10 +19,10 @@ public class MarketValueProgressScraper(IHttpClientFactory httpClientFactory)
         {
             MarketValueProgressData progressData = await client.GetFromJsonAsync<MarketValueProgressModel>($"https://www.transfermarkt.com/ceapi/marketValueDevelopment/graph/{playerId}");
             progressData.PlayerTransfermarktId = playerId;
-            collectiondata.Add(progressData);
+            collectionData.Add(progressData);
         });
 
-        return collectiondata;
+        return collectionData;
     }
 
     public class MarketValueProgressData

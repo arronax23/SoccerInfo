@@ -297,24 +297,42 @@ a.not-decorated {
     border-radius: 1rem;
 
     display: grid;
-    grid-template-rows: 50px 50px 50px 50px 50px;
+    grid-template-rows: 30px 5px repeat(10, 25px);
     grid-template-columns: auto;
     grid-template-areas: 
+      "header header"
+      ". ."
+      "portrait name"
       "portrait name"
       "portrait age"
+      "portrait age"
       "portrait position"
+      "portrait position"
+      "portrait birthDate"
       "nationalities birthDate"
+      "nationalities marketValue"
       "nationalities marketValue";    
 }
 
 .player-general-info .portrait {
     grid-area: portrait;
     align-self: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .player-general-info .nationalities {
     grid-area: nationalities;
     align-self: center;
+}
+
+.player-general-info .header {
+    grid-area: header;
+    font-size: 1.25rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-bottom: 2px solid black;
 }
 
 
@@ -338,9 +356,8 @@ a.not-decorated {
     grid-area: marketValue;
 }
 
-
 .player-general-info img.nationality-img{
-    height: 50px;
+    height: 35px;
     margin: 0 .25rem;
     border: 3px solid #000;
     border-radius: .25rem;
@@ -364,8 +381,6 @@ a.not-decorated {
     border-radius: .25rem;
 }
 
-
-
 .market-value-tooltip .row{
     padding: 5px; 
 }
@@ -378,8 +393,16 @@ a.not-decorated {
     height: 2rem;
 }
 
-.chart {
+.chart-conatiner {
     border-radius: 1rem;
     padding: .5rem;
     background: #fff;
+}
+
+.chart-conatiner .header {
+    font-size: 1.25rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-bottom: 2px solid black;
+    margin-bottom: .5rem;
 }
