@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using SoccerInfo.FrontendScraper.AcceptCookies;
 using SoccerInfo.FrontendScraper.ScrapePlayersCharacterstics;
 using SoccerInfo.FrontendScraper.ScrapePlayersCharacterstics.Parsers;
 using SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo;
@@ -25,6 +26,8 @@ public static class ServiceCollectionExtensions
         services.AddScoped<NationalTeamParser>();
         services.AddScoped<SocialsParser>();
         services.AddScoped<StatsParser>();
+
+        services.AddScoped<CookiesExtractor>();
 
     }
 }

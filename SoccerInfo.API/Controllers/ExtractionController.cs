@@ -3,6 +3,7 @@ using SoccerInfo.Application.Commands.ExtarctBackend;
 using SoccerInfo.Application.Commands.ExtarctPlayers;
 using SoccerInfo.Application.Commands.ExtarctPlayersCharacteristics;
 using SoccerInfo.Application.Commands.SavePlayersCharacteristics;
+using SoccerInfo.Application.Commands.SaveTransfermarktCookie;
 using SoccerInfo.Application.Commands.UpdateTest;
 using SoccerInfo.Shared.CQRS;
 namespace SoccerInfoWeb.API.Controllers;
@@ -35,6 +36,13 @@ public class ExtractionController(ICommandDispatcher commandDispatcher) : Contro
         return Ok();
     }
 
+    [HttpPut("api/SaveTransfermarktCookie")]
+    public async Task<IActionResult> SaveTransfermarktCookie()
+    {
+        await commandDispatcher.Send(new SaveTransfermarktCookieCommand());
+        return Ok();
+    }
+
     [HttpPut("api/UpdateTest")]
     public async Task<IActionResult> UpdateTest()
     {
@@ -48,4 +56,5 @@ public class ExtractionController(ICommandDispatcher commandDispatcher) : Contro
         await commandDispatcher.Send(new ExtarctBackendCommand());
         return Ok();
     }
+
 }

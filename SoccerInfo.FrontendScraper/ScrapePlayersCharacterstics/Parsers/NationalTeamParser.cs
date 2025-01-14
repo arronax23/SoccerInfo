@@ -11,9 +11,12 @@ public class NationalTeamParser
     public void Parse(HtmlNode nationalTeamNode, PlayerCharacteristicsData playerCharacteristics)
     {
         var capsAndGoalsNodes = nationalTeamNode
-            .ChildNodes
-            .Single(x => x.InnerText.FormatExtractedString().StartsWith("Caps/Goals"))
+            .ChildNodes?
+            .SingleOrDefault(x => x.InnerText.FormatExtractedString().StartsWith("Caps/Goals"))?
             .QuerySelectorAll("a");
+
+        if (capsAndGoalsNodes == null)
+            return;
 
         playerCharacteristics.NationalTeam = new NationalTeamData()
         {

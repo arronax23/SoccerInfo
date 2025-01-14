@@ -37,17 +37,20 @@ public class PlayersCharacteristicsExtractor(
     {
         var playersCharacteristicsExtraction = new PlayersCharacteristicsExtractionData();
  
-        await playwrightManager.LaunchBrowser(headless: false);
+        await playwrightManager.LaunchBrowser(headless: true);
+
+        int playersScrapedCount = 0;
 
         try
         {
             await Parallel.ForEachAsync(playersExtraction,
-                new ParallelOptions { MaxDegreeOfParallelism = 3 },
+                new ParallelOptions { MaxDegreeOfParallelism = 5 },
                 async (playerExtraction, cancellationToken) =>
                 {
                     try
                     {
                         await GetPlayer(playerExtraction, playersCharacteristicsExtraction);
+                        Console.WriteLine($"Scraped players: {++playersScrapedCount}/{playersExtraction.Count()}");
                     }
                     catch (Exception ex)
                     {

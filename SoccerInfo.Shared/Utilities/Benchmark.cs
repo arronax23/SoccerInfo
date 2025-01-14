@@ -1,5 +1,5 @@
-﻿
-namespace SoccerInfo.Shared.Utilities;
+﻿namespace SoccerInfo.Shared.Utilities;
+
 public static class Benchmark
 {
     public static void ExecuteAndMeasureTime(Action action, string methodName)
@@ -29,7 +29,7 @@ public static class Benchmark
     {
         var startDate = DateTime.Now;
         var result = await func();
-        Console.WriteLine($"Execution time for {methodName}: {(DateTime.Now - startDate).TotalSeconds}");
+        await Console.Out.WriteLineAsync($"Execution time for {methodName}: {(DateTime.Now - startDate).TotalSeconds}");
         return result;
     }
 }

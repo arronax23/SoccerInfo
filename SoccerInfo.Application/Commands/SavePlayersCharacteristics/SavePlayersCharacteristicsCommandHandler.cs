@@ -1,14 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using SoccerInfo.FrontendScraper.ScrapePlayersCharacterstics;
 using SoccerInfo.FrontendScraper.ScrapePlayersCharacterstics.Dto;
-using SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo.Dto;
 using SoccerInfo.Persistence.Data;
-using SoccerInfo.Persistence.Data.Models;
 using SoccerInfo.Persistence.Data.Models.PlayerCharacteristicsAggregate;
 using SoccerInfo.Shared.CQRS;
-using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 
@@ -26,7 +22,7 @@ internal class SavePlayersCharacteristicsCommandHandler(
     {
         using var transaction = dbContext.Database.BeginTransaction();
 
-        string fileName = "characteristics_data_5.json";
+        string fileName = "characteristics_data_8.json";
         string jsonString = File.ReadAllText(fileName);
         PlayersCharacteristicsExtractionData extraction = 
             JsonSerializer.Deserialize<PlayersCharacteristicsExtractionData>(jsonString)!;
@@ -95,7 +91,7 @@ internal class SavePlayersCharacteristicsCommandHandler(
         var unchanged = entries.Where(x => x.State == EntityState.Unchanged).ToList();
 
         dbContext.SaveChanges();
-        await transaction.RollbackAsync();    
+        await transaction.CommitAsync();    
 
     }
 

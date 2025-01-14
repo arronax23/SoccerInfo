@@ -1,7 +1,6 @@
 import React from "react";
 
 const PlayerGeneralInfo = ({ playerGeneralInfo }) => {
-  console.log("playerGeneralInfo", playerGeneralInfo);
   return (
     <div className="player-general-info">
       <div className="header">
@@ -15,6 +14,7 @@ const PlayerGeneralInfo = ({ playerGeneralInfo }) => {
       <div className="nationalities">
         {playerGeneralInfo.nationalities.map((x) => (
           <img
+            key={x.country}
             className="nationality-img"
             title={x.country}
             src={`data:image/svg+xml; base64, ${x.countryFlagBase64Image}`}
@@ -29,15 +29,15 @@ const PlayerGeneralInfo = ({ playerGeneralInfo }) => {
         <div className="label">Age</div>
         <div className="content">{playerGeneralInfo.age}</div>
       </div>
-      <div className="position">
-        <div className="label">Position</div>
-        <div className="content">{playerGeneralInfo.position}</div>
-      </div>
       <div className="birth-date">
         <div className="label">Birth Date</div>
         <div className="content">
           {new Date(playerGeneralInfo.dateOfBirth).toLocaleDateString()}
         </div>
+      </div>      
+      <div className="position">
+        <div className="label">Position</div>
+        <div className="content">{playerGeneralInfo.position}</div>
       </div>
       <div className="market-value">
         <div className="label">Market Value</div>

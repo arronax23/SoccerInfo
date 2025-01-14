@@ -20,6 +20,7 @@ body {
 
 .navbar {
     position: fixed;
+    z-index: 5;
     background: white;
     top: 0;
     width: 100%;
@@ -290,15 +291,20 @@ a.not-decorated {
     gap: 2rem;
 }
 
-.player-general-info{
+/* Common */
+
+.player-general-info, .player-additional-info{
     width: 700px;
     background: #fff; 
     padding: .5rem;
     border-radius: 1rem;
-
+    box-shadow: 5px 5px 10px black;
     display: grid;
+}
+
+.player-general-info{
     grid-template-rows: 30px 5px repeat(10, 25px);
-    grid-template-columns: auto;
+    grid-template-columns: repeat(2,1fr);
     grid-template-areas: 
       "header header"
       ". ."
@@ -306,13 +312,14 @@ a.not-decorated {
       "portrait name"
       "portrait age"
       "portrait age"
-      "portrait position"
-      "portrait position"
       "portrait birthDate"
-      "nationalities birthDate"
+      "portrait birthDate"
+      "portrait position"
+      "nationalities position"
       "nationalities marketValue"
       "nationalities marketValue";    
 }
+
 
 .player-general-info .portrait {
     grid-area: portrait;
@@ -327,7 +334,7 @@ a.not-decorated {
     align-self: center;
 }
 
-.player-general-info .header {
+.player-general-info .header, .player-additional-info .header{
     grid-area: header;
     font-size: 1.25rem;
     font-weight: bold;
@@ -363,12 +370,12 @@ a.not-decorated {
     border-radius: .25rem;
 }
 
-.player-general-info .label {
+.player-general-info .label, .player-additional-info .label {
     font-weight: bold;
     text-transform: uppercase;
 }
 
-.player-general-info .content {
+.player-general-info .content , .player-additional-info .content {
     border-bottom: 2px solid black;
 }
 
@@ -380,6 +387,198 @@ a.not-decorated {
     border: 3px solid black;
     border-radius: .25rem;
 }
+
+
+/* Additonal Info */
+
+
+.player-additional-info {
+    grid-template-rows: 30px 5px repeat(6, 50px);
+    grid-template-columns: repeat(2,1fr);
+    grid-template-areas: 
+      "header header"
+      ". ."
+      "socials height"
+      "socials birthPlace"
+      "socials nationalTeam"
+      ". leadingFoot"
+      ". clubJoinDate"
+      ". contractExpirationDate";
+}
+
+
+.player-additional-info .height {
+    grid-area: height;
+}
+
+.player-additional-info .birth-place {
+    grid-area: birthPlace;
+}
+
+.player-additional-info .birth-place .content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: unset;
+}
+
+.player-additional-info .birth-place ,
+.player-additional-info .national-team{
+    display: flex;
+    border-bottom: 2px solid black;
+}
+
+
+.player-additional-info .national-team {
+    grid-area: nationalTeam;
+
+}
+
+.player-additional-info .national-team .center,
+.player-additional-info .birth-place .center
+{
+    width: 60%;
+}
+
+.player-additional-info .national-team .left,
+.player-additional-info .national-team .right,
+.player-additional-info .birth-place .left,
+.player-additional-info .birth-place .right
+{
+    width: 20%;
+}
+
+.player-additional-info .national-team .left,
+.player-additional-info .birth-place .left
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.player-additional-info .national-team .country,
+.player-additional-info .birth-place .country
+ {
+    display: flex;
+}
+
+.player-additional-info .national-team .country .country-flag-img,
+.player-additional-info .birth-place .country .country-flag-img
+{
+    height: 1.75rem;
+    border: 2px solid #000;
+    border-radius: .15rem;
+}
+
+.player-additional-info .national-team .content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: .3rem;
+    border-bottom: unset;
+}
+
+.player-additional-info .leading-foot {
+    grid-area: leadingFoot;
+}
+
+.player-additional-info .club-join-date {
+    grid-area: clubJoinDate;
+}
+
+.player-additional-info .contract-expiration-date {
+    grid-area: contractExpirationDate;
+}
+
+.player-additional-info .socials {
+    grid-area: socials;
+    align-self: end;
+}
+
+.player-additional-info .contract-expiration-date .content, 
+.player-additional-info .socials .content {
+    border-bottom: unset;
+}
+
+.player-additional-info .socials .content {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: .5rem;
+    position: relative;
+}
+
+.player-additional-info .socials .content::after {
+    content: "";
+    display:  block;
+    width: 75%;
+    height: 1px;
+    background-color: black;
+    position: absolute;
+    bottom:0
+} 
+
+.player-additional-info .socials .social-media img.icon {
+    cursor: pointer;
+    height: 2rem;
+}
+
+.player-additional-info .socials .social-media img.icon:hover {
+    opacity: .7;
+}
+
+/* Stats */
+.stats-container {
+    width: 700px;
+    background: #fff; 
+    padding: .5rem;
+    border-radius: 1rem;
+    box-shadow: 5px 5px 10px black;
+}
+
+.stats-container .header {
+    font-size: 1.25rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-bottom: 2px solid black;
+    margin-bottom: .5rem;
+}
+
+.stats-container .stats-labels{
+    display: grid;
+    grid-template-columns: repeat(5,1fr);    
+    grid-template-rows: auto
+}
+
+.stats-container .stats-label{
+    font-weight: bold;
+    align-self: center;
+    margin: .5rem 0;
+}
+
+.stats-container .stats-content {
+    display: grid;
+    grid-template-columns: repeat(5,1fr);    
+    grid-template-rows: auto
+}
+
+.stats-container .stats-content .stats-item{
+    align-self: center;
+    margin: .25rem 0;
+}
+
+.stats-container .stats-content .league-flag {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.stats-container .stats-content .league-flag img.league-icon{
+    height: 2.5rem;
+}
+
+/* Market value */
+
 
 .market-value-tooltip .row{
     padding: 5px; 
@@ -397,6 +596,7 @@ a.not-decorated {
     border-radius: 1rem;
     padding: .5rem;
     background: #fff;
+    box-shadow: 5px 5px 10px black;
 }
 
 .chart-conatiner .header {

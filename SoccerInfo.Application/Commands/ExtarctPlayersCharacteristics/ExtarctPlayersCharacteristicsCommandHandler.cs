@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SoccerInfo.FrontendScraper.ScrapePlayersCharacterstics;
+﻿using SoccerInfo.FrontendScraper.ScrapePlayersCharacterstics;
 using SoccerInfo.FrontendScraper.ScrapePlayersCharacterstics.Dto;
 using SoccerInfo.Persistence.Data;
 using SoccerInfo.Shared.CQRS;
@@ -13,21 +12,27 @@ internal class ExtarctPlayersCharacteristicsCommandHandler(
 {
     public async Task Handle(ExtarctPlayersCharacteristicsCommand request, CancellationToken cancellationToken)
     {
-        var extractionInput = dbContext.Players
+        await Benchmark.ExecuteAndMeasureTime(async () =>
+        {
+            var extractionInput = dbContext.Players
             .Where(x => !request.OnlyNewPlayers || x.Characteristics == null)
             .Take(request.PlayerCount)
             .Select(x => new PlayerExtractionData()
             {
                 TransfermarktId = x.TransfermarktId,
                 TransfermarktURL = x.TransfermarktURL,
-                isGoalkeeper =  x.Position == "Goalkeeper"
+                isGoalkeeper = x.Position == "Goalkeeper"
             });
 
-        var extraction = await extractor.TryExtract(extractionInput);
+            var extraction = await extractor.TryExtract(extractionInput);
 
-        if (extraction == null)
-            return;
+            if (extraction == null)
+                return;
 
-        await JsonSerializerToFile.Save(extraction, "characteristics_data_6.json");
+            await JsonSerializerToFile.Save(extraction, "characteristics_data_8.json");
+        }, "ExtarctPlayersCharacteristicsCommand (100 Players)");
+
+        Console.WriteLine("ExtarctPlayersCharacteristicsCommand has finished");
+
     }
 }
