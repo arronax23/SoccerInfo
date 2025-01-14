@@ -10,7 +10,6 @@ using SoccerInfo.Application;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddScoped<ImageFetcher>();
 builder.Services.AddTransient<ISqlExecutor, SqlExecutor>();
 builder.Services.AddScoped<IQueryDispatcher, QueryDispatcher>();
 builder.Services.AddScoped<ICommandDispatcher, CommandDispatcher>();
@@ -43,7 +42,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseAuthorization();
 

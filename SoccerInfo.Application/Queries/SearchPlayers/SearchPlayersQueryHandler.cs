@@ -22,7 +22,8 @@ internal class SearchPlayersQueryHandler(ISqlExecutor sqlExecutor) : IQueryHandl
                     l.LeagueImageBase64 FROM Players p
                   JOIN Teams t ON  t.Id = p.TeamId 
                   JOIN Leagues l on l.Id = t.LeagueId
-                  WHERE p.Name like '%{request.Keyword}%'")
+                  WHERE p.Name COLLATE Latin1_general_CI_AI
+                  LIKE '%{request.Keyword}%' COLLATE Latin1_general_CI_AI")
             .AsEnumerable());
     }
 }

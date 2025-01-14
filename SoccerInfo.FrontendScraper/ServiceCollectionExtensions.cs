@@ -13,6 +13,7 @@ public static class ServiceCollectionExtensions
     {
         services.AddSingleton<PuppeteerManager>();
         services.AddSingleton<PlaywrightManager>();
+        services.AddScoped<ImageFetcher>();
 
         services.AddScoped<PlayersGeneralInfoExtractor>();
         services.AddScoped<LeagueParser>();
