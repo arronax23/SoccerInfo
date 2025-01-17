@@ -7,6 +7,7 @@ using SoccerInfo.Shared.CQRS;
 using SoccerInfo.Infrastructure.CQRS;
 using SoccerInfo.Persistence.Data;
 using SoccerInfo.Application;
+using Microsoft.AspNetCore.HttpOverrides;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,6 +33,11 @@ builder.Services
 
 
 var app = builder.Build();
+
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+});
 
 app.UseDefaultFiles();
 app.UseStaticFiles();
