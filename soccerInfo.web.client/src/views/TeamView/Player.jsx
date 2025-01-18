@@ -26,7 +26,7 @@ const Player = ({
       <p className="dateOfBirth">
         {new Date(dateOfBirth).toLocaleDateString("pl-PL")}
       </p>
-      <p className="marketValue">
+      <p className="market-value">
         {marketValue}{marketValueUnit} €
       </p>
       <div className="nationalities">

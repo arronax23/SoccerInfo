@@ -1,5 +1,5 @@
-import React from "react";
-import { Link, useNavigate } from "react-router";
+import React, { useRef, useState } from "react";
+import { useNavigate } from "react-router";
 
 const Player = ({
   id,
@@ -11,26 +11,66 @@ const Player = ({
   leagueImageBase64,
 }) => {
   const navigate = useNavigate();
+  const playerOverview = useRef();
+  const teamImage = useRef();
+  const leagueImage = useRef();
+  const [allowPlayerOverviewHover, setAllowPlayerOverviewHover] = useState(true);
 
   return (
-    <div className="player-overview">
+    <div
+      ref={playerOverview}
+      onMouseMove={playerHover}
+      onMouseLeave={playerLeave}
+      onClick={() => navigate(`/player/${id}`)}
+      className="player-overview"
+    >
       <img
         className="face-image"
         src={`data:image/jpeg;base64,${faceImageBase64}`}
       />
-      <p className="name">{name}</p>
+      <p 
+        className="name">{name}</p>
       <img
-        onClick={() => navigate(`/team/${teamId}`)}
+        ref={teamImage}
+        onMouseOver={imageHover}
+        onClick={(e) => {
+          e.stopPropagation();
+          navigate(`/team/${teamId}`);
+        }}
         className="team-image"
         src={`data:image/jpeg;base64,${teamImageBase64}`}
       />
       <img
-        onClick={() => navigate(`/league/${leagueId}`)}
+        ref={leagueImage}
+        onMouseOver={imageHover}
+    
+        onClick={(e) => {
+          e.stopPropagation();
+          navigate(`/league/${leagueId}`);
+        }}
         className="league-image"
         src={`data:image/jpeg;base64,${leagueImageBase64}`}
       />
     </div>
   );
+  
+  function playerHover(e) {
+    if (!teamImage.current.matches(':hover') && !leagueImage.current.matches(':hover')) {
+      playerOverview.current.classList.add("active")
+    }
+  }
+
+  function playerLeave(e) {
+    playerOverview.current.classList.remove("active");
+  }
+  function imageHover(e) {
+    playerOverview.current.classList.remove("active")
+    setAllowPlayerOverviewHover(false);
+    e.stopPropagation();
+  }
+
+
+
 };
 
 export default Player;
