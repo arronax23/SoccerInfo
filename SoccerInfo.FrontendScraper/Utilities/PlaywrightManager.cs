@@ -1,7 +1,8 @@
-﻿using Microsoft.Playwright;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.Playwright;
 
 namespace SoccerInfo.FrontendScraper.Utilities;
-public class PlaywrightManager
+public class PlaywrightManager(ILogger<PlaywrightManager> logger)
 {
     private IBrowser _browser = null!;
     private IPlaywright _playwright = null!;
@@ -18,7 +19,7 @@ public class PlaywrightManager
         }
         catch (Exception ex)
         {
-            Console.WriteLine("Playwright LaunchBrowser Failed");
+            logger.LogError("Playwright LaunchBrowser Failed");
         }
     }
 

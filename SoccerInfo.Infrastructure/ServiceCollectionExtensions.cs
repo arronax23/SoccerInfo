@@ -4,9 +4,7 @@ static class ServiceCollectionExtensions
     public static void RegisterMediatR(this IServiceCollection services)
     {
         foreach (var marker in GetAssemblyMarkers())
-        {
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining(marker));
-        }
     }
 
     public static void RegisterAutoMapper(this IServiceCollection services)

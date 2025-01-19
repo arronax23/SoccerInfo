@@ -1,8 +1,9 @@
 ﻿using HtmlAgilityPack;
+using Microsoft.Extensions.Logging;
 
 namespace SoccerInfo.FrontendScraper.Utilities;
 
-public class Traverser
+public class Traverser(ILogger<Traverser> logger)
 {
     private readonly List<HtmlNode> _foundNodes = new List<HtmlNode>();
     public IReadOnlyCollection<HtmlNode> FoundNodes => _foundNodes;
@@ -11,13 +12,13 @@ public class Traverser
     {
         foreach (var node in _foundNodes)
         {
-            Console.WriteLine(node.InnerText);
+            logger.LogInformation(node.InnerText);
         }
     }
 
     public void DFS(HtmlNode node, Predicate<HtmlNode> endSelectorsPredicate, Predicate<HtmlNode> selectorsPredicate)
     {
-        //Console.WriteLine("Traversing");
+        //logger.LogInformation("Traversing");
         if (node.NodeType == HtmlNodeType.Text)
         {
             return;
@@ -32,7 +33,7 @@ public class Traverser
             return;
         }
 
-        //Console.WriteLine(node.OuterHtml);
+        //logger.LogInformation(node.OuterHtml);
 
         foreach (var child in node.ChildNodes)
         {
@@ -43,7 +44,7 @@ public class Traverser
 
     public void DFS(HtmlNode node, Predicate<HtmlNode> endSelectorsPredicate)
     {
-        //Console.WriteLine("Traversing");
+        //logger.LogInformation("Traversing");
         if (node.NodeType == HtmlNodeType.Text)
         {
             return;
@@ -54,7 +55,7 @@ public class Traverser
             return;
         }
 
-        //Console.WriteLine(node.OuterHtml);
+        //logger.LogInformation(node.OuterHtml);
 
         foreach (var child in node.ChildNodes)
         {

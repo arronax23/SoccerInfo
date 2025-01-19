@@ -1,4 +1,5 @@
-﻿using SoccerInfo.FrontendScraper.ScrapePlayersCharacterstics;
+﻿using Microsoft.Extensions.Logging;
+using SoccerInfo.FrontendScraper.ScrapePlayersCharacterstics;
 using SoccerInfo.FrontendScraper.ScrapePlayersCharacterstics.Dto;
 using SoccerInfo.Persistence.Data;
 using SoccerInfo.Shared.CQRS;
@@ -6,6 +7,7 @@ using SoccerInfo.Shared.Utilities;
 
 namespace SoccerInfo.Application.Commands.ExtarctPlayersCharacteristics;
 internal class ExtarctPlayersCharacteristicsCommandHandler(
+    ILogger<ExtarctPlayersCharacteristicsCommandHandler> logger,
     ApplicationDbContext dbContext,
     PlayersCharacteristicsExtractor extractor
     ) : ICommandHandler<ExtarctPlayersCharacteristicsCommand>
@@ -32,7 +34,7 @@ internal class ExtarctPlayersCharacteristicsCommandHandler(
             await JsonSerializerToFile.Save(extraction, "characteristics_data_8.json");
         }, "ExtarctPlayersCharacteristicsCommand (100 Players)");
 
-        Console.WriteLine("ExtarctPlayersCharacteristicsCommand has finished");
+        logger.LogInformation("ExtarctPlayersCharacteristicsCommand has finished");
 
     }
 }

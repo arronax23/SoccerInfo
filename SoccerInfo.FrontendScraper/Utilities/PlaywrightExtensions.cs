@@ -1,5 +1,6 @@
 ﻿using HtmlAgilityPack;
 using Microsoft.Playwright;
+using Serilog;
 
 namespace SoccerInfo.FrontendScraper.Utilities;
 
@@ -34,7 +35,7 @@ public static class PlaywrightExtensions
         }
         catch (Exception)
         {
-            Console.WriteLine("scrolling exception");
+            Log.Logger.Error("scrolling exception");
         }
 
     }

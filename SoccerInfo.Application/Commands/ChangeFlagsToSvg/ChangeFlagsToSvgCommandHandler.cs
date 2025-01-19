@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Nager.Country;
 using Nager.Country.Translation;
+using Serilog;
 using SoccerInfo.Persistence.Data;
 using SoccerInfo.Persistence.Data.Models;
 using SoccerInfo.Shared.CQRS;
@@ -12,6 +14,7 @@ using System.Reflection;
 namespace SoccerInfo.Application.Commands.ChangeFlagsToSvg;
 
 internal class ChangeFlagsToSvgCommandHandler(
+    ILogger<ChangeFlagsToSvgCommandHandler> logger,
     ApplicationDbContext dbContext
     ) : ICommandHandler<ChangeFlagsToSvgCommand>
 {
@@ -134,7 +137,7 @@ internal class ChangeFlagsToSvgCommandHandler(
         var countries = countryProvider.GetCountries();
         foreach (var country in countries)
         {
-            Console.WriteLine($"{country.Alpha2Code} - {country.CommonName} - {country.OfficialName} - {country.NativeName}");
+            Log.Logger.Information($"{country.Alpha2Code} - {country.CommonName} - {country.OfficialName} - {country.NativeName}");
             nagerList.Add((country.CommonName, country.Alpha2Code.ToString()));
         }
 
@@ -142,7 +145,7 @@ internal class ChangeFlagsToSvgCommandHandler(
 
 
 
-        Console.WriteLine(countries.Count());
+        Log.Logger.Information(countries.Count().ToString());
         return nagerList;
     }
 

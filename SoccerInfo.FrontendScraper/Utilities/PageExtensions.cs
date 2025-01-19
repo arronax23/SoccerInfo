@@ -1,5 +1,6 @@
 ﻿using HtmlAgilityPack;
 using PuppeteerSharp;
+using Serilog;
 namespace SoccerInfo.FrontendScraper.Utilities;
 
 public static class PageExtensions
@@ -63,7 +64,7 @@ public static class PageExtensions
         }
         catch (NavigationException ex)
         {
-            Console.WriteLine(ex.ToString());
+            Log.Logger.Error(ex.ToString());
             await page.CloseAsync();
         }
     }
@@ -80,7 +81,7 @@ public static class PageExtensions
         }
         catch (NavigationException ex)
         {
-            Console.WriteLine(ex.ToString());
+            Log.Logger.Error(ex.ToString());
         }
     }
 
@@ -99,7 +100,7 @@ public static class PageExtensions
         }
         catch (Exception)
         {
-            Console.WriteLine("scrolling exception");
+            Log.Logger.Error("scrolling exception");
         }
 
     }

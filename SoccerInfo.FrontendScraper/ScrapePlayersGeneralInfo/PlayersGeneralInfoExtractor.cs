@@ -3,13 +3,16 @@ using HtmlAgilityPack;
 using PuppeteerSharp;
 using SoccerInfo.Shared.Utilities;
 using SoccerInfo.FrontendScraper.Utilities;
-using static SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo.Dto.GeneralInfoExtractionData;
 using SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo.Parsers;
 using SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo.Dto;
+using Microsoft.Extensions.Logging;
+using static SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo.Dto.GeneralInfoExtractionData;
 
 namespace SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo;
 
 public class PlayersGeneralInfoExtractor(
+    ILogger<PlayersGeneralInfoExtractor> logger,
+    Traverser traverser,
     LeagueParser leagueParser,
     TeamParser teamParser,
     PlayerParser playerParser,
@@ -26,8 +29,8 @@ public class PlayersGeneralInfoExtractor(
         }
         catch (Exception ex)
         {
-            Console.WriteLine("Extraction has been stopped by following exception:");
-            Console.WriteLine(ex.ToString());
+            logger.LogError("Extraction has been stopped by following exception:");
+            logger.LogError(ex.ToString());
 
             await puppeteerManager.CloseBrowser();
 
@@ -77,7 +80,7 @@ public class PlayersGeneralInfoExtractor(
     {
         IPage page;
 
-        GoToLeague:
+        Retry:
         try
         {
             page = await puppeteerManager.Browser.NewPageAsync();
@@ -85,8 +88,8 @@ public class PlayersGeneralInfoExtractor(
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.ToString());
-            goto GoToLeague;
+            logger.LogError(ex.ToString());
+            goto Retry;
         }
 
 
@@ -105,7 +108,7 @@ public class PlayersGeneralInfoExtractor(
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                logger.LogError(ex.ToString());
                 goto GoToTeam;
             }
 
@@ -125,7 +128,6 @@ public class PlayersGeneralInfoExtractor(
         IReadOnlyCollection<HtmlNode>? playersNodes = null;
         var t_DFS = Benchmark.ExecuteAndGetTime(() =>
         {
-            Traverser traverser = new Traverser();
             traverser.DFS(playersTableNode, EndSelectorsSpecification);
             playersNodes = traverser.FoundNodes;
         }, "DFS");
@@ -139,9 +141,9 @@ public class PlayersGeneralInfoExtractor(
 
 
         if (t_DFS < t_Q)
-            Console.WriteLine("DFS Win");
+            logger.LogInformation("DFS Win");
         else
-            Console.WriteLine("QuerySelector win");
+            logger.LogInformation("QuerySelector win");
 
 
         foreach (var playerNode in playersNodes)

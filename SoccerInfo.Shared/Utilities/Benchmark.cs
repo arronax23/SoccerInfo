@@ -1,4 +1,6 @@
-﻿namespace SoccerInfo.Shared.Utilities;
+﻿using Serilog;
+
+namespace SoccerInfo.Shared.Utilities;
 
 public static class Benchmark
 {
@@ -6,14 +8,14 @@ public static class Benchmark
     {
         var startDate = DateTime.Now;
         action();
-        Console.WriteLine($"Execution time for {methodName}: {(DateTime.Now - startDate).TotalSeconds}");
+        Log.Logger.Information($"Execution time for {methodName}: {(DateTime.Now - startDate).TotalSeconds}");
     }
 
     public static double ExecuteAndGetTime(Action action, string methodName)
     {
         var startDate = DateTime.Now;
         action();
-        Console.WriteLine($"Execution time for {methodName}: {(DateTime.Now - startDate).TotalSeconds}");
+        Log.Logger.Information($"Execution time for {methodName}: {(DateTime.Now - startDate).TotalSeconds}");
         return (DateTime.Now - startDate).TotalSeconds;
     }
 
@@ -21,7 +23,7 @@ public static class Benchmark
     {
         var startDate = DateTime.Now;
         var result = func();
-        Console.WriteLine($"Execution time for {methodName}: {(DateTime.Now - startDate).TotalSeconds}");
+        Log.Logger.Information($"Execution time for {methodName}: {(DateTime.Now - startDate).TotalSeconds}");
         return result;
     }
 
@@ -29,7 +31,7 @@ public static class Benchmark
     {
         var startDate = DateTime.Now;
         var result = await func();
-        await Console.Out.WriteLineAsync($"Execution time for {methodName}: {(DateTime.Now - startDate).TotalSeconds}");
+        Log.Logger.Information($"Execution time for {methodName}: {(DateTime.Now - startDate).TotalSeconds}");
         return result;
     }
 }

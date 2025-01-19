@@ -1,16 +1,19 @@
 ﻿using HtmlAgilityPack;
 using HtmlAgilityPack.CssSelectors.NetCore;
+using Microsoft.Extensions.Logging;
 using SoccerInfo.FrontendScraper.Utilities;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using static SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo.Dto.GeneralInfoExtractionData;
 
 namespace SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo.Parsers;
-public class PlayerParser(ImageFetcher imageFetcher)
+public class PlayerParser(
+    ILogger<PlayerParser> logger,
+    ImageFetcher imageFetcher)
 {
     public async Task<PlayerData> Parse(HtmlNode node)
     {
-        await Console.Out.WriteLineAsync(node.QuerySelector(".hauptlink").InnerText.FormatExtractedString());
+        //await Console.Out.WriteLineAsync(node.QuerySelector(".hauptlink").InnerText.FormatExtractedString());
         var (dateOfBirth, age) = ParseAgeAndDateOfBirth(node.QuerySelectorAll(".zentriert").ElementAt(1).InnerText);
         var (marketValue, marketValueUnit) = ParseMarketValue(node.QuerySelector(".rechts.hauptlink").InnerText);
         var (transfermarktId, transfermarktURL) = ParseTransfermarktNavigationData(
@@ -75,14 +78,14 @@ public class PlayerParser(ImageFetcher imageFetcher)
             }
             else
             {
-                Console.WriteLine($"Could not Extract from {marketValueText}");
+                logger.LogWarning($"Could not Extract from {marketValueText}");
                 return (null, null);
             }
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"{nameof(ParseMarketValue)} exception");
-            Console.WriteLine(ex.ToString());
+            logger.LogWarning($"{nameof(ParseMarketValue)} exception");
+            logger.LogWarning(ex.ToString());
 
             return (null, null);
         }

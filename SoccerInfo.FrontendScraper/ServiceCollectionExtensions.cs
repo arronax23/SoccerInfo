@@ -16,6 +16,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<ImageFetcher>();
 
         services.AddScoped<PlayersGeneralInfoExtractor>();
+        services.AddScoped<Traverser>();
         services.AddScoped<LeagueParser>();
         services.AddScoped<TeamParser>();
         services.AddScoped<PlayerParser>();

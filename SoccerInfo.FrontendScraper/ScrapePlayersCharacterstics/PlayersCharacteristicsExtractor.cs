@@ -5,10 +5,12 @@ using SoccerInfo.FrontendScraper.ScrapePlayersCharacterstics.Parsers;
 using HtmlAgilityPack.CssSelectors.NetCore;
 using Microsoft.Playwright;
 using static SoccerInfo.FrontendScraper.ScrapePlayersCharacterstics.Dto.PlayersCharacteristicsExtractionData;
+using Microsoft.Extensions.Logging;
 
 namespace SoccerInfo.FrontendScraper.ScrapePlayersCharacterstics;
 
 public class PlayersCharacteristicsExtractor(
+    ILogger<PlayersCharacteristicsExtractor> logger,
     PlaywrightManager playwrightManager,
     CookieReader cookieReader,
     InfoTableParser infoTableParser,
@@ -24,8 +26,8 @@ public class PlayersCharacteristicsExtractor(
         }
         catch (Exception ex)
         {
-            Console.WriteLine("Extraction has been stopped by following exception:");
-            Console.WriteLine(ex.ToString());
+            logger.LogError("Extraction has been stopped by following exception:");
+            logger.LogError(ex.ToString());
 
             await playwrightManager.CloseBrowser();
 
@@ -50,11 +52,11 @@ public class PlayersCharacteristicsExtractor(
                     try
                     {
                         await GetPlayer(playerExtraction, playersCharacteristicsExtraction);
-                        Console.WriteLine($"Scraped players: {++playersScrapedCount}/{playersExtraction.Count()}");
+                        logger.LogInformation($"Scraped players: {++playersScrapedCount}/{playersExtraction.Count()}");
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine($"Error processing player \nId:{playerExtraction.TransfermarktId} \nURL:{playerExtraction.TransfermarktURL}: {ex}");
+                        logger.LogError($"Error processing player \nId:{playerExtraction.TransfermarktId} \nURL:{playerExtraction.TransfermarktURL}: {ex}");
                     }
                 });
         }
@@ -97,7 +99,7 @@ public class PlayersCharacteristicsExtractor(
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.ToString());
+            logger.LogError(ex.ToString());
             await page!.CloseAsync();
             goto Retry;
         }

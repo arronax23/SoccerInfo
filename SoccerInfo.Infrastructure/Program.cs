@@ -8,8 +8,11 @@ using SoccerInfo.Infrastructure.CQRS;
 using SoccerInfo.Persistence.Data;
 using SoccerInfo.Application;
 using Microsoft.AspNetCore.HttpOverrides;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddSerilog(cfg => cfg.ReadFrom.Configuration(builder.Configuration));
 
 builder.Services.AddTransient<ISqlExecutor, SqlExecutor>();
 builder.Services.AddScoped<IQueryDispatcher, QueryDispatcher>();
@@ -41,6 +44,7 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
 
 app.UseDefaultFiles();
 app.UseStaticFiles();
+app.UseSerilogRequestLogging();
 
 if (app.Environment.IsDevelopment())
 {
@@ -53,7 +57,6 @@ if (app.Environment.IsDevelopment())
 app.UseAuthorization();
 
 app.MapControllers();
-
 app.MapFallbackToFile("/index.html");
 
 app.Run();
