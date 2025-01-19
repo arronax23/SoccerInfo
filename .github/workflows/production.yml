@@ -33,7 +33,11 @@ jobs:
     - name: Build ASP.NET App
       run: |
         dotnet publish -c Release -o publish --runtime linux-x64
-
+        
+    - name: Rename playwright folder
+      run: |
+        mv ./publish/.playwright ./publish/playwright
+        
     - name: Upload build artifact
       uses: actions/upload-artifact@v3
       with:
@@ -59,9 +63,20 @@ jobs:
         key: ${{ secrets.VM_KEY }}
         source: publish/
         target: /var/www/app/
-        strip_components: 1
+        strip_components: 1        
         overwrite: true
-    
+        
+    - name: Rename playwright folder
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.VM_HOST }}
+        username: ${{ secrets.VM_USER }}
+        key: ${{ secrets.VM_KEY }}
+        port: 22
+        script: |
+          cd /var/www/app
+          sudo mv playwright .playwright
+          
     - name: Restart Application on VM
       uses: appleboy/ssh-action@master
       with:
@@ -71,4 +86,4 @@ jobs:
         port: 22
         script: |
           sudo systemctl restart soccer-info.service
-          
+                  
