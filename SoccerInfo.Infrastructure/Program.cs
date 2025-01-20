@@ -9,6 +9,9 @@ using SoccerInfo.Persistence.Data;
 using SoccerInfo.Application;
 using Microsoft.AspNetCore.HttpOverrides;
 using Serilog;
+using SoccerInfo.API;
+using Microsoft.OpenApi.Models;
+using SoccerInfo.API.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +22,7 @@ builder.Services.AddScoped<IQueryDispatcher, QueryDispatcher>();
 builder.Services.AddScoped<ICommandDispatcher, CommandDispatcher>();
 
 
+builder.Services.AddApiServices();
 builder.Services.AddApplicationServices();
 builder.Services.AddFrontendScraperServices();
 
@@ -28,7 +32,35 @@ builder.Services.RegisterMediatR();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.AddSecurityDefinition("ApiKey", new OpenApiSecurityScheme
+    {
+        Description = "API Key needed to access the endpoints. Add it to the request header with the name 'X-API-KEY'.",
+        Type = SecuritySchemeType.ApiKey,
+        Name = "X-Api-Key",
+        In = ParameterLocation.Header,
+        Scheme = "ApiKey"
+    });
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "ApiKey"
+                },
+                Scheme = "ApiKey",
+                Name = "ApiKey",
+                In = ParameterLocation.Header
+            },
+            new List<string>(){ builder.Configuration.GetValue<string>(AuthConstants.ApiKeySectionName)!}
+        }
+    });
+});
 
 builder.Services
     .AddDbContext<ApplicationDbContext>(options => 

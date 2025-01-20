@@ -20,6 +20,7 @@ public class PlaywrightManager(ILogger<PlaywrightManager> logger)
         catch (Exception ex)
         {
             logger.LogError("Playwright LaunchBrowser Failed");
+            logger.LogError(ex.ToString());
         }
     }
 
