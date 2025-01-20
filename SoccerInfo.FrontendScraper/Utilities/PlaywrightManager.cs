@@ -1,8 +1,9 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.Playwright;
 
 namespace SoccerInfo.FrontendScraper.Utilities;
-public class PlaywrightManager(ILogger<PlaywrightManager> logger)
+public class PlaywrightManager(IHostEnvironment hostEnvironment, ILogger<PlaywrightManager> logger)
 {
     private IBrowser _browser = null!;
     private IPlaywright _playwright = null!;
@@ -15,7 +16,19 @@ public class PlaywrightManager(ILogger<PlaywrightManager> logger)
         try
         {
             _playwright = await Playwright.CreateAsync();
-            _browser = await _playwright.Chromium.LaunchAsync(new() { Headless = headless });
+
+
+            if (hostEnvironment.IsProduction())
+            {
+                var rootPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                _browser = await _playwright.Chromium.LaunchAsync(new() 
+                { 
+                    Headless = headless,
+                    ExecutablePath = Path.Combine(rootPath, ".cache/ms-playwright/chromium_headless_shell-1148/chrome-linux")
+                });
+            }
+            else
+                _browser = await _playwright.Chromium.LaunchAsync(new() { Headless = headless });
         }
         catch (Exception ex)
         {

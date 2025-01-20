@@ -75,7 +75,7 @@ jobs:
         port: 22
         script: |
           cd /var/www/app
-          sudo mv playwright .playwright
+          sudo mv -f playwright .playwright
           
     - name: Restart Application on VM
       uses: appleboy/ssh-action@master
