@@ -8,13 +8,14 @@ public class ApiKeyAuthorizationFilter : Attribute, IAuthorizationFilter
 {
     public void OnAuthorization(AuthorizationFilterContext context)
     {
-        if (!context.HttpContext.Request.Headers.TryGetValue(AuthConstants.ApiKeyHeaderName, out var exctractedApiKey))
+        if (!context.HttpContext.Request.Headers.TryGetValue(AuthConstants.ApiKeyHeader, out var exctractedApiKey))
         {
             context.Result = new UnauthorizedObjectResult("Api key is missing");
+            return;
         }
 
         var configuration = context.HttpContext.RequestServices.GetRequiredService<IConfiguration>();
-        var apiKey = configuration.GetValue<string>(AuthConstants.ApiKeySectionName)!;
+        var apiKey = configuration.GetValue<string>(AuthConstants.ApiKeyAppsettingsSection)!;
 
         if (!apiKey.Equals(exctractedApiKey))
         {

@@ -17,18 +17,20 @@ public class PlaywrightManager(IHostEnvironment hostEnvironment, ILogger<Playwri
         {
             _playwright = await Playwright.CreateAsync();
 
+            //if (hostEnvironment.IsProduction())
+            //{
+            //    var rootPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            //    _browser = await _playwright.Chromium.LaunchAsync(new() 
+            //    { 
+            //        Headless = headless,
+            //        ExecutablePath = Path.Combine(rootPath, ".cache/ms-playwright/chromium_headless_shell-1148/chrome-linux")
+            //    });
+            //}
+            //else
+            //    _browser = await _playwright.Chromium.LaunchAsync(new() { Headless = headless });
 
-            if (hostEnvironment.IsProduction())
-            {
-                var rootPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-                _browser = await _playwright.Chromium.LaunchAsync(new() 
-                { 
-                    Headless = headless,
-                    ExecutablePath = Path.Combine(rootPath, ".cache/ms-playwright/chromium_headless_shell-1148/chrome-linux")
-                });
-            }
-            else
-                _browser = await _playwright.Chromium.LaunchAsync(new() { Headless = headless });
+
+            _browser = await _playwright.Chromium.LaunchAsync(new() { Headless = headless });
         }
         catch (Exception ex)
         {

@@ -1,18 +1,18 @@
-﻿using Microsoft.Playwright;
+﻿using Microsoft.Extensions.Hosting;
+using Microsoft.Playwright;
 
 namespace SoccerInfo.FrontendScraper.Utilities;
-public class CookieReader
+public class CookieReader(IHostEnvironment hostEnvironment)
 {
-    //public CookieParam[] ReadFromJsonFile()
-    //{
-    //    string jsonString = File.ReadAllText("./../SoccerInfo.FrontendScraper/Cookies.json");
-    //    return System.Text.Json.JsonSerializer.Deserialize<CookieParam[]>(jsonString)!;
-    //}
     public Cookie[] ReadFromJsonFile()
     {
-        string jsonString = File.ReadAllText("./../SoccerInfo.FrontendScraper/Cookies.json");
+        var jsonString = string.Empty;
+
+        if (hostEnvironment.IsProduction())
+            jsonString = File.ReadAllText("./Cookies.json");
+        else
+            jsonString = File.ReadAllText("./../SoccerInfo.FrontendScraper/Cookies.json");
+
         return System.Text.Json.JsonSerializer.Deserialize<Cookie[]>(jsonString)!;
     }
-
-
 }

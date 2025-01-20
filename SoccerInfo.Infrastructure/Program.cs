@@ -57,7 +57,7 @@ builder.Services.AddSwaggerGen(c =>
                 Name = "ApiKey",
                 In = ParameterLocation.Header
             },
-            new List<string>(){ builder.Configuration.GetValue<string>(AuthConstants.ApiKeySectionName)!}
+            new List<string>(){}
         }
     });
 });
@@ -65,7 +65,6 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services
     .AddDbContext<ApplicationDbContext>(options => 
         options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
-
 
 var app = builder.Build();
 
