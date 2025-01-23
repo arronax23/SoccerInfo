@@ -26,12 +26,12 @@ internal class ExtarctPlayersCharacteristicsCommandHandler(
                 isGoalkeeper = x.Position == "Goalkeeper"
             });
 
-            var extraction = await extractor.TryExtract(extractionInput);
+            var extraction = await extractor.TryExtract(extractionInput, cancellationToken);
 
             if (extraction == null)
                 return;
 
-            await JsonSerializerToFile.Save(extraction, "characteristics_data_8.json");
+            await JsonSerializerToFile.Save(extraction, "characteristics_data_production_8.json");
         }, "ExtarctPlayersCharacteristicsCommand (100 Players)");
 
         logger.LogInformation("ExtarctPlayersCharacteristicsCommand has finished");

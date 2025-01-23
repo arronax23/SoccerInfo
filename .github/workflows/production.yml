@@ -66,6 +66,17 @@ jobs:
         strip_components: 1        
         overwrite: true
         
+    - name: Remove old playwright folder
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.VM_HOST }}
+        username: ${{ secrets.VM_USER }}
+        key: ${{ secrets.VM_KEY }}
+        port: 22
+        script: |
+            cd /var/www/app
+            sudo rm -rf .playwright
+        
     - name: Rename playwright folder
       uses: appleboy/ssh-action@master
       with:

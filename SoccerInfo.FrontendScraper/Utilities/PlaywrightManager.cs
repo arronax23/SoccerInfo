@@ -1,17 +1,22 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Playwright;
 
 namespace SoccerInfo.FrontendScraper.Utilities;
-public class PlaywrightManager(IHostEnvironment hostEnvironment, ILogger<PlaywrightManager> logger)
+public class PlaywrightManager(
+    ILogger<PlaywrightManager> logger,
+    IHostEnvironment hostEnvironment,
+    IConfiguration configuration)
 {
     private IBrowser _browser = null!;
     private IPlaywright _playwright = null!;
 
     public IBrowser Browser => _browser;
+    public PlaywrightSettings Settings => new(configuration);
 
 
-    public async Task LaunchBrowser(bool headless)
+    public async Task LaunchBrowser(bool? headless = null)
     {
         try
         {
@@ -30,7 +35,7 @@ public class PlaywrightManager(IHostEnvironment hostEnvironment, ILogger<Playwri
             //    _browser = await _playwright.Chromium.LaunchAsync(new() { Headless = headless });
 
 
-            _browser = await _playwright.Chromium.LaunchAsync(new() { Headless = headless });
+            _browser = await _playwright.Chromium.LaunchAsync(new() { Headless = headless ?? Settings.Headless });
         }
         catch (Exception ex)
         {
@@ -44,5 +49,10 @@ public class PlaywrightManager(IHostEnvironment hostEnvironment, ILogger<Playwri
         await _browser.CloseAsync();
         await _browser.DisposeAsync();
         _playwright.Dispose();
+    }
+
+    public class PlaywrightSettings(IConfiguration configuration)
+    {
+        public bool Headless => configuration.GetValue<bool>("PlaywrightSettings:Headless");
     }
 }

@@ -6,11 +6,13 @@ using HtmlAgilityPack.CssSelectors.NetCore;
 using Microsoft.Playwright;
 using static SoccerInfo.FrontendScraper.ScrapePlayersCharacterstics.Dto.PlayersCharacteristicsExtractionData;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Configuration;
 
 namespace SoccerInfo.FrontendScraper.ScrapePlayersCharacterstics;
 
 public class PlayersCharacteristicsExtractor(
     ILogger<PlayersCharacteristicsExtractor> logger,
+    IConfiguration configuration,
     PlaywrightManager playwrightManager,
     CookieReader cookieReader,
     InfoTableParser infoTableParser,
@@ -18,11 +20,13 @@ public class PlayersCharacteristicsExtractor(
     SocialsParser socialsParser,
     StatsParser statsParser)
 {
-    public async Task<PlayersCharacteristicsExtractionData?> TryExtract(IEnumerable<PlayerExtractionData> playersExtraction)
+    public async Task<PlayersCharacteristicsExtractionData?> TryExtract(
+        IEnumerable<PlayerExtractionData> playersExtraction,
+        CancellationToken cancellationToken)
     {
         try
         {
-            return await Extarct(playersExtraction);
+            return await Extarct(playersExtraction, cancellationToken);
         }
         catch (Exception ex)
         {
@@ -35,11 +39,13 @@ public class PlayersCharacteristicsExtractor(
         }
     }
 
-    private async Task<PlayersCharacteristicsExtractionData> Extarct(IEnumerable<PlayerExtractionData> playersExtraction)
+    private async Task<PlayersCharacteristicsExtractionData> Extarct(
+        IEnumerable<PlayerExtractionData> playersExtraction,
+        CancellationToken cancellationToken)
     {
         var playersCharacteristicsExtraction = new PlayersCharacteristicsExtractionData();
- 
-        await playwrightManager.LaunchBrowser(headless: true);
+
+        await playwrightManager.LaunchBrowser();
 
         int playersScrapedCount = 0;
 
