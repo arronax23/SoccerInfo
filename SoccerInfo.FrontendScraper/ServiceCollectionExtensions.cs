@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Polly;
 using SoccerInfo.FrontendScraper.AcceptCookies;
+using SoccerInfo.FrontendScraper.Resilience;
 using SoccerInfo.FrontendScraper.ScrapePlayersCharacterstics;
 using SoccerInfo.FrontendScraper.ScrapePlayersCharacterstics.Parsers;
 using SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo;
@@ -28,6 +30,8 @@ public static class ServiceCollectionExtensions
         services.AddScoped<NationalTeamParser>();
         services.AddScoped<SocialsParser>();
         services.AddScoped<StatsParser>();
+        services.AddResiliencePipeline(CharacteristicsExtractionPipeline.Name, CharacteristicsExtractionPipeline.Configure);
+
 
         services.AddScoped<CookiesExtractor>();
 

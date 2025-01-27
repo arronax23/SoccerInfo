@@ -12,8 +12,7 @@ namespace SoccerInfo.Application.Commands.SavePlayersCharacteristics;
 
 internal class SavePlayersCharacteristicsCommandHandler(
     ApplicationDbContext dbContext,
-    IMapper mapper,
-    PlayersCharacteristicsExtractor extractor) 
+    IMapper mapper) 
     : ICommandHandler<SavePlayersCharacteristicsCommand>
 {
 
@@ -22,8 +21,9 @@ internal class SavePlayersCharacteristicsCommandHandler(
     {
         using var transaction = dbContext.Database.BeginTransaction();
 
-        string fileName = "characteristics_data_8.json";
+        string fileName = request.FileName.Trim();
         string jsonString = File.ReadAllText(fileName);
+
         PlayersCharacteristicsExtractionData extraction = 
             JsonSerializer.Deserialize<PlayersCharacteristicsExtractionData>(jsonString)!;
 

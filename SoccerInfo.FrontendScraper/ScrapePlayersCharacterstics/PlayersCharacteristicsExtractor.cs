@@ -4,15 +4,16 @@ using HtmlAgilityPack;
 using SoccerInfo.FrontendScraper.ScrapePlayersCharacterstics.Parsers;
 using HtmlAgilityPack.CssSelectors.NetCore;
 using Microsoft.Playwright;
-using static SoccerInfo.FrontendScraper.ScrapePlayersCharacterstics.Dto.PlayersCharacteristicsExtractionData;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Configuration;
+using Polly.Registry;
+using static SoccerInfo.FrontendScraper.ScrapePlayersCharacterstics.Dto.PlayersCharacteristicsExtractionData;
+using SoccerInfo.FrontendScraper.Resilience;
 
 namespace SoccerInfo.FrontendScraper.ScrapePlayersCharacterstics;
 
 public class PlayersCharacteristicsExtractor(
     ILogger<PlayersCharacteristicsExtractor> logger,
-    IConfiguration configuration,
+    ResiliencePipelineProvider<string> pipelineProvider,
     PlaywrightManager playwrightManager,
     CookieReader cookieReader,
     InfoTableParser infoTableParser,
@@ -52,12 +53,12 @@ public class PlayersCharacteristicsExtractor(
         try
         {
             await Parallel.ForEachAsync(playersExtraction,
-                new ParallelOptions { MaxDegreeOfParallelism = 5 },
+                new ParallelOptions { MaxDegreeOfParallelism = 4 },
                 async (playerExtraction, cancellationToken) =>
                 {
                     try
                     {
-                        await GetPlayer(playerExtraction, playersCharacteristicsExtraction);
+                        await GetPlayer(playerExtraction, playersCharacteristicsExtraction, cancellationToken);
                         logger.LogInformation($"Scraped players: {++playersScrapedCount}/{playersExtraction.Count()}");
                     }
                     catch (Exception ex)
@@ -74,41 +75,41 @@ public class PlayersCharacteristicsExtractor(
         return playersCharacteristicsExtraction;
     }
 
-    private async Task GetPlayer(PlayerExtractionData playerExtraction, PlayersCharacteristicsExtractionData playersCharacteristicsExtractionData)
+    private async Task GetPlayer(PlayerExtractionData playerExtraction, PlayersCharacteristicsExtractionData playersCharacteristicsExtractionData, CancellationToken cancellationToken)
     {
-        IPage? page = null;
+        var pipeline = pipelineProvider.GetPipeline(CharacteristicsExtractionPipeline.Name);
 
-        Retry:
-        try
+        await pipeline.ExecuteAsync(async cancellationToken =>
         {
-            page = await playwrightManager.Browser.NewPageAsync();
-            await page.Context.AddCookiesAsync(cookieReader.ReadFromJsonFile());
+            IPage page = null!;
 
-            await page.GotoAsync(Transfermarkt.BASE_URI + playerExtraction.TransfermarktURL, new PageGotoOptions()
+            try
             {
-                WaitUntil = WaitUntilState.DOMContentLoaded
-            });
+                page = await playwrightManager.Browser.NewPageAsync();
+                await page.Context.AddCookiesAsync(cookieReader.ReadFromJsonFile());
 
-            await page.ScrollToBottomAsync();
-            await page.WaitForSelectorAsync(".grid-table");
+                await page.GotoAsync(Transfermarkt.BASE_URI + playerExtraction.TransfermarktURL, new PageGotoOptions()
+                {
+                    WaitUntil = WaitUntilState.DOMContentLoaded
+                });
 
-            //var cookies = await page.GetCookies();
-            //await JsonSerializerToFile.Save(cookies, "./../SoccerInfo.FrontendScraper/Cookies.json");
+                await page.ScrollToBottomAsync();
+                await page.WaitForSelectorAsync(".grid-table");
 
-            var rootNode = await page.CreateHtmlNodeFromPage();
+                var rootNode = await page.CreateHtmlNodeFromPage();
 
-            playersCharacteristicsExtractionData.PlayersCharacteristics.Add(
-                await ParsePlayer(rootNode, playerExtraction.TransfermarktId, playerExtraction.isGoalkeeper));
+                playersCharacteristicsExtractionData.PlayersCharacteristics.Add(
+                    await ParsePlayer(rootNode, playerExtraction.TransfermarktId, playerExtraction.isGoalkeeper));
 
-            await page.CloseAsync();
-
-        }
-        catch (Exception ex)
-        {
-            logger.LogError(ex.ToString());
-            await page!.CloseAsync();
-            goto Retry;
-        }
+                await page.CloseAsync();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                await page.CloseAsync();
+                throw;
+            }
+        }, cancellationToken);
     }
 
 

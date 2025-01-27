@@ -9,4 +9,10 @@ public class CommandDispatcher(IMediator mediator) : ICommandDispatcher
     {
         await mediator.Send(command);
     }
+
+    public async Task Send(ICommand command, CancellationToken cancellationToken)
+    {
+        await mediator.Send(command, cancellationToken);
+    }
+
 }

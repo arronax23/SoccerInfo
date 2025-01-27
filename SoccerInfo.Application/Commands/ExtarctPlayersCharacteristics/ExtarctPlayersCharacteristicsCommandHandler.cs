@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using SoccerInfo.FrontendScraper.ScrapePlayersCharacterstics;
 using SoccerInfo.FrontendScraper.ScrapePlayersCharacterstics.Dto;
 using SoccerInfo.Persistence.Data;
@@ -14,7 +15,7 @@ internal class ExtarctPlayersCharacteristicsCommandHandler(
 {
     public async Task Handle(ExtarctPlayersCharacteristicsCommand request, CancellationToken cancellationToken)
     {
-        await Benchmark.ExecuteAndMeasureTime(async () =>
+        await Benchmark.ExecuteAndMeasureTimeAsync(async () =>
         {
             var extractionInput = dbContext.Players
             .Where(x => !request.OnlyNewPlayers || x.Characteristics == null)
@@ -24,15 +25,16 @@ internal class ExtarctPlayersCharacteristicsCommandHandler(
                 TransfermarktId = x.TransfermarktId,
                 TransfermarktURL = x.TransfermarktURL,
                 isGoalkeeper = x.Position == "Goalkeeper"
-            });
+            })
+            .ToList();
 
             var extraction = await extractor.TryExtract(extractionInput, cancellationToken);
 
             if (extraction == null)
                 return;
 
-            await JsonSerializerToFile.Save(extraction, "characteristics_data_production_8.json");
-        }, "ExtarctPlayersCharacteristicsCommand (100 Players)");
+            await JsonSerializerToFile.Save(extraction, "characteristics_data_production_9.json");
+        }, "ExtarctPlayersCharacteristicsCommand");
 
         logger.LogInformation("ExtarctPlayersCharacteristicsCommand has finished");
 

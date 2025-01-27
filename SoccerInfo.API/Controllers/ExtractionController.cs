@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using SoccerInfo.API.Authorization;
 using SoccerInfo.Application.Commands.ExtarctBackend;
 using SoccerInfo.Application.Commands.ExtarctPlayers;
@@ -21,20 +22,30 @@ public class ExtractionController(ICommandDispatcher commandDispatcher) : Contro
     }
 
     [HttpPut("api/ExtarctPlayersCharacteristics")]
-    public async Task<IActionResult> ExtarctPlayersCharacteristics(int playerCount, bool onlyNewPlayers)
+    public async Task<IActionResult> ExtarctPlayersCharacteristics(
+        int playerCount, 
+        bool onlyNewPlayers, 
+        CancellationToken cancellationToken)
     {
         await commandDispatcher.Send(new ExtarctPlayersCharacteristicsCommand()
         {
             PlayerCount  = playerCount,
             OnlyNewPlayers = onlyNewPlayers
-        });
+        }, 
+        cancellationToken);
         return Ok();
     }
 
     [HttpPut("api/SavePlayersCharacteristics")]
-    public async Task<IActionResult> SavePlayersCharacteristics()
+    public async Task<IActionResult> SavePlayersCharacteristics(string fileName)
     {
-        await commandDispatcher.Send(new SavePlayersCharacteristicsCommand());
+        if (fileName.IsNullOrEmpty())
+            return BadRequest();
+
+        await commandDispatcher.Send(new SavePlayersCharacteristicsCommand()
+        {
+            FileName = fileName
+        });
         return Ok();
     }
 
