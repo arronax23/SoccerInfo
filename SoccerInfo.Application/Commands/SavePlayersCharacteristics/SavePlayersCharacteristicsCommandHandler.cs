@@ -49,9 +49,13 @@ internal class SavePlayersCharacteristicsCommandHandler(
                 extractedCharacteristic.ClubJoinDate,
                 extractedCharacteristic.ContractExpirationDate);
 
-            dbPlayer.UpdateBirthPlace(
-                extractedCharacteristic.BrithPlace!.City!,
-                extractedCharacteristic.BrithPlace.Country!);
+
+            if (extractedCharacteristic.BrithPlace != null)
+            {
+                dbPlayer.UpdateBirthPlace(
+                    extractedCharacteristic.BrithPlace.City!,
+                    extractedCharacteristic.BrithPlace.Country!);
+            }
 
             if (extractedCharacteristic.NationalTeam != null)
             {
@@ -59,9 +63,12 @@ internal class SavePlayersCharacteristicsCommandHandler(
                     extractedCharacteristic.NationalTeam.Country!,
                     extractedCharacteristic.NationalTeam.Caps,
                     extractedCharacteristic.NationalTeam.Goals);
-            } 
+            }
 
-            dbPlayer.UpdateSocials(mapper.Map<IEnumerable<SocialMedia>>(extractedCharacteristic.Socials));
+            if (extractedCharacteristic.Socials != null)
+            { 
+                dbPlayer.UpdateSocials(mapper.Map<IEnumerable<SocialMedia>>(extractedCharacteristic.Socials));
+            }
 
             if (extractedCharacteristic.IsGoalkeeper)
             {
