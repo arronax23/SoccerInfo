@@ -11,6 +11,8 @@ public class StatsLeague : IEntity, IEquatable<StatsLeague>
     public ICollection<GoalKeeperStats>? GoalKeeperStats { get; set; }
     public ICollection<OutfieldPlayerStats>? OutfieldPlayerStats { get; set; }
 
+    private int _hashCode; 
+
     public bool Equals(StatsLeague? other)
     {
         if (other == null)

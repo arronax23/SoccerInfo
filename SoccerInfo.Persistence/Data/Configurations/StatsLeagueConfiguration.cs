@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SoccerInfo.Persistence.Data.Models.PlayerCharacteristicsAggregate;
+using System.Reflection.Emit;
 
 namespace SoccerInfo.Persistence.Data.Configurations;
 internal sealed class StatsLeagueConfiguration : IEntityTypeConfiguration<StatsLeague>
@@ -15,9 +16,6 @@ internal sealed class StatsLeagueConfiguration : IEntityTypeConfiguration<StatsL
         builder.Property(x => x.Base64Image)
             .HasMaxLength(-1);
 
-        builder.HasIndex(x => x.Name)
-            .IsUnique();
-
         builder.HasMany(x => x.OutfieldPlayerStats)
             .WithOne(y => y.League)
             .HasForeignKey(y => y.LeagueId);
@@ -25,5 +23,14 @@ internal sealed class StatsLeagueConfiguration : IEntityTypeConfiguration<StatsL
         builder.HasMany(x => x.GoalKeeperStats)
             .WithOne(y => y.League)
             .HasForeignKey(y => y.LeagueId);
+
+        builder.Property<string>("_HashCode")
+            .HasComputedColumnSql("CONVERT(varchar(64), HASHBYTES('SHA2_256', CONCAT(Name, Base64Image)), 1)")
+            .HasColumnName("_HashCode")
+            .IsRequired();
+
+        builder.HasIndex("_HashCode")
+            .IsUnique();
+
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SoccerInfo.Persistence.Data;
 
@@ -11,9 +12,11 @@ using SoccerInfo.Persistence.Data;
 namespace SoccerInfo.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250128212219_Remove_UniqueIndex_From_Name_StatsLeague")]
+    partial class Remove_UniqueIndex_From_Name_StatsLeague
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -341,17 +344,7 @@ namespace SoccerInfo.Persistence.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("_HashCode")
-                        .IsRequired()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("nvarchar(450)")
-                        .HasColumnName("_HashCode")
-                        .HasComputedColumnSql("CONVERT(varchar(64), HASHBYTES('SHA2_256', CONCAT(Name, Base64Image)), 1)");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("_HashCode")
-                        .IsUnique();
 
                     b.ToTable("StatsLeagues", (string)null);
                 });
