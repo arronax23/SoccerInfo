@@ -88,6 +88,16 @@ jobs:
           cd /var/www/app
           sudo mv -f playwright .playwright
           
+    - name: Add execute permisstion for .playwright node
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.VM_HOST }}
+        username: ${{ secrets.VM_USER }}
+        key: ${{ secrets.VM_KEY }}
+        port: 22
+        script: |
+          sudo chmod +x /var/www/app/.playwright/node/linux-x64/node         
+          
     - name: Restart Application on VM
       uses: appleboy/ssh-action@master
       with:
