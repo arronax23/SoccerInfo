@@ -304,6 +304,7 @@ a.not-decorated {
     flex-direction: column;
     align-items: center;
     gap: 2rem;
+    margin-bottom: 1rem;
 }
 
 /* Common */
