@@ -53,11 +53,13 @@ internal class SavePlayersCharacteristicsCommandHandler(
                 extractedCharacteristic.BrithPlace!.City!,
                 extractedCharacteristic.BrithPlace.Country!);
 
-
-            dbPlayer.UpdateNationalTeam(
-                extractedCharacteristic.NationalTeam!.Country!,
-                extractedCharacteristic.NationalTeam.Caps,
-                extractedCharacteristic.NationalTeam.Goals);
+            if (extractedCharacteristic.NationalTeam != null)
+            {
+                dbPlayer.UpdateNationalTeam(
+                    extractedCharacteristic.NationalTeam.Country!,
+                    extractedCharacteristic.NationalTeam.Caps,
+                    extractedCharacteristic.NationalTeam.Goals);
+            } 
 
             dbPlayer.UpdateSocials(mapper.Map<IEnumerable<SocialMedia>>(extractedCharacteristic.Socials));
 
