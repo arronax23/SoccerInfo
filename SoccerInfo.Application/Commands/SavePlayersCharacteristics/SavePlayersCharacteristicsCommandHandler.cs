@@ -100,7 +100,7 @@ internal class SavePlayersCharacteristicsCommandHandler(
         var unchanged = entries.Where(x => x.State == EntityState.Unchanged).ToList();
 
         dbContext.SaveChanges();
-        await transaction.RollbackAsync();    
+        await transaction.CommitAsync();    
 
     }
 

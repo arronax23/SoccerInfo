@@ -1,5 +1,4 @@
-﻿using Azure;
-using SoccerInfo.Persistence.Data.Models.Abstractions;
+﻿using SoccerInfo.Persistence.Data.Models.Abstractions;
 
 namespace SoccerInfo.Persistence.Data.Models.PlayerCharacteristicsAggregate;
 
@@ -10,8 +9,6 @@ public class StatsLeague : IEntity, IEquatable<StatsLeague>
     public string? Base64Image { get; set; }
     public ICollection<GoalKeeperStats>? GoalKeeperStats { get; set; }
     public ICollection<OutfieldPlayerStats>? OutfieldPlayerStats { get; set; }
-
-    private int _hashCode; 
 
     public bool Equals(StatsLeague? other)
     {
