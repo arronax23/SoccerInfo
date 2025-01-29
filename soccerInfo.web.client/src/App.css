@@ -4,10 +4,12 @@
 }
 
 body {
-    background: linear-gradient(to bottom right, #FDFCFB, #E2D1C3);
+    /* background: linear-gradient(to bottom right, #FDFCFB, #E2D1C3);
+    background-repeat: no-repeat; */
+    background: linear-gradient(135deg, #fff9f4, #E2D1C3);
     background-repeat: no-repeat;
-    /* color: #382633; */
 }
+
 
 #root {
     font-family: "Kanit", sans-serif;
