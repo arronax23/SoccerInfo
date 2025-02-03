@@ -216,6 +216,7 @@ a.not-decorated {
     width: 14rem;
     padding: 12px 32px;
 
+    caret-color: transparent;
     font-size: 14px;
     line-height: 18px;
     
@@ -240,6 +241,7 @@ a.not-decorated {
 }
 
 .search__input:focus {
+        caret-color: unset;
         padding: 12px .5rem;
         outline: 0;
         /* border: 1px solid transparent; */
