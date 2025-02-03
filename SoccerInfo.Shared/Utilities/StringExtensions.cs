@@ -1,4 +1,6 @@
-﻿namespace SoccerInfo.Shared.Utilities;
+﻿using System.Globalization;
+
+namespace SoccerInfo.Shared.Utilities;
 public static class StringExtensions
 {
     public static float ParseToFloat(this string text) => float.Parse(text);
@@ -6,7 +8,7 @@ public static class StringExtensions
     public static DateTime ParseToDate(this string text) => DateTime.Parse(text);
     public static float? TryParseToFloat(this string text)
     {
-        if (float.TryParse(text, out var result))
+        if (float.TryParse(text, CultureInfo.GetCultureInfo("pl-PL"), out var result))
             return result;
         else
             return null;

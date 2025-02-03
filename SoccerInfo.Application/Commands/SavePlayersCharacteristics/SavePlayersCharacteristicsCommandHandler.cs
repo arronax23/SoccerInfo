@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using SoccerInfo.FrontendScraper.ScrapePlayersCharacterstics;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using SoccerInfo.FrontendScraper.ScrapePlayersCharacterstics.Dto;
 using SoccerInfo.Persistence.Data;
 using SoccerInfo.Persistence.Data.Models.PlayerCharacteristicsAggregate;
+using SoccerInfo.Persistence.Transactions;
 using SoccerInfo.Shared.CQRS;
 using System.Text.Json;
 using System.Text.RegularExpressions;
@@ -11,6 +13,7 @@ using System.Text.RegularExpressions;
 namespace SoccerInfo.Application.Commands.SavePlayersCharacteristics;
 
 internal class SavePlayersCharacteristicsCommandHandler(
+    IConfiguration configuration,
     ApplicationDbContext dbContext,
     IMapper mapper) 
     : ICommandHandler<SavePlayersCharacteristicsCommand>
@@ -100,7 +103,7 @@ internal class SavePlayersCharacteristicsCommandHandler(
         var unchanged = entries.Where(x => x.State == EntityState.Unchanged).ToList();
 
         dbContext.SaveChanges();
-        await transaction.CommitAsync();    
+        await transaction.ResolveAsync(configuration);    
 
     }
 

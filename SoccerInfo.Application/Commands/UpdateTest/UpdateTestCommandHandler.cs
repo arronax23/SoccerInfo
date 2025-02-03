@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo.Dto;
 using SoccerInfo.Persistence.Data;
 using SoccerInfo.Persistence.Data.Models;
 using SoccerInfo.Persistence.Data.Models.Abstractions;
+using SoccerInfo.Persistence.Transactions;
 using SoccerInfo.Shared.CQRS;
 using System.Text.Json;
 using static SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo.Dto.GeneralInfoExtractionData;
@@ -11,6 +14,7 @@ using static SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo.Dto.GeneralInfo
 namespace SoccerInfo.Application.Commands.UpdateTest;
 
 internal class UpdateTestCommandHandler(
+    IConfiguration configuration,
     ApplicationDbContext dbContext,
     IMapper mapper) : ICommandHandler<UpdateTestCommand>
 {
@@ -80,7 +84,7 @@ internal class UpdateTestCommandHandler(
 
         await dbContext.SaveChangesAsync();    
 
-        await transaction.CommitAsync();
+        await transaction.ResolveAsync(configuration);
     }
 
 

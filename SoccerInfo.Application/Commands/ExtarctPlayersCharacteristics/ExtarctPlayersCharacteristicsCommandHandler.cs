@@ -18,8 +18,9 @@ internal class ExtarctPlayersCharacteristicsCommandHandler(
         await Benchmark.ExecuteAndMeasureTimeAsync(async () =>
         {
             var extractionInput = dbContext.Players
-            .Where(x => !request.OnlyNewPlayers || x.Characteristics == null)
-            .Take(request.PlayerCount)
+            //.Where(x => !request.OnlyNewPlayers || x.Characteristics == null)
+            //.Take(request.PlayerCount)
+            .Where(x => x.TransfermarktId == 648195)
             .Select(x => new PlayerExtractionData()
             {
                 TransfermarktId = x.TransfermarktId,
@@ -33,7 +34,7 @@ internal class ExtarctPlayersCharacteristicsCommandHandler(
             if (extraction == null)
                 return;
 
-            await JsonSerializerToFile.Save(extraction, "characteristics_data_production_9.json");
+            await JsonSerializerToFile.Save(extraction, "characteristics_data_production_11.json");
         }, "ExtarctPlayersCharacteristicsCommand");
 
         logger.LogInformation("ExtarctPlayersCharacteristicsCommand has finished");
