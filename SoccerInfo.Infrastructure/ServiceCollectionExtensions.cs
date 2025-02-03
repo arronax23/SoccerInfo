@@ -1,6 +1,7 @@
 ﻿namespace SoccerInfo.Infrastructure;
 static class ServiceCollectionExtensions
 {
+
     public static void RegisterMediatR(this IServiceCollection services)
     {
         foreach (var marker in GetAssemblyMarkers())

@@ -10,6 +10,8 @@ using SoccerInfo.Infrastructure.CQRS;
 using SoccerInfo.Persistence.Data;
 using SoccerInfo.Application;
 using SoccerInfo.Infrastructure.Swagger;
+using SoccerInfo.Persistence.JsonData;
+using SoccerInfo.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +24,7 @@ builder.Services.AddScoped<ICommandDispatcher, CommandDispatcher>();
 builder.Services.AddApiServices();
 builder.Services.AddApplicationServices();
 builder.Services.AddFrontendScraperServices();
+builder.Services.AddPersistenceServices();
 
 builder.Services.AddHttpClient();
 builder.Services.RegisterAutoMapper();

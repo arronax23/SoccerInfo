@@ -25,4 +25,8 @@
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SoccerInfo.Shared\SoccerInfo.Shared.csproj" />
+  </ItemGroup>
+
 </Project>
