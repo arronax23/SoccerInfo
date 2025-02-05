@@ -17,7 +17,9 @@ const Navbar = () => {
         <Link className="not-decorated" to="/players">
         <div className="nav-item">Players</div>
         </Link>
+        <Link className="not-decorated" to="/stats">
         <div className="nav-item">Stats</div>
+        </Link>        
       </div>
     </nav>
   );

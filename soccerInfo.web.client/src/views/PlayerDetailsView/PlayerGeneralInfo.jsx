@@ -1,11 +1,10 @@
 import React from "react";
+import { handleMarketValueDisplay } from "../../utils/utils";
 
 const PlayerGeneralInfo = ({ playerGeneralInfo }) => {
   return (
     <div className="player-general-info">
-      <div className="header">
-        General information
-      </div>
+      <div className="header">General information</div>
       <div className="portrait">
         <img
           src={`data:image/jpeg;base64,${playerGeneralInfo.faceImageBase64}`}
@@ -34,7 +33,7 @@ const PlayerGeneralInfo = ({ playerGeneralInfo }) => {
         <div className="content">
           {new Date(playerGeneralInfo.dateOfBirth).toLocaleDateString()}
         </div>
-      </div>      
+      </div>
       <div className="position">
         <div className="label">Position</div>
         <div className="content">{playerGeneralInfo.position}</div>
@@ -42,8 +41,10 @@ const PlayerGeneralInfo = ({ playerGeneralInfo }) => {
       <div className="market-value">
         <div className="label">Market Value</div>
         <div className="content">
-          {playerGeneralInfo.marketValue}
-          {playerGeneralInfo.marketValueUnit}€
+          {handleMarketValueDisplay(
+            playerGeneralInfo.marketValue,
+            playerGeneralInfo.marketValueUnit
+          )}
         </div>
       </div>
     </div>

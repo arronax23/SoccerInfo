@@ -23,11 +23,10 @@ internal class GetPlayerDetailsQueryHandler(
         if (player == null)
             return Task.FromResult(new PlayerDetailsDto());
 
-        var marketValueChanges = player.MarketValueProgress;
-        var teams = dbContext.Teams;
-
         var playerDetailsDto = mapper.Map<PlayerDetailsDto>(player);
-        playerDetailsDto.MarketValueChanges = marketValueChanges?.Select(Map);
+
+        if (player.MarketValueProgress != null && player.MarketValueProgress.Count > 0)
+            playerDetailsDto.MarketValueChanges = player.MarketValueProgress?.Select(Map);
 
         return Task.FromResult(playerDetailsDto);
     }

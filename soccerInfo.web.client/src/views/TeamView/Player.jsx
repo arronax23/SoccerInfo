@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router";
+import { handleMarketValueDisplay } from "../../utils/utils";
 
 const Player = ({
   id,
@@ -27,7 +28,7 @@ const Player = ({
         {new Date(dateOfBirth).toLocaleDateString("pl-PL")}
       </p>
       <p className="market-value">
-        {marketValue}{marketValueUnit} €
+        {handleMarketValueDisplay(marketValue, marketValueUnit)}
       </p>
       <div className="nationalities">
         {nationalityImages &&

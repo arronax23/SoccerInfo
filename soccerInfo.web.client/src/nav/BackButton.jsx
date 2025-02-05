@@ -8,8 +8,8 @@ const BackButton = () => {
     <div>
         {location.pathname !== '/' && (
                   <button className="go-back-btn" onClick={goBack}>
-                  <img src="/left-arrow.svg" alt="back" />
-                </button>
+                    <img src="/left-arrow.svg" alt="back" />
+                  </button>
         )}
     </div>
   );
