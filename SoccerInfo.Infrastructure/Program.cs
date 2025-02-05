@@ -10,7 +10,6 @@ using SoccerInfo.Infrastructure.CQRS;
 using SoccerInfo.Persistence.Data;
 using SoccerInfo.Application;
 using SoccerInfo.Infrastructure.Swagger;
-using SoccerInfo.Persistence.JsonData;
 using SoccerInfo.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
