@@ -39,7 +39,7 @@ jobs:
         mv ./publish/.playwright ./publish/playwright
         
     - name: Upload build artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: publish
         path: publish/
@@ -50,7 +50,7 @@ jobs:
 
     steps:
     - name: Download build artifact
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: publish
         path: publish/
