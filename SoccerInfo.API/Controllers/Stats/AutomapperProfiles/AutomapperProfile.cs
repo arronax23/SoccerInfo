@@ -1,13 +1,13 @@
 ﻿
 using AutoMapper;
 using SoccerInfo.API.Controllers.Stats.Requests;
-using SoccerInfo.Application.Queries.GetPlayersByStatsFilter;
+using static SoccerInfo.Application.Queries.GetPlayersByStats.GetPlayersByStatsQuery;
 
 namespace SoccerInfo.API.Controllers.Stats.AutomapperProfiles;
-internal class AutomapperProfile : Profile
+public class AutomapperProfile : Profile
 {
     public AutomapperProfile()
     {
-        CreateMap<PlayerStatsFilterRequest, GetPlayersByStatsFilterQuery>();
+        CreateMap<PlayerStatsFilterRequest, PlayerStatsFilterDto>();
     }
 }

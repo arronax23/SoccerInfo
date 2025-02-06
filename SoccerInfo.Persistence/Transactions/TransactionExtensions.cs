@@ -1,5 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore.Storage;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Configuration;
+using Serilog;
 
 namespace SoccerInfo.Persistence.Transactions;
 public enum TransactionResolveType
@@ -10,6 +13,18 @@ public enum TransactionResolveType
 
 public static class TransactionExtensions
 {
+    public static void ShowEntries(this ChangeTracker changeTracker)
+    {
+        var entries = changeTracker.Entries().ToList();
+        var added = changeTracker.Entries().Where(x => x.State == EntityState.Added).ToList();
+        var modified = changeTracker.Entries().Where(x => x.State == EntityState.Modified).ToList();
+        var unchanged = changeTracker.Entries().Where(x => x.State == EntityState.Unchanged).ToList();
+        var detached = changeTracker.Entries().Where(x => x.State == EntityState.Detached).ToList();
+
+        Log.Logger.Information(
+            $"Entires: ({entries.Count})\nAdded: ({added.Count})\nModified ({modified.Count})\nDetached: ({detached.Count})\n");
+    }
+
     public static async Task ResolveAsync(this IDbContextTransaction transaction, IConfiguration configuration)
     {
         var resolveType = configuration.GetValue<TransactionResolveType>("TransactionSettings:ResolveType");
@@ -27,4 +42,6 @@ public static class TransactionExtensions
         else if (resolveType == TransactionResolveType.Commit)
             await transaction.CommitAsync();
     }
+
+
 }

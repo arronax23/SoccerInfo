@@ -11,5 +11,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<UpdateNationalitiesToEnglishService>();
         services.AddScoped<MarketValueProgressScraper>();
         services.AddScoped<CustomMapper>();
+
+        services.AddScoped<Queries.GetPlayersByStats.QueryMapper>();
     }
 }

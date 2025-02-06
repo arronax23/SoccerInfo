@@ -60,6 +60,22 @@ public static class PlayerExtensions
         }
 	}
 
+    public static bool ContainsOutfieldPlayerStats(this Player player)
+    {
+        if (player.Characteristics?.OutfieldPlayerStats != null && player.Characteristics.OutfieldPlayerStats.Any())
+            return true;
+        else
+            return false;
+    }
+
+    public static bool ContainsGoalKeeperStats(this Player player)
+	{
+        if (player.Characteristics?.GoalKeeperStats != null && player.Characteristics.GoalKeeperStats.Any())
+			return true;
+		else 
+			return false;
+    }
+
 
     public static void UpdateStats<T>(this Player player, T stats) where T : StatsBase, new()
 	{

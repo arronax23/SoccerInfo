@@ -1,9 +1,9 @@
-﻿using SoccerInfo.Application.Queries.Dtos;
+﻿using SoccerInfo.Application.Queries.Dtos.StatsPlayerDto.Shared;
 using SoccerInfo.Shared.CQRS;
 
-namespace SoccerInfo.Application.Queries.GetPlayersByStatsFilter;
+namespace SoccerInfo.Application.Queries.GetPlayersByStats;
 
-public class GetPlayersByStatsFilterQuery : IQuery<IEnumerable<PlayerOverviewDto>>
+public class GetPlayersByStatsQuery : IQuery<IEnumerable<StatsPlayerBaseDto>>
 {
     public PlayerStatsFilterDto Filter { get; set; } = null!;
 
@@ -12,6 +12,9 @@ public class GetPlayersByStatsFilterQuery : IQuery<IEnumerable<PlayerOverviewDto
         public CriteriaType Criteria { get; set; }
         public IEnumerable<string>? Nationalities { get; set; }
         public IEnumerable<string>? Positions { get; set; }
+        public bool IsSortDescending { get; set; }
+        public int Take { get; set; }
+        public int Skip { get; set; }
 
         public enum CriteriaType
         {
@@ -19,7 +22,10 @@ public class GetPlayersByStatsFilterQuery : IQuery<IEnumerable<PlayerOverviewDto
             Goals,
             Assists,
             GoalsAndAssists,
+            CleanSheets,
+            GoalsConceded,
             Height,
+            Age,
             ContractExpiration
         }
     }

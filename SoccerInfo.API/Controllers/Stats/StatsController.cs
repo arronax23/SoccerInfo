@@ -1,22 +1,37 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using SoccerInfo.API.Authorization;
 using SoccerInfo.API.Controllers.Stats.Requests;
-using SoccerInfo.Application.Queries.Dtos;
-using SoccerInfo.Application.Queries.GetPlayersByStatsFilter;
+using SoccerInfo.Application.Commands.CalculatePlayerStatistics;
+using SoccerInfo.Application.Queries.GetPlayersByStats;
 using SoccerInfo.Shared.CQRS;
-using static SoccerInfo.Application.Queries.GetPlayersByStatsFilter.GetPlayersByStatsFilterQuery;
+using static SoccerInfo.Application.Queries.GetPlayersByStats.GetPlayersByStatsQuery;
 
 namespace SoccerInfo.API.Controllers.Stats;
 
 [ApiController]
-public class StatsController(IQueryDispatcher queryDispatcher, IMapper mapper) : ControllerBase
+public class StatsController(
+    IQueryDispatcher queryDispatcher,
+    ICommandDispatcher commandDispatcher,
+    IMapper mapper) : ControllerBase
 {
-    [HttpPost("api/GetPlayersByStatsFilter")]
-    public async Task<IEnumerable<PlayerOverviewDto>> GetPlayersByStatsFilter([FromBody] PlayerStatsFilterRequest filterRequest)
+    [HttpPost("api/GetPlayersByStats")]
+    public async Task<IActionResult> GetPlayersByStatsFilter([FromBody] PlayerStatsFilterRequest filterRequest)
     {
-        return await queryDispatcher.Send(new GetPlayersByStatsFilterQuery()
+        var statsPlayers = await queryDispatcher.Send(new GetPlayersByStatsQuery()
         {
             Filter = mapper.Map<PlayerStatsFilterDto>(filterRequest)
         });
+
+        return Ok(statsPlayers);
+    }
+
+    [ApiKeyAuthorizationFilter]
+    [HttpPost("api/CalculatePlayerStatistics")]
+    public async Task<IActionResult> CalculatePlayerStatistics()
+    {
+        await commandDispatcher.Send(new CalculatePlayerStatisticsCommand());
+
+        return Ok();
     }
 }

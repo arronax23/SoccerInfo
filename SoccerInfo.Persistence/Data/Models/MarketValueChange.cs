@@ -9,6 +9,7 @@ public class MarketValueChange : IEntity, IEquatable<MarketValueChange>
     public int Age { get; set; }
     public float? MarketValue { get; set; }
     public string? MarketValueUnit { get; set; } = string.Empty;
+    public float? MarketValueNormalized { get; set; }
     public DateTime ChangeDate { get; set; }
     public string Team { get; set; } = string.Empty;
     public int PlayerId { get; set; }
