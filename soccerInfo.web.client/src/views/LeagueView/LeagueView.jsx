@@ -1,4 +1,3 @@
-import React from 'react'
 import Teams from './Teams'
 import { useParams } from 'react-router'
 import League from './League'

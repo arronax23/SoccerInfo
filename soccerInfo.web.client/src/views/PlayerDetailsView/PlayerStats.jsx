@@ -1,5 +1,4 @@
-import React from "react";
-import { handleTextDisplay } from "../../utils/utils";
+import { handleTextDisplay } from "../../utils/formatter";
 
 const PlayerStats = ({ isGoalkeeper, stats }) => {
   return (

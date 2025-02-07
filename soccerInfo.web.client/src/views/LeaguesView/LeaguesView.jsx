@@ -12,6 +12,7 @@ function LeaguesView() {
       {leagues &&
         leagues.map((league) => (
           <League
+            key={league.id}
             id={league.id}
             name={league.name}
             leagueImageBase64={league.leagueImageBase64}

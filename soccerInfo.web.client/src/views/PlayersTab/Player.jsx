@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import { useRef } from "react";
 import { useNavigate } from "react-router";
 
 const Player = ({
@@ -14,7 +14,6 @@ const Player = ({
   const playerOverview = useRef();
   const teamImage = useRef();
   const leagueImage = useRef();
-  const [allowPlayerOverviewHover, setAllowPlayerOverviewHover] = useState(true);
 
   return (
     <div
@@ -28,8 +27,7 @@ const Player = ({
         className="face-image"
         src={`data:image/jpeg;base64,${faceImageBase64}`}
       />
-      <p 
-        className="name">{name}</p>
+      <p className="name">{name}</p>
       <img
         ref={teamImage}
         onMouseOver={imageHover}
@@ -43,7 +41,6 @@ const Player = ({
       <img
         ref={leagueImage}
         onMouseOver={imageHover}
-    
         onClick={(e) => {
           e.stopPropagation();
           navigate(`/league/${leagueId}`);
@@ -53,24 +50,23 @@ const Player = ({
       />
     </div>
   );
-  
-  function playerHover(e) {
-    if (!teamImage.current.matches(':hover') && !leagueImage.current.matches(':hover')) {
-      playerOverview.current.classList.add("active")
+
+  function playerHover() {
+    if (
+      !teamImage.current.matches(":hover") &&
+      !leagueImage.current.matches(":hover")
+    ) {
+      playerOverview.current.classList.add("active");
     }
   }
 
-  function playerLeave(e) {
+  function playerLeave() {
     playerOverview.current.classList.remove("active");
   }
   function imageHover(e) {
-    playerOverview.current.classList.remove("active")
-    setAllowPlayerOverviewHover(false);
+    playerOverview.current.classList.remove("active");
     e.stopPropagation();
   }
-
-
-
 };
 
 export default Player;

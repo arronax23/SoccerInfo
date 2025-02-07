@@ -1,14 +1,15 @@
-import React from "react";
 
-const StatsOption = ({ headerText }) => {
+const StatsOption = ({ optionCriteria, setIsPanelActive, setCurrentCriteria }) => {
   return (
-    <div onClick={openPanel} className="stats-option">{headerText}</div>
+    <div onClick={openPanel} className="stats-option">
+      {optionCriteria.Text}
+    </div>
   );
 
-  function openPanel(){
-    document.querySelector('.stats-panel-container').classList.toggle('active')
+  function openPanel() {
+    setIsPanelActive(true);
+    setCurrentCriteria(optionCriteria);
   }
-
 };
 
 export default StatsOption;

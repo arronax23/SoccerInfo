@@ -1,5 +1,4 @@
-import React from "react";
-import { handleMarketValueDisplay } from "../../utils/utils";
+import { handleMarketValueDisplay } from "../../utils/formatter";
 
 const PlayerGeneralInfo = ({ playerGeneralInfo }) => {
   return (

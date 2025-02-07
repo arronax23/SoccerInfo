@@ -1,4 +1,3 @@
-import React from "react";
 import { useNavigate } from "react-router";
 
 const League = ({ id, name, leagueImageBase64, countryFlagBase64 }) => {

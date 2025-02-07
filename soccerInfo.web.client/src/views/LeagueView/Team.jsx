@@ -1,4 +1,3 @@
-import React from 'react'
 import { useNavigate } from 'react-router'
 
 const Team = ({id, name, teamImageBase64 }) => {

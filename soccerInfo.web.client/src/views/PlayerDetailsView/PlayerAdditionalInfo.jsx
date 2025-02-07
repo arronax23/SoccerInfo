@@ -1,5 +1,4 @@
-import React from "react";
-import { handleTextDisplay, handleDateDisplay, handleHeightDisplay } from "../../utils/utils";
+import { handleTextDisplay, handleDateDisplay, handleHeightDisplay } from "../../utils/formatter";
 import FacebookIcon from "/socialMediaIcons/facebook-icon.svg";
 import XIcon from "/socialMediaIcons/x-icon.svg";
 import InstagramIcon from "/socialMediaIcons/instagram-icon.svg";

@@ -1,6 +1,5 @@
-import React from "react";
 import { useNavigate } from "react-router";
-import { handleMarketValueDisplay } from "../../utils/utils";
+import { handleMarketValueDisplay } from "../../utils/formatter";
 
 const Player = ({
   id,

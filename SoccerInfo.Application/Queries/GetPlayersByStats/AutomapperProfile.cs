@@ -10,10 +10,11 @@ public class AutomapperProfile : Profile
     public AutomapperProfile()
     {
         CreateMap<Player, StatsPlayerBaseDto>()
+            .ForMember(dest => dest.FaceImageBase64, opt => opt.MapFrom(src => src.FaceImageBase64))
             .ForMember(dest => dest.TeamId, opt => opt.MapFrom(src => src.TeamId))
-            .ForMember(dest => dest.LeagueId, opt => opt.MapFrom(src => src.Team.LeagueId));
-            //.ForMember(dest => dest.TeamImageBase64, opt => opt.MapFrom(src => src.Team.TeamImageBase64))
-            //.ForMember(dest => dest.LeagueImageBase64, opt => opt.MapFrom(src => src.Team.League!.LeagueImageBase64));
+            .ForMember(dest => dest.LeagueId, opt => opt.MapFrom(src => src.Team.LeagueId))
+            .ForMember(dest => dest.TeamImageBase64, opt => opt.MapFrom(src => src.Team.TeamImageBase64))
+            .ForMember(dest => dest.LeagueImageBase64, opt => opt.MapFrom(src => src.Team.League!.LeagueImageBase64));
 
         CreateMap<Player, StatsPlayerMarketValueDto>()
             .IncludeBase<Player, StatsPlayerBaseDto>()
@@ -54,6 +55,6 @@ public class AutomapperProfile : Profile
 
         CreateMap<Player, StatsPlayerContractExpirationDto>()
             .IncludeBase<Player, StatsPlayerBaseDto>()
-            .ForMember(dest => dest.ContractPeriod,opt => opt.MapFrom(src => src.Stats.ContractPeriod));   
+            .ForMember(dest => dest.ContractPeriod, opt => opt.MapFrom(src => src.Stats.ContractPeriod));   
     }
 }

@@ -632,14 +632,17 @@ a.not-decorated {
 /* Stats */
 
 .stats-view {
+    width: 50%;
+    margin: auto;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
     justify-content: center;
     align-items: center;
 }
 
 .stats-option {
-    width: 60%;
+    width: 10rem;
     background: #242423;
     color: white;
     position: relative;
@@ -651,9 +654,9 @@ a.not-decorated {
     text-transform: uppercase;
 }
 
-.stat-option:hover {
+.stats-option:hover {
     cursor: pointer;
-    opacity: .7;
+    opacity: 0.7;
 }
 
 .stats-panel-container {
@@ -667,7 +670,7 @@ a.not-decorated {
 
 }
 
-.stats-panel-container.active {
+.stats-panel-container {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -679,27 +682,72 @@ a.not-decorated {
     height: 85%;
     background: #fff;
     border-radius: 2rem;
+    border: 2px solid #fff;
+    
 }
 
-.stats-panel-exit {
-
+.stats-panel-header {
+    display: grid;
+    grid-template-columns: 1fr 25fr 1fr;
+    align-items: center;
+    width: 100%;
+    background: #000;
+    border-radius: 1.90rem 1.90rem 0 0;
+    padding: .25rem 0;
 }
 
-
-
-.close-btn {
+.stats-panel-header .close-btn {
     z-index: 15;
-    position: absolute;
     cursor: pointer;
     height: 3rem;
     width: 3rem;
-    position: fixed;
     border: none;
-    top:3rem;
-    right: 2rem;
     background: transparent;
 }
-.close-btn img {
+
+.stats-panel-header .close-btn:hover
+{
+    opacity: .7;
+}
+
+.stats-panel-header .close-btn img {
     width: 100%;
   
 }
+
+.stats-panel-header h1 {
+    font-size: 1.25rem;
+    color: #fff;
+}
+
+
+/* StatsPanel content */
+
+
+/* Table */
+
+.img-cell-wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* Custom scrollbar styles */
+.MuiTableContainer-root::-webkit-scrollbar {
+    width: .5rem;  /* Adjust width of the scrollbar */
+  }
+  
+  .MuiTableContainer-root::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.5); /* Thumb color */
+    border-radius: 4px;
+  }
+  
+  .MuiTableContainer-root::-webkit-scrollbar-track {
+    background: transparent; /* Track color */
+  }
+  
+  /* Hide scrollbar arrows (if applicable) */
+  .MuiTableContainer-root::-webkit-scrollbar-button {
+    display: none;
+  }
