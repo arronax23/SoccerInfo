@@ -17,11 +17,11 @@ public partial class Player : IEntity, IEquatable<Player>
     public string? FaceImageBase64 { get; set; }
     public int TransfermarktId { get; set; }
     public string TransfermarktURL { get; set; } = null!;
-    public ICollection<Nationality> Nationalities { get; set; } = null!;
-    public ICollection<MarketValueChange> MarketValueProgress { get; private set; } = null!;
-    public PlayerCharacteristic? Characteristics { get;  internal set; }
-    public PlayerStatistic Stats { get; set; } = null!;
-    public Team Team { get; set; } = null!;
+    public virtual ICollection<Nationality> Nationalities { get; set; } = null!;
+    public virtual ICollection<MarketValueChange> MarketValueProgress { get; private set; } = null!;
+    public virtual PlayerCharacteristic? Characteristics { get;  internal set; }
+    public virtual PlayerStatistic Stats { get; set; } = null!;
+    public virtual Team Team { get; set; } = null!;
     public int TeamId { get; set; }
 
     public void AddNewMarketValueChanges(IEnumerable<MarketValueChange> marketValueChanges)

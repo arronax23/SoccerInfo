@@ -7,8 +7,8 @@ public class StatsLeague : IEntity, IEquatable<StatsLeague>
     public int Id { get; set; }
     public string? Name { get; set; }
     public string? Base64Image { get; set; }
-    public ICollection<GoalKeeperStats>? GoalKeeperStats { get; set; }
-    public ICollection<OutfieldPlayerStats>? OutfieldPlayerStats { get; set; }
+    public virtual ICollection<GoalKeeperStats>? GoalKeeperStats { get; set; }
+    public virtual ICollection<OutfieldPlayerStats>? OutfieldPlayerStats { get; set; }
 
     public bool Equals(StatsLeague? other)
     {

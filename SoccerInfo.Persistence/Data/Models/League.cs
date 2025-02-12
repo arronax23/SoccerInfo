@@ -8,7 +8,7 @@ public class League : IEntity, IEquatable<League>
     public string? LeagueImageBase64 { get; set; }
     public string Country { get; set; } = null!;
     public string? CountryFlagBase64 { get; set; }
-    public ICollection<Team>? Teams { get; set; }
+    public virtual ICollection<Team>? Teams { get; set; }
 
     public bool Equals(League? other)
     {

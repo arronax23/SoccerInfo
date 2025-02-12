@@ -11,9 +11,9 @@ public class PlayerCharacteristic : IEntity
     public float? Height { get; set; }
     public DateTime? ClubJoinDate { get; set; }
     public DateTime? ContractExpirationDate { get; set; }
-    public ICollection<SocialMedia>? Socials { get; set; }
-    public ICollection<OutfieldPlayerStats>? OutfieldPlayerStats { get; set; }
-    public ICollection<GoalKeeperStats>? GoalKeeperStats { get; set; }
+    public virtual ICollection<SocialMedia>? Socials { get; set; }
+    public virtual ICollection<OutfieldPlayerStats>? OutfieldPlayerStats { get; set; }
+    public virtual ICollection<GoalKeeperStats>? GoalKeeperStats { get; set; }
     public int PlayerId { get; set; }
 
 }

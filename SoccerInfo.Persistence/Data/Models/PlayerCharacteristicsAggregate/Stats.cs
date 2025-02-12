@@ -8,7 +8,7 @@ public abstract class StatsBase : IEntity, IEquatable<StatsBase>
     public virtual StatsLeague League { get; protected set; } = null!;
     public virtual int? MatchesPlayed { get; protected set; }
     public virtual int? MinutesPlayed { get; protected set; }
-    public int LeagueId { get; set; }
+    public virtual int LeagueId { get; set; }
 
     public virtual void UpdateLeague(StatsLeague? league)
     {

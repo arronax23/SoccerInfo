@@ -14,11 +14,7 @@ internal class GetPlayerDetailsQueryHandler(
 {
     public Task<PlayerDetailsDto> Handle(GetPlayerDetailsQuery request, CancellationToken cancellationToken)
     {
-        var player = dbContext.Players
-            .Include(x => x.Nationalities)
-            .ThenInclude(y => y.CountryFlag)
-            .Include(x => x.MarketValueProgress)
-            .SingleOrDefault(x => x.Id == request.PlayerId);
+        var player = dbContext.Players.SingleOrDefault(x => x.Id == request.PlayerId);
 
         if (player == null)
             return Task.FromResult(new PlayerDetailsDto());

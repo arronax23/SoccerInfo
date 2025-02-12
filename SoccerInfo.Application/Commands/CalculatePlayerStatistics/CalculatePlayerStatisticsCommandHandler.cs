@@ -18,12 +18,7 @@ internal class CalculatePlayerStatisticsCommandHandler(IConfiguration configurat
         using var transaction = dbContext.Database.BeginTransaction();
         var statistics = new List<PlayerStatistic>();
 
-        var dbPlayers = dbContext.Players
-            .Include(p => p.Characteristics)
-            .ThenInclude(c => c.OutfieldPlayerStats)
-            .Include(p => p.Characteristics)
-            .ThenInclude(c => c.GoalKeeperStats)
-            .AsNoTracking();
+        var dbPlayers = dbContext.Players.AsNoTracking();
 
         foreach (var dbPlayer in dbPlayers)
         {

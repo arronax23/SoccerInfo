@@ -35,7 +35,9 @@ builder.Services.AddSwaggerGen(SwaggerHelper.Setup);
 
 builder.Services
     .AddDbContext<ApplicationDbContext>(options => 
-        options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
+        options
+            .UseLazyLoadingProxies()
+            .UseSqlServer(builder.Configuration.GetConnectionString("Default")));
 
 var app = builder.Build();
 

@@ -15,7 +15,7 @@ internal class ExtarctBackendCommandHandler(
 {
     public async Task Handle(ExtarctBackendCommand request, CancellationToken cancellationToken)
     {
-        var players = dbContext.Players.Include(x => x.MarketValueProgress);
+        var players = dbContext.Players;
         var extractedData = await Benchmark.ExecuteAndMeasureTimeAsync(async () => {
             return await marketValueProgressScraper.Scrape(players.Select(x => x.TransfermarktId));
         }, "Scrape All");

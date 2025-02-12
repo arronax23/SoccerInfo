@@ -42,7 +42,7 @@ internal class ChangeFlagsToSvgCommandHandler(
 
         var files = ReadFiles();
 
-        var nationalities = dbContext.Nationalities.Include(x=> x.CountryFlag).Where(x => x.CountryFlagId == null);
+        var nationalities = dbContext.Nationalities.Where(x => x.CountryFlagId == null);
 
         var ENG = nationalities.Single(x => x.Country == "England");
         var SCT = nationalities.Single(x => x.Country == "Scotland");

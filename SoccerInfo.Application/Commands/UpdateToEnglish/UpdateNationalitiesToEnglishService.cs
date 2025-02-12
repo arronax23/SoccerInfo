@@ -16,7 +16,7 @@ public class UpdateNationalitiesToEnglishService(
 
     public async Task Update(List<Nationality> extractedNationalities)
     {
-        var dbNationalities = dbContext.Nationalities.Include(x => x.CountryFlag).AsNoTracking();
+        var dbNationalities = dbContext.Nationalities.AsNoTracking();
         var dbCountryFlags = dbContext.CountryFlags_Lookup.AsNoTracking();
 
         var extractedNotFoundNationalities = UpdateNationalitiesWithMatchingNames(extractedNationalities, dbNationalities);

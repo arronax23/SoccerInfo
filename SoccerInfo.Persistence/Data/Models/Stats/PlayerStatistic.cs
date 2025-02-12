@@ -18,7 +18,7 @@ public class PlayerStatistic : IEntity
     public float? Height { get; set; }
     public DateRange? ContractPeriod { get; set; }
     public int PlayerId { get; set; } 
-    public Player Player { get; set; } = null!;
+    public virtual Player Player { get; set; } = null!;
 
 }
 

@@ -1,4 +1,5 @@
-﻿using SoccerInfo.Application.Queries.Dtos;
+﻿using Microsoft.EntityFrameworkCore;
+using SoccerInfo.Application.Queries.Dtos;
 using SoccerInfo.Persistence.Sql;
 using SoccerInfo.Shared.CQRS;
 
@@ -24,6 +25,7 @@ internal class GetPlayersQueryHandler(ISqlExecutor sqlExecutor) : IQueryHandler<
                 JOIN Nationalities ni ON np.NationalityId = ni.Id
                 JOIN CountryFlags_Lookup cf ON ni.CountryFlagId = cf.Id
                 WHERE p.TeamId = {request.TeamId}")
+            .AsNoTracking()
             .ToList()
             .GroupBy(x => x.Id)
             .Select(y => new PlayerDto()
@@ -39,9 +41,7 @@ internal class GetPlayersQueryHandler(ISqlExecutor sqlExecutor) : IQueryHandler<
                 NationalityImageBase64Collection = y.Select(z => z.NationalityImage),
             }));
     }
-
-
-    private class PlayerModel
+    public class PlayerModel
     {
         public int Id { get; set; }
         public string Name { get; set; } = null!;

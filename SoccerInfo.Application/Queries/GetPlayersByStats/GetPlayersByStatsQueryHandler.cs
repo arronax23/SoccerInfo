@@ -10,11 +10,7 @@ internal class GetPlayersByStatsQueryHandler(QueryMapper mapper, ApplicationDbCo
 {
     public Task<IEnumerable<StatsPlayerBaseDto>> Handle(GetPlayersByStatsQuery request, CancellationToken cancellationToken)
     {
-        var dbPlayers = dbContext.Players
-            .Include(p => p.Stats)
-            .Include(p => p.Team)
-            .ThenInclude(t => t.League)
-            .AsNoTracking();
+        var dbPlayers = dbContext.Players.AsNoTracking();
         
         var query = dbPlayers.ApplyFilter(request.Filter);
         var dto = mapper.Map(query, request.Filter.Criteria).AddIndex();

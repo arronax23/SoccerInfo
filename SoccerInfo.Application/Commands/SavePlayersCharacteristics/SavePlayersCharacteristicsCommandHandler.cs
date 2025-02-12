@@ -25,20 +25,12 @@ internal class SavePlayersCharacteristicsCommandHandler(
         using var transaction = dbContext.Database.BeginTransaction();
 
         string fileName = request.FileName.Trim();
-        string jsonString = File.ReadAllText(fileName);
+        string jsonString = File.ReadAllText(Path.Combine("JsonData", fileName));
 
         PlayersCharacteristicsExtractionData extraction = 
             JsonSerializer.Deserialize<PlayersCharacteristicsExtractionData>(jsonString)!;
 
-        var dbPlayers = dbContext.Players
-            .Include(x=> x.Characteristics)
-            .ThenInclude(y => y.Socials)
-            .Include(x => x.Characteristics)!
-            .ThenInclude(y => y.OutfieldPlayerStats)!
-            .ThenInclude(z => z.League)!
-            .Include(x => x.Characteristics)!
-            .ThenInclude(y => y.GoalKeeperStats)!
-            .ThenInclude(z => z.League);
+        var dbPlayers = dbContext.Players;
 
         var dbStatsLeagues = dbContext.StatsLeagues.ToList();
 

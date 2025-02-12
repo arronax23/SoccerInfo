@@ -20,17 +20,9 @@ internal class GetPlayerCharacteristicsQueryHandler(
         PlayerCharacteristic characteristic = null!;
 
         if (isGoalkeeper)
-            characteristic = dbContext.PlayerCharacteristics
-                .Include(x => x.Socials)!
-                .Include(x => x.GoalKeeperStats)!
-                .ThenInclude(y => y.League)
-                .Single(x => x.PlayerId == request.PlayerId);
+            characteristic = dbContext.PlayerCharacteristics.Single(x => x.PlayerId == request.PlayerId);
         else
-            characteristic = dbContext.PlayerCharacteristics
-                .Include(x => x.Socials)!
-                .Include(x => x.OutfieldPlayerStats)!
-                .ThenInclude(y => y.League)
-                .Single(x => x.PlayerId == request.PlayerId);
+            characteristic = dbContext.PlayerCharacteristics.Single(x => x.PlayerId == request.PlayerId);
 
 
         var dto = mapper.Map<PlayerCharacteristicsDto>(characteristic);
@@ -46,7 +38,6 @@ internal class GetPlayerCharacteristicsQueryHandler(
     private string? GetCountryBase64Image(string? countryName)
     {
         return dbContext.Nationalities
-            .Include(x => x.CountryFlag)
             .SingleOrDefault(x => x.Country == countryName)?
             .CountryFlag!.ImageSvgBase64;
     }

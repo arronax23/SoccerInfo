@@ -40,14 +40,7 @@ internal class UpdateToEnglishCommandHandler(
 
         //ChangeNationalitiesTracking(extractedLeagues);
 
-        var dbLeagues =
-            dbContext.Leagues
-            .AsNoTracking()!
-            .AsSplitQuery()!
-            .Include(x => x.Teams)!
-            .ThenInclude(y => y.Players)!
-            .ThenInclude(z => z.Nationalities);
-
+        var dbLeagues = dbContext.Leagues.AsNoTracking();
 
         foreach (var dbLeague in dbLeagues)
         {

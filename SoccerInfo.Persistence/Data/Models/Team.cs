@@ -7,9 +7,9 @@ public class Team : IEntity,  IEquatable<Team>
     public int Id { get; set; }
     public string Name { get; set; } = null!;
     public string? TeamImageBase64 { get; set; }
-    public ICollection<Player>? Players { get; set; }
+    public virtual ICollection<Player>? Players { get; set; }
     public int? LeagueId { get; set; }
-    public League? League { get; set; }
+    public virtual League? League { get; set; }
 
     public bool Equals(Team? other)
     {
