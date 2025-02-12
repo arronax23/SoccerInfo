@@ -1,6 +1,6 @@
 import { useState, useRef, useCallback } from "react";
 import Player from "./Player";
-import usePlayersSearch from "./../../utils/usePlayersSearch";
+import usePlayersSearch from "./usePlayersSearch";
 
 const PlayersView = () => {
   const [keyword, setKeyword] = useState("");

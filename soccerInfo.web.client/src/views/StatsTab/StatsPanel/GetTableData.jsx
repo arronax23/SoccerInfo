@@ -1,9 +1,10 @@
 import {
   handleMarketValueDisplay,
   handleDateRangeDisplay,
-} from "../../utils/formatter";
+} from "../../../utils/formatter";
 import { Box } from "@mui/material";
-export const getTableColumns = (criteria, data) => {
+
+export const getTableData = (criteria, data) => {
   const sharedColumns = [
     { accessorKey: "index", header: "#" },
     { accessorKey: "name", header: "Name" },

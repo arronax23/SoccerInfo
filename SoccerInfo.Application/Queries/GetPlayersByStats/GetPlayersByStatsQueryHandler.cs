@@ -13,7 +13,7 @@ internal class GetPlayersByStatsQueryHandler(QueryMapper mapper, ApplicationDbCo
         var dbPlayers = dbContext.Players.AsNoTracking();
         
         var query = dbPlayers.ApplyFilter(request.Filter);
-        var dto = mapper.Map(query, request.Filter.Criteria).AddIndex();
+        var dto = mapper.Map(query, request.Filter.Criteria).AddIndex(request.Filter.PageNumber, request.Filter.PageSize);
 
         return Task.FromResult(dto);  
     }

@@ -3,11 +3,11 @@
 namespace SoccerInfo.Application.Queries.GetPlayersByStats;
 internal static class QueryIndexing
 {
-    public static IEnumerable<T> AddIndex<T>(this IEnumerable<T> statsPlayers)
+    public static IEnumerable<T> AddIndex<T>(this IEnumerable<T> statsPlayers, int pageNumber, int pageSize)
         where T : StatsPlayerBaseDto
     {
         for (int i = 0; i < statsPlayers.Count(); i++)
-            statsPlayers.ElementAt(i).Index = i + 1;
+            statsPlayers.ElementAt(i).Index = (i + 1) + (pageNumber - 1) * pageSize;
 
         return statsPlayers;
 

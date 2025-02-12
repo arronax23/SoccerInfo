@@ -1,89 +1,63 @@
-import { useEffect, useState } from "react";
-import {
-  MaterialReactTable,
-  useMaterialReactTable,
-} from "material-react-table";
-import { getTableColumns } from "../ColumnsByCriteria";
+import { useEffect, useState, useCallback } from "react";
+import axios from "axios";
+import { MaterialReactTable } from "material-react-table";
+import { getTableData } from "./GetTableData";
+import useTableConfig from "./useTableConfig";
+import useStatsContentFetch from "./useStatsContentFetch";
 
 const StatsPanelContent = ({ criteria }) => {
-  const [stats, setStats] = useState([]);
-  const [columns, setColumns] = useState([]);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [descending, setIsDescending] = useState(true);
 
-  useEffect(() => {
-    console.log(criteria);
-    getStats();
-  }, []);
+  const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize, setPageSize] = useState(20);
 
-  // const columns =  [
-  //   { accessorKey: "id", header: "ID" },
-  //   { accessorKey: "name", header: "Player Name" },
-  // ];
+  // useEffect(() => {
+  //   console.log(criteria);
+  //   getStats();
+  // }, []);
 
-  // const table = useMaterialReactTable({
-  //   columns: columns,
-  // });
+  const { stats, columns, loading, hasMore }= useStatsContentFetch(
+    criteria, 
+    pageNumber, 
+    pageSize,
+    descending
+  )
 
-  const table = useMaterialReactTable({
-    columns: columns,
-    data: stats,
-    state: { isLoading: !isLoaded },
-    enablePagination: false,
-    enableRowVirtualization: true,
-    muiTableBodyCellProps: {
-      align: "center",
-      sx: {   
-        paddingTop: .5,
-        paddingBottom: .5,
-      },
-    }, 
-    muiTableHeadCellProps: {
-      align: "center",
-    },    
-    muiTableContainerProps: {
-      sx: { overflowY: "auto",overflowX: "hidden", maxHeight: "450px"}, // 👈 Set scroll here!
-    },
-    enableBottomToolbar: false
-  });
+  const incrementPageNumber =  useCallback(() => {
+    setPageNumber(prev => prev + 1)
+  }, [pageNumber]);
+
+  const table = useTableConfig(columns, stats, loading, incrementPageNumber);
 
   return (
     <div className="stats-panel-content">
-      {isLoaded && columns && stats && <MaterialReactTable table={table} />}
+      {columns && stats && <MaterialReactTable table={table} />}
     </div>
   );
 
-  async function getStats() {
-    const response = await fetch("/api/GetPlayersByStats", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        Criteria: criteria.Type,
-        Take: 25,
-        Skip: 0,
-        IsSortDescending: true,
-      }),
-    });
-    const data = await response.json();
-    console.log(data);
 
-    setColumns(
-      Object.keys(data[0]).map((key) => ({
-        header: key,
-        accessorKey: key,
-      }))
-    );
 
-    const tableInfo = getTableColumns(criteria, data);
+  // async function getStats() {
+  //   const response = await axios.post("/api/GetPlayersByStats", {
+  //     Criteria: criteria.Type,
+  //     PageNumber: 1,
+  //     PageSize: 10,
+  //     IsSortDescending: true,
+  //   });
 
-    console.log("columns: ", tableInfo.columns);
-    console.log("data: ", tableInfo.data);
+  //   const data = response.data;
 
-    setStats(tableInfo.data);
-    setColumns(tableInfo.columns);
-    setIsLoaded(true);
-  }
+  //   console.log(data);
+
+  //   const tableInfo = getTableData(criteria, data);
+
+  //   console.log("columns: ", tableInfo.columns);
+  //   console.log("data: ", tableInfo.data);
+
+  //   setStats(tableInfo.data);
+  //   setColumns(tableInfo.columns);
+  //   setIsLoaded(true);
+  // }
 };
 
 export default StatsPanelContent;

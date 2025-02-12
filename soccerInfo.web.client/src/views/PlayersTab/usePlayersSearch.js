@@ -18,17 +18,18 @@ export default function usePlayersSearch(keyword, pageNumber, pageSize) {
       url: `api/SearchPlayers/${keyword}/${pageNumber}/${pageSize}`,
       cancelToken: new axios.CancelToken((c) => (cancel = c)),
     })
-      .then((res) => {
-        setPlayers((prevPLayers) => {
-          return [...prevPLayers, ...res.data];
-        });
-        setHasMore(res.data.length > 0);
-        setLoading(false);
-      })
-      .catch((e) => {
-        if (axios.isCancel(e)) return;
-        console.log(e);
+    .then((res) => {
+      setPlayers((prevPLayers) => {
+        return [...prevPLayers, ...res.data];
       });
+      setHasMore(res.data.length > 0);
+      setLoading(false);
+    })
+    .catch((e) => {
+      if (axios.isCancel(e)) return;
+      console.log(e);
+    });
+
     return () => cancel();
   }, [keyword, pageNumber, pageSize]);
 
