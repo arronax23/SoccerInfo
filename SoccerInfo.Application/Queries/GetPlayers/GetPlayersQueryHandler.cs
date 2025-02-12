@@ -25,7 +25,6 @@ internal class GetPlayersQueryHandler(ISqlExecutor sqlExecutor) : IQueryHandler<
                 JOIN Nationalities ni ON np.NationalityId = ni.Id
                 JOIN CountryFlags_Lookup cf ON ni.CountryFlagId = cf.Id
                 WHERE p.TeamId = {request.TeamId}")
-            .AsNoTracking()
             .ToList()
             .GroupBy(x => x.Id)
             .Select(y => new PlayerDto()

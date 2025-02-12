@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using SoccerInfo.Application.Queries.Dtos;
 using SoccerInfo.Application.Queries.SearchPlayers;
 using SoccerInfo.Shared.CQRS;
 
@@ -8,12 +7,21 @@ namespace SoccerInfoWeb.API.Controllers;
 [ApiController]
 public class PlayersController(IQueryDispatcher queryDispatcher) : ControllerBase
 {
-    [HttpGet("api/SearchPlayers/{keyword}")]
-    public async Task<IEnumerable<PlayerOverviewDto>> SearchPlayers(string keyword)
+    [HttpGet("api/SearchPlayers/{keyword}/{pageNumber}/{pageSize}")]
+    public async Task<IActionResult> SearchPlayers(string keyword, int pageNumber, int pageSize)
     {
-        if (keyword == null || keyword.Length < 3)
-            return null;
+        if (pageNumber < 1)
+            return BadRequest("Page number starts with 1");
 
-        return await queryDispatcher.Send(new SearchPlayersQuery() { Keyword = keyword });
+        if (keyword == null || keyword.Length < 2)
+            return NoContent();
+
+        return Ok(await queryDispatcher.Send(
+            new SearchPlayersQuery() 
+            { 
+                Keyword = keyword, 
+                PageNumber = pageNumber, 
+                PageSize = pageSize 
+            }));
     }
 }

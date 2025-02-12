@@ -29,6 +29,7 @@ const StatsPanelContent = ({ criteria }) => {
     data: stats,
     state: { isLoading: !isLoaded },
     enablePagination: false,
+    enableRowVirtualization: true,
     muiTableBodyCellProps: {
       align: "center",
       sx: {   

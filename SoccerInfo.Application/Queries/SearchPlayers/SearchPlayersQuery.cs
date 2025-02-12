@@ -6,4 +6,6 @@ namespace SoccerInfo.Application.Queries.SearchPlayers;
 public class SearchPlayersQuery : IQuery<IEnumerable<PlayerOverviewDto>>
 {
     public string Keyword { get; set; } = string.Empty;
+    public int PageNumber { get; set; }
+    public int PageSize { get; set; } 
 }

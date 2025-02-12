@@ -1,20 +1,45 @@
-import { useEffect, useState } from "react";
+import { useState, useRef, useCallback } from "react";
 import Player from "./Player";
+import usePlayersSearch from "./../../utils/usePlayersSearch";
 
 const PlayersView = () => {
-  const [players, setPlayers] = useState();
   const [keyword, setKeyword] = useState("");
+  const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
 
-  useEffect(() => {
-    getPlayers();
-  }, [keyword]);
+  const { players, loading, hasMore } = usePlayersSearch(
+    keyword,
+    pageNumber,
+    pageSize
+  );
+
+  const observer = useRef();
+  const lastPlayerElementRef = useCallback(
+    (node) => {
+      if (loading) return;
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasMore) {
+          console.log("visible");
+          setPageNumber((prevPageNumber) => prevPageNumber + 1);
+        }
+      });
+      if (node) observer.current.observe(node);
+    },
+    [loading]
+  );
+
+  const handleSearch = (e) => {
+    setKeyword(e.target.value);
+    setPageNumber(1);
+  };
 
   return (
     <div className="container">
       <div className="search-players">
         <input
           value={keyword}
-          onChange={(e) => setKeyword(e.target.value)}
+          onChange={handleSearch}
           className="search__input"
           type="text"
           placeholder="Search players"
@@ -34,20 +59,11 @@ const PlayersView = () => {
               leagueId={p.leagueId}
             />
           ))}
+        <div>{loading && "Loading..."}</div>
+        <div ref={lastPlayerElementRef}></div>
       </div>
     </div>
   );
-
-  async function getPlayers() {
-    if (keyword.length < 3) {
-      return;
-    }
-
-    const response = await fetch(`/api/SearchPlayers/${keyword}`);
-    const data = await response.json();
-    console.log(data);
-    setPlayers(data);
-  }
 };
 
 export default PlayersView;

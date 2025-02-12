@@ -56,12 +56,12 @@ internal static class QueryFiltering
             _ => query
         };
 
-        return query.ApplyPagination(filter.Skip, filter.Take);
+        return query.ApplyPagination(filter.PageNumber, filter.PageSize);
     }
 
-    private static IQueryable<Player> ApplyPagination(this IQueryable<Player> query, int skip, int take)
+    private static IQueryable<Player> ApplyPagination(this IQueryable<Player> query, int pageNumber, int pageSize)
     {
-        return query.Skip(skip).Take(take);
+        return query.Skip((pageNumber - 1) * pageSize).Take(pageSize);
     }
 
     private static IQueryable<Player> Sort<TKey>(

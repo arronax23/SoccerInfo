@@ -18,6 +18,9 @@ public class StatsController(
     [HttpPost("api/GetPlayersByStats")]
     public async Task<IActionResult> GetPlayersByStatsFilter([FromBody] PlayerStatsFilterRequest filterRequest)
     {
+        if (filterRequest.PageNumber < 1)
+            return BadRequest("Page number starts with 1");
+
         var statsPlayers = await queryDispatcher.Send(new GetPlayersByStatsQuery()
         {
             Filter = mapper.Map<PlayerStatsFilterDto>(filterRequest)

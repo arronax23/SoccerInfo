@@ -1,6 +1,7 @@
 ﻿using SoccerInfo.Application.Queries.Dtos;
 using SoccerInfo.Persistence.Sql;
 using SoccerInfo.Shared.CQRS;
+using System.Linq;
 
 
 namespace SoccerInfo.Application.Queries.SearchPlayers;
@@ -24,6 +25,9 @@ internal class SearchPlayersQueryHandler(ISqlExecutor sqlExecutor) : IQueryHandl
                   JOIN Leagues l on l.Id = t.LeagueId
                   WHERE p.Name COLLATE Latin1_general_CI_AI
                   LIKE '%{request.Keyword}%' COLLATE Latin1_general_CI_AI")
-            .AsEnumerable());
+            .Skip((request.PageNumber - 1) * request.PageSize)
+            .Take(request.PageSize)
+            .AsEnumerable()
+        );
     }
 }

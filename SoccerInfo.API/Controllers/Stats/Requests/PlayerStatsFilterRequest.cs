@@ -6,8 +6,8 @@ public class PlayerStatsFilterRequest
     public IEnumerable<string>? Nationalities { get; set; }
     public IEnumerable<string>? Positions { get; set; }
     public bool IsSortDescending { get; set; }
-    public int Take { get; set; }
-    public int Skip { get; set; }
+    public int PageNumber { get; set; }
+    public int PageSize { get; set; }
 
     public enum CriteriaType
     {
