@@ -14,7 +14,7 @@ const PlayersView = () => {
   );
 
   const observer = useRef();
-  const lastPlayerElementRef = useCallback(
+  const bottomDivRef = useCallback(
     (node) => {
       if (loading) return;
       if (observer.current) observer.current.disconnect();
@@ -60,7 +60,7 @@ const PlayersView = () => {
             />
           ))}
         <div>{loading && "Loading..."}</div>
-        <div ref={lastPlayerElementRef}></div>
+        <div className="search-players-bottom" ref={bottomDivRef}></div>
       </div>
     </div>
   );

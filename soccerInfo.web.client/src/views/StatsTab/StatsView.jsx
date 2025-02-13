@@ -1,7 +1,7 @@
 import  { useState } from "react";
 import StatsOption from "./StatsOption";
 import StatsPanelContainer from "./StatsPanel/StatsPanelContainer";
-import Criterias from "./Criteria";
+import Criterias from "./StatsPanel/Helpers/Criterias";
 
 
 const StatsView = () => {

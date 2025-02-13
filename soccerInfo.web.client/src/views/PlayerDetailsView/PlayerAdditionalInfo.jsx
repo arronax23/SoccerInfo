@@ -1,4 +1,8 @@
-import { handleTextDisplay, handleDateDisplay, handleHeightDisplay } from "../../utils/formatter";
+import {
+  handleTextDisplay,
+  handleDateDisplay,
+  handleHeightDisplay,
+} from "../../utils/formatter";
 import FacebookIcon from "/socialMediaIcons/facebook-icon.svg";
 import XIcon from "/socialMediaIcons/x-icon.svg";
 import InstagramIcon from "/socialMediaIcons/instagram-icon.svg";
@@ -31,29 +35,50 @@ const PlayerAdditionalInfo = ({ playerAdditionalInfo }) => {
         </div>
         <div className="right"></div>
       </div>
-      <div className="national-team">
-        <div className="left">
-          <div className="country">
-            <img
-              className="country-flag-img"
-              title={playerAdditionalInfo.nationalTeam.country}
-              src={`data:image/svg+xml; base64, ${playerAdditionalInfo.nationalTeam.countryBase64Image}`}
-            />
-          </div>
-        </div>
-        <div className="center">
-          <div className="label">National team</div>
-          <div className="content">
-            <div className="caps">
-              <strong>Matches:</strong> {playerAdditionalInfo.nationalTeam.caps}
-            </div>
-            <div className="goals">
-              <strong>Goals:</strong> {playerAdditionalInfo.nationalTeam.goals}
+
+      {playerAdditionalInfo.nationalTeam != null ? (
+        <div className="national-team">
+          <div className="left">
+            <div className="country">
+              <img
+                className="country-flag-img"
+                title={playerAdditionalInfo.nationalTeam.country}
+                src={`data:image/svg+xml; base64, ${playerAdditionalInfo.nationalTeam.countryBase64Image}`}
+              />
             </div>
           </div>
+          <div className="center">
+            <div className="label">National team</div>
+            <div className="content">
+              <div className="caps">
+                <strong>Matches:</strong>{" "}
+                {playerAdditionalInfo.nationalTeam.caps}
+              </div>
+              <div className="goals">
+                <strong>Goals:</strong>{" "}
+                {playerAdditionalInfo.nationalTeam.goals}
+              </div>
+            </div>
+          </div>
+          <div className="right"></div>
         </div>
-        <div className="right"></div>
-      </div>
+      ) :
+      (
+        <div className="national-team">
+          <div className="left">
+
+          </div>
+          <div className="center">
+            <div className="label">National team</div>
+            <div className="content">
+              -
+            </div>
+          </div>
+          <div className="right"></div>
+        </div>
+      )
+      }
+
       <div className="leading-foot">
         <div className="label">Leading foot</div>
         <div className="content">

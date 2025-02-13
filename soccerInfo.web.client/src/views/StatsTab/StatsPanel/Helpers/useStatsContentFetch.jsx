@@ -1,38 +1,41 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { getTableData } from "./GetTableData";
+import  getTableData  from "./GetTableData";
+import  { useNavigate }  from "react-router";
 
-export default function useStatsContentFetch(criteria, pageNumber, pageSize, descending) {
+export default function useStatsContentFetch(requestFilter, criteriaText) {
   const [loading, setLoading] = useState(true);
   const [columns, setColumns] = useState([]);
   const [stats, setStats] = useState([]);
-  const [hasMore, setHasMore] = useState(false);
+
+  const navigate = useNavigate();
+
 
   useEffect(() => {
+    console.log("loading",loading)
+  }, [loading]);
+
+  useEffect(() => {
+    console.log("1",requestFilter)
     setColumns([]);
     setStats([]);
-  }, [criteria]);
+  }, [requestFilter.criteria, requestFilter.positions]);
 
   useEffect(() => {
+    console.log("2",requestFilter)
     setLoading(true);
 
     axios({
       method: "POST",
       url: "api/GetPlayersByStats",
-      data: {
-        Criteria: criteria.Type,
-        PageNumber: pageNumber,
-        PageSize: pageSize,
-        IsSortDescending: descending,
-      }
+      data: requestFilter
     })
     .then((res) => {
-      const newData = getTableData(criteria, res.data);
+      const newData = getTableData(criteriaText, res.data, navigate);
       setStats((prevStats) => {
         return [...prevStats, ...newData.data];
     });
       setColumns(newData.columns)
-      setHasMore(res.data.length > 0);
       setLoading(false);
     })
     .catch((e) => {
@@ -40,7 +43,7 @@ export default function useStatsContentFetch(criteria, pageNumber, pageSize, des
       console.log(e);
     });
 
-  }, [criteria, pageNumber, pageSize]);
+  }, [requestFilter.pageNumber, requestFilter.pageSize, requestFilter.positions]);
 
-  return { stats, columns, loading, hasMore };
+  return { stats, columns, loading };
 }

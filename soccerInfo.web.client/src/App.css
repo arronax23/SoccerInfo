@@ -260,6 +260,10 @@ a.not-decorated {
     align-items: center;
 }
 
+.search-players-bottom{
+    margin-bottom: 1rem; 
+}
+
 .player-overview {
     border-radius: .25rem;
     box-shadow: 5px 5px 10px black;
@@ -733,6 +737,14 @@ a.not-decorated {
 }
 
 
+.stats-panel .img-cell-wrapper.clickable:hover {
+    cursor: pointer;
+    transition: transform .25s;
+    transform: scale(1.25);
+
+}
+
+
 /* Custom scrollbar styles */
 .MuiTableContainer-root::-webkit-scrollbar {
     width: .5rem;  /* Adjust width of the scrollbar */
@@ -751,3 +763,17 @@ a.not-decorated {
   .MuiTableContainer-root::-webkit-scrollbar-button {
     display: none;
   }
+
+
+  .MuiInputBase-root {
+    width: 70% !important;
+    margin: auto !important;
+  }
+
+  /* .MuiTableCell-root {
+    width: 200px !important;
+  } */
+
+/* .Mui-TableHeadCell-Content-Labels {
+    padding: 0 !important;
+ } */

@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
 using SoccerInfo.Application.Queries.Dtos;
 using SoccerInfo.Persistence.Data;
 using SoccerInfo.Persistence.Data.Models.PlayerCharacteristicsAggregate;
@@ -29,7 +28,9 @@ internal class GetPlayerCharacteristicsQueryHandler(
 
         dto.IsGoalkeeper = isGoalkeeper;
         dto.BrithPlace!.CountryBase64Image = GetCountryBase64Image(dto.BrithPlace.Country);
-        dto.NationalTeam!.CountryBase64Image = GetCountryBase64Image(dto.NationalTeam.Country);
+
+        if (dto.NationalTeam != null)
+            dto.NationalTeam.CountryBase64Image = GetCountryBase64Image(dto.NationalTeam.Country);
 
         return Task.FromResult(dto);
     }

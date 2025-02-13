@@ -10,11 +10,5 @@ internal static class QueryIndexing
             statsPlayers.ElementAt(i).Index = (i + 1) + (pageNumber - 1) * pageSize;
 
         return statsPlayers;
-
-        //return statsPlayers.Select((player, index) =>
-        //{
-        //    player.Index = index + 1;
-        //    return player;
-        //});
     }
 }

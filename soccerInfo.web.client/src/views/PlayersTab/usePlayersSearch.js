@@ -11,6 +11,8 @@ export default function usePlayersSearch(keyword, pageNumber, pageSize) {
   }, [keyword]);
 
   useEffect(() => {
+    if(keyword < 2) return;
+    
     setLoading(true);
     let cancel;
     axios({
