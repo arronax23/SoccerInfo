@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using SoccerInfo.API.Authorization;
 using SoccerInfo.API.Controllers.Stats.Requests;
 using SoccerInfo.Application.Commands.CalculatePlayerStatistics;
+using SoccerInfo.Application.Queries.Dtos;
 using SoccerInfo.Application.Queries.GetPlayersByStats;
+using SoccerInfo.Application.Queries.GetStatsFilteringOptions;
 using SoccerInfo.Shared.CQRS;
 using static SoccerInfo.Application.Queries.GetPlayersByStats.GetPlayersByStatsQuery;
 
@@ -27,6 +29,12 @@ public class StatsController(
         });
 
         return Ok(statsPlayers);
+    }
+
+    [HttpGet("api/GetStatsFilteringOptions")]
+    public async Task<StatsFilteringOptionsDto> GetStatsFilteringOptions()
+    {
+        return await queryDispatcher.Send(new GetStatsFilteringOptionsQuery());
     }
 
     [ApiKeyAuthorizationFilter]

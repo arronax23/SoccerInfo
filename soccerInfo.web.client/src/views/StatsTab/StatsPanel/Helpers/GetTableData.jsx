@@ -3,15 +3,15 @@ import {
   handleDateRangeDisplay,
 } from "../../../../utils/formatter";
 import { Box } from "@mui/material";
-import Positions from "./Positions";
 
-export default function getTableData(criteriaText, data, navigate) {
+export default function getTableData(criteriaText, data, filteringOptions, navigate) {
+  console.log('f',filteringOptions)
   const sharedColumns = [
     { accessorKey: "index", header: "#", enableColumnFilter: false, size: 70 },
     // { accessorKey: "name", header: "Name",enableColumnFilter: false,filterVariant: "select",filterSelectOptions: ["Robert Lewandowski", "Canada", "Brazil", "Germany", "France"]  },
     { accessorKey: "name", header: "Name", enableColumnFilter: false, size: 130 },
     {
-      accessorKey: "faceImageBase64",
+      accessorKey: "portrait",
       header: "Portrait",
       enableColumnFilter: false,
       size: 100,
@@ -33,12 +33,14 @@ export default function getTableData(criteriaText, data, navigate) {
       header: "Position",
       size: 120,
       filterVariant: "multi-select",
-      filterSelectOptions:Positions
+      filterSelectOptions: filteringOptions.positions,
     },    
     {
       accessorKey: "nationality",
       header: "Nationalities",
       size: 120,
+      filterVariant: "multi-select",
+      filterSelectOptions: filteringOptions.nationalities,
       Cell: ({ row }) =>
         row.original.nationalities.map((n) => (
           <div key={n.name} title={n.name} className="img-cell-wrapper">
@@ -60,6 +62,8 @@ export default function getTableData(criteriaText, data, navigate) {
       accessorKey: "team",
       header: "Team",
       size: 90,
+      filterVariant: "multi-select",
+      filterSelectOptions: filteringOptions.teams,
       Cell: ({ row }) => (
         <div onClick={() => handleLogoClick("team", row.original.team.teamId)} title={row.original.team.name} className="img-cell-wrapper clickable">
           <Box
@@ -73,9 +77,11 @@ export default function getTableData(criteriaText, data, navigate) {
       ),
     },
     {
-      accessorKey: "leagueImageBase64",
+      accessorKey: "league",
       header: "League",
       size: 90,
+      filterVariant: "multi-select",
+      filterSelectOptions: filteringOptions.leagues,
       Cell: ({ row }) => (
         <div onClick={() => handleLogoClick("league", row.original.league.leagueId)}  title={row.original.league.name} className="img-cell-wrapper clickable">
           <Box

@@ -1,7 +1,7 @@
 import { useState, useCallback } from "react";
 import { MaterialReactTable } from "material-react-table";
 import useTableConfig from "./Helpers/useTableConfig";
-import useStatsContentFetch from "./Helpers/useStatsContentFetch";
+import useStatsFetch from "./Helpers/useStatsFetch";
 
 const StatsPanelContent = ({ criteria }) => {
   const [descending, setIsDescending] = useState(true);
@@ -11,10 +11,13 @@ const StatsPanelContent = ({ criteria }) => {
     pageNumber: 1,
     pageSize: 20,
     isSortDescending: descending,
-    positions: ["Centre-Back"]
+    positions: [],
+    teams: [],
+    leagues: [],
+    nationalities: []
   });
 
-  const { stats, columns, loading } = useStatsContentFetch(requestFilter, criteria.Text);
+  const { stats, columns, loading } = useStatsFetch(requestFilter, criteria.Text);
 
   const incrementPageNumber = useCallback(() => {
     setRequestFilter(prev => ({...prev, pageNumber: prev.pageNumber + 1 }))

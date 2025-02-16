@@ -11,15 +11,17 @@ export default function useTableConfig(
   const enableFetchRef = useRef(false);
   const [columnFilters, setColumnFilters] = useState([]);  
 
-  // const handleFilterChange = (e) =>{
-  //   console.log("filter fired")
-  //   console.log(e);
-  // }
-
   useEffect(()=> {
     console.log('columnFilters', columnFilters);
-    console.log('getPositionFilter()', getPositionFilter());
-    setRequestFilter(prev => ({...prev, positions: getPositionFilter(), pageNumber: 1}))
+    console.log('getPositionFilter()', getPositionsFilter());
+    setRequestFilter(prev => ({
+      ...prev,
+       positions: getPositionsFilter(),
+       teams: getTeamsFilter(),
+       leagues: getLeaguesFilter(),
+       nationalities: getNationalitiesFilter(),
+       pageNumber: 1
+    }))
   },[columnFilters])
 
   const fetchMoreOnBottomReached = useCallback(
@@ -35,8 +37,25 @@ export default function useTableConfig(
     [loading, incrementPageNumber]
   );
 
-  const getPositionFilter = () => {
+  const getPositionsFilter = () => {
     if(columnFilters.length > 0) return columnFilters.find(x => x.id == "position").value
+    else return []
+  };
+
+  const getTeamsFilter = () => {
+    if(columnFilters.length > 0) return columnFilters.find(x => x.id == "team").value
+    else return []
+  };
+
+
+  const getLeaguesFilter = () => {
+    if(columnFilters.length > 0) return columnFilters.find(x => x.id == "league").value
+    else return []
+  };
+
+
+  const getNationalitiesFilter = () => {
+    if(columnFilters.length > 0) return columnFilters.find(x => x.id == "nationality").value
     else return []
   };
 

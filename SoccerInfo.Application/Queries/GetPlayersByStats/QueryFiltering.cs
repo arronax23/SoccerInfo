@@ -15,6 +15,12 @@ internal static class QueryFiltering
         if (filter.Nationalities is not null && filter.Nationalities.Any())
             query = query.Where(p => p.Nationalities.Any(n => filter.Nationalities.Contains(n.Country)));
 
+        if (filter.Teams is not null && filter.Teams.Any())
+            query = query.Where(p => filter.Teams.Contains(p.Team.Name));
+
+        if (filter.Leagues is not null && filter.Leagues.Any())
+            query = query.Where(p => filter.Leagues.Contains(p.Team.League!.Name));
+
         query = filter.Criteria switch
         {
             CriteriaType.Value => query
