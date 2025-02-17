@@ -11,6 +11,7 @@ public class AutomapperProfile : Profile
     public AutomapperProfile()
     {
         CreateMap<Player, StatsPlayerBaseDto>()
+            .ForMember(dest => dest.PlayerId, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.FaceImageBase64, opt => opt.MapFrom(src => src.FaceImageBase64))
             .ForMember(dest => dest.Position, opt => opt.MapFrom(src => src.Position))
             .ForMember(dest => dest.Nationalities, opt =>

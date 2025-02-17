@@ -1,7 +1,7 @@
 ﻿namespace SoccerInfo.Application.Queries.Dtos.StatsPlayerDto.Shared;
 public abstract class StatsPlayerBaseDto
 {
-    public int Id { get; set; }
+    public int PlayerId { get; set; }
     public int Index { get; set; }
     public string Name { get; set; } = null!;
     public string? FaceImageBase64 { get; set; }

@@ -3,13 +3,26 @@ import {
   handleDateRangeDisplay,
 } from "../../../../utils/formatter";
 import { Box } from "@mui/material";
+import { Link } from "react-router";
 
-export default function getTableData(criteriaText, data, filteringOptions, navigate) {
-  console.log('f',filteringOptions)
+export default function getTableData(
+  criteriaText,
+  data,
+  filteringOptions,
+  navigate
+) {
+  console.log("f", filteringOptions);
   const sharedColumns = [
     { accessorKey: "index", header: "#", enableColumnFilter: false, size: 70 },
-    // { accessorKey: "name", header: "Name",enableColumnFilter: false,filterVariant: "select",filterSelectOptions: ["Robert Lewandowski", "Canada", "Brazil", "Germany", "France"]  },
-    { accessorKey: "name", header: "Name", enableColumnFilter: false, size: 130 },
+    {
+      accessorKey: "name",
+      header: "Name",
+      enableColumnFilter: false,
+      size: 130,
+      Cell: ({ row }) => (
+        <Link className="name-link" to={`/player/${row.original.playerId}`}>{row.original.name}</Link>
+      ),
+    },
     {
       accessorKey: "portrait",
       header: "Portrait",
@@ -34,7 +47,7 @@ export default function getTableData(criteriaText, data, filteringOptions, navig
       size: 120,
       filterVariant: "multi-select",
       filterSelectOptions: filteringOptions.positions,
-    },    
+    },
     {
       accessorKey: "nationality",
       header: "Nationalities",
@@ -51,13 +64,13 @@ export default function getTableData(criteriaText, data, filteringOptions, navig
                 height: 30,
                 marginRight: 1,
                 borderRadius: 1,
-                border: "2px solid black"
+                border: "2px solid black",
               }}
               src={`data:image/svg+xml; base64, ${n.imageBase64}`}
             />
           </div>
         )),
-    },    
+    },
     {
       accessorKey: "team",
       header: "Team",
@@ -65,7 +78,11 @@ export default function getTableData(criteriaText, data, filteringOptions, navig
       filterVariant: "multi-select",
       filterSelectOptions: filteringOptions.teams,
       Cell: ({ row }) => (
-        <div onClick={() => handleLogoClick("team", row.original.team.teamId)} title={row.original.team.name} className="img-cell-wrapper clickable">
+        <div
+          onClick={() => handleLogoClick("team", row.original.team.teamId)}
+          title={row.original.team.name}
+          className="img-cell-wrapper clickable"
+        >
           <Box
             component="img"
             sx={{
@@ -83,7 +100,13 @@ export default function getTableData(criteriaText, data, filteringOptions, navig
       filterVariant: "multi-select",
       filterSelectOptions: filteringOptions.leagues,
       Cell: ({ row }) => (
-        <div onClick={() => handleLogoClick("league", row.original.league.leagueId)}  title={row.original.league.name} className="img-cell-wrapper clickable">
+        <div
+          onClick={() =>
+            handleLogoClick("league", row.original.league.leagueId)
+          }
+          title={row.original.league.name}
+          className="img-cell-wrapper clickable"
+        >
           <Box
             component="img"
             sx={{
@@ -96,33 +119,79 @@ export default function getTableData(criteriaText, data, filteringOptions, navig
     },
   ];
 
-
   const marketValueColumns = [
-    { accessorKey: "marketValueFormatted", header: "Market Value", enableColumnFilter: false, size: 100 },
+    {
+      accessorKey: "marketValueFormatted",
+      header: "Market Value",
+      enableColumnFilter: false,
+      size: 100,
+    },
   ];
 
-  const goalsColumns = [{ accessorKey: "goals", header: "Goals", enableColumnFilter: false, size: 100 }];
+  const goalsColumns = [
+    {
+      accessorKey: "goals",
+      header: "Goals",
+      enableColumnFilter: false,
+      size: 100,
+    },
+  ];
 
-  const assitsColumns = [{ accessorKey: "assists", header: "Assists", enableColumnFilter: false, size: 100 }];
+  const assitsColumns = [
+    {
+      accessorKey: "assists",
+      header: "Assists",
+      enableColumnFilter: false,
+      size: 100,
+    },
+  ];
 
   const goalsAndAssistsColumns = [
-    { accessorKey: "goalsAndAssists", header: "Goals and Assists", enableColumnFilter: false, size: 100 },
+    {
+      accessorKey: "goalsAndAssists",
+      header: "Goals and Assists",
+      enableColumnFilter: false,
+      size: 100,
+    },
   ];
 
   const cleanSheetsColumns = [
-    { accessorKey: "cleanSheets", header: "Clean Sheets", enableColumnFilter: false, size: 100 },
+    {
+      accessorKey: "cleanSheets",
+      header: "Clean Sheets",
+      enableColumnFilter: false,
+      size: 100,
+    },
   ];
 
   const goalsConcededColumns = [
-    { accessorKey: "goalsConceded", header: "Goals Conceded", enableColumnFilter: false, size: 100 },
+    {
+      accessorKey: "goalsConceded",
+      header: "Goals Conceded",
+      enableColumnFilter: false,
+      size: 100,
+    },
   ];
 
-  const heightColumns = [{ accessorKey: "height", header: "Height", enableColumnFilter: false, size: 100 }];
+  const heightColumns = [
+    {
+      accessorKey: "height",
+      header: "Height",
+      enableColumnFilter: false,
+      size: 100,
+    },
+  ];
 
-  const ageColumns = [{ accessorKey: "age", header: "Age", enableColumnFilter: false, }];
+  const ageColumns = [
+    { accessorKey: "age", header: "Age", enableColumnFilter: false },
+  ];
 
   const contractDurationColumns = [
-    { accessorKey: "contractDuration", header: "Contract Duration", enableColumnFilter: false, },
+    {
+      accessorKey: "contractDuration",
+      header: "Contract Duration",
+      enableColumnFilter: false,
+    },
   ];
 
   const prepareMarketValueData = (data) => {
@@ -150,11 +219,9 @@ export default function getTableData(criteriaText, data, filteringOptions, navig
   };
 
   const handleLogoClick = (type, id) => {
-    if (type === "league")
-      navigate(`/league/${id}`)
-    else if (type === "team")
-      navigate(`/team/${id}`)
-  }
+    if (type === "league") navigate(`/league/${id}`);
+    else if (type === "team") navigate(`/team/${id}`);
+  };
 
   switch (criteriaText) {
     case "Market Value":
@@ -205,4 +272,4 @@ export default function getTableData(criteriaText, data, filteringOptions, navig
     default:
       break;
   }
-};
+}

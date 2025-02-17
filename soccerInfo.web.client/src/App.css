@@ -752,6 +752,17 @@ a.not-decorated {
 }
 
 
+.stats-panel .name-link {
+    text-decoration: none;
+    color: #000;
+}
+
+.stats-panel .name-link:hover {
+    cursor: pointer;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
 /* Custom scrollbar styles */
 .MuiTableContainer-root::-webkit-scrollbar {
     width: .5rem;  /* Adjust width of the scrollbar */
