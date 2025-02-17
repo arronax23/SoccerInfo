@@ -61,34 +61,6 @@ export default function useTableConfig(
   };
 
 
-  // const getPositionsFilter = () => {
-  //   const positonFilter = columnFilters.find(x => x.id == "position");
-  //   return positonFilter ? positonFilter.value : []
-  // };
-
-
-
-  
-  // const getTeamsFilter = () => {
-  //   if(columnFilters.length > 0) return columnFilters.find(x => x.id == "team").value
-  //   else return []
-  // };
-
-
-  // const getLeaguesFilter = () => {
-  //   if(columnFilters.length > 0) return columnFilters.find(x => x.id == "league").value
-  //   else return []
-  // };
-
-
-  // const getNationalitiesFilter = () => {
-  //   if(columnFilters.length > 0) return columnFilters.find(x => x.id == "nationality").value
-  //   else return []
-  // };
-
-
-  
-
   useEffect(() => {
     if (!loading) {
       enableFetchRef.current = true; 

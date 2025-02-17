@@ -741,7 +741,14 @@ a.not-decorated {
     cursor: pointer;
     transition: transform .25s;
     transform: scale(1.25);
+}
 
+.stats-panel .loading-icon{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
 }
 
 
@@ -769,6 +776,7 @@ a.not-decorated {
     width: 70% !important;
     margin: auto !important;
   }
+
 
   /* .MuiTableCell-root {
     width: 200px !important;

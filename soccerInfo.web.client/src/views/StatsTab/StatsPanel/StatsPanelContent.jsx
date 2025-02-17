@@ -2,6 +2,7 @@ import { useState, useCallback } from "react";
 import { MaterialReactTable } from "material-react-table";
 import useTableConfig from "./Helpers/useTableConfig";
 import useStatsFetch from "./Helpers/useStatsFetch";
+import LoadingIcon from "./Helpers/LoadingIcon";
 
 const StatsPanelContent = ({ criteria }) => {
   const [descending, setIsDescending] = useState(true);
@@ -27,6 +28,7 @@ const StatsPanelContent = ({ criteria }) => {
 
   return (
     <div className="stats-panel-content">
+      {loading && <LoadingIcon />}
       {columns && stats && <MaterialReactTable table={table} />}
     </div>
   );
