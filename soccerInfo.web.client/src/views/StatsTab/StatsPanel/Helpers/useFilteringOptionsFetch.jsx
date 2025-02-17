@@ -1,8 +1,8 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef } from "react";
 import axios from "axios";
 
 export default function useStatsFetch() {
-  const [filteringOptions, setFilteringOptions] = useState({
+  let filteringOptions = useRef({
     positions: [],
     teams: [],
     leagues: [],
@@ -18,7 +18,7 @@ export default function useStatsFetch() {
     .then(resp => {
       const data = resp.data;
       console.log('d',data)
-      setFilteringOptions(data);
+      filteringOptions.current = data;
     });
   }, []);
 
@@ -38,5 +38,5 @@ export default function useStatsFetch() {
   //   }
   // }, []);
 
-  return filteringOptions;
+  return filteringOptions.current;
 }
