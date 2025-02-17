@@ -38,26 +38,56 @@ export default function useTableConfig(
   );
 
   const getPositionsFilter = () => {
-    if(columnFilters.length > 0) return columnFilters.find(x => x.id == "position").value
-    else return []
+    const positonsFilter = columnFilters.find(x => x.id == "position");
+    return positonsFilter ? positonsFilter.value : []
   };
 
   const getTeamsFilter = () => {
-    if(columnFilters.length > 0) return columnFilters.find(x => x.id == "team").value
-    else return []
+    const teamsFilter = columnFilters.find(x => x.id == "team");
+    return teamsFilter ? teamsFilter.value : []
   };
 
 
   const getLeaguesFilter = () => {
-    if(columnFilters.length > 0) return columnFilters.find(x => x.id == "league").value
-    else return []
+    const leaguesFilter = columnFilters.find(x => x.id == "league");
+    return leaguesFilter ? leaguesFilter.value : []
   };
 
 
   const getNationalitiesFilter = () => {
-    if(columnFilters.length > 0) return columnFilters.find(x => x.id == "nationality").value
-    else return []
+    const nationalitiesFilter = columnFilters.find(x => x.id == "nationality");
+    return nationalitiesFilter ? nationalitiesFilter.value : []
+
   };
+
+
+  // const getPositionsFilter = () => {
+  //   const positonFilter = columnFilters.find(x => x.id == "position");
+  //   return positonFilter ? positonFilter.value : []
+  // };
+
+
+
+  
+  // const getTeamsFilter = () => {
+  //   if(columnFilters.length > 0) return columnFilters.find(x => x.id == "team").value
+  //   else return []
+  // };
+
+
+  // const getLeaguesFilter = () => {
+  //   if(columnFilters.length > 0) return columnFilters.find(x => x.id == "league").value
+  //   else return []
+  // };
+
+
+  // const getNationalitiesFilter = () => {
+  //   if(columnFilters.length > 0) return columnFilters.find(x => x.id == "nationality").value
+  //   else return []
+  // };
+
+
+  
 
   useEffect(() => {
     if (!loading) {

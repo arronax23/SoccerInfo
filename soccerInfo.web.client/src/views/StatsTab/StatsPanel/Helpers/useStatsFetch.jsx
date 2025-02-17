@@ -46,7 +46,7 @@ export default function useStatsFetch(
         const newData = getTableData(
           criteriaText,
           res.data,
-          filteringOptions,
+          filteringOptions.current,
           navigate
         );
         setStats((prevStats) => {
