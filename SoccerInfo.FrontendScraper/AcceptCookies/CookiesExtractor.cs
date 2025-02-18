@@ -18,7 +18,7 @@ public class CookiesExtractor(
         logger.LogInformation("Accept cookies policy");
 
         var cookies = await page.GetCookies();
-        await JsonSerializerToFile.Save(cookies, "./../SoccerInfo.FrontendScraper/Cookies.json");
+        await JsonSerializerToFile.Save(cookies, "./../SoccerInfo.FrontendScraper/Cookies.json", overwrite: true);
 
         await playwrightManager.CloseBrowser();
     }

@@ -94,12 +94,12 @@ public class PlayersCharacteristicsExtractor(
                 });
 
                 await page.ScrollToBottomAsync();
-                await page.WaitForSelectorAsync(".grid-table");
+                bool isStatsGridAvailable = await page.TryWaitForSelectorAsync(".grid-table", 10_000);
 
                 var rootNode = await page.CreateHtmlNodeFromPage();
 
                 playersCharacteristicsExtractionData.PlayersCharacteristics.Add(
-                    await ParsePlayer(rootNode, playerExtraction.TransfermarktId, playerExtraction.isGoalkeeper));
+                    await ParsePlayer(rootNode, playerExtraction.TransfermarktId, playerExtraction.isGoalkeeper, isStatsGridAvailable));
 
                 await page.CloseAsync();
             }
@@ -113,7 +113,7 @@ public class PlayersCharacteristicsExtractor(
     }
 
 
-    private async Task<PlayerCharacteristicsData> ParsePlayer(HtmlNode rootNode,int transfermarktId, bool isGoalkeeper)
+    private async Task<PlayerCharacteristicsData> ParsePlayer(HtmlNode rootNode,int transfermarktId, bool isGoalkeeper, bool isStatsGridAvailable)
     {
         var playerCharacteristicsData = new PlayerCharacteristicsData(transfermarktId, isGoalkeeper);
 
@@ -126,8 +126,11 @@ public class PlayersCharacteristicsExtractor(
         var socialMediaIconsNode = rootNode.QuerySelector(".social-media-toolbar__icons");
         socialsParser.Parse(socialMediaIconsNode, playerCharacteristicsData);
 
-        var gridTableNode = rootNode.QuerySelector(".grid-table");
-        await statsParser.Parse(gridTableNode, playerCharacteristicsData);
+        if (isStatsGridAvailable)
+        {
+            var gridTableNode = rootNode.QuerySelector(".grid-table");
+            await statsParser.Parse(gridTableNode, playerCharacteristicsData);
+        }
 
         return playerCharacteristicsData;
     }

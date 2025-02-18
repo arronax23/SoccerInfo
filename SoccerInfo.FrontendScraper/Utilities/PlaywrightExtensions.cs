@@ -39,6 +39,21 @@ public static class PlaywrightExtensions
         }
 
     }
+
+    public static async Task<bool> TryWaitForSelectorAsync(this IPage page, string selector, int timeout)
+    {
+        try
+        {
+            await page.WaitForSelectorAsync(selector, new() { Timeout = timeout });
+            return true;
+        }
+        catch (Exception ex)
+        {
+            Log.Logger.Warning(ex.ToString());
+            return false;
+        }
+    }
+
     public static async Task<HtmlNode> CreateHtmlNodeFromPage(this IPage page)
         => HtmlNode.CreateNode(await page.ContentAsync());
 }
