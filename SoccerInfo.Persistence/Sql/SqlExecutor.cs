@@ -1,18 +1,21 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Runtime.CompilerServices;
-using SoccerInfo.Persistence.Data;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Data.SqlClient;
+using Dapper;
 
 namespace SoccerInfo.Persistence.Sql;
 
-public class SqlExecutor(ApplicationDbContext context) : ISqlExecutor
+public class SqlExecutor(IConfiguration configuration) : ISqlExecutor
 {
-    public IQueryable<TResult> SqlQueryRaw<TResult>(string sql, params object[] parameters)
+    public async Task<IEnumerable<TResult>> SqlQueryAsync<TResult>(string sql, object? param = null)
     {
-        return context.Database.SqlQueryRaw<TResult>(sql, parameters);
+        using var dbConnection = new SqlConnection(configuration.GetConnectionString("Default"));
+        await dbConnection.OpenAsync(); 
+        return await dbConnection.QueryAsync<TResult>(sql, param); 
     }
-
-    public IQueryable<TResult> SqlQuery<TResult>(string sql, params object[] parameters)
+    public async Task<TResult> SqlQuerySingleAsync<TResult>(string sql, object? param = null)
     {
-        return context.Database.SqlQuery<TResult>(FormattableStringFactory.Create(sql, parameters));
+        using var dbConnection = new SqlConnection(configuration.GetConnectionString("Default"));
+        await dbConnection.OpenAsync();
+        return await dbConnection.QuerySingleAsync<TResult>(sql, param);
     }
 }

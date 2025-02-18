@@ -1,6 +1,6 @@
 ﻿namespace SoccerInfo.Persistence.Sql;
 public interface ISqlExecutor
 {
-    public IQueryable<TResult> SqlQueryRaw<TResult>(string sql, params object[] parameters);
-    public IQueryable<TResult> SqlQuery<TResult>(string sql, params object[] parameters);
+    public Task<IEnumerable<TResult>> SqlQueryAsync<TResult>(string sql, object? param = null);
+    public Task<TResult> SqlQuerySingleAsync<TResult>(string sql, object? param = null);
 }

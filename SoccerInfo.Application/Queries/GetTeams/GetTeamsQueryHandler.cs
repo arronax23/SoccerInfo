@@ -6,11 +6,10 @@ namespace SoccerInfo.Application.Queries.GetTeams;
 
 internal class GetTeamsQueryHandler(ISqlExecutor sqlExecutor) : IQueryHandler<GetTeamsQuery, IEnumerable<TeamDto>>
 {
-    public Task<IEnumerable<TeamDto>> Handle(GetTeamsQuery request, CancellationToken cancellationToken)
+    public async Task<IEnumerable<TeamDto>> Handle(GetTeamsQuery request, CancellationToken cancellationToken)
     {
-        return Task.FromResult(
-            sqlExecutor
-            .SqlQuery<TeamDto>(@$"SELECT Id, Name, TeamImageBase64 FROM Teams where LeagueId = {request.LeagueId}")
-            .AsEnumerable());
+        return await
+            sqlExecutor.SqlQueryAsync<TeamDto>(@$"SELECT Id, Name, TeamImageBase64 FROM Teams where LeagueId = @LeagueId",
+            new { LeagueId = request.LeagueId });
     }
 }

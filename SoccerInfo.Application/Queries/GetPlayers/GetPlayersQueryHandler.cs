@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SoccerInfo.Application.Queries.Dtos;
+﻿using SoccerInfo.Application.Queries.Dtos;
 using SoccerInfo.Persistence.Sql;
 using SoccerInfo.Shared.CQRS;
 
@@ -7,11 +6,11 @@ namespace SoccerInfo.Application.Queries.GetPlayers;
 
 internal class GetPlayersQueryHandler(ISqlExecutor sqlExecutor) : IQueryHandler<GetPlayersQuery, IEnumerable<PlayerDto>>
 {
-    public Task<IEnumerable<PlayerDto>> Handle(GetPlayersQuery request, CancellationToken cancellationToken)
+    public async Task<IEnumerable<PlayerDto>> Handle(GetPlayersQuery request, CancellationToken cancellationToken)
     {
-        return Task.FromResult(
+        return (await
             sqlExecutor
-            .SqlQueryRaw<PlayerModel>(
+            .SqlQueryAsync<PlayerModel>(
                 $@"SELECT 
                     p.Id,
                     p.Name,
@@ -24,7 +23,7 @@ internal class GetPlayersQueryHandler(ISqlExecutor sqlExecutor) : IQueryHandler<
                 JOIN NationalityPlayer np ON np.PlayerId = p.Id
                 JOIN Nationalities ni ON np.NationalityId = ni.Id
                 JOIN CountryFlags_Lookup cf ON ni.CountryFlagId = cf.Id
-                WHERE p.TeamId = {request.TeamId}")
+                WHERE p.TeamId = @TeamId", new { TeamId = request.TeamId }))
             .ToList()
             .GroupBy(x => x.Id)
             .Select(y => new PlayerDto()
@@ -38,9 +37,9 @@ internal class GetPlayersQueryHandler(ISqlExecutor sqlExecutor) : IQueryHandler<
                 FaceImageBase64 = y.First().FaceImageBase64,
                 DateOfBirth = y.First().DateOfBirth,
                 NationalityImageBase64Collection = y.Select(z => z.NationalityImage),
-            }));
+            });
     }
-    public class PlayerModel
+    private class PlayerModel
     {
         public int Id { get; set; }
         public string Name { get; set; } = null!;

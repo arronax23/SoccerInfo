@@ -1,18 +1,16 @@
 ﻿using SoccerInfo.Application.Queries.Dtos;
 using SoccerInfo.Persistence.Sql;
 using SoccerInfo.Shared.CQRS;
-using System.Linq;
-
 
 namespace SoccerInfo.Application.Queries.SearchPlayers;
 
 internal class SearchPlayersQueryHandler(ISqlExecutor sqlExecutor) : IQueryHandler<SearchPlayersQuery, IEnumerable<PlayerOverviewDto>>
 {
-    public Task<IEnumerable<PlayerOverviewDto>> Handle(SearchPlayersQuery request, CancellationToken cancellationToken)
+    public async Task<IEnumerable<PlayerOverviewDto>> Handle(SearchPlayersQuery request, CancellationToken cancellationToken)
     {
-        return Task.FromResult(
+        return (await 
             sqlExecutor
-            .SqlQueryRaw<PlayerOverviewDto>(
+            .SqlQueryAsync<PlayerOverviewDto>(
                 $@"SELECT 
                     p.Id, 
                     p.Name,
@@ -24,10 +22,8 @@ internal class SearchPlayersQueryHandler(ISqlExecutor sqlExecutor) : IQueryHandl
                   JOIN Teams t ON  t.Id = p.TeamId 
                   JOIN Leagues l on l.Id = t.LeagueId
                   WHERE p.Name COLLATE Latin1_general_CI_AI
-                  LIKE '%{request.Keyword}%' COLLATE Latin1_general_CI_AI")
+                  LIKE @KeywordPhrase COLLATE Latin1_general_CI_AI", new { KeywordPhrase = $"%{request.Keyword}%" }))
             .Skip((request.PageNumber - 1) * request.PageSize)
-            .Take(request.PageSize)
-            .AsEnumerable()
-        );
+            .Take(request.PageSize);
     }
 }
