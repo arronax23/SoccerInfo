@@ -15,4 +15,7 @@ public static class NodeExtensions
 
     public static IEnumerable<HtmlNode> GetChildElementNodes(this HtmlNode node) 
         => node.ChildNodes.Where(x => x.NodeType == HtmlNodeType.Element);
+    public static HtmlNode GetFirstChildElementNode(this HtmlNode node)
+    => node.ChildNodes.First(x => x.NodeType == HtmlNodeType.Element);
+
 }

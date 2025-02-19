@@ -28,7 +28,7 @@ public static class PlayerExtensions
 	}
 
 
-	public static void UpdateNationalTeam(this Player player, string country, int caps, int goals)
+	public static void UpdateNationalTeam(this Player player, string name, string country, int caps, int goals)
 	{
 		if (player.Characteristics == null)
 			player.Characteristics = new PlayerCharacteristic();
@@ -36,6 +36,7 @@ public static class PlayerExtensions
 		if (player.Characteristics.NationalTeam == null)
 			player.Characteristics.NationalTeam = new NationalTeam();
 
+		player.Characteristics.NationalTeam.Name = name;
 		player.Characteristics.NationalTeam.Caps = caps;
 		player.Characteristics.NationalTeam.Goals = goals;
 		player.Characteristics.NationalTeam.Country = country;

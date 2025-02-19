@@ -10,16 +10,23 @@ public class NationalTeamParser
 {
     public void Parse(HtmlNode nationalTeamNode, PlayerCharacteristicsData playerCharacteristics)
     {
+        var name = nationalTeamNode
+            .GetFirstChildElementNode()?
+            .GetFirstChildElementNode()?
+            .QuerySelector("a")?
+            .ExtractAttribute("title");
+
         var capsAndGoalsNodes = nationalTeamNode
             .ChildNodes?
             .SingleOrDefault(x => x.InnerText.FormatExtractedString().StartsWith("Caps/Goals"))?
             .QuerySelectorAll("a");
 
-        if (capsAndGoalsNodes == null)
+        if (name is null|| capsAndGoalsNodes is null)
             return;
 
         playerCharacteristics.NationalTeam = new NationalTeamData()
         {
+            Name = name,
             Caps = capsAndGoalsNodes.ElementAt(0).InnerText.FormatExtractedString().ParseToInt(),
             Goals = capsAndGoalsNodes.ElementAt(1).InnerText.FormatExtractedString().ParseToInt(),
             Country = nationalTeamNode.QuerySelector("img").ExtractAttribute("title")

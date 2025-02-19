@@ -54,6 +54,7 @@ public class PlayersCharacteristicsExtractionData
 
     public class NationalTeamData
     {
+        public string? Name { get; set; }
         public int Caps { get; set; }
         public int Goals { get; set; }
         public string? Country { get; set; }

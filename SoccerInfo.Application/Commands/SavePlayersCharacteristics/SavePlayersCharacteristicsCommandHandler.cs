@@ -55,6 +55,7 @@ internal class SavePlayersCharacteristicsCommandHandler(
             if (extractedCharacteristic.NationalTeam != null)
             {
                 dbPlayer.UpdateNationalTeam(
+                    extractedCharacteristic.NationalTeam.Name!,
                     extractedCharacteristic.NationalTeam.Country!,
                     extractedCharacteristic.NationalTeam.Caps,
                     extractedCharacteristic.NationalTeam.Goals);
