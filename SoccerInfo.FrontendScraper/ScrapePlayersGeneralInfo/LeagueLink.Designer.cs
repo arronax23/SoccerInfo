@@ -61,7 +61,7 @@ namespace SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to https://www.transfermarkt.pl/bundesliga/startseite/wettbewerb/A1.
+        ///   Looks up a localized string similar to https://www.transfermarkt.com/bundesliga/startseite/wettbewerb/A1.
         /// </summary>
         internal static string AustrianBundesliga {
             get {
@@ -70,7 +70,16 @@ namespace SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to https://www.transfermarkt.pl/bundesliga/startseite/wettbewerb/L1.
+        ///   Looks up a localized string similar to https://www.transfermarkt.com/campeonato-brasileiro-serie-a/startseite/wettbewerb/BRA1.
+        /// </summary>
+        internal static string BrazilSerieA {
+            get {
+                return ResourceManager.GetString("BrazilSerieA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to https://www.transfermarkt.com/bundesliga/startseite/wettbewerb/L1.
         /// </summary>
         internal static string Bundesliga {
             get {
@@ -79,7 +88,7 @@ namespace SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to https://www.transfermarkt.pl/pko-bp-ekstraklasa/startseite/wettbewerb/PL1.
+        ///   Looks up a localized string similar to https://www.transfermarkt.com/pko-bp-ekstraklasa/startseite/wettbewerb/PL1.
         /// </summary>
         internal static string Ekstraklasa {
             get {
@@ -88,7 +97,7 @@ namespace SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to https://www.transfermarkt.pl/eredivisie/startseite/wettbewerb/NL1.
+        ///   Looks up a localized string similar to https://www.transfermarkt.com/eredivisie/startseite/wettbewerb/NL1.
         /// </summary>
         internal static string Eredivisie {
             get {
@@ -97,7 +106,7 @@ namespace SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to https://www.transfermarkt.pl/jupiler-pro-league/startseite/wettbewerb/BE1.
+        ///   Looks up a localized string similar to https://www.transfermarkt.com/jupiler-pro-league/startseite/wettbewerb/BE1.
         /// </summary>
         internal static string JupilerProLeague {
             get {
@@ -106,7 +115,7 @@ namespace SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to https://www.transfermarkt.pl/laliga/startseite/wettbewerb/ES1.
+        ///   Looks up a localized string similar to https://www.transfermarkt.com/laliga/startseite/wettbewerb/ES1.
         /// </summary>
         internal static string LaLiga {
             get {
@@ -115,7 +124,7 @@ namespace SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to https://www.transfermarkt.pl/liga-portugal/startseite/wettbewerb/PO1.
+        ///   Looks up a localized string similar to https://www.transfermarkt.com/liga-portugal/startseite/wettbewerb/PO1.
         /// </summary>
         internal static string LigaPortugal {
             get {
@@ -124,11 +133,20 @@ namespace SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to https://www.transfermarkt.pl/ligue-1/startseite/wettbewerb/FR1.
+        ///   Looks up a localized string similar to https://www.transfermarkt.com/ligue-1/startseite/wettbewerb/FR1.
         /// </summary>
         internal static string Ligue1 {
             get {
                 return ResourceManager.GetString("Ligue1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to https://www.transfermarkt.com/major-league-soccer/startseite/wettbewerb/MLS1.
+        /// </summary>
+        internal static string MLS {
+            get {
+                return ResourceManager.GetString("MLS", resourceCulture);
             }
         }
         
@@ -142,7 +160,16 @@ namespace SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to https://www.transfermarkt.pl/serie-a/startseite/wettbewerb/IT1.
+        ///   Looks up a localized string similar to https://www.transfermarkt.com/saudi-professional-league/startseite/wettbewerb/SA1.
+        /// </summary>
+        internal static string SaudiProLeague {
+            get {
+                return ResourceManager.GetString("SaudiProLeague", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to https://www.transfermarkt.com/serie-a/startseite/wettbewerb/IT1.
         /// </summary>
         internal static string SerieA {
             get {
@@ -151,7 +178,16 @@ namespace SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to https://www.transfermarkt.pl/super-league-1/startseite/wettbewerb/GR1.
+        ///   Looks up a localized string similar to https://www.transfermarkt.com/super-league/startseite/wettbewerb/C1.
+        /// </summary>
+        internal static string SuperLeague {
+            get {
+                return ResourceManager.GetString("SuperLeague", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to https://www.transfermarkt.com/super-league-1/startseite/wettbewerb/GR1.
         /// </summary>
         internal static string SuperLeague1 {
             get {
@@ -160,7 +196,7 @@ namespace SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to https://www.transfermarkt.pl/super-lig/startseite/wettbewerb/TR1.
+        ///   Looks up a localized string similar to https://www.transfermarkt.com/super-lig/startseite/wettbewerb/TR1.
         /// </summary>
         internal static string SuperLig {
             get {

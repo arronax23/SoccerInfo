@@ -118,39 +118,51 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Ekstraklasa" xml:space="preserve">
-    <value>https://www.transfermarkt.pl/pko-bp-ekstraklasa/startseite/wettbewerb/PL1</value>
+    <value>https://www.transfermarkt.com/pko-bp-ekstraklasa/startseite/wettbewerb/PL1</value>
   </data>
   <data name="JupilerProLeague" xml:space="preserve">
-    <value>https://www.transfermarkt.pl/jupiler-pro-league/startseite/wettbewerb/BE1</value>
+    <value>https://www.transfermarkt.com/jupiler-pro-league/startseite/wettbewerb/BE1</value>
   </data>
   <data name="SuperLig" xml:space="preserve">
-    <value>https://www.transfermarkt.pl/super-lig/startseite/wettbewerb/TR1</value>
+    <value>https://www.transfermarkt.com/super-lig/startseite/wettbewerb/TR1</value>
   </data>
   <data name="Eredivisie" xml:space="preserve">
-    <value>https://www.transfermarkt.pl/eredivisie/startseite/wettbewerb/NL1</value>
+    <value>https://www.transfermarkt.com/eredivisie/startseite/wettbewerb/NL1</value>
   </data>
   <data name="LigaPortugal" xml:space="preserve">
-    <value>https://www.transfermarkt.pl/liga-portugal/startseite/wettbewerb/PO1</value>
+    <value>https://www.transfermarkt.com/liga-portugal/startseite/wettbewerb/PO1</value>
   </data>
   <data name="Ligue1" xml:space="preserve">
-    <value>https://www.transfermarkt.pl/ligue-1/startseite/wettbewerb/FR1</value>
+    <value>https://www.transfermarkt.com/ligue-1/startseite/wettbewerb/FR1</value>
   </data>
   <data name="LaLiga" xml:space="preserve">
-    <value>https://www.transfermarkt.pl/laliga/startseite/wettbewerb/ES1</value>
+    <value>https://www.transfermarkt.com/laliga/startseite/wettbewerb/ES1</value>
   </data>
   <data name="SerieA" xml:space="preserve">
-    <value>https://www.transfermarkt.pl/serie-a/startseite/wettbewerb/IT1</value>
+    <value>https://www.transfermarkt.com/serie-a/startseite/wettbewerb/IT1</value>
   </data>
   <data name="PremierLeague" xml:space="preserve">
     <value>https://www.transfermarkt.com/premier-league/startseite/wettbewerb/GB1</value>
   </data>
   <data name="Bundesliga" xml:space="preserve">
-    <value>https://www.transfermarkt.pl/bundesliga/startseite/wettbewerb/L1</value>
+    <value>https://www.transfermarkt.com/bundesliga/startseite/wettbewerb/L1</value>
   </data>
   <data name="AustrianBundesliga" xml:space="preserve">
-    <value>https://www.transfermarkt.pl/bundesliga/startseite/wettbewerb/A1</value>
+    <value>https://www.transfermarkt.com/bundesliga/startseite/wettbewerb/A1</value>
   </data>
   <data name="SuperLeague1" xml:space="preserve">
-    <value>https://www.transfermarkt.pl/super-league-1/startseite/wettbewerb/GR1</value>
+    <value>https://www.transfermarkt.com/super-league-1/startseite/wettbewerb/GR1</value>
+  </data>
+  <data name="BrazilSerieA" xml:space="preserve">
+    <value>https://www.transfermarkt.com/campeonato-brasileiro-serie-a/startseite/wettbewerb/BRA1</value>
+  </data>
+  <data name="MLS" xml:space="preserve">
+    <value>https://www.transfermarkt.com/major-league-soccer/startseite/wettbewerb/MLS1</value>
+  </data>
+  <data name="SuperLeague" xml:space="preserve">
+    <value>https://www.transfermarkt.com/super-league/startseite/wettbewerb/C1</value>
+  </data>
+  <data name="SaudiProLeague" xml:space="preserve">
+    <value>https://www.transfermarkt.com/saudi-professional-league/startseite/wettbewerb/SA1</value>
   </data>
 </root>

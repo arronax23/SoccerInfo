@@ -31,6 +31,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<SocialsParser>();
         services.AddScoped<StatsParser>();
         services.AddResiliencePipeline(CharacteristicsExtractionPipeline.Name, CharacteristicsExtractionPipeline.Configure);
+        services.AddResiliencePipeline(GeneralInfoExtractionPipeline.Name, GeneralInfoExtractionPipeline.Configure);
 
 
         services.AddScoped<CookiesExtractor>();

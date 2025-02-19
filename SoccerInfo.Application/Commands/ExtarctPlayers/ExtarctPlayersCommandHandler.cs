@@ -1,15 +1,14 @@
 ﻿using AutoMapper;
 using SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo;
-using SoccerInfo.Persistence.Data;
 using SoccerInfo.Persistence.Data.Models;
+using SoccerInfo.Persistence.JsonFileData;
 using SoccerInfo.Shared.CQRS;
-using SoccerInfo.Shared.Utilities;
 
 namespace SoccerInfo.Application.Commands.ExtarctPlayers;
 
 internal class ExtarctPlayersCommandHandler(
-    ApplicationDbContext dbContext,
     PlayersGeneralInfoExtractor soccerDataExtractor,
+    JsonFileDataManager jsonFileDataManager,
     IMapper mapper) : ICommandHandler<ExtarctPlayersCommand>
 {
     public async Task Handle(ExtarctPlayersCommand request, CancellationToken cancellationToken)
@@ -19,7 +18,7 @@ internal class ExtarctPlayersCommandHandler(
         if (extraction == null)
             return;
 
-        await JsonSerializerToFile.Save(extraction, "scraped_data_8.json");
+        await jsonFileDataManager.SaveData(extraction, "players_general_info_data");
         var extractedLeagues = mapper.Map<IEnumerable<League>>(extraction.Leagues);
 
         await Console.Out.WriteLineAsync();

@@ -7,6 +7,8 @@ using SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo.Parsers;
 using SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo.Dto;
 using Microsoft.Extensions.Logging;
 using static SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo.Dto.GeneralInfoExtractionData;
+using Polly.Registry;
+using SoccerInfo.FrontendScraper.Resilience;
 
 namespace SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo;
 
@@ -17,7 +19,8 @@ public class PlayersGeneralInfoExtractor(
     TeamParser teamParser,
     PlayerParser playerParser,
     NationalityParser nationalityImageParser,
-    PuppeteerManager puppeteerManager)
+    PuppeteerManager puppeteerManager,
+    ResiliencePipelineProvider<string> pipelineProvider)
 {
     private readonly IList<Task> _extractionTasks = new List<Task>();
 
@@ -61,62 +64,68 @@ public class PlayersGeneralInfoExtractor(
     {
         return new List<string>()
         {
-            LeagueLink.PremierLeague,
-            LeagueLink.Bundesliga,
-            LeagueLink.SerieA,
-            LeagueLink.LaLiga,
-            LeagueLink.Ligue1,
-            //LeagueLink.LigaPortugal,
-            //LeagueLink.JupilerProLeague,
-            //LeagueLink.Eredivisie,
-            //LeagueLink.SuperLig,
-            //LeagueLink.Ekstraklasa,
-            //LeagueLink.SuperLeague1,
-            //LeagueLink.AustrianBundesliga
+            //LeagueLink.PremierLeague,
+            //LeagueLink.Bundesliga,
+            //LeagueLink.SerieA,
+            //LeagueLink.LaLiga,
+            //LeagueLink.Ligue1,
+            LeagueLink.LigaPortugal,
+            LeagueLink.JupilerProLeague,
+            LeagueLink.Eredivisie,
+            LeagueLink.SuperLig,
+            LeagueLink.SuperLeague1,
+            LeagueLink.SuperLeague,
+            LeagueLink.Ekstraklasa,
+            LeagueLink.AustrianBundesliga,
+            LeagueLink.BrazilSerieA,
+            LeagueLink.MLS,
+            LeagueLink.SaudiProLeague,
         };
     }
 
     private async Task GetLeague(GeneralInfoExtractionData extraction, string leagueLink)
     {
-        IPage page;
+        var pipeline = pipelineProvider.GetPipeline(GeneralInfoExtractionPipeline.Name);
 
-        Retry:
-        try
+        await pipeline.ExecuteAsync(async _ =>
         {
-            page = await puppeteerManager.Browser.NewPageAsync();
-            await page.GoToAsync(leagueLink, WaitUntilNavigation.Networkidle0);
-        }
-        catch (Exception ex)
-        {
-            logger.LogError(ex.ToString());
-            goto Retry;
-        }
-
-
-        var leagueNode = await page.CreateHtmlNodeFromPage();
-        var league = await leagueParser.Parse(leagueNode);
-
-        var teamsNodes = leagueNode.QuerySelector("table.items").QuerySelectorAll(".hauptlink a[title]");
-        var teamsLinks = teamsNodes.Select(x => Transfermarkt.BASE_URI + x.GetAttributeValue("href", "Not found"));
-
-        foreach (var teamLink in teamsLinks)
-        {
-            GoToTeam:
+            IPage? page;
             try
             {
-                await page.GoToAsync($"{teamLink}", WaitUntilNavigation.Networkidle0);
+                page = await puppeteerManager.Browser.NewPageAsync();
+                await page.GoToAsync(leagueLink, WaitUntilNavigation.Networkidle0);
             }
             catch (Exception ex)
             {
                 logger.LogError(ex.ToString());
-                goto GoToTeam;
+                throw;
             }
 
-            var node = await page.CreateHtmlNodeFromPage();
-            league.Teams.Add(await GetTeam(node));
-        }
+            var leagueNode = await page.CreateHtmlNodeFromPage();
+            var league = await leagueParser.Parse(leagueNode);
 
-        extraction.Leagues.Add(league);
+            var teamsNodes = leagueNode.QuerySelector("table.items").QuerySelectorAll(".hauptlink a[title]");
+            var teamsLinks = teamsNodes.Select(x => Transfermarkt.BASE_URI + x.GetAttributeValue("href", "Not found"));
+
+            foreach (var teamLink in teamsLinks)
+            {
+                try
+                {
+                    await page.GoToAsync($"{teamLink}", WaitUntilNavigation.Networkidle0);
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex.ToString());
+                    throw;
+                }
+
+                var node = await page.CreateHtmlNodeFromPage();
+                league.Teams.Add(await GetTeam(node));
+            }
+
+            extraction.Leagues.Add(league);
+        });
+
     }
 
     private async Task<TeamData> GetTeam(HtmlNode node)
@@ -146,7 +155,7 @@ public class PlayersGeneralInfoExtractor(
             logger.LogInformation("QuerySelector win");
 
 
-        foreach (var playerNode in playersNodes)
+        foreach (var playerNode in playersNodes!.ToList())
         {
             team.Players.Add(await GetPlayer(playerNode));
         }
