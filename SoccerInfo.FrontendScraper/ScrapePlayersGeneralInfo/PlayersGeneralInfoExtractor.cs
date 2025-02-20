@@ -44,16 +44,16 @@ public class PlayersGeneralInfoExtractor(
     private async Task<GeneralInfoExtractionData> Extarct()
     {
         var extraction = new GeneralInfoExtractionData();
-
         var leagueLinks = GetLeagueLinks();
 
         await puppeteerManager.LaunchBrowser(headless: true);
-        foreach (var leagueLink in leagueLinks)
-        {
-            _extractionTasks.Add(GetLeague(extraction, leagueLink));
-        }
 
-        await Task.WhenAll(_extractionTasks);
+        await Parallel.ForEachAsync(leagueLinks,
+            new ParallelOptions { MaxDegreeOfParallelism = 4 },
+            async (leagueLink, _) =>
+            {
+                await GetLeague(extraction, leagueLink);
+            });
 
         await puppeteerManager.CloseBrowser();
         return extraction;
