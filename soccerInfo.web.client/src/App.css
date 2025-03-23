@@ -45,6 +45,8 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    color: #000 !important; 
+    background: #fff !important;
 }
 
 .nav-home .logo {
@@ -61,9 +63,21 @@ body {
     align-items: center;    
 }
 
+
+a.nav-link {
+    color: black;
+    text-decoration: none;
+}
+
+a.nav-link.active {
+    color: #fff;
+    background: #000;
+}
+
 .nav-item {
     cursor: pointer;
     margin: 0 1rem 0 1rem;
+    position: relative;
 }
 
 /* Hover card */
@@ -189,10 +203,7 @@ body {
 }
 
 
-a.not-decorated {
-    color: black;
-    text-decoration: none;
-}
+
 
 .go-back-btn {
     cursor: pointer;
@@ -796,3 +807,70 @@ a.not-decorated {
 /* .Mui-TableHeadCell-Content-Labels {
     padding: 0 !important;
  } */
+
+
+ /* Home View */
+
+.home-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.home-container .header {
+    display: flex;
+    position: relative;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.home-container .header::after{
+    display: block;
+    position: absolute;
+    bottom: 0;
+    content: "";
+    width: 14rem;
+    height: 5%;
+    background: black;
+}
+
+.home-container .header .logo {
+    height: 3rem;
+
+}
+
+.introduction-container  .introduction-text {
+    text-align: justify;
+}
+
+ .introduction-container, .data-amount-container {
+    background: white;
+    width: 50%;
+    margin: auto;
+    padding: 1rem 1rem;
+    border-radius: 1rem;
+    box-shadow: 5px 5px 10px black;
+ }
+
+.count-boxes{
+    display: flex;
+    justify-content: space-evenly;
+    color: #fff;
+}
+
+.count-box  {
+    background: #D90368;
+    /* background: #875C74; */
+    padding: 2rem 0;
+    width: 20%;
+    border-radius: .5rem;
+ }
+
+ .count-box .amount {
+    font-size: 2rem;
+ }
+
+
+ .count-box .data-type {
+    text-transform: uppercase;
+ }

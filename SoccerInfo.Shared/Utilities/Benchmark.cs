@@ -41,7 +41,4 @@ public static class Benchmark
         await func();
         Log.Logger.Information($"Execution time for {methodName}: {(DateTime.Now - startDate).TotalSeconds}");
     }
-
-
-
 }

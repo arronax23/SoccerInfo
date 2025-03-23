@@ -1,25 +1,26 @@
-import React from "react";
-import { Link } from "react-router";
+import { NavLink } from "react-router";
 
 const Navbar = () => {
   return (
     <nav className="navbar">
-      <Link className="nav-home not-decorated" to="/">
+      <NavLink className="nav-home nav-link" to="/">
         <img className="logo" src={"/soccer-favicon.svg"} />
         <h1 className="name">Soccer Info</h1>
-      </Link>
-
+      </NavLink>
       <div className="nav-links">
-        <Link className="not-decorated" to="/">
+        <NavLink className="nav-link" to="/">
+          <div className="nav-item">Home</div>
+        </NavLink>
+        <NavLink className="nav-link" to="/leagues">
           <div className="nav-item">Leagues</div>
-        </Link>
+        </NavLink>        
         <div className="nav-item">Teams</div>
-        <Link className="not-decorated" to="/players">
-        <div className="nav-item">Players</div>
-        </Link>
-        <Link className="not-decorated" to="/stats">
-        <div className="nav-item">Stats</div>
-        </Link>        
+        <NavLink className="nav-link" to="/players">
+          <div className="nav-item">Players</div>
+        </NavLink>
+        <NavLink className="nav-link" to="/stats">
+          <div className="nav-item">Stats</div>
+        </NavLink>
       </div>
     </nav>
   );

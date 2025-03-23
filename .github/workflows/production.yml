@@ -60,7 +60,7 @@ jobs:
       with:
         host: ${{ secrets.VM_HOST }}
         username: ${{ secrets.VM_USER }}
-        key: ${{ secrets.VM_KEY }}
+        password: ${{ secrets.VM_PASSWORD }}
         source: publish/
         target: /var/www/app/
         strip_components: 1        
@@ -71,7 +71,7 @@ jobs:
       with:
         host: ${{ secrets.VM_HOST }}
         username: ${{ secrets.VM_USER }}
-        key: ${{ secrets.VM_KEY }}
+        password: ${{ secrets.VM_PASSWORD }}
         port: 22
         script: |
             cd /var/www/app
@@ -82,7 +82,7 @@ jobs:
       with:
         host: ${{ secrets.VM_HOST }}
         username: ${{ secrets.VM_USER }}
-        key: ${{ secrets.VM_KEY }}
+        password: ${{ secrets.VM_PASSWORD }}
         port: 22
         script: |
           cd /var/www/app
@@ -93,7 +93,7 @@ jobs:
       with:
         host: ${{ secrets.VM_HOST }}
         username: ${{ secrets.VM_USER }}
-        key: ${{ secrets.VM_KEY }}
+        password: ${{ secrets.VM_PASSWORD }}
         port: 22
         script: |
           sudo chmod +x /var/www/app/.playwright/node/linux-x64/node         
@@ -103,8 +103,8 @@ jobs:
       with:
         host: ${{ secrets.VM_HOST }}
         username: ${{ secrets.VM_USER }}
-        key: ${{ secrets.VM_KEY }}
+        password: ${{ secrets.VM_PASSWORD }}
         port: 22
         script: |
           sudo systemctl restart soccer-info.service
-                  
+          
