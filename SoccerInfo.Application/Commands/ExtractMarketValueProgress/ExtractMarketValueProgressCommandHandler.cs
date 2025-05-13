@@ -1,19 +1,17 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SoccerInfo.Application.Commands.ExtractBackend;
-using SoccerInfo.BackendScraper;
+﻿using SoccerInfo.BackendScraper;
 using SoccerInfo.Persistence.Data;
 using SoccerInfo.Shared.CQRS;
 using SoccerInfo.Shared.Utilities;
 
-namespace SoccerInfo.Application.Commands.ExtarctBackend;
+namespace SoccerInfo.Application.Commands.ExtractMarketValueProgress;
 
-internal class ExtarctBackendCommandHandler(
+internal class ExtractMarketValueProgressCommandHandler(
     ApplicationDbContext dbContext, 
     MarketValueProgressScraper marketValueProgressScraper,
     CustomMapper mapper
-    ) : ICommandHandler<ExtarctBackendCommand>
+    ) : ICommandHandler<ExtractMarketValueProgressCommand>
 {
-    public async Task Handle(ExtarctBackendCommand request, CancellationToken cancellationToken)
+    public async Task Handle(ExtractMarketValueProgressCommand request, CancellationToken cancellationToken)
     {
         var players = dbContext.Players;
         var extractedData = await Benchmark.ExecuteAndMeasureTimeAsync(async () => {

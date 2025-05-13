@@ -1,8 +1,10 @@
-﻿using SoccerInfo.Shared.CQRS;
+﻿using SoccerInfo.FrontendScraper.ScrapePlayersCharacterstics.Dto;
+using SoccerInfo.Shared.CQRS;
 
 namespace SoccerInfo.Application.Commands.SavePlayersCharacteristics;
+
 public class SavePlayersCharacteristicsCommand : ICommand
 {
-    public string FileName { get; set; } = null!;
+    public PlayersCharacteristicsExtractionData Extraction { get; set; } = null!;
 }
 

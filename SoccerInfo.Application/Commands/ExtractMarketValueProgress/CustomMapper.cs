@@ -3,7 +3,7 @@ using SoccerInfo.Persistence.Data.Models;
 using static SoccerInfo.BackendScraper.MarketValueProgressScraper;
 using static SoccerInfo.BackendScraper.MarketValueProgressScraper.MarketValueProgressData;
 
-namespace SoccerInfo.Application.Commands.ExtractBackend;
+namespace SoccerInfo.Application.Commands.ExtractMarketValueProgress;
 public class AutomapperProfile : Profile
 {
     public AutomapperProfile()

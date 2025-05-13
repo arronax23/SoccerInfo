@@ -1,18 +1,15 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using SoccerInfo.FrontendScraper.ScrapePlayersCharacterstics.Dto;
 using SoccerInfo.Persistence.Data;
 using SoccerInfo.Persistence.Data.Models.PlayerCharacteristicsAggregate;
 using SoccerInfo.Persistence.Transactions;
 using SoccerInfo.Shared.CQRS;
-using System.Text.Json;
 using System.Text.RegularExpressions;
 
 namespace SoccerInfo.Application.Commands.SavePlayersCharacteristics;
 
-internal class SavePlayersCharacteristicsCommandHandler(
+internal class SavePlayersCharacteristicsFromFileCommandHandler(
     IConfiguration configuration,
     ApplicationDbContext dbContext,
     IMapper mapper) 
@@ -24,17 +21,10 @@ internal class SavePlayersCharacteristicsCommandHandler(
     {
         using var transaction = dbContext.Database.BeginTransaction();
 
-        string fileName = request.FileName.Trim();
-        string jsonString = File.ReadAllText(Path.Combine("JsonData", fileName));
-
-        PlayersCharacteristicsExtractionData extraction = 
-            JsonSerializer.Deserialize<PlayersCharacteristicsExtractionData>(jsonString)!;
-
         var dbPlayers = dbContext.Players;
-
         var dbStatsLeagues = dbContext.StatsLeagues.ToList();
 
-        foreach (var extractedCharacteristic in extraction!.PlayersCharacteristics)
+        foreach (var extractedCharacteristic in request.Extraction!.PlayersCharacteristics)
         {
             var dbPlayer = dbPlayers.Single(x => x.TransfermarktId == extractedCharacteristic.TransfermarktId);
 

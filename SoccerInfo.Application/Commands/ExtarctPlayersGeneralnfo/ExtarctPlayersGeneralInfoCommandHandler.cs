@@ -4,14 +4,14 @@ using SoccerInfo.Persistence.Data.Models;
 using SoccerInfo.Persistence.JsonFileData;
 using SoccerInfo.Shared.CQRS;
 
-namespace SoccerInfo.Application.Commands.ExtarctPlayers;
+namespace SoccerInfo.Application.Commands.ExtarctPlayersGeneralnfo;
 
-internal class ExtarctPlayersCommandHandler(
+internal class ExtarctPlayersGeneralInfoCommandHandler(
     PlayersGeneralInfoExtractor soccerDataExtractor,
     JsonFileDataManager jsonFileDataManager,
-    IMapper mapper) : ICommandHandler<ExtarctPlayersCommand>
+    IMapper mapper) : ICommandHandler<ExtarctPlayersGeneralnfoCommand>
 {
-    public async Task Handle(ExtarctPlayersCommand request, CancellationToken cancellationToken)
+    public async Task Handle(ExtarctPlayersGeneralnfoCommand request, CancellationToken cancellationToken)
     {
         var extraction = await soccerDataExtractor.TryExtarct();
         

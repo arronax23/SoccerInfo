@@ -6,7 +6,6 @@ using Microsoft.Playwright;
 namespace SoccerInfo.FrontendScraper.Utilities;
 public class PlaywrightManager(
     ILogger<PlaywrightManager> logger,
-    IHostEnvironment hostEnvironment,
     IConfiguration configuration)
 {
     private IBrowser _browser = null!;

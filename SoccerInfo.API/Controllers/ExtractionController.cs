@@ -1,23 +1,24 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using SoccerInfo.API.Authorization;
-using SoccerInfo.Application.Commands.ExtarctBackend;
-using SoccerInfo.Application.Commands.ExtarctPlayers;
 using SoccerInfo.Application.Commands.ExtarctPlayersCharacteristics;
-using SoccerInfo.Application.Commands.SavePlayersCharacteristics;
+using SoccerInfo.Application.Commands.ExtarctPlayersGeneralnfo;
+using SoccerInfo.Application.Commands.ExtractMarketValueProgress;
+using SoccerInfo.Application.Commands.SavePlayersCharacteristicsFromFile;
+using SoccerInfo.Application.Commands.SavePlayersGeneralInfoFromFile;
 using SoccerInfo.Application.Commands.SaveTransfermarktCookie;
-using SoccerInfo.Application.Commands.UpdateTest;
 using SoccerInfo.Shared.CQRS;
+
 namespace SoccerInfoWeb.API.Controllers;
 
 [ApiController]
 [ApiKeyAuthorizationFilter]
 public class ExtractionController(ICommandDispatcher commandDispatcher) : ControllerBase
 {
-    [HttpPut("api/ExtarctPlayers")]
+    [HttpPut("api/ExtarctPlayersGeneralnfo")]
     public async Task<IActionResult> ExtarctPlayers()
     {
-        await commandDispatcher.Send(new ExtarctPlayersCommand());
+        await commandDispatcher.Send(new ExtarctPlayersGeneralnfoCommand());
         return Ok();
     }
 
@@ -36,13 +37,13 @@ public class ExtractionController(ICommandDispatcher commandDispatcher) : Contro
         return Ok();
     }
 
-    [HttpPut("api/SavePlayersCharacteristics")]
-    public async Task<IActionResult> SavePlayersCharacteristics(string fileName)
+    [HttpPut("api/SavePlayersCharacteristicsFromFile")]
+    public async Task<IActionResult> SavePlayersCharacteristicsFromFile(string fileName)
     {
         if (fileName.IsNullOrEmpty())
             return BadRequest();
 
-        await commandDispatcher.Send(new SavePlayersCharacteristicsCommand()
+        await commandDispatcher.Send(new SavePlayersCharacteristicsFromFileCommand()
         {
             FileName = fileName
         });
@@ -56,18 +57,24 @@ public class ExtractionController(ICommandDispatcher commandDispatcher) : Contro
         return Ok();
     }
 
-    [HttpPut("api/UpdateTest")]
-    public async Task<IActionResult> UpdateTest()
+    [HttpPut("api/SavePlayersGeneralInfoFromFile")]
+    public async Task<IActionResult> SavePlayersGeneralInfo(string fileName)
     {
-        await commandDispatcher.Send(new UpdateTestCommand());
+        if (fileName.IsNullOrEmpty())
+            return BadRequest();
+
+        await commandDispatcher.Send(new SavePlayersGeneralInfoFromFileCommand()
+        {
+            FileName = fileName
+        });
+
         return Ok();
     }
 
-    [HttpPut("api/ExtractBackend")]
+    [HttpPut("api/ExtractMarketValueProgress")]
     public async Task<IActionResult> ExtractBackend()
     {
-        await commandDispatcher.Send(new ExtarctBackendCommand());
+        await commandDispatcher.Send(new ExtractMarketValueProgressCommand());
         return Ok();
     }
-
 }

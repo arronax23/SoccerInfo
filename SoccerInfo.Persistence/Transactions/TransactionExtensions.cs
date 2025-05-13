@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Serilog;
 
 namespace SoccerInfo.Persistence.Transactions;
+
 public enum TransactionResolveType
 {
     Rollback,
@@ -31,7 +32,6 @@ public static class TransactionExtensions
         await transaction.FinalizeTransaction(resolveType);
     }
 
-
     public static async Task ResolveAsync(this IDbContextTransaction transaction, TransactionResolveType resolveType)
         => await transaction.FinalizeTransaction(resolveType);
 
@@ -42,6 +42,4 @@ public static class TransactionExtensions
         else if (resolveType == TransactionResolveType.Commit)
             await transaction.CommitAsync();
     }
-
-
 }

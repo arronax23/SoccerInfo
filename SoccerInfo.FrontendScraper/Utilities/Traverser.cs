@@ -6,8 +6,8 @@ namespace SoccerInfo.FrontendScraper.Utilities;
 public class Traverser(ILogger<Traverser> logger)
 {
     private readonly List<HtmlNode> _foundNodes = new List<HtmlNode>();
-    public IReadOnlyCollection<HtmlNode> FoundNodes => _foundNodes;
 
+    [Obsolete]
     public void Print()
     {
         foreach (var node in _foundNodes)
@@ -16,14 +16,23 @@ public class Traverser(ILogger<Traverser> logger)
         }
     }
 
-    public void DFS(HtmlNode node, Predicate<HtmlNode> endSelectorsPredicate, Predicate<HtmlNode> selectorsPredicate)
+    public IReadOnlyCollection<HtmlNode> Search(HtmlNode node, Predicate<HtmlNode> endSelectorsPredicate, Predicate<HtmlNode>? selectorsPredicate = null)
     {
-        //logger.LogInformation("Traversing");
+        DFS(node, endSelectorsPredicate, selectorsPredicate);
+        
+        var result = _foundNodes.ToList();
+        _foundNodes.Clear();
+
+        return result;
+    }
+
+    private void DFS(HtmlNode node, Predicate<HtmlNode> endSelectorsPredicate, Predicate<HtmlNode>? selectorsPredicate = null)
+    {
         if (node.NodeType == HtmlNodeType.Text)
         {
             return;
         }
-        else if (selectorsPredicate(node))
+        else if (selectorsPredicate is not null && selectorsPredicate(node))
         {
             _foundNodes.Add(node);
         }
@@ -32,39 +41,10 @@ public class Traverser(ILogger<Traverser> logger)
             _foundNodes.Add(node);
             return;
         }
-
-        //logger.LogInformation(node.OuterHtml);
 
         foreach (var child in node.ChildNodes)
         {
             DFS(child, endSelectorsPredicate, selectorsPredicate);
         }
-    }
-
-
-    public void DFS(HtmlNode node, Predicate<HtmlNode> endSelectorsPredicate)
-    {
-        //logger.LogInformation("Traversing");
-        if (node.NodeType == HtmlNodeType.Text)
-        {
-            return;
-        }
-        else if (endSelectorsPredicate(node))
-        {
-            _foundNodes.Add(node);
-            return;
-        }
-
-        //logger.LogInformation(node.OuterHtml);
-
-        foreach (var child in node.ChildNodes)
-        {
-            DFS(child, endSelectorsPredicate);
-        }
-    }
-
-    public void ClearFoundNodesList()
-    {
-        _foundNodes.Clear();
     }
 }

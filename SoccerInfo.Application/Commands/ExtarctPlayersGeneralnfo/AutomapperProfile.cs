@@ -3,7 +3,7 @@ using SoccerInfo.Persistence.Data.Models;
 using static SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo.Dto.GeneralInfoExtractionData;
 
 
-namespace SoccerInfo.Application.Commands.ExtarctPlayers;
+namespace SoccerInfo.Application.Commands.ExtarctPlayersGeneralnfo;
 
 public class AutomapperProfile : Profile
 {
