@@ -1,6 +1,7 @@
 import { useState, useRef, useCallback } from "react";
 import Player from "./Player";
 import usePlayersSearch from "./usePlayersSearch";
+import LoadingIcon from "./LoadingIcon";
 
 const PlayersView = () => {
   const [keyword, setKeyword] = useState("");
@@ -59,7 +60,7 @@ const PlayersView = () => {
               leagueId={p.leagueId}
             />
           ))}
-        <div>{loading && "Loading..."}</div>
+        {loading && <LoadingIcon />}
         <div className="search-players-bottom" ref={bottomDivRef}></div>
       </div>
     </div>

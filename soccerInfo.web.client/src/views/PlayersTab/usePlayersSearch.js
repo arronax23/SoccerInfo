@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 export default function usePlayersSearch(keyword, pageNumber, pageSize) {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [players, setPlayers] = useState([]);
   const [hasMore, setHasMore] = useState(false);
 
