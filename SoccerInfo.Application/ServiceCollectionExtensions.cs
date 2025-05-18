@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using SoccerInfo.Application.Commands.ExtractBackend;
+using Polly;
+using SoccerInfo.Application.Commands.ExtractMarketValueProgress;
+using SoccerInfo.Application.Commands.ExtractNationalities;
 using SoccerInfo.Application.Commands.UpdateToEnglish;
 using SoccerInfo.BackendScraper;
 
@@ -13,5 +15,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<CustomMapper>();
 
         services.AddScoped<Queries.GetPlayersByStats.QueryMapper>();
+
+        services.AddResiliencePipeline(NationalityExtractionPipeline.Name, NationalityExtractionPipeline.Configure);
     }
 }

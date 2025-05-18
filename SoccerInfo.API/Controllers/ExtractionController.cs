@@ -4,6 +4,7 @@ using SoccerInfo.API.Authorization;
 using SoccerInfo.Application.Commands.ExtarctPlayersCharacteristics;
 using SoccerInfo.Application.Commands.ExtarctPlayersGeneralnfo;
 using SoccerInfo.Application.Commands.ExtractMarketValueProgress;
+using SoccerInfo.Application.Commands.ExtractNationalities;
 using SoccerInfo.Application.Commands.SavePlayersCharacteristicsFromFile;
 using SoccerInfo.Application.Commands.SavePlayersGeneralInfoFromFile;
 using SoccerInfo.Application.Commands.SaveTransfermarktCookie;
@@ -75,6 +76,15 @@ public class ExtractionController(ICommandDispatcher commandDispatcher) : Contro
     public async Task<IActionResult> ExtractBackend()
     {
         await commandDispatcher.Send(new ExtractMarketValueProgressCommand());
+        return Ok();
+    }
+
+
+
+    [HttpPut("api/ExtractNationalities")]
+    public async Task<IActionResult> ExtractNationalities()
+    {
+        await commandDispatcher.Send(new ExtarctNationalitiesCommand());
         return Ok();
     }
 }
