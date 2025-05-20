@@ -22,6 +22,8 @@ public partial class Player : IEntity, IEquatable<Player>
     public virtual PlayerCharacteristic? Characteristics { get;  internal set; }
     public virtual PlayerStatistic Stats { get; set; } = null!;
     public virtual Team Team { get; set; } = null!;
+    public virtual GeneralPosition_Lookup GeneralPosition { get; set; } = null!;
+    public int GeneralPositionId { get; set; }
     public int TeamId { get; set; }
 
     public void AddNewMarketValueChanges(IEnumerable<MarketValueChange> marketValueChanges)

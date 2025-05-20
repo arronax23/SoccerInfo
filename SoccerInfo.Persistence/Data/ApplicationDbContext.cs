@@ -14,10 +14,11 @@ public class ApplicationDbContext : DbContext
     public DbSet<Player> Players { get; set; }
     public DbSet<MarketValueChange> MarketValueChanges { get; set; }
     public DbSet<Nationality> Nationalities { get; set; }
-    public DbSet<CountryFlag_Lookup> CountryFlags_Lookup { get; set; }
     public DbSet<PlayerCharacteristic> PlayerCharacteristics { get; set; }
     public DbSet<StatsLeague> StatsLeagues { get; set; }
     public DbSet<PlayerStatistic> PlayerStatistics { get; set; }
+    public DbSet<CountryFlag_Lookup> CountryFlags_Lookup { get; set; }
+    public DbSet<GeneralPosition_Lookup> GeneralPositions_Lookup { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

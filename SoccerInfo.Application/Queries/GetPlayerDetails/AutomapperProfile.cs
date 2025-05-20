@@ -13,6 +13,7 @@ public class AutomapperProfile : Profile
             .ForMember(x => x.MarketValueChanges, opt => opt.Ignore());
 
         CreateMap<Nationality, NationalityDto>()
+            .ForMember(x => x.Country, opt => opt.MapFrom(y => y.Country_Lookup))
             .ForMember(x => x.CountryFlagBase64Image, opt => opt.MapFrom(y => y.CountryFlag!.ImageSvgBase64));
     }
 }

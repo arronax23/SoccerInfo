@@ -21,6 +21,9 @@ internal sealed class PlayerConfiguration : IEntityTypeConfiguration<Player>
             .HasOne(x => x.Characteristics)
             .WithOne();
 
+        builder
+            .HasOne(x => x.GeneralPosition)
+            .WithMany();
 
         builder
             .Property(p => p.MarketValueNormalized)

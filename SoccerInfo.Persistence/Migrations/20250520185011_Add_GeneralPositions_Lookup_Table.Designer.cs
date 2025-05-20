@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SoccerInfo.Persistence.Data;
 
@@ -11,9 +12,11 @@ using SoccerInfo.Persistence.Data;
 namespace SoccerInfo.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250520185011_Add_GeneralPositions_Lookup_Table")]
+    partial class Add_GeneralPositions_Lookup_Table
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -198,7 +201,7 @@ namespace SoccerInfo.Persistence.Migrations
                     b.Property<string>("FaceImageBase64")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("GeneralPositionId")
+                    b.Property<int?>("GeneralPositionId")
                         .HasColumnType("int");
 
                     b.Property<float?>("MarketValue")
@@ -520,9 +523,7 @@ namespace SoccerInfo.Persistence.Migrations
                 {
                     b.HasOne("SoccerInfo.Persistence.Data.Models.GeneralPosition_Lookup", "GeneralPosition")
                         .WithMany()
-                        .HasForeignKey("GeneralPositionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("GeneralPositionId");
 
                     b.HasOne("SoccerInfo.Persistence.Data.Models.Team", "Team")
                         .WithMany("Players")

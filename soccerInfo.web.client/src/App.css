@@ -138,6 +138,34 @@ a.nav-link.active {
     margin-top: 2rem;
 }
 
+/* Swiper */
+
+
+.players .carousel-button {
+    position: absolute;
+    cursor: pointer;
+    transform: translateY(-50%);
+    top: 50%;
+    z-index: 10;
+}
+.players .carousel-button:hover {
+    opacity: .3;
+}
+
+
+.players .carousel-button-prev {
+    left: 0;
+}
+
+.players .carousel-button-next {
+    right: 0;
+}
+
+.players{
+    position: relative;
+}
+
+
 /* Team, Player */
 
 .teams, .players {
@@ -147,9 +175,10 @@ a.nav-link.active {
     align-items: center;
 }
 
+
+
+
 .team, .player {
-    /* background: #060042; */
-    /* background: #9D6381; */
     background: #242423;
     color: white;
     border: 2px solid black;
