@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using SoccerInfo.Persistence.Data;
 using SoccerInfo.Persistence.Data.Models;
 using SoccerInfo.Persistence.Data.Models.Abstractions;
+using SoccerInfo.Persistence.Data.Models.GeneralPosition;
 using SoccerInfo.Persistence.Transactions;
 using SoccerInfo.Shared.CQRS;
 using static SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo.Dto.GeneralInfoExtractionData;
@@ -13,7 +14,8 @@ namespace SoccerInfo.Application.Commands.SavePlayersGeneralInfo;
 internal class SavePlayersGeneralInfoCommandHandler(
     IConfiguration configuration,
     ApplicationDbContext dbContext,
-    IMapper mapper) : ICommandHandler<SavePlayersGeneralInfoCommand>
+    IMapper mapper,
+    GeneralPositionService generalPositionService) : ICommandHandler<SavePlayersGeneralInfoCommand>
 {
     public async Task Handle(SavePlayersGeneralInfoCommand request, CancellationToken cancellationToken)
     {
@@ -24,6 +26,7 @@ internal class SavePlayersGeneralInfoCommandHandler(
         EliminateNationalityDuplicates(extractedLeagues);
         dbContext.AttachRange(extractedLeagues);
 
+        AttachGeneralPosition(extractedLeagues);
 
         ChangeNationalitiesTracking(extractedLeagues);
 
@@ -89,9 +92,9 @@ internal class SavePlayersGeneralInfoCommandHandler(
     private void ChangeNationalitiesTracking(IEnumerable<League>? extractedLeagues)
     {
         var nationalities = extractedLeagues!
-            .SelectMany(x => x.Teams!).
-            SelectMany(y => y.Players!).
-            SelectMany(z => z.Nationalities!);
+            .SelectMany(x => x.Teams!)
+            .SelectMany(y => y.Players!)
+            .SelectMany(z => z.Nationalities!);
 
         foreach (var extractedNationality in nationalities)
         {
@@ -143,5 +146,11 @@ internal class SavePlayersGeneralInfoCommandHandler(
                 }
             }
         }
+    }
+
+    private void AttachGeneralPosition(IEnumerable<League> extractedLeagues)
+    {
+        var players = extractedLeagues.SelectMany(x => x.Teams!).SelectMany(y => y.Players!);
+        generalPositionService.AttachGeneralPosition(players);
     }
 }

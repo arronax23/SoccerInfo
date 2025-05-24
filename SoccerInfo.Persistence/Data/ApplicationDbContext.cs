@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SoccerInfo.Persistence.Data.Models;
+using SoccerInfo.Persistence.Data.Models.GeneralPosition;
 using SoccerInfo.Persistence.Data.Models.PlayerCharacteristicsAggregate;
 using SoccerInfo.Persistence.Data.Models.Stats;
 

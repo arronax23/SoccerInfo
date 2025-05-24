@@ -1,4 +1,4 @@
-﻿namespace SoccerInfo.Persistence.Data.Models;
+﻿namespace SoccerInfo.Persistence.Data.Models.GeneralPosition;
 
 public class GeneralPosition_Lookup
 {

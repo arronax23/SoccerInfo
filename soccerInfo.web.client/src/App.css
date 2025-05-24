@@ -141,6 +141,16 @@ a.nav-link.active {
 /* Swiper */
 
 
+.players-group {
+    position: relative;
+    background: #fff;
+    width: 90%;
+    margin: 1rem;
+    border-radius: 1rem;
+    /* padding: 1rem; */
+    box-shadow: 5px 5px 10px black;    
+}
+
 .players .carousel-button {
     position: absolute;
     cursor: pointer;
@@ -161,9 +171,9 @@ a.nav-link.active {
     right: 0;
 }
 
-.players{
+/* .players{
     position: relative;
-}
+} */
 
 
 /* Team, Player */
