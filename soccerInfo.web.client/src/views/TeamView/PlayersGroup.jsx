@@ -9,7 +9,7 @@ const PlayersGroup = ({ generalPositionDisplay, players }) => {
 
   return (
     <div className="players-group">
-      <h1>{generalPositionDisplay}</h1>
+      <h1 className="header">{generalPositionDisplay}</h1>
       <SlideButton swiperRef={swiperRef} isNext={true} />
       <SlideButton swiperRef={swiperRef} isNext={false} />
 
@@ -17,7 +17,7 @@ const PlayersGroup = ({ generalPositionDisplay, players }) => {
         slidesPerView={6}
         onSlideChange={() => console.log("slide change")}
         onSwiper={(swiper) => (swiperRef.current = swiper)}
-        style={{ width: "90%" }}
+        style={{ width: "90%"}}
       >
         {players &&
           players.map((p) => (

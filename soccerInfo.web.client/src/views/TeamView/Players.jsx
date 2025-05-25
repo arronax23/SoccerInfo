@@ -1,10 +1,7 @@
 import { useEffect, useState } from "react";
 import PlayersGroup from "./PlayersGroup";
-import GeneralPositions from "./Helpers/GeneralPositions";
 
 const Players = ({ teamId }) => {
-
-
   const [playersGroups, setPlayersGroups] = useState();
   useEffect(() => {
     getPlayers();
@@ -12,7 +9,7 @@ const Players = ({ teamId }) => {
 
 
   async function getPlayers() {
-    const response = await fetch(`/api/GetPlayers/${teamId}`);
+    const response = await fetch(`/api/GetGroupedPlayers/${teamId}`);
     const data = await response.json();
     console.log(data);
     setPlayersGroups(data);

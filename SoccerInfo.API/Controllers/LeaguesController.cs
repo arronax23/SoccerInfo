@@ -38,10 +38,10 @@ public class LeaguesController(IQueryDispatcher queryDispatcher) : ControllerBas
         return await queryDispatcher.Send(new GetLeaguesQuery());
     }
 
-    [HttpGet("api/GetPlayers/{teamId}")]
+    [HttpGet("api/GetGroupedPlayers/{teamId}")]
     public async Task<IEnumerable<PlayersGroupDto>> GetPlayers(int teamId)
     {
-        return await queryDispatcher.Send(new GetPlayersQuery() { TeamId = teamId });
+        return await queryDispatcher.Send(new GetGroupedPlayersQuery() { TeamId = teamId });
     }
 
     [HttpGet("api/GetPlayerDetails/{playerId}")]

@@ -6,9 +6,9 @@ using static SoccerInfo.Application.Queries.Dtos.PlayersGroupDto;
 
 namespace SoccerInfo.Application.Queries.GetPlayers;
 
-internal class GetPlayersQueryHandler(ApplicationDbContext dbContext) : IQueryHandler<GetPlayersQuery, IEnumerable<PlayersGroupDto>>
+internal class GetGroupedPlayersQueryHandler(ApplicationDbContext dbContext) : IQueryHandler<GetGroupedPlayersQuery, IEnumerable<PlayersGroupDto>>
 {
-    public Task<IEnumerable<PlayersGroupDto>> Handle(GetPlayersQuery request, CancellationToken cancellationToken)
+    public Task<IEnumerable<PlayersGroupDto>> Handle(GetGroupedPlayersQuery request, CancellationToken cancellationToken)
     {
         return Task.FromResult(dbContext.Players
             .AsNoTracking()

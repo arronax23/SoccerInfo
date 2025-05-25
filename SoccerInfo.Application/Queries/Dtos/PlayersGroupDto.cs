@@ -2,15 +2,6 @@
 
 public class PlayersGroupDto
 {
-    public enum GeneralPositionType
-    {
-        Gaolkeeper,
-        Defender,
-        Midfielder,
-        Forward
-    }
-
-    public GeneralPositionType GeneralPosition  { get; set; }
     public string DisplayName { get; set; } = null!;
     public IEnumerable<PlayerDto> Players { get; set; } = null!;
     public class PlayerDto

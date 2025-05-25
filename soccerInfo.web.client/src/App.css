@@ -141,14 +141,29 @@ a.nav-link.active {
 /* Swiper */
 
 
+.swiper-wrapper {
+    width: fit-content !important;
+    margin: auto;
+}
+
 .players-group {
+    display: flex;
+    flex-direction: column;
     position: relative;
     background: #fff;
     width: 90%;
     margin: 1rem;
     border-radius: 1rem;
-    /* padding: 1rem; */
+    border: 2px solid #fff;
     box-shadow: 5px 5px 10px black;    
+}
+
+.players-group .header {
+    background: #000;
+    color: #fff;
+    border-radius: 1rem 1rem 0 0;
+    font-size: 1.5rem;
+    letter-spacing: .1rem;
 }
 
 .players .carousel-button {
