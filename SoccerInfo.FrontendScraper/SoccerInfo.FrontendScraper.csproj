@@ -23,11 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="ScrapePlayersGeneralInfo\LeagueLink.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>LeagueLink.resx</DependentUpon>
-    </Compile>
     <Compile Update="Transfermarkt.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -36,11 +31,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="ScrapePlayersGeneralInfo\LeagueLink.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>LeagueLink.Designer.cs</LastGenOutput>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
     <EmbeddedResource Update="Transfermarkt.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Transfermarkt.Designer.cs</LastGenOutput>

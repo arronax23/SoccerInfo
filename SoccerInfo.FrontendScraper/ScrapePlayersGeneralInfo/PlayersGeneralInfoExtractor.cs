@@ -22,11 +22,11 @@ public class PlayersGeneralInfoExtractor(
     PlaywrightManager playwrightManager,
     ResiliencePipelineProvider<string> pipelineProvider)
 {
-    public async Task<GeneralInfoExtractionData?> TryExtarct()
+    public async Task<GeneralInfoExtractionData?> TryExtarct(IEnumerable<string> leagueLinks)
     {
         try
         {
-            return await Extarct();
+            return await Extarct(leagueLinks);
         }
         catch (Exception ex)
         {
@@ -39,10 +39,9 @@ public class PlayersGeneralInfoExtractor(
         }
     }
 
-    private async Task<GeneralInfoExtractionData> Extarct()
+    private async Task<GeneralInfoExtractionData> Extarct(IEnumerable<string> leagueLinks)
     {
         var extraction = new GeneralInfoExtractionData();
-        var leagueLinks = GetLeagueLinks();
 
         await playwrightManager.LaunchBrowser();
 
@@ -57,31 +56,6 @@ public class PlayersGeneralInfoExtractor(
         return extraction;
     }
 
-
-    private IEnumerable<string> GetLeagueLinks()
-    {
-        return new List<string>()
-        {
-            //LeagueLink.PremierLeague,
-            //LeagueLink.Bundesliga,
-            //LeagueLink.SerieA,
-            //LeagueLink.LaLiga,
-            //LeagueLink.Ligue1,
-
-            //LeagueLink.LigaPortugal,
-            //LeagueLink.JupilerProLeague,
-            //LeagueLink.Eredivisie,
-            //LeagueLink.SuperLig,
-            //LeagueLink.SuperLeague1,
-            //LeagueLink.SuperLeague,
-            //LeagueLink.Ekstraklasa,
-            //LeagueLink.AustrianBundesliga,
-            //LeagueLink.BrazilSerieA,
-            LeagueLink.SaudiProLeague,
-            //LeagueLink.MLS,
-        };
-    }
-
     private async Task GetLeague(GeneralInfoExtractionData extraction, string leagueLink)
     {
         var leaguePipeline = pipelineProvider.GetPipeline(GeneralInfoExtractionPipeline.Name);
@@ -93,6 +67,8 @@ public class PlayersGeneralInfoExtractor(
             {
                 page = await playwrightManager.Browser.NewPageAsync();
                 await page.GotoAsync(leagueLink, new PageGotoOptions() { WaitUntil = WaitUntilState.NetworkIdle });
+                var ua = await page.EvaluateAsync<string>("() => navigator.userAgent");
+                logger.LogCritical(ua);
             }
             catch (Exception ex)
             {
@@ -107,9 +83,12 @@ public class PlayersGeneralInfoExtractor(
         var teamsNodes = leagueNode.QuerySelector("table.items").QuerySelectorAll(".hauptlink a[title]");
         var teamsLinks = teamsNodes.Select(x => Transfermarkt.BASE_URI + x.GetAttributeValue("href", "Not found"));
 
+
         foreach (var teamLink in teamsLinks)
         {
             var teamPipeline = pipelineProvider.GetPipeline(GeneralInfoExtractionPipeline.Name);
+
+
             await teamPipeline.ExecuteAsync(async _ =>
             {
                 try

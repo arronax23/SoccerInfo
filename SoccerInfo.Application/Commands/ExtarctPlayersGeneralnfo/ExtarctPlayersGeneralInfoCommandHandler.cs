@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo;
+using SoccerInfo.Persistence.Data;
 using SoccerInfo.Persistence.Data.Models;
 using SoccerInfo.Persistence.JsonFileData;
 using SoccerInfo.Shared.CQRS;
@@ -7,13 +9,19 @@ using SoccerInfo.Shared.CQRS;
 namespace SoccerInfo.Application.Commands.ExtarctPlayersGeneralnfo;
 
 internal class ExtarctPlayersGeneralInfoCommandHandler(
-    PlayersGeneralInfoExtractor soccerDataExtractor,
+    ApplicationDbContext dbContext,
+    PlayersGeneralInfoExtractor playersGeneralInfoExtractor,
     JsonFileDataManager jsonFileDataManager,
     IMapper mapper) : ICommandHandler<ExtarctPlayersGeneralnfoCommand>
 {
     public async Task Handle(ExtarctPlayersGeneralnfoCommand request, CancellationToken cancellationToken)
     {
-        var extraction = await soccerDataExtractor.TryExtarct();
+        var leagueLinks = dbContext.LeagueLinksLookup
+            .AsNoTracking()
+            .Where(l => l.IsActive)
+            .Select(l => l.Value);
+
+        var extraction = await playersGeneralInfoExtractor.TryExtarct(leagueLinks);
         
         if (extraction == null)
             return;

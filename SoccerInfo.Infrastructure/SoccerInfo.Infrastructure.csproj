@@ -43,10 +43,4 @@
     </Content>
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="nationalities_prepared.csv">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
 </Project>

@@ -32,7 +32,5 @@ public class GeneralPositionService(IGeneralPositionLookupRepository repository)
             player.GeneralPosition = repository.Get(GeneralPosition.Forward);
         else
             throw new Exception("Not valid position");
-
-
     }
 }

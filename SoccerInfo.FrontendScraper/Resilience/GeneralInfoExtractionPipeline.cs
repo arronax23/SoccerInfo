@@ -9,10 +9,10 @@ internal static class GeneralInfoExtractionPipeline
     {
         config.AddRetry(new()
         {
-            Delay = TimeSpan.FromSeconds(2),
+            Delay = TimeSpan.FromMinutes(3),
             BackoffType = DelayBackoffType.Linear,
             UseJitter = true,
-            MaxRetryAttempts = 3,
+            MaxRetryAttempts = 5,
         })
         .AddTimeout(TimeSpan.FromMinutes(7));
     }

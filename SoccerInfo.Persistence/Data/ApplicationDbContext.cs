@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SoccerInfo.Persistence.Data.Models;
+using SoccerInfo.Persistence.Data.Models.Extraction;
 using SoccerInfo.Persistence.Data.Models.GeneralPosition;
 using SoccerInfo.Persistence.Data.Models.PlayerCharacteristicsAggregate;
 using SoccerInfo.Persistence.Data.Models.Stats;
@@ -20,6 +21,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<PlayerStatistic> PlayerStatistics { get; set; }
     public DbSet<CountryFlag_Lookup> CountryFlags_Lookup { get; set; }
     public DbSet<GeneralPosition_Lookup> GeneralPositions_Lookup { get; set; }
+    public DbSet<LeagueLinkLookup> LeagueLinksLookup { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
