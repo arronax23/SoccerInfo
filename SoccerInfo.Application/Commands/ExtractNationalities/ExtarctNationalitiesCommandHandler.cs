@@ -18,7 +18,7 @@ internal class ExtarctNationalitiesCommandHandler(
     public async Task Handle(ExtarctNationalitiesCommand request, CancellationToken cancellationToken)
     {
         await playwrightManager.LaunchBrowser();
-        var page = await playwrightManager.Browser.NewPageAsync();
+        var page = await playwrightManager.NewPageWithRandomUserAgent();
         await page.Context.AddCookiesAsync(cookieReader.ReadFromJsonFile());
 
         await page.GotoAsync("https://www.transfermarkt.com/marktwertetop/wertvollstenationalmannschaften", new PageGotoOptions()
@@ -74,7 +74,7 @@ internal class ExtarctNationalitiesCommandHandler(
 
         await resiliencePipeline.ExecuteAsync(async _ =>
         {
-            var page = await playwrightManager.Browser.NewPageAsync();
+            var page = await playwrightManager.NewPageWithRandomUserAgent();
             await page.GotoAsync("https://www.transfermarkt.com" + nationalityLink, new()
             {
                 WaitUntil = WaitUntilState.DOMContentLoaded

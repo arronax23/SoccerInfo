@@ -65,7 +65,7 @@ public class PlayersGeneralInfoExtractor(
         {
             try
             {
-                page = await playwrightManager.Browser.NewPageAsync();
+                page = await playwrightManager.NewPageWithRandomUserAgent();
                 await page.GotoAsync(leagueLink, new PageGotoOptions() { WaitUntil = WaitUntilState.NetworkIdle });
                 var ua = await page.EvaluateAsync<string>("() => navigator.userAgent");
                 logger.LogCritical(ua);
@@ -84,27 +84,29 @@ public class PlayersGeneralInfoExtractor(
         var teamsLinks = teamsNodes.Select(x => Transfermarkt.BASE_URI + x.GetAttributeValue("href", "Not found"));
 
 
-        foreach (var teamLink in teamsLinks)
-        {
-            var teamPipeline = pipelineProvider.GetPipeline(GeneralInfoExtractionPipeline.Name);
 
-
-            await teamPipeline.ExecuteAsync(async _ =>
+        await Parallel.ForEachAsync(teamsLinks,
+            new ParallelOptions { MaxDegreeOfParallelism = 1 },
+            async (teamLink, _) =>
             {
-                try
-                {
-                    await page.GotoAsync($"{teamLink}", new PageGotoOptions() { WaitUntil = WaitUntilState.NetworkIdle });
+                var teamPipeline = pipelineProvider.GetPipeline(GeneralInfoExtractionPipeline.Name);
 
-                    var node = await page.CreateHtmlNodeFromPage();
-                    league.Teams.Add(await GetTeam(node));
-                }
-                catch (Exception ex)
+                await teamPipeline.ExecuteAsync(async _ =>
                 {
-                    logger.LogError(ex.ToString());
-                    throw;
-                }
+                    try
+                    {
+                        await page.GotoAsync($"{teamLink}", new PageGotoOptions() { WaitUntil = WaitUntilState.DOMContentLoaded });
+
+                        var node = await page.CreateHtmlNodeFromPage();
+                        league.Teams.Add(await GetTeam(node));
+                    }
+                    catch (Exception ex)
+                    {
+                        logger.LogError(ex.ToString());
+                        throw;
+                    }
+                });
             });
-        }
 
         extraction.Leagues.Add(league);
         

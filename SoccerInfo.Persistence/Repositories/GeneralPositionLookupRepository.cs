@@ -7,6 +7,6 @@ internal class GeneralPositionLookupRepository(ApplicationDbContext dbContext) :
 {
     public GeneralPosition_Lookup Get(GeneralPosition generalPosition)
     {
-        return dbContext.GeneralPositions_Lookup.AsNoTracking().Single(gp => gp.Name == generalPosition.ToString());
+        return dbContext.GeneralPositions_Lookup.Single(gp => gp.Name == generalPosition.ToString());
     }
 }

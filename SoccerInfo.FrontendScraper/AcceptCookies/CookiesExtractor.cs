@@ -10,7 +10,7 @@ public class CookiesExtractor(
     public async Task Extract()
     {
         await playwrightManager.LaunchBrowser(headless: false);
-        var page = await playwrightManager.Browser.NewPageAsync();
+        var page = await playwrightManager.NewPageWithRandomUserAgent();
         await page.GotoAsync(Transfermarkt.BASE_URI);
 
 

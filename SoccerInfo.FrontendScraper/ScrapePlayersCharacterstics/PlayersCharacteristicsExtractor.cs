@@ -85,7 +85,7 @@ public class PlayersCharacteristicsExtractor(
 
             try
             {
-                page = await playwrightManager.Browser.NewPageAsync();
+                page = await playwrightManager.NewPageWithRandomUserAgent();
                 await page.Context.AddCookiesAsync(cookieReader.ReadFromJsonFile());
 
                 await page.GotoAsync(Transfermarkt.BASE_URI + playerExtraction.TransfermarktURL, new PageGotoOptions()

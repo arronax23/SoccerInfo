@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Playwright;
+using RandomUserAgent;
 
 namespace SoccerInfo.FrontendScraper.Utilities;
 public class PlaywrightManager(
@@ -10,8 +10,6 @@ public class PlaywrightManager(
 {
     private IBrowser _browser = null!;
     private IPlaywright _playwright = null!;
-
-    public IBrowser Browser => _browser;
     public PlaywrightSettings Settings => new(configuration);
 
 
@@ -20,20 +18,6 @@ public class PlaywrightManager(
         try
         {
             _playwright = await Playwright.CreateAsync();
-
-            //if (hostEnvironment.IsProduction())
-            //{
-            //    var rootPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-            //    _browser = await _playwright.Chromium.LaunchAsync(new() 
-            //    { 
-            //        Headless = headless,
-            //        ExecutablePath = Path.Combine(rootPath, ".cache/ms-playwright/chromium_headless_shell-1148/chrome-linux")
-            //    });
-            //}
-            //else
-            //    _browser = await _playwright.Chromium.LaunchAsync(new() { Headless = headless });
-
-
             _browser = await _playwright.Chromium.LaunchAsync(new() { Headless = headless ?? Settings.Headless });
         }
         catch (Exception ex)
@@ -41,6 +25,15 @@ public class PlaywrightManager(
             logger.LogError("Playwright LaunchBrowser Failed");
             logger.LogError(ex.ToString());
         }
+    }
+
+
+    public async Task<IPage> NewPageWithRandomUserAgent()
+    {
+        string userAgent = RandomUa.RandomUserAgent;
+        var ctx = await _browser.NewContextAsync(new() {UserAgent = userAgent });
+
+        return await ctx.NewPageAsync();
     }
 
     public async Task CloseBrowser()
