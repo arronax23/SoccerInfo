@@ -9,11 +9,11 @@ internal static class CharacteristicsExtractionPipeline
     {
         config.AddRetry(new()
         {
-            Delay = TimeSpan.FromSeconds(2),
+            Delay = TimeSpan.FromMinutes(3),
             BackoffType = DelayBackoffType.Linear,
             UseJitter = true,
-            MaxRetryAttempts = 3,
+            MaxRetryAttempts = 8,
         })
-        .AddTimeout(TimeSpan.FromMinutes(7));
+        .AddTimeout(TimeSpan.FromMinutes(30));
     }
 }

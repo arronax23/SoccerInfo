@@ -1,13 +1,13 @@
-﻿using SoccerInfo.FrontendScraper.Utilities;
-using SoccerInfo.FrontendScraper.ScrapePlayersCharacterstics.Dto;
-using HtmlAgilityPack;
-using SoccerInfo.FrontendScraper.ScrapePlayersCharacterstics.Parsers;
+﻿using HtmlAgilityPack;
 using HtmlAgilityPack.CssSelectors.NetCore;
-using Microsoft.Playwright;
 using Microsoft.Extensions.Logging;
+using Microsoft.Playwright;
 using Polly.Registry;
-using static SoccerInfo.FrontendScraper.ScrapePlayersCharacterstics.Dto.PlayersCharacteristicsExtractionData;
 using SoccerInfo.FrontendScraper.Resilience;
+using SoccerInfo.FrontendScraper.ScrapePlayersCharacterstics.Dto;
+using SoccerInfo.FrontendScraper.ScrapePlayersCharacterstics.Parsers;
+using SoccerInfo.FrontendScraper.Utilities;
+using static SoccerInfo.FrontendScraper.ScrapePlayersCharacterstics.Dto.PlayersCharacteristicsExtractionData;
 
 namespace SoccerInfo.FrontendScraper.ScrapePlayersCharacterstics;
 
@@ -15,7 +15,6 @@ public class PlayersCharacteristicsExtractor(
     ILogger<PlayersCharacteristicsExtractor> logger,
     ResiliencePipelineProvider<string> pipelineProvider,
     PlaywrightManager playwrightManager,
-    CookieReader cookieReader,
     InfoTableParser infoTableParser,
     NationalTeamParser nationalTeamParser,
     SocialsParser socialsParser,
@@ -47,6 +46,7 @@ public class PlayersCharacteristicsExtractor(
         var playersCharacteristicsExtraction = new PlayersCharacteristicsExtractionData();
 
         await playwrightManager.LaunchBrowser();
+        await AcceptCookies();
 
         int playersScrapedCount = 0;
 
@@ -75,6 +75,13 @@ public class PlayersCharacteristicsExtractor(
         return playersCharacteristicsExtraction;
     }
 
+    private async Task AcceptCookies()
+    {
+        IPage page = await playwrightManager.NewPage();
+        await page.GotoAsync(Transfermarkt.BASE_URI, new() { WaitUntil = WaitUntilState.NetworkIdle });
+        await page.ClickOnAcceptCookiesButton();
+    }
+
     private async Task GetPlayer(PlayerExtractionData playerExtraction, PlayersCharacteristicsExtractionData playersCharacteristicsExtractionData, CancellationToken cancellationToken)
     {
         var pipeline = pipelineProvider.GetPipeline(CharacteristicsExtractionPipeline.Name);
@@ -85,8 +92,7 @@ public class PlayersCharacteristicsExtractor(
 
             try
             {
-                page = await playwrightManager.NewPageWithRandomUserAgent();
-                await page.Context.AddCookiesAsync(cookieReader.ReadFromJsonFile());
+                page = await playwrightManager.NewPage();
 
                 await page.GotoAsync(Transfermarkt.BASE_URI + playerExtraction.TransfermarktURL, new PageGotoOptions()
                 {

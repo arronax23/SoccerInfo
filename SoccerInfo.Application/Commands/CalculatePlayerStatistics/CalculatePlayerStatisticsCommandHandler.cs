@@ -5,7 +5,7 @@ using SoccerInfo.Persistence.Data;
 using SoccerInfo.Persistence.Data.Models;
 using SoccerInfo.Persistence.Data.Models.PlayerCharacteristicsAggregate;
 using SoccerInfo.Persistence.Data.Models.Stats;
-using SoccerInfo.Persistence.Transactions;
+using SoccerInfo.Persistence.EntityFrameworkExtensions;
 using SoccerInfo.Shared.CQRS;
 
 namespace SoccerInfo.Application.Commands.CalculatePlayerStatistics;

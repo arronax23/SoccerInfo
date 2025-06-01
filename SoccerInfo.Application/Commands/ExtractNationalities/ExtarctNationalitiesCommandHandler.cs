@@ -7,6 +7,7 @@ using Polly.Registry;
 
 namespace SoccerInfo.Application.Commands.ExtractNationalities;
 
+[Obsolete]
 internal class ExtarctNationalitiesCommandHandler(
     PlaywrightManager playwrightManager,
     CookieReader cookieReader,

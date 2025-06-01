@@ -90,6 +90,14 @@ a.nav-link.active {
 
 /* League  */
 
+.l h2.header, .t h2.header {
+    background: #000;
+    color: #fff;
+    width: 160px;
+    margin: 0 auto .25rem auto;
+    border-radius: .25rem;
+}
+
 .l-img, .t-img {
     background: white;
     border: 3px solid black;

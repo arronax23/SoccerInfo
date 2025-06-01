@@ -1,0 +1,46 @@
+[
+  {
+    "name": "_sp_v1_ss",
+    "value": "1:H4sIAAAAAAAAAItWqo5RKimOUbKKxs_IAzEMamN1YpRSQcy80pwcILsErKC6lpoSSrEA-EAOLpYAAAA%3D",
+    "url": null,
+    "domain": "www.transfermarkt.com",
+    "path": "/",
+    "expires": 1.7514802E+09,
+    "httpOnly": false,
+    "secure": true,
+    "sameSite": 2
+  },
+  {
+    "name": "_sp_v1_p",
+    "value": "948",
+    "url": null,
+    "domain": "www.transfermarkt.com",
+    "path": "/",
+    "expires": 1.7514802E+09,
+    "httpOnly": false,
+    "secure": true,
+    "sameSite": 2
+  },
+  {
+    "name": "_sp_v1_data",
+    "value": "745500",
+    "url": null,
+    "domain": "www.transfermarkt.com",
+    "path": "/",
+    "expires": 1.7514802E+09,
+    "httpOnly": false,
+    "secure": true,
+    "sameSite": 2
+  },
+  {
+    "name": "_sp_su",
+    "value": "false",
+    "url": null,
+    "domain": ".transfermarkt.com",
+    "path": "/",
+    "expires": 1.7804242E+09,
+    "httpOnly": false,
+    "secure": true,
+    "sameSite": 2
+  }
+]

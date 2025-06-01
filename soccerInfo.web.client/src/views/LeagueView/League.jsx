@@ -10,6 +10,7 @@ const League = ({ leagueId }) => {
   return (
     (league && (
         <div className="l">
+        <h2 className="header">{league.name}</h2>
         <img
           className="l-img"
           src={`data:image/jpeg;base64,${league.leagueImageBase64}`}

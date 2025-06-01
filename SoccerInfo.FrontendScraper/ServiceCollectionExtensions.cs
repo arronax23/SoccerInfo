@@ -7,6 +7,7 @@ using SoccerInfo.FrontendScraper.ScrapePlayersCharacterstics.Parsers;
 using SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo;
 using SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo.Parsers;
 using SoccerInfo.FrontendScraper.Utilities;
+using static SoccerInfo.FrontendScraper.Utilities.PlaywrightManager;
 
 namespace SoccerInfo.FrontendScraper;
 public static class ServiceCollectionExtensions
@@ -33,6 +34,8 @@ public static class ServiceCollectionExtensions
         services.AddResiliencePipeline(CharacteristicsExtractionPipeline.Name, CharacteristicsExtractionPipeline.Configure);
         services.AddResiliencePipeline(GeneralInfoExtractionPipeline.Name, GeneralInfoExtractionPipeline.Configure);
 
+        services.AddOptions<PlaywrightOptions>()
+            .BindConfiguration(nameof(PlaywrightOptions));
 
         services.AddScoped<CookiesExtractor>();
 

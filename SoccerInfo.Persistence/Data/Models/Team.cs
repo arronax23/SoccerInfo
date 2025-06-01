@@ -1,23 +1,24 @@
 ﻿using SoccerInfo.Persistence.Data.Models.Abstractions;
+using System.Linq.Expressions;
 
 namespace SoccerInfo.Persistence.Data.Models;
 
-public class Team : IEntity,  IEquatable<Team>
+public class Team : IEntity
 {
     public int Id { get; set; }
     public string Name { get; set; } = null!;
     public string? TeamImageBase64 { get; set; }
-    public virtual ICollection<Player>? Players { get; set; }
+    public virtual ICollection<Player> Players { get; set; } = new List<Player>();
     public int? LeagueId { get; set; }
     public virtual League? League { get; set; }
 
-    public bool Equals(Team? other)
+    public static Expression<Func<Team, bool>> Matches(Team other) => 
+        (Team t) => t.Name == other.Name;
+
+
+    public void Update(Team team)
     {
-        if (other == null)
-            return false;
-        else if (this.Name == other.Name)
-            return true;
-        else
-            return false;
+        this.Name = team.Name;
+        this.TeamImageBase64 = team.TeamImageBase64;
     }
 }

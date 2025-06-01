@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SoccerInfo.Persistence.Data;
 
@@ -11,9 +12,11 @@ using SoccerInfo.Persistence.Data;
 namespace SoccerInfo.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250601112657_Nationalities_Table_Country_Lookup_Column_Nullable")]
+    partial class Nationalities_Table_Country_Lookup_Column_Nullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -377,7 +380,7 @@ namespace SoccerInfo.Persistence.Migrations
                     b.Property<string>("Platform")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PlayerCharacteristicId")
+                    b.Property<int?>("PlayerCharacteristicId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -653,9 +656,7 @@ namespace SoccerInfo.Persistence.Migrations
                 {
                     b.HasOne("SoccerInfo.Persistence.Data.Models.PlayerCharacteristicsAggregate.PlayerCharacteristic", null)
                         .WithMany("Socials")
-                        .HasForeignKey("PlayerCharacteristicId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PlayerCharacteristicId");
                 });
 
             modelBuilder.Entity("SoccerInfo.Persistence.Data.Models.Stats.PlayerStatistic", b =>

@@ -11,6 +11,10 @@ internal sealed class PlayerCharacteristicsConfiguration : IEntityTypeConfigurat
         builder.OwnsOne(x => x.NationalTeam);
         builder.OwnsOne(x => x.BrithPlace);
 
+        builder.HasMany(x => x.Socials)
+            .WithOne()
+            .HasForeignKey(y => y.PlayerCharacteristicId);
+
         builder.HasMany(x => x.OutfieldPlayerStats)
             .WithOne()
             .HasForeignKey(y => y.PlayerCharacteristicId);

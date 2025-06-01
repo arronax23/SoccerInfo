@@ -56,4 +56,25 @@ public static class PlaywrightExtensions
 
     public static async Task<HtmlNode> CreateHtmlNodeFromPage(this IPage page)
         => HtmlNode.CreateNode(await page.ContentAsync());
+
+
+    public static async Task ClickOnAcceptCookiesButton(this IPage page)
+    {
+        try
+        {
+
+            var frame = page.Frames.Single(x => x.Url.StartsWith(@"https://cdn.privacy-mgmt.com"));
+            var acceptButton = await frame.QuerySelectorAsync("button[title=\'Accept & continue\']");
+            await acceptButton.ClickAsync();
+
+            Log.Logger.Information("Click on accept cookies button - SUCCESSFUL");
+
+        }
+        catch (Exception ex)
+        {
+            Log.Logger.Warning("Click on accept cookies button - FAILED");
+            Log.Logger.Warning(ex.ToString());
+        }
+
+    }
 }

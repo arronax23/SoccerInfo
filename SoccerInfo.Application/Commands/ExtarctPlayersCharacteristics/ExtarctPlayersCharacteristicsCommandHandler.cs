@@ -12,11 +12,11 @@ internal class ExtarctPlayersCharacteristicsCommandHandler(
     JsonFileDataManager jsonFileDataManager,
     ApplicationDbContext dbContext,
     PlayersCharacteristicsExtractor extractor
-    ) : ICommandHandler<ExtarctPlayersCharacteristicsCommand>
+    ) : ICommandHandler<ExtarctPlayersCharacteristicsCommand, PlayersCharacteristicsExtractionData?>
 {
-    public async Task Handle(ExtarctPlayersCharacteristicsCommand request, CancellationToken cancellationToken)
+    public async Task<PlayersCharacteristicsExtractionData?> Handle(ExtarctPlayersCharacteristicsCommand request, CancellationToken cancellationToken)
     {
-        await Benchmark.ExecuteAndMeasureTimeAsync(async () =>
+        var extraction = await Benchmark.ExecuteAndMeasureTimeAsync(async () =>
         {
             var extractionInput = dbContext.Players
             .Where(x => !request.OnlyNewPlayers || x.Characteristics == null)
@@ -31,13 +31,15 @@ internal class ExtarctPlayersCharacteristicsCommandHandler(
 
             var extraction = await extractor.TryExtract(extractionInput, cancellationToken);
 
-            if (extraction == null)
-                return;
+            if (extraction != null)
+                await jsonFileDataManager.SaveData(extraction, "characteristics_data");
 
-            await jsonFileDataManager.SaveData(extraction, "characteristics_data");
+            return extraction;
         }, "ExtarctPlayersCharacteristicsCommand");
 
         logger.LogInformation("ExtarctPlayersCharacteristicsCommand has finished");
+
+        return extraction;
 
     }
 }

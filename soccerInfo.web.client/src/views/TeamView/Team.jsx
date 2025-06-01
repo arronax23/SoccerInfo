@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import {useState, useEffect} from 'react'
 
 const Team = ({ id }) => {
   const [team, setTeam] = useState();
@@ -9,6 +9,7 @@ const Team = ({ id }) => {
   return (
     (team && (
         <div className="t">
+        <h2 className="header">{team.name}</h2>
         <img
           className="t-img"
           src={`data:image/jpeg;base64,${team.teamImageBase64}`}

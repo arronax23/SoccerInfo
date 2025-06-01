@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using SoccerInfo.Persistence.Data;
 using SoccerInfo.Persistence.Data.Models.PlayerCharacteristicsAggregate;
-using SoccerInfo.Persistence.Transactions;
+using SoccerInfo.Persistence.EntityFrameworkExtensions;
 using SoccerInfo.Shared.CQRS;
 using System.Text.RegularExpressions;
 

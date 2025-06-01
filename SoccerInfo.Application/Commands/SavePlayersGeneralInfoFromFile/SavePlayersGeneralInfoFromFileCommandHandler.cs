@@ -6,7 +6,7 @@ using SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo.Dto;
 using SoccerInfo.Persistence.Data;
 using SoccerInfo.Persistence.Data.Models;
 using SoccerInfo.Persistence.Data.Models.Abstractions;
-using SoccerInfo.Persistence.Transactions;
+using SoccerInfo.Persistence.EntityFrameworkExtensions;
 using SoccerInfo.Shared.CQRS;
 using System.Text.Json;
 

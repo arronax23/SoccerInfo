@@ -170,4 +170,8 @@ public static class PageExtensions
         await page.WaitForFunctionAsync(@"() => window.finished == true", new WaitForFunctionOptions() { Timeout = timeout });
         await page.EvaluateFunctionAsync(@"() => window.finished = false");
     }
+
+
+
+
 }

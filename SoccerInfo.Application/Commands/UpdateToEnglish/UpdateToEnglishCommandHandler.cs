@@ -5,6 +5,7 @@ using SoccerInfo.Persistence.Data;
 using SoccerInfo.Persistence.Data.Models;
 using SoccerInfo.Persistence.Data.Models.Abstractions;
 using SoccerInfo.Shared.CQRS;
+using System.Linq;
 using System.Text.Json;
 using static SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo.Dto.GeneralInfoExtractionData;
 
@@ -44,21 +45,21 @@ internal class UpdateToEnglishCommandHandler(
 
         foreach (var dbLeague in dbLeagues)
         {
-            var extractedLeague = extractedLeagues.SingleOrDefault(dbLeague.Equals);
+            var extractedLeague = extractedLeagues.SingleOrDefault(League.Matches(dbLeague).Compile());
             if (extractedLeague != null)
             {
                 ChangeEntityTracking<League, LeagueData>(extractedLeague, dbLeague);
 
                 foreach (var dbTeam in dbLeague.Teams!)
                 {
-                    var extractedTeam = extractedLeague.Teams!.SingleOrDefault(dbTeam.Equals);
+                    var extractedTeam = extractedLeague.Teams!.SingleOrDefault(Team.Matches(dbTeam).Compile());
                     if (extractedTeam != null)
                     {
                         ChangeEntityTracking<Team, TeamData>(extractedTeam, dbTeam);
 
                         foreach (var dbPlayer in dbTeam.Players!)
                         {
-                            var extractedPlayer = extractedTeam.Players!.SingleOrDefault(dbPlayer.Equals);
+                            var extractedPlayer = extractedTeam.Players!.SingleOrDefault(Player.Matches(dbPlayer).Compile());
                             if (extractedPlayer != null)
                             {
                                 ChangeEntityTracking<Player, PlayerData>(extractedPlayer, dbPlayer);

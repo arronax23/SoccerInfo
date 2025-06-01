@@ -1,24 +1,18 @@
 ﻿using SoccerInfo.Persistence.Data.Models.Abstractions;
+using System.Linq.Expressions;
 
 namespace SoccerInfo.Persistence.Data.Models;
 
-public class Nationality : IEntity,  IEquatable<Nationality>
+public class Nationality : IEntity
 {
     public int Id { get; set; }
     public string Country { get; set; } = null!;
-    public string Country_Lookup { get; set; } = null!;
+    public string? Country_Lookup { get; set; }
     public virtual ICollection<Player>? Players { get; set; }
     public virtual CountryFlag_Lookup? CountryFlag { get; set; }
     public int? CountryFlagId { get; set; }
 
-    public bool Equals(Nationality? other)
-    {
-        if (other == null)
-            return false;
-        else if (this.Country == other.Country)
-            return true;
-        else
-            return false;
-    }
+    public static Expression<Func<Nationality, bool>> Matches(Nationality other) =>
+        (Nationality n) => n.Country == other.Country;
 }
 
