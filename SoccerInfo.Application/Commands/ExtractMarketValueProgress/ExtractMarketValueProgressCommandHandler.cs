@@ -1,4 +1,5 @@
-﻿using SoccerInfo.BackendScraper;
+﻿using Microsoft.EntityFrameworkCore;
+using SoccerInfo.BackendScraper;
 using SoccerInfo.Persistence.Data;
 using SoccerInfo.Shared.CQRS;
 using SoccerInfo.Shared.Utilities;
@@ -13,11 +14,10 @@ internal class ExtractMarketValueProgressCommandHandler(
 {
     public async Task Handle(ExtractMarketValueProgressCommand request, CancellationToken cancellationToken)
     {
-        var players = dbContext.Players;
+        var players = dbContext.Players.AsNoTracking();
         var extractedData = await Benchmark.ExecuteAndMeasureTimeAsync(async () => {
             return await marketValueProgressScraper.Scrape(players.Select(x => x.TransfermarktId));
-        }, "Scrape All");
-
+        }, "Scrape Market Value Progress");
 
         foreach (var player in players)
         {

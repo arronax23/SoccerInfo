@@ -21,17 +21,40 @@ public static class PlaywrightExtensions
         });
     }
 
-    public static async Task ScrollToBottomAsync(this IPage page, int delayMs = 50, int scrollHeightIncrement = 200)
+    //public static async Task ScrollToBottomAsync(this IPage page, int delayMs = 50, int scrollHeightIncrement = 200)
+    //{
+    //    try
+    //    {
+    //        await page.EvaluateAsync(@"async ([delayMs, scrollHeightIncrement]) => {
+    //        const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+    //        while (document.scrollingElement.scrollTop + window.innerHeight < document.scrollingElement.scrollHeight) {
+    //            document.scrollingElement.scrollTop += scrollHeightIncrement;
+    //            await delay(delayMs);
+    //        }
+    //    }", new[] {delayMs, scrollHeightIncrement});
+    //    }
+    //    catch (Exception)
+    //    {
+    //        Log.Logger.Error("scrolling exception");
+    //    }
+
+    //}
+
+
+    public static async Task ScrollToBottomAsync(this IPage page, int delayMs = 50, int scrollHeightIncrement = 200, int maxScrollAttempts = 25)
     {
         try
         {
-            await page.EvaluateAsync(@"async ([delayMs, scrollHeightIncrement]) => {
+            await page.EvaluateAsync(@"async ([delayMs, scrollHeightIncrement, maxScrollAttempts]) => {
             const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+            let attempts = 0;
             while (document.scrollingElement.scrollTop + window.innerHeight < document.scrollingElement.scrollHeight) {
                 document.scrollingElement.scrollTop += scrollHeightIncrement;
                 await delay(delayMs);
+                attempts++;
+                if (attempts > maxScrollAttempts) break;
             }
-        }", new[] {delayMs, scrollHeightIncrement});
+        }", new[] { delayMs, scrollHeightIncrement, maxScrollAttempts });
         }
         catch (Exception)
         {
@@ -58,15 +81,20 @@ public static class PlaywrightExtensions
         => HtmlNode.CreateNode(await page.ContentAsync());
 
 
-    public static async Task ClickOnAcceptCookiesButton(this IPage page)
+    public static async Task AcceptCookiesIfNeeded(this IPage page)
     {
+
         try
         {
+            await Task.Delay(1_000);
+            var frame = page.Frames.SingleOrDefault(x => x.Url.StartsWith(@"https://cdn.privacy-mgmt.com"));
+            
+            if (frame is null)
+                return;
 
-            var frame = page.Frames.Single(x => x.Url.StartsWith(@"https://cdn.privacy-mgmt.com"));
             var acceptButton = await frame.QuerySelectorAsync("button[title=\'Accept & continue\']");
-            await acceptButton.ClickAsync();
-
+            await acceptButton!.ClickAsync();
+            await Task.Delay(1_000);
             Log.Logger.Information("Click on accept cookies button - SUCCESSFUL");
 
         }
@@ -75,6 +103,5 @@ public static class PlaywrightExtensions
             Log.Logger.Warning("Click on accept cookies button - FAILED");
             Log.Logger.Warning(ex.ToString());
         }
-
     }
 }

@@ -16,7 +16,7 @@ public static class StringExtensions
 
     public static int? TryParseToInt(this string text)
     {
-        if (int.TryParse(text, out var result))
+        if (int.TryParse(text, CultureInfo.GetCultureInfo("pl-PL"), out var result))
             return result;
         else
             return null;

@@ -1,6 +1,7 @@
 ﻿using SoccerInfo.Application.Commands.CalculatePlayerStatistics;
 using SoccerInfo.Application.Commands.ExtarctPlayersCharacteristics;
 using SoccerInfo.Application.Commands.ExtarctPlayersGeneralnfo;
+using SoccerInfo.Application.Commands.ExtractMarketValueProgress;
 using SoccerInfo.Application.Commands.SavePlayersCharacteristics;
 using SoccerInfo.Application.Commands.SavePlayersGeneralInfo;
 using SoccerInfo.Shared.CQRS;
@@ -20,6 +21,7 @@ internal class GeneralExtractionCommandHandler(ICommandDispatcher commandDispatc
             PlayerCount = int.MaxValue
         });
         await commandDispatcher.Send(new SavePlayersCharacteristicsCommand() { Extraction = playersCharacteristicsData! });
+        await commandDispatcher.Send(new ExtractMarketValueProgressCommand());
         await commandDispatcher.Send(new CalculatePlayerStatisticsCommand());
     }
 }

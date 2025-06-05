@@ -10,7 +10,8 @@ public class PlaywrightManager(
     IOptions<PlaywrightOptions> playwrightOptions)
 {
     private IBrowser _browser = null!;
-    private IBrowserContext _context = null!; 
+    private IBrowserContext _mainContext = null!;
+    private List<IBrowserContext> _contexts = new List<IBrowserContext>(); 
     private IPlaywright _playwright = null!;
 
     public async Task LaunchBrowser(bool? headless = null)
@@ -19,7 +20,8 @@ public class PlaywrightManager(
         {
             _playwright = await Playwright.CreateAsync();
             _browser = await _playwright.Chromium.LaunchAsync(new() { Headless = headless ?? playwrightOptions.Value.Headless });
-            _context = await _browser.NewContextAsync();
+            _mainContext = await _browser.NewContextAsync();
+            _contexts.Add(_mainContext);
         }
         catch (Exception ex)
         {
@@ -39,7 +41,15 @@ public class PlaywrightManager(
 
     public async Task<IPage> NewPage()
     {
-        return await _context.NewPageAsync();
+        return await _mainContext.NewPageAsync();
+    }
+
+    public async Task<IBrowserContext> NewContext()
+    {
+        var ctx = await _browser.NewContextAsync(); 
+        _contexts.Add(ctx); 
+
+        return ctx;
     }
 
     public async Task CloseBrowser()

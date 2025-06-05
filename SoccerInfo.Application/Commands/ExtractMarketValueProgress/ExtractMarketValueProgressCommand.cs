@@ -4,5 +4,4 @@ namespace SoccerInfo.Application.Commands.ExtractMarketValueProgress;
 
 public class ExtractMarketValueProgressCommand : ICommand
 {
-
 }

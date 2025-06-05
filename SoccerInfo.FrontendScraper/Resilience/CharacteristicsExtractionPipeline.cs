@@ -13,6 +13,11 @@ internal static class CharacteristicsExtractionPipeline
             BackoffType = DelayBackoffType.Linear,
             UseJitter = true,
             MaxRetryAttempts = 8,
+            OnRetry = args =>
+            {
+                Console.WriteLine($"Retry #{args.AttemptNumber} after error: {args.Outcome.Exception?.Message}");
+                return default;
+            }
         })
         .AddTimeout(TimeSpan.FromMinutes(30));
     }

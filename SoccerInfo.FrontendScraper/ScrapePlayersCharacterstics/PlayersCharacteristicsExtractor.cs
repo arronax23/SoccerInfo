@@ -46,40 +46,29 @@ public class PlayersCharacteristicsExtractor(
         var playersCharacteristicsExtraction = new PlayersCharacteristicsExtractionData();
 
         await playwrightManager.LaunchBrowser();
-        await AcceptCookies();
+        //await AcceptCookies();
 
         int playersScrapedCount = 0;
 
-        try
-        {
-            await Parallel.ForEachAsync(playersExtraction,
-                new ParallelOptions { MaxDegreeOfParallelism = 4 },
-                async (playerExtraction, cancellationToken) =>
-                {
-                    try
-                    {
-                        await GetPlayer(playerExtraction, playersCharacteristicsExtraction, cancellationToken);
-                        logger.LogInformation($"Scraped players: {++playersScrapedCount}/{playersExtraction.Count()}");
-                    }
-                    catch (Exception ex)
-                    {
-                        logger.LogError($"Error processing player \nId:{playerExtraction.TransfermarktId} \nURL:{playerExtraction.TransfermarktURL}: {ex}");
-                    }
-                });
-        }
-        finally
-        {
-            await playwrightManager.CloseBrowser();
-        }
+        await Parallel.ForEachAsync(playersExtraction,
+            new ParallelOptions { MaxDegreeOfParallelism = 4 },
+            async (playerExtraction, cancellationToken) =>
+            {
+                await GetPlayer(playerExtraction, playersCharacteristicsExtraction, cancellationToken);
+                logger.LogInformation($"Scraped players: {++playersScrapedCount}/{playersExtraction.Count()}");
+            });
+
+        await playwrightManager.CloseBrowser();
 
         return playersCharacteristicsExtraction;
     }
 
+    [Obsolete]
     private async Task AcceptCookies()
     {
         IPage page = await playwrightManager.NewPage();
-        await page.GotoAsync(Transfermarkt.BASE_URI, new() { WaitUntil = WaitUntilState.NetworkIdle });
-        await page.ClickOnAcceptCookiesButton();
+        await page.GotoAsync(Transfermarkt.BASE_URI, new() { WaitUntil = WaitUntilState.DOMContentLoaded });
+        await page.AcceptCookiesIfNeeded();
     }
 
     private async Task GetPlayer(PlayerExtractionData playerExtraction, PlayersCharacteristicsExtractionData playersCharacteristicsExtractionData, CancellationToken cancellationToken)
@@ -94,10 +83,15 @@ public class PlayersCharacteristicsExtractor(
             {
                 page = await playwrightManager.NewPage();
 
-                await page.GotoAsync(Transfermarkt.BASE_URI + playerExtraction.TransfermarktURL, new PageGotoOptions()
+                var response = await page.GotoAsync(Transfermarkt.BASE_URI + playerExtraction.TransfermarktURL, new PageGotoOptions()
                 {
-                    WaitUntil = WaitUntilState.DOMContentLoaded
+                    WaitUntil = WaitUntilState.DOMContentLoaded,
                 });
+
+                await page.AcceptCookiesIfNeeded();
+
+                if (!response!.Ok)
+                    throw new Exception($"Page GotoAsync() returned Http Response: {response.Status.ToString()}");
 
                 await page.ScrollToBottomAsync();
                 bool isStatsGridAvailable = await page.TryWaitForSelectorAsync(".grid-table", 10_000);
@@ -126,7 +120,7 @@ public class PlayersCharacteristicsExtractor(
         var infoTableNode = rootNode.QuerySelector(".info-table");
         infoTableParser.Parse(infoTableNode, playerCharacteristicsData);
 
-        var nationalTeamNode = rootNode.QuerySelector(".data-header__info-box .data-header__details").QuerySelectorAll("ul").Last();
+        var nationalTeamNode = rootNode.QuerySelector(".data-header__info-box .data-header__details")?.QuerySelectorAll("ul")?.Last();
         nationalTeamParser.Parse(nationalTeamNode, playerCharacteristicsData);
 
         var socialMediaIconsNode = rootNode.QuerySelector(".social-media-toolbar__icons");

@@ -121,5 +121,4 @@ public static class PlayerExtensions
         else
             existingStats.Update(stats);
     }
-
 }

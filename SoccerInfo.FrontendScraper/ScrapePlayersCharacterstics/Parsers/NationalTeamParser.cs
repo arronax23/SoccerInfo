@@ -8,13 +8,25 @@ namespace SoccerInfo.FrontendScraper.ScrapePlayersCharacterstics.Parsers;
 
 public class NationalTeamParser
 {
-    public void Parse(HtmlNode nationalTeamNode, PlayerCharacteristicsData playerCharacteristics)
+    public void Parse(HtmlNode? nationalTeamNode, PlayerCharacteristicsData playerCharacteristics)
     {
-        var name = nationalTeamNode
-            .GetFirstChildElementNode()?
-            .GetFirstChildElementNode()?
-            .QuerySelector("a")?
-            .ExtractAttribute("title");
+        if (nationalTeamNode == null) 
+            return;   
+
+        string? name = null;
+
+        try
+        {
+            name = nationalTeamNode
+                .GetFirstChildElementNode()?
+                .GetFirstChildElementNode()?
+                .QuerySelector("a")?
+                .ExtractAttribute("title");
+        }
+        catch (Exception)
+        {
+            return;
+        }
 
         var capsAndGoalsNodes = nationalTeamNode
             .ChildNodes?
