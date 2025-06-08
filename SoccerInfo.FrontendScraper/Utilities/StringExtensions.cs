@@ -1,6 +1,6 @@
 ﻿namespace SoccerInfo.FrontendScraper.Utilities;
 
-internal static class StringExtensions
+public static class StringExtensions
 {
     public static string FormatExtractedString(this string text)
     {

@@ -1,12 +1,13 @@
 ﻿using HtmlAgilityPack;
 using HtmlAgilityPack.CssSelectors.NetCore;
+using Microsoft.Extensions.Logging;
 using SoccerInfo.FrontendScraper.Utilities;
 using SoccerInfo.Shared.Utilities;
 using static SoccerInfo.FrontendScraper.ScrapePlayersCharacterstics.Dto.PlayersCharacteristicsExtractionData;
 
 namespace SoccerInfo.FrontendScraper.ScrapePlayersCharacterstics.Parsers;
 
-public class StatsParser(ImageFetcher imageFetcher)
+public class StatsParser(ImageFetcher imageFetcher, ILogger<StatsParser> logger)
 {
     public async Task Parse(HtmlNode gridTableNode, PlayerCharacteristicsData playerCharacteristics)
     {
@@ -31,9 +32,11 @@ public class StatsParser(ImageFetcher imageFetcher)
             MatchesPlayed = leagueNode.GetChildElementNodes().ElementAt(1).QuerySelector("a").InnerText.FormatExtractedString().TryParseToInt(),
             GoalsConceded = leagueNode.GetChildElementNodes().ElementAt(2).InnerText.FormatExtractedString().TryParseToInt(),
             CleanSheets = leagueNode.GetChildElementNodes().ElementAt(3).InnerText.FormatExtractedString().TryParseToInt(),
-            MinutesPlayed = leagueNode.GetChildElementNodes().ElementAt(4).FirstChild.InnerText.FormatExtractedString().Replace("\'","").TryParseToInt(),
+            MinutesPlayed = leagueNode.GetChildElementNodes().ElementAt(4).FirstChild.InnerText.FormatExtractedString().Replace("\'", "").Replace(",", "").TryParseToInt(),
         };
     }
+
+
 
     private async Task<OutfieldPlayerStatsData> ParseOutFieldPlayer(HtmlNode leagueNode)
     {
@@ -44,7 +47,7 @@ public class StatsParser(ImageFetcher imageFetcher)
             MatchesPlayed = leagueNode.GetChildElementNodes().ElementAt(1).QuerySelector("a").InnerText.FormatExtractedString().TryParseToInt(),
             Goals = leagueNode.GetChildElementNodes().ElementAt(2).InnerText.FormatExtractedString().TryParseToInt(),
             Assists = leagueNode.GetChildElementNodes().ElementAt(3).InnerText.FormatExtractedString().TryParseToInt(),
-            MinutesPlayed = leagueNode.GetChildElementNodes().ElementAt(5).FirstChild.InnerText.FormatExtractedString().Replace("\'", "").TryParseToInt(),
+            MinutesPlayed = leagueNode.GetChildElementNodes().ElementAt(5).InnerText.FormatExtractedString().Replace("\'", "").Replace(",", "").TryParseToInt(),
         };
     }
 
@@ -57,5 +60,4 @@ public class StatsParser(ImageFetcher imageFetcher)
             .QuerySelector("img")
             .ExtractAttribute("src"));
     }
-
 }
