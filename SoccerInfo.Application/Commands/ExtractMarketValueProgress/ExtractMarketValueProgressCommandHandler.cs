@@ -14,7 +14,7 @@ internal class ExtractMarketValueProgressCommandHandler(
 {
     public async Task Handle(ExtractMarketValueProgressCommand request, CancellationToken cancellationToken)
     {
-        var players = dbContext.Players.AsNoTracking();
+        var players = dbContext.Players;
         var extractedData = await Benchmark.ExecuteAndMeasureTimeAsync(async () => {
             return await marketValueProgressScraper.Scrape(players.Select(x => x.TransfermarktId));
         }, "Scrape Market Value Progress");
