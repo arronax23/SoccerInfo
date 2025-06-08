@@ -136,7 +136,8 @@ internal class CalculatePlayerStatisticsCommandHandler(IConfiguration configurat
 
     private int GetTotalDaysFromPeriod(Period period)
     {
-        return Period.Between(LocalDate.MinIsoValue, LocalDate.MinIsoValue.Plus(period), PeriodUnits.Days).Days;
+        var referenceDate = LocalDate.FromDateTime(DateTime.Today);
+        return Period.Between(referenceDate, referenceDate.Plus(period), PeriodUnits.Days).Days;
     }
 
     private float? CalculateLastMarkeValueProgress(Player player)
