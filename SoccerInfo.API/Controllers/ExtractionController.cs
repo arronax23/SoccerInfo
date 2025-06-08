@@ -73,7 +73,7 @@ public class ExtractionController(ICommandDispatcher commandDispatcher) : Contro
     }
 
     [HttpPut("api/ExtractMarketValueProgress")]
-    public async Task<IActionResult> ExtractBackend()
+    public async Task<IActionResult> ExtractMarketValueProgress()
     {
         await commandDispatcher.Send(new ExtractMarketValueProgressCommand());
         return Ok();

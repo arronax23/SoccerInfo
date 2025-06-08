@@ -3,9 +3,11 @@ import {
   handleDateDisplay,
   handleHeightDisplay,
 } from "../../utils/formatter";
+import CustomWebsiteIcon from "/socialMediaIcons/custom-website-icon.jpg";
 import FacebookIcon from "/socialMediaIcons/facebook-icon.svg";
 import XIcon from "/socialMediaIcons/x-icon.svg";
 import InstagramIcon from "/socialMediaIcons/instagram-icon.svg";
+import YoutubeIcon from "/socialMediaIcons/youtube-icon.svg";
 
 const PlayerAdditionalInfo = ({ playerAdditionalInfo }) => {
   return (
@@ -62,22 +64,16 @@ const PlayerAdditionalInfo = ({ playerAdditionalInfo }) => {
           </div>
           <div className="right"></div>
         </div>
-      ) :
-      (
+      ) : (
         <div className="national-team">
-          <div className="left">
-
-          </div>
+          <div className="left"></div>
           <div className="center">
             <div className="label">National team</div>
-            <div className="content">
-              -
-            </div>
+            <div className="content">-</div>
           </div>
           <div className="right"></div>
         </div>
-      )
-      }
+      )}
 
       <div className="leading-foot">
         <div className="label">Leading foot</div>
@@ -102,21 +98,31 @@ const PlayerAdditionalInfo = ({ playerAdditionalInfo }) => {
         <div className="content">
           {playerAdditionalInfo.socials.map((x) => (
             <div key={x.platform} className="social-media">
+              {x.platform == "" ? (
+                <a href={x.link} title="Official Website" target="_blank" rel="noopener noreferrer">
+                  <img className="icon" src={CustomWebsiteIcon} />
+                </a>
+              ) : null}      
+              {x.platform == "YouTube" ? (
+                <a href={x.link} title={x.platform} target="_blank" rel="noopener noreferrer">
+                  <img className="icon" src={YoutubeIcon} />
+                </a>
+              ) : null}                            
               {x.platform == "Facebook" ? (
-                <a href={x.link} target="_blank" rel="noopener noreferrer">
+                <a href={x.link} title={x.platform} target="_blank" rel="noopener noreferrer">
                   <img className="icon" src={FacebookIcon} />
                 </a>
               ) : null}
               {x.platform == "Twitter" ? (
-                <a href={x.link} target="_blank" rel="noopener noreferrer">
+                <a href={x.link} title={x.platform} target="_blank" rel="noopener noreferrer">
                   <img className="icon" src={XIcon} />
                 </a>
               ) : null}
               {x.platform == "Instagram" ? (
-                <a href={x.link} target="_blank" rel="noopener noreferrer">
+                <a href={x.link} title={x.platform} target="_blank" rel="noopener noreferrer">
                   <img className="icon" src={InstagramIcon} />
                 </a>
-              ) : null}
+              ) : null}           
             </div>
           ))}
         </div>
