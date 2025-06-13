@@ -1,4 +1,5 @@
 ﻿
+using Quartz;
 using SoccerInfo.Application.Commands.GeneralExtraction;
 using SoccerInfo.Shared.CQRS;
 
@@ -6,33 +7,31 @@ namespace SoccerInfo.Infrastructure.Jobs;
 
 public class GeneralExtractionJob(
     ILogger<GeneralExtractionJob> logger,
-    ICommandDispatcher commandDispatcher) : BackgroundService
+    ICommandDispatcher commandDispatcher) : IJobService
 {
-    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+    public static string Name => "GeneralExtraction";
+    public static JobKey Key => JobKey.Create(Name);
+
+    public async Task Execute(IJobExecutionContext context)
     {
-        while (!stoppingToken.IsCancellationRequested)
+        logger.LogInformation($"{Name} job executing, Start time: {DateTime.UtcNow.ToString()}");
+
+        try
         {
-            var now = DateTime.Now;
-            var nextRunTime = DateTime.Today.AddHours(23);
-
-            if (now > nextRunTime)
-                nextRunTime = nextRunTime.AddDays(1);
-
-            var delay = nextRunTime - now;
-
-            try
-            {
-                await Task.Delay(delay, stoppingToken);
-                await commandDispatcher.Send(new GeneralExtractionCommand());
-            }
-            catch (TaskCanceledException ex)
-            {
-                logger.LogError(ex.ToString());
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex.ToString());
-            }
+            await commandDispatcher.Send(new GeneralExtractionCommand());
+        }
+        catch (TaskCanceledException ex)
+        {
+            logger.LogError("Task was cancelled");
+            logger.LogError(ex.ToString());
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex.ToString());
+        }
+        finally
+        {
+            logger.LogInformation($"{Name} job has finished, End time: {DateTime.UtcNow.ToString()}");
         }
     }
 }

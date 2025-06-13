@@ -11,6 +11,8 @@ using SoccerInfo.Persistence.Data;
 using SoccerInfo.Application;
 using SoccerInfo.Infrastructure.Swagger;
 using SoccerInfo.Persistence;
+using Quartz;
+using SoccerInfo.Infrastructure.Jobs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,6 +34,8 @@ builder.Services.RegisterMediatR();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(SwaggerHelper.Setup);
+
+builder.Services.AddJobs();
 
 builder.Services
     .AddDbContext<ApplicationDbContext>(options => 
