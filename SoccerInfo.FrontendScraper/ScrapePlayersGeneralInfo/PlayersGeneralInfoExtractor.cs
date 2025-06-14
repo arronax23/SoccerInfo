@@ -1,6 +1,5 @@
 ﻿using HtmlAgilityPack.CssSelectors.NetCore;
 using HtmlAgilityPack;
-using SoccerInfo.Shared.Utilities;
 using SoccerInfo.FrontendScraper.Utilities;
 using SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo.Parsers;
 using SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo.Dto;
@@ -46,7 +45,7 @@ public class PlayersGeneralInfoExtractor(
         await playwrightManager.LaunchBrowser();
 
         await Parallel.ForEachAsync(leagueLinks,
-            new ParallelOptions { MaxDegreeOfParallelism = 4 },
+            new ParallelOptions { MaxDegreeOfParallelism = 2 },
             async (leagueLink, _) =>
             {
                 await GetLeague(extraction, leagueLink);
@@ -65,13 +64,14 @@ public class PlayersGeneralInfoExtractor(
         {
             try
             {
-                page = await playwrightManager.NewPageWithRandomUserAgent();
+                page = await playwrightManager.NewPage();
                 await page.GotoAsync(leagueLink, new PageGotoOptions() { WaitUntil = WaitUntilState.NetworkIdle });
                 var ua = await page.EvaluateAsync<string>("() => navigator.userAgent");
                 logger.LogCritical(ua);
             }
             catch (Exception ex)
             {
+                logger.LogError($"League link: {leagueLink}");
                 logger.LogError(ex.ToString());
                 throw;
             }
@@ -102,6 +102,7 @@ public class PlayersGeneralInfoExtractor(
                     }
                     catch (Exception ex)
                     {
+                        logger.LogError($"Team link: {teamLink}");
                         logger.LogError(ex.ToString());
                         throw;
                     }
@@ -109,34 +110,13 @@ public class PlayersGeneralInfoExtractor(
             });
 
         extraction.Leagues.Add(league);
-        
     }
 
     private async Task<TeamData> GetTeam(HtmlNode node)
     {
         var team = await teamParser.Parse(node);
-
         var playersTableNode = node.QuerySelector("table.items");
-
-        IReadOnlyCollection<HtmlNode>? playersNodes = null;
-        var t_DFS = Benchmark.ExecuteAndGetTime(() =>
-        {
-            playersNodes = traverser.Search(playersTableNode, EndSelectorsSpecification);
-        }, "DFS");
-
-        var t_Q = Benchmark.ExecuteAndGetTime(() =>
-        {
-            var odd = node.QuerySelectorAll(".odd");
-            var even = node.QuerySelectorAll(".even");
-            var results = odd.Union(even);
-        }, "QuerySelector");
-
-
-        if (t_DFS < t_Q)
-            logger.LogInformation("DFS Win");
-        else
-            logger.LogInformation("QuerySelector win");
-
+        var playersNodes = traverser.Search(playersTableNode, EndSelectorsSpecification);
 
         foreach (var playerNode in playersNodes!.ToList())
         {

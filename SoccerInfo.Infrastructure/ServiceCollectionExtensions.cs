@@ -17,7 +17,7 @@ static class ServiceCollectionExtensions
             cfg.AddJob<GeneralExtractionJob>(GeneralExtractionJob.Key)
                 .AddTrigger(trigger =>
                     trigger.ForJob(GeneralExtractionJob.Key)
-                           .WithCronSchedule("0 0 23 * * ?"));
+                           .WithCronSchedule(GeneralExtractionJob.Schedule));
         });
 
         services.AddQuartzHostedService(cfg => cfg.WaitForJobsToComplete = true);
