@@ -1,12 +1,12 @@
-﻿using HtmlAgilityPack.CssSelectors.NetCore;
-using HtmlAgilityPack;
-using SoccerInfo.FrontendScraper.Utilities;
-using SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo.Parsers;
-using SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo.Dto;
+﻿using HtmlAgilityPack;
+using HtmlAgilityPack.CssSelectors.NetCore;
 using Microsoft.Extensions.Logging;
+using Microsoft.Playwright;
 using Polly.Registry;
 using SoccerInfo.FrontendScraper.Resilience;
-using Microsoft.Playwright;
+using SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo.Dto;
+using SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo.Parsers;
+using SoccerInfo.FrontendScraper.Utilities;
 using static SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo.Dto.GeneralInfoExtractionData;
 
 namespace SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo;
@@ -57,17 +57,24 @@ public class PlayersGeneralInfoExtractor(
 
     private async Task GetLeague(GeneralInfoExtractionData extraction, string leagueLink)
     {
+        IPage page = null!;
+        LeagueData league = null!;
+        IEnumerable<string> teamsLinks = null!;
+
         var leaguePipeline = pipelineProvider.GetPipeline(GeneralInfoExtractionPipeline.Name);
 
-        IPage page = null!;
         await leaguePipeline.ExecuteAsync(async _ =>
         {
             try
             {
                 page = await playwrightManager.NewPage();
                 await page.GotoAsync(leagueLink, new PageGotoOptions() { WaitUntil = WaitUntilState.NetworkIdle });
-                var ua = await page.EvaluateAsync<string>("() => navigator.userAgent");
-                logger.LogCritical(ua);
+
+                HtmlNode leagueNode = await page.CreateHtmlNodeFromPage();
+                league = await leagueParser.Parse(leagueNode);
+
+                IList<HtmlNode> teamsNodes = leagueNode.QuerySelector("table.items").QuerySelectorAll(".hauptlink a[title]");
+                teamsLinks = teamsNodes.Select(x => Transfermarkt.BASE_URI + x.GetAttributeValue("href", "Not found"));
             }
             catch (Exception ex)
             {
@@ -77,14 +84,11 @@ public class PlayersGeneralInfoExtractor(
             }
         });
 
-        var leagueNode = await page.CreateHtmlNodeFromPage();
-        var league = await leagueParser.Parse(leagueNode);
+        await GetTeams(extraction, page, teamsLinks, league);
+    }
 
-        var teamsNodes = leagueNode.QuerySelector("table.items").QuerySelectorAll(".hauptlink a[title]");
-        var teamsLinks = teamsNodes.Select(x => Transfermarkt.BASE_URI + x.GetAttributeValue("href", "Not found"));
-
-
-
+    private async Task GetTeams(GeneralInfoExtractionData extraction, IPage page, IEnumerable<string> teamsLinks, LeagueData league)
+    {
         await Parallel.ForEachAsync(teamsLinks,
             new ParallelOptions { MaxDegreeOfParallelism = 1 },
             async (teamLink, _) =>
