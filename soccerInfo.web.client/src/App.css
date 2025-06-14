@@ -158,7 +158,8 @@ a.nav-link.active {
     display: flex;
     flex-direction: column;
     position: relative;
-    background: #fff;
+    /* background: transparent; */
+     background-color: rgb(0, 0, 0, 0.1);
     width: 90%;
     margin: 1rem;
     border-radius: 1rem;
