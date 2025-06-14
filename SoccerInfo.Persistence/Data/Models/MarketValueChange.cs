@@ -1,4 +1,5 @@
 ﻿using SoccerInfo.Persistence.Data.Models.Abstractions;
+using System.Linq.Expressions;
 
 namespace SoccerInfo.Persistence.Data.Models;
 
@@ -14,6 +15,7 @@ public class MarketValueChange : IEntity, IEquatable<MarketValueChange>
     public string Team { get; set; } = string.Empty;
     public int PlayerId { get; set; }
 
+    [Obsolete]
     public bool Equals(MarketValueChange? other)
     {
         if (other == null)
@@ -24,4 +26,8 @@ public class MarketValueChange : IEntity, IEquatable<MarketValueChange>
             return false;
     }
 
+    public static Func<MarketValueChange, bool> Matches(MarketValueChange other) =>
+        (MarketValueChange mvc) =>
+            mvc.PlayerTransferMarktId == other.PlayerTransferMarktId &&
+            mvc.ChangeDate == other.ChangeDate;
 }

@@ -12,7 +12,7 @@ public class League : IEntity
     public virtual ICollection<Team> Teams { get; set; } = new List<Team>();
 
     public static Expression<Func<League, bool>> Matches(League other) =>
-    (League l) => l.Name == other.Name && l.Country == other.Country;
+        (League l) => l.Name == other.Name && l.Country == other.Country;
 
     public void Update(League league)
     {

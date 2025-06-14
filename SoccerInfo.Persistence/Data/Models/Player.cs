@@ -2,6 +2,7 @@
 using SoccerInfo.Persistence.Data.Models.GeneralPosition;
 using SoccerInfo.Persistence.Data.Models.PlayerCharacteristicsAggregate;
 using SoccerInfo.Persistence.Data.Models.Stats;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace SoccerInfo.Persistence.Data.Models;
@@ -52,7 +53,7 @@ public partial class Player : IEntity, IEquatable<Player>
         }
         else
         {
-            var newMarketValueChanges = marketValueChanges.Where(x => !this.MarketValueProgress.Any(y => y.Equals(x)));
+            var newMarketValueChanges = marketValueChanges.Where(x => !this.MarketValueProgress.Any(MarketValueChange.Matches(x)));
 
             foreach (var newMarketValueChange in newMarketValueChanges)
                 this.MarketValueProgress.Add(newMarketValueChange);
