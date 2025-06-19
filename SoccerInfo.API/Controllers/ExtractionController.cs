@@ -29,7 +29,7 @@ public class ExtractionController(ICommandDispatcher commandDispatcher) : Contro
         bool onlyNewPlayers, 
         CancellationToken cancellationToken)
     {
-        await commandDispatcher.Send(new ExtarctPlayersCharacteristicsCommand()
+        await commandDispatcher.Send(new ExtractPlayersCharacteristicsCommand()
         {
             PlayerCount  = playerCount,
             OnlyNewPlayers = onlyNewPlayers

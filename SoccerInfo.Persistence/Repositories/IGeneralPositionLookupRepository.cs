@@ -4,6 +4,6 @@ namespace SoccerInfo.Persistence.Repositories;
 
 public interface IGeneralPositionLookupRepository
 {
-    public GeneralPosition_Lookup Get(GeneralPosition generalPosition);
+    Task<GeneralPosition_Lookup> Get(GeneralPosition generalPosition);
 }
 

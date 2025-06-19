@@ -72,7 +72,7 @@ internal class SavePlayersGeneralInfoCommandHandler(
                         currentTeam.Players.Add(currentPlayer);
                     }
 
-                    generalPositionService.AttachGeneralPosition(currentPlayer);
+                    await generalPositionService.AttachGeneralPosition(currentPlayer);
 
                     foreach (var extractedNationality in extractedPlayer.Nationalities)
                     {

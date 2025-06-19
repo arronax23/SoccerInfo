@@ -5,8 +5,8 @@ using SoccerInfo.Persistence.Data.Models.GeneralPosition;
 namespace SoccerInfo.Persistence.Repositories;
 internal class GeneralPositionLookupRepository(ApplicationDbContext dbContext) : IGeneralPositionLookupRepository
 {
-    public GeneralPosition_Lookup Get(GeneralPosition generalPosition)
+    public async Task<GeneralPosition_Lookup> Get(GeneralPosition generalPosition)
     {
-        return dbContext.GeneralPositions_Lookup.Single(gp => gp.Name == generalPosition.ToString());
+        return await dbContext.GeneralPositions_Lookup.SingleAsync(gp => gp.Name == generalPosition.ToString());
     }
 }

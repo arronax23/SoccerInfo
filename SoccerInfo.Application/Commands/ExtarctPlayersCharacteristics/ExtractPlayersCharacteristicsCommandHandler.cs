@@ -7,19 +7,20 @@ using SoccerInfo.Shared.CQRS;
 using SoccerInfo.Shared.Utilities;
 
 namespace SoccerInfo.Application.Commands.ExtarctPlayersCharacteristics;
-internal class ExtarctPlayersCharacteristicsCommandHandler(
-    ILogger<ExtarctPlayersCharacteristicsCommandHandler> logger,
+internal class ExtractPlayersCharacteristicsCommandHandler(
+    ILogger<ExtractPlayersCharacteristicsCommandHandler> logger,
     JsonFileDataManager jsonFileDataManager,
     ApplicationDbContext dbContext,
     PlayersCharacteristicsExtractor extractor
-    ) : ICommandHandler<ExtarctPlayersCharacteristicsCommand, PlayersCharacteristicsExtractionData?>
+    ) : ICommandHandler<ExtractPlayersCharacteristicsCommand, PlayersCharacteristicsExtractionData?>
 {
-    public async Task<PlayersCharacteristicsExtractionData?> Handle(ExtarctPlayersCharacteristicsCommand request, CancellationToken cancellationToken)
+    public async Task<PlayersCharacteristicsExtractionData?> Handle(ExtractPlayersCharacteristicsCommand request, CancellationToken cancellationToken)
     {
         var extraction = await Benchmark.ExecuteAndMeasureTimeAsync(async () =>
         {
             var extractionInput = dbContext.Players
             .Where(x => !request.OnlyNewPlayers || x.Characteristics == null)
+            .Skip(request.Skip)
             .Take(request.PlayerCount)
             .Select(x => new PlayerExtractionData()
             {

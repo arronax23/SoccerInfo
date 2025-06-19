@@ -116,6 +116,11 @@ a.nav-link.active {
 
 .league {
     background: #242423;
+    width: 170ox;
+    height: 270px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     color: white;
     position: relative;
     border: 2px solid black;
@@ -143,7 +148,7 @@ a.nav-link.active {
 }
 
 .league .header {
-    margin-top: 2rem;
+    margin-bottom: .5rem;
 }
 
 /* Swiper */

@@ -4,24 +4,44 @@ using SoccerInfo.Application.Commands.ExtarctPlayersGeneralnfo;
 using SoccerInfo.Application.Commands.ExtractMarketValueProgress;
 using SoccerInfo.Application.Commands.SavePlayersCharacteristics;
 using SoccerInfo.Application.Commands.SavePlayersGeneralInfo;
+using SoccerInfo.Persistence.Repositories;
 using SoccerInfo.Shared.CQRS;
 
 namespace SoccerInfo.Application.Commands.GeneralExtraction;
 
-internal class GeneralExtractionCommandHandler(ICommandDispatcher commandDispatcher)
-    : ICommandHandler<GeneralExtractionCommand>
+internal class GeneralExtractionCommandHandler(
+    ICommandDispatcher commandDispatcher, 
+    IPlayerCharacteristicsRepository repository) : ICommandHandler<GeneralExtractionCommand>
 {
     public async Task Handle(GeneralExtractionCommand request, CancellationToken cancellationToken)
     {
-        var playersGeneralInfoData = await commandDispatcher.Send(new ExtarctPlayersGeneralnfoCommand());
-        await commandDispatcher.Send(new SavePlayersGeneralInfoCommand() { Extraction = playersGeneralInfoData! });
-        var playersCharacteristicsData = await commandDispatcher.Send(new ExtarctPlayersCharacteristicsCommand()
-        {
-            OnlyNewPlayers = false,
-            PlayerCount = int.MaxValue
-        });
-        await commandDispatcher.Send(new SavePlayersCharacteristicsCommand() { Extraction = playersCharacteristicsData! });
+        await ExtractAndSavePlayersGeneralInfo();
+        await ExtractAndSavePlayersCharacteristics();
         await commandDispatcher.Send(new ExtractMarketValueProgressCommand());
         await commandDispatcher.Send(new CalculatePlayerStatisticsCommand());
+    }
+
+    private async Task ExtractAndSavePlayersGeneralInfo()
+    {
+        var playersGeneralInfoData = await commandDispatcher.Send(new ExtarctPlayersGeneralnfoCommand());
+        await commandDispatcher.Send(new SavePlayersGeneralInfoCommand() { Extraction = playersGeneralInfoData! });
+    }
+
+    private async Task ExtractAndSavePlayersCharacteristics()
+    {
+        var count = await repository.GetCharacteristicsCount();
+        var batchSize = 100;
+        var totalBatches = Math.Ceiling((double)count / batchSize);
+
+        for (int i = 0; i < totalBatches; i++)
+        {
+            var playersCharacteristicsData = await commandDispatcher.Send(new ExtractPlayersCharacteristicsCommand()
+            {
+                OnlyNewPlayers = false,
+                PlayerCount = batchSize,
+                Skip = batchSize * i
+            });
+            await commandDispatcher.Send(new SavePlayersCharacteristicsCommand() { Extraction = playersCharacteristicsData! });
+        }
     }
 }
