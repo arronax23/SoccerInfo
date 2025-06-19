@@ -68,7 +68,10 @@ public class PlayersGeneralInfoExtractor(
             try
             {
                 page = await playwrightManager.NewPage();
-                await page.GotoAsync(leagueLink, new PageGotoOptions() { WaitUntil = WaitUntilState.NetworkIdle });
+                var response = await page.GotoAsync(leagueLink, new PageGotoOptions() { WaitUntil = WaitUntilState.NetworkIdle });
+
+                if (!response!.Ok)
+                    throw new Exception($"Page GotoAsync() returned Http Response: {response.Status.ToString()} trying to navigate to following LWAGUE link:{leagueLink}");
 
                 HtmlNode leagueNode = await page.CreateHtmlNodeFromPage();
                 league = await leagueParser.Parse(leagueNode);
@@ -99,7 +102,10 @@ public class PlayersGeneralInfoExtractor(
                 {
                     try
                     {
-                        await page.GotoAsync($"{teamLink}", new PageGotoOptions() { WaitUntil = WaitUntilState.DOMContentLoaded });
+                        var response = await page.GotoAsync($"{teamLink}", new PageGotoOptions() { WaitUntil = WaitUntilState.DOMContentLoaded });
+
+                        if (!response!.Ok)
+                            throw new Exception($"Page GotoAsync() returned Http Response: {response.Status.ToString()} trying to navigate to following TEAM link:{teamLink}");
 
                         var node = await page.CreateHtmlNodeFromPage();
                         league.Teams.Add(await GetTeam(node));

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using SoccerInfo.Persistence.Data;
 using SoccerInfo.Persistence.Data.Models.PlayerCharacteristicsAggregate;
 using SoccerInfo.Persistence.EntityFrameworkExtensions;
@@ -10,6 +11,7 @@ using System.Text.RegularExpressions;
 namespace SoccerInfo.Application.Commands.SavePlayersCharacteristics;
 
 internal class SavePlayersCharacteristicsFromFileCommandHandler(
+    ILogger<SavePlayersCharacteristicsFromFileCommandHandler> logger,
     IConfiguration configuration,
     ApplicationDbContext dbContext,
     IMapper mapper) 
@@ -19,6 +21,8 @@ internal class SavePlayersCharacteristicsFromFileCommandHandler(
     private readonly HashSet<StatsLeague> _uniqueLeagues = new();
     public async Task Handle(SavePlayersCharacteristicsCommand request, CancellationToken cancellationToken)
     {
+        logger.LogInformation("Executing SavePlayersCharacteristicsCommand...");
+
         using var transaction = dbContext.Database.BeginTransaction();
 
         var dbPlayers = dbContext.Players;
@@ -78,15 +82,12 @@ internal class SavePlayersCharacteristicsFromFileCommandHandler(
             }
 
         }
+        dbContext.ChangeTracker.ShowEntries();
 
-        var entries = dbContext.ChangeTracker.Entries().ToList();
+        await dbContext.SaveChangesAsync();
+        await transaction.ResolveAsync(configuration);
 
-        var added = entries.Where(x => x.State == EntityState.Added).ToList();
-        var modified = entries.Where(x => x.State == EntityState.Modified).ToList();
-        var unchanged = entries.Where(x => x.State == EntityState.Unchanged).ToList();
-
-        dbContext.SaveChanges();
-        await transaction.ResolveAsync(configuration);    
+        logger.LogInformation("Executing SavePlayersCharacteristicsCommand successfully saved data");
 
     }
 

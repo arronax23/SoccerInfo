@@ -34,6 +34,18 @@ public class ApplicationDbContext : DbContext
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
+        AuditEntities();
+        return await base.SaveChangesAsync(cancellationToken);
+    }
+
+    public override int SaveChanges()
+    {
+        AuditEntities();
+        return base.SaveChanges();
+    }
+
+    private void AuditEntities()
+    {
         var now = DateTime.Now;
 
         foreach (var entry in ChangeTracker.Entries().Where(e => e.Entity is IAuditable))
@@ -48,7 +60,5 @@ public class ApplicationDbContext : DbContext
                 ((IAuditable)entry.Entity).LastUpdatedDate = now;
             }
         }
-
-        return await base.SaveChangesAsync(cancellationToken);
     }
 }

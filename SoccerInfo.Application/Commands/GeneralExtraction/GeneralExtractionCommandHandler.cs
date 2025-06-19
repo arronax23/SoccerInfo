@@ -1,4 +1,5 @@
-﻿using SoccerInfo.Application.Commands.CalculatePlayerStatistics;
+﻿using Microsoft.Extensions.Logging;
+using SoccerInfo.Application.Commands.CalculatePlayerStatistics;
 using SoccerInfo.Application.Commands.ExtarctPlayersCharacteristics;
 using SoccerInfo.Application.Commands.ExtarctPlayersGeneralnfo;
 using SoccerInfo.Application.Commands.ExtractMarketValueProgress;
@@ -10,6 +11,7 @@ using SoccerInfo.Shared.CQRS;
 namespace SoccerInfo.Application.Commands.GeneralExtraction;
 
 internal class GeneralExtractionCommandHandler(
+    ILogger<GeneralExtractionCommandHandler> logger,
     ICommandDispatcher commandDispatcher, 
     IPlayerCharacteristicsRepository repository) : ICommandHandler<GeneralExtractionCommand>
 {
@@ -42,6 +44,7 @@ internal class GeneralExtractionCommandHandler(
                 Skip = batchSize * i
             });
             await commandDispatcher.Send(new SavePlayersCharacteristicsCommand() { Extraction = playersCharacteristicsData! });
+            logger.LogInformation($"{nameof(ExtractAndSavePlayersCharacteristics)} success - Players updated: {batchSize * (i + 1)} /{count}");
             await Task.Delay(TimeSpan.FromMinutes(5));
         }
     }

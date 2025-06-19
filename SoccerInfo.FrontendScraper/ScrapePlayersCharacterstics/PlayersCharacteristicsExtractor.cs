@@ -46,7 +46,6 @@ public class PlayersCharacteristicsExtractor(
         var playersCharacteristicsExtraction = new PlayersCharacteristicsExtractionData();
 
         await playwrightManager.LaunchBrowser();
-        //await AcceptCookies();
 
         int playersScrapedCount = 0;
 
@@ -61,14 +60,6 @@ public class PlayersCharacteristicsExtractor(
         await playwrightManager.CloseBrowser();
 
         return playersCharacteristicsExtraction;
-    }
-
-    [Obsolete]
-    private async Task AcceptCookies()
-    {
-        IPage page = await playwrightManager.NewPage();
-        await page.GotoAsync(Transfermarkt.BASE_URI, new() { WaitUntil = WaitUntilState.DOMContentLoaded });
-        await page.AcceptCookiesIfNeeded();
     }
 
     private async Task GetPlayer(PlayerExtractionData playerExtraction, PlayersCharacteristicsExtractionData playersCharacteristicsExtractionData, CancellationToken cancellationToken)
@@ -111,8 +102,6 @@ public class PlayersCharacteristicsExtractor(
             }
         }, cancellationToken);
     }
-
-
     private async Task<PlayerCharacteristicsData> ParsePlayer(HtmlNode rootNode,int transfermarktId, bool isGoalkeeper, bool isStatsGridAvailable)
     {
         var playerCharacteristicsData = new PlayerCharacteristicsData(transfermarktId, isGoalkeeper);
