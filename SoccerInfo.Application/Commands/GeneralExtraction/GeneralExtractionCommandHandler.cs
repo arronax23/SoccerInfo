@@ -42,6 +42,7 @@ internal class GeneralExtractionCommandHandler(
                 Skip = batchSize * i
             });
             await commandDispatcher.Send(new SavePlayersCharacteristicsCommand() { Extraction = playersCharacteristicsData! });
+            await Task.Delay(TimeSpan.FromMinutes(5));
         }
     }
 }

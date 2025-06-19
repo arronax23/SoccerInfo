@@ -77,8 +77,18 @@ internal class SavePlayersGeneralInfoCommandHandler(
                     foreach (var extractedNationality in extractedPlayer.Nationalities)
                     {
                         var dbNationality = dbContext.Nationalities.SingleOrDefault(Nationality.Matches(extractedNationality));
+                        var trackerNationality = GetNationalityFromChangeTracker(extractedNationality);
 
-                        if (dbNationality is null)
+                        if (dbNationality is not null)
+                        {
+                            if(!currentPlayer.Nationalities.Contains(dbNationality))
+                                currentPlayer.Nationalities.Add(dbNationality);
+                        }
+                        else if (trackerNationality is not null)
+                        {
+                            currentPlayer.Nationalities.Add(trackerNationality);
+                        }
+                        else
                         {
                             currentPlayer.Nationalities.Add(extractedNationality);
                         }
@@ -93,6 +103,16 @@ internal class SavePlayersGeneralInfoCommandHandler(
         await dbContext.SaveChangesAsync(cancellationToken);
         await transaction.ResolveAsync(configuration);
     }
+
+    private Nationality? GetNationalityFromChangeTracker(Nationality extractedNationality)
+    {
+        return dbContext.ChangeTracker
+            .Entries()
+            .Where(entr => entr.Entity is Nationality)
+            .Select(entr => (Nationality)entr.Entity)
+            .SingleOrDefault(Nationality.Matches(extractedNationality).Compile());
+    }
+
 
     [Obsolete]
     private void UpdateOrAddEntity<TEntity>(TEntity extractedData) 
