@@ -2,9 +2,8 @@
 
 namespace SoccerInfo.Persistence.Data.Models.Stats;
 
-public class PlayerStatistic : IEntity
+public class PlayerStatistic : BaseEntity
 {
-    public int Id { get; set; }
     public DateRange Age { get; set; } = null!;
     public int? TotalGoals { get; set; }
     public int? TotalGoalsAndAssists { get; set; }

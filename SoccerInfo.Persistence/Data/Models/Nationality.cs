@@ -3,9 +3,8 @@ using System.Linq.Expressions;
 
 namespace SoccerInfo.Persistence.Data.Models;
 
-public class Nationality : IEntity
+public class Nationality : BaseEntity
 {
-    public int Id { get; set; }
     public string Country { get; set; } = null!;
     public string? Country_Lookup { get; set; }
     public virtual ICollection<Player>? Players { get; set; }
@@ -14,5 +13,6 @@ public class Nationality : IEntity
 
     public static Expression<Func<Nationality, bool>> Matches(Nationality other) =>
         (Nationality n) => n.Country == other.Country;
+
 }
 

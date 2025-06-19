@@ -1,11 +1,9 @@
 ﻿using SoccerInfo.Persistence.Data.Models.Abstractions;
-using System.Linq.Expressions;
 
 namespace SoccerInfo.Persistence.Data.Models;
 
-public class MarketValueChange : IEntity
+public class MarketValueChange : BaseEntity
 {
-    public int Id { get; set; }
     public int PlayerTransferMarktId { get; set; }
     public int Age { get; set; }
     public float? MarketValue { get; set; }

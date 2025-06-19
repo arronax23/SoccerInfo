@@ -2,9 +2,8 @@
 
 namespace SoccerInfo.Persistence.Data.Models.PlayerCharacteristicsAggregate;
 
-public class PlayerCharacteristic : IEntity
+public class PlayerCharacteristic : BaseEntity
 {
-    public int Id { get; set; }
     public BrithPlace? BrithPlace { get; set; }
     public NationalTeam? NationalTeam { get; set; }
     public string? LeadingFoot { get; set; }

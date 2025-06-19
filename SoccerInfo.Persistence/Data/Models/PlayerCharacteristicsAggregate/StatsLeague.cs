@@ -2,9 +2,8 @@
 
 namespace SoccerInfo.Persistence.Data.Models.PlayerCharacteristicsAggregate;
 
-public class StatsLeague : IEntity, IEquatable<StatsLeague>
+public class StatsLeague : BaseEntity, IEquatable<StatsLeague>
 {
-    public int Id { get; set; }
     public string? Name { get; set; }
     public string? Base64Image { get; set; }
     public virtual ICollection<GoalKeeperStats>? GoalKeeperStats { get; set; }

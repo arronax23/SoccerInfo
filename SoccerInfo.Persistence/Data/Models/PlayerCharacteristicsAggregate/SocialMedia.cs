@@ -2,9 +2,8 @@
 
 namespace SoccerInfo.Persistence.Data.Models.PlayerCharacteristicsAggregate;
 
-public class SocialMedia : IEntity, IEquatable<SocialMedia>
+public class SocialMedia : BaseEntity, IEntity, IEquatable<SocialMedia>
 {
-    public int Id { get; set; }
     public string? Platform { get; set; }
     public string? Link { get; set; }
     public int PlayerCharacteristicId { get; set; }

@@ -1,4 +1,5 @@
-﻿namespace SoccerInfo.Persistence.Data.Models;
+﻿
+namespace SoccerInfo.Persistence.Data.Models;
 public class CountryFlag_Lookup
 {
     public int Id { get; set; }

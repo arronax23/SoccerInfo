@@ -2,9 +2,8 @@
 using System.Linq.Expressions;
 
 namespace SoccerInfo.Persistence.Data.Models;
-public class League : IEntity
+public class League : BaseEntity
 {
-    public int Id { get; set; }
     public string Name { get; set; } = null!;
     public string? LeagueImageBase64 { get; set; }
     public string Country { get; set; } = null!;

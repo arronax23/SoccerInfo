@@ -2,9 +2,8 @@
 
 namespace SoccerInfo.Persistence.Data.Models.PlayerCharacteristicsAggregate;
 
-public abstract class StatsBase : IEntity, IEquatable<StatsBase>
+public abstract class StatsBase : BaseEntity, IEquatable<StatsBase>
 {
-    public virtual int Id { get ; set; }
     public virtual StatsLeague League { get; protected set; } = null!;
     public virtual int? MatchesPlayed { get; protected set; }
     public virtual int? MinutesPlayed { get; protected set; }

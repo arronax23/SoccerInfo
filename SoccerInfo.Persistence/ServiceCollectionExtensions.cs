@@ -10,6 +10,7 @@ public static class ServiceCollectionExtensions
     {
         services.AddScoped<JsonFileDataManager>();
         services.AddScoped<IGeneralPositionLookupRepository, GeneralPositionLookupRepository>();
+        services.AddScoped<IPlayerCharacteristicsRepository, PlayerCharacteristicsRepository>();
         services.AddScoped<GeneralPositionService>();
     }
 }

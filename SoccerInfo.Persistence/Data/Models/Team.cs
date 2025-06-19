@@ -3,9 +3,8 @@ using System.Linq.Expressions;
 
 namespace SoccerInfo.Persistence.Data.Models;
 
-public class Team : IEntity
+public class Team : BaseEntity
 {
-    public int Id { get; set; }
     public string Name { get; set; } = null!;
     public string? TeamImageBase64 { get; set; }
     public virtual ICollection<Player> Players { get; set; } = new List<Player>();

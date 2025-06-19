@@ -2,14 +2,12 @@
 using SoccerInfo.Persistence.Data.Models.GeneralPosition;
 using SoccerInfo.Persistence.Data.Models.PlayerCharacteristicsAggregate;
 using SoccerInfo.Persistence.Data.Models.Stats;
-using System.Linq;
 using System.Linq.Expressions;
 
 namespace SoccerInfo.Persistence.Data.Models;
 
-public partial class Player : IEntity, IEquatable<Player>
+public partial class Player : BaseEntity
 {
-    public int Id { get; set; }
     public string Name { get; set; } = null!;
     public string Position { get; set; } = null!;
     public int Age { get; set; }
@@ -63,13 +61,4 @@ public partial class Player : IEntity, IEquatable<Player>
     public static Expression<Func<Player, bool>> Matches(Player other) =>
         (Player p) => p.Name == other.Name && p.DateOfBirth == other.DateOfBirth;
 
-    public bool Equals(Player? other)
-    {
-        if (other == null) 
-            return false;
-        else if (this.Name == other.Name && this.DateOfBirth == other.DateOfBirth)
-            return true;
-        else
-            return false;
-    }
 }
