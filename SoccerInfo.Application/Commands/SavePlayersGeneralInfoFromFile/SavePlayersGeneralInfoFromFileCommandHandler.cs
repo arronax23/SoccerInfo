@@ -1,12 +1,6 @@
-﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using SoccerInfo.Application.Commands.SavePlayersGeneralInfoFromFile;
 using SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo.Dto;
-using SoccerInfo.Persistence.Data;
-using SoccerInfo.Persistence.Data.Models;
-using SoccerInfo.Persistence.Data.Models.Abstractions;
-using SoccerInfo.Persistence.EntityFrameworkExtensions;
 using SoccerInfo.Shared.CQRS;
 using System.Text.Json;
 

@@ -1,23 +1,24 @@
-﻿using AutoMapper;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using SoccerInfo.Application.JsonFileData;
+using SoccerInfo.Domain.Models;
+using SoccerInfo.Domain.Models.Extraction;
+using SoccerInfo.Domain.Repositories.Generic;
 using SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo;
 using SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo.Dto;
-using SoccerInfo.Persistence.Data;
-using SoccerInfo.Persistence.Data.Models;
-using SoccerInfo.Persistence.JsonFileData;
 using SoccerInfo.Shared.CQRS;
 
 namespace SoccerInfo.Application.Commands.ExtarctPlayersGeneralnfo;
 
 internal class ExtarctPlayersGeneralInfoCommandHandler(
-    ApplicationDbContext dbContext,
+    IGenericRepository<LeagueLinkLookup> leagueLinkLookupRepository,
     PlayersGeneralInfoExtractor playersGeneralInfoExtractor,
-    JsonFileDataManager jsonFileDataManager) : ICommandHandler<ExtarctPlayersGeneralnfoCommand, GeneralInfoExtractionData?>
+    IJsonFileDataManager jsonFileDataManager) : ICommandHandler<ExtarctPlayersGeneralnfoCommand, GeneralInfoExtractionData?>
 {
     public async Task<GeneralInfoExtractionData?> Handle(ExtarctPlayersGeneralnfoCommand request, CancellationToken cancellationToken)
     {
-        var leagueLinks = dbContext.LeagueLinksLookup
+
+        var leagueLinks = leagueLinkLookupRepository
+            .ToQuery()
             .AsNoTracking()
             .Where(l => l.IsActive)
             .Select(l => l.Value);

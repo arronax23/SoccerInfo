@@ -1,20 +1,21 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using SoccerInfo.Application.Intrefaces;
 using SoccerInfo.BackendScraper;
-using SoccerInfo.Persistence.Data;
+using SoccerInfo.Domain.Repositories;
 using SoccerInfo.Shared.CQRS;
 using SoccerInfo.Shared.Utilities;
 
 namespace SoccerInfo.Application.Commands.ExtractMarketValueProgress;
 
 internal class ExtractMarketValueProgressCommandHandler(
-    ApplicationDbContext dbContext, 
+    IUnitOfWork unitOfWork,
+    IPlayerRepository playerRepository, 
     MarketValueProgressScraper marketValueProgressScraper,
     CustomMapper mapper
     ) : ICommandHandler<ExtractMarketValueProgressCommand>
 {
     public async Task Handle(ExtractMarketValueProgressCommand request, CancellationToken cancellationToken)
     {
-        var players = dbContext.Players;
+        var players = playerRepository.ToQuery();
         var extractedData = await Benchmark.ExecuteAndMeasureTimeAsync(async () => {
             return await marketValueProgressScraper.Scrape(players.Select(x => x.TransfermarktId));
         }, "Scrape Market Value Progress");
@@ -31,12 +32,11 @@ internal class ExtractMarketValueProgressCommandHandler(
             }  
         }
 
-        dbContext.UpdateRange(players);
+        playerRepository.UpdateRange(players);
 
-        var entries = dbContext.ChangeTracker.Entries();
+        var entries = unitOfWork.GetEntires();
 
-        await dbContext.SaveChangesAsync();
-
+        await unitOfWork.SaveChangesAsync();
         await Console.Out.WriteLineAsync();
     }
 }

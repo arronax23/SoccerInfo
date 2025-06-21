@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using SoccerInfo.Application.Queries.Dtos;
-using SoccerInfo.Persistence.Data.Models.PlayerCharacteristicsAggregate;
+using SoccerInfo.Domain.Models.PlayerCharacteristicsAggregate;
 using SoccerInfo.Shared.Utilities;
 using static SoccerInfo.Application.Queries.Dtos.PlayerCharacteristicsDto;
 

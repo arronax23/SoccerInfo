@@ -1,31 +1,32 @@
 ﻿using AutoMapper;
-using Microsoft.Extensions.Configuration;
-using SoccerInfo.Persistence.Data;
-using SoccerInfo.Persistence.Data.Models;
-using SoccerInfo.Persistence.Data.Models.Abstractions;
-using SoccerInfo.Persistence.Data.Models.GeneralPosition;
-using SoccerInfo.Persistence.EntityFrameworkExtensions;
-using SoccerInfo.Persistence.Repositories;
+using Microsoft.EntityFrameworkCore;
+using SoccerInfo.Application.Intrefaces;
+using SoccerInfo.Domain.Models;
+using SoccerInfo.Domain.Models.GeneralPosition;
+using SoccerInfo.Domain.Repositories;
+using SoccerInfo.Domain.Repositories.Generic;
 using SoccerInfo.Shared.CQRS;
 
 namespace SoccerInfo.Application.Commands.SavePlayersGeneralInfo;
 
 internal class SavePlayersGeneralInfoCommandHandler(
-    IConfiguration configuration,
-    ApplicationDbContext dbContext,
-    IPlayerRepository playerRepository,
     IMapper mapper,
+    IUnitOfWork unitOfWork,
+    IPlayerRepository playerRepository,
+    IGenericRepository<League> leagueRepository,
+    IGenericRepository<Team> teamRepository,
+    IGenericRepository<Nationality> nationalityRepository,
     GeneralPositionService generalPositionService) : ICommandHandler<SavePlayersGeneralInfoCommand>
 {
     public async Task Handle(SavePlayersGeneralInfoCommand request, CancellationToken cancellationToken)
     {
-        using var transaction = dbContext.Database.BeginTransaction();
+        using var transaction = unitOfWork.BeginTransaction();
 
         var extractedLeagues = mapper.Map<IEnumerable<League>>(request.Extraction.Leagues);
 
         foreach (var extractedLeague in extractedLeagues)
         {
-            var dbLeague = dbContext.Leagues.SingleOrDefault(League.Matches(extractedLeague));
+            var dbLeague = await leagueRepository.SingleOrDefaultAsync(League.Matches(extractedLeague));
             League currentLeague = null!;
 
             if (dbLeague is not null)
@@ -36,12 +37,12 @@ internal class SavePlayersGeneralInfoCommandHandler(
             else
             {
                 currentLeague = mapper.Map<League>(extractedLeague);
-                dbContext.Leagues.Add(currentLeague);
+                await leagueRepository.AddAsync(currentLeague);
             }
 
             foreach (var extractedTeam in extractedLeague.Teams)
             {
-                var dbTeam = dbContext.Teams.SingleOrDefault(Team.Matches(extractedTeam));
+                var dbTeam = await teamRepository.SingleOrDefaultAsync(Team.Matches(extractedTeam));
                 Team currentTeam = null!;
 
                 if (dbTeam is not null)
@@ -57,7 +58,10 @@ internal class SavePlayersGeneralInfoCommandHandler(
 
                 foreach (var extractedPlayer in extractedTeam.Players)
                 {
-                    var dbPlayer = await playerRepository.FindMatchingAsync(extractedPlayer);
+                    var dbPlayer = await playerRepository
+                        .ToQuery()
+                        .SingleOrDefaultAsync(p => p.TransfermarktId == extractedPlayer.TransfermarktId);
+                    
                     Player currentPlayer = null!;
 
                     if (dbPlayer is not null)
@@ -76,7 +80,7 @@ internal class SavePlayersGeneralInfoCommandHandler(
 
                     foreach (var extractedNationality in extractedPlayer.Nationalities)
                     {
-                        var dbNationality = dbContext.Nationalities.SingleOrDefault(Nationality.Matches(extractedNationality));
+                        var dbNationality = await nationalityRepository.SingleOrDefaultAsync(Nationality.Matches(extractedNationality));
                         var trackerNationality = GetNationalityFromChangeTracker(extractedNationality);
 
                         if (dbNationality is not null)
@@ -97,37 +101,16 @@ internal class SavePlayersGeneralInfoCommandHandler(
             }
         }
 
-        dbContext.ChangeTracker.ShowEntries();
-
-
-        await dbContext.SaveChangesAsync(cancellationToken);
-        await transaction.ResolveAsync(configuration);
+        unitOfWork.ShowEntires();
+        await unitOfWork.SaveChangesAsync(cancellationToken);
+        await unitOfWork.ResolveTransactionAsync(transaction);
     }
 
     private Nationality? GetNationalityFromChangeTracker(Nationality extractedNationality)
     {
-        return dbContext.ChangeTracker
-            .Entries()
+        return unitOfWork.GetEntires()
             .Where(entr => entr.Entity is Nationality)
             .Select(entr => (Nationality)entr.Entity)
             .SingleOrDefault(Nationality.Matches(extractedNationality).Compile());
-    }
-
-
-    [Obsolete]
-    private void UpdateOrAddEntity<TEntity>(TEntity extractedData) 
-        where TEntity : class, IEntity, IEquatable<TEntity>
-    {
-        var dbEntity = dbContext.Set<TEntity>()
-              .SingleOrDefault(extractedData.Equals);
-
-        if (dbEntity is not null)
-        {
-        }
-        else
-        {
-            var newLeague = mapper.Map<League>(extractedData);
-            dbContext.Leagues.Add(newLeague);
-        }
     }
 }

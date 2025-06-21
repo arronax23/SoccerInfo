@@ -1,6 +1,4 @@
-﻿using SoccerInfo.Persistence.Data.Models;
-
-namespace SoccerInfo.Application.Queries.Dtos;
+﻿namespace SoccerInfo.Application.Queries.Dtos;
 
 public class PlayerDetailsDto
 {

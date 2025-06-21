@@ -1,44 +1,45 @@
 ﻿using AutoMapper;
 using SoccerInfo.Application.Queries.Dtos;
-using SoccerInfo.Persistence.Data;
-using SoccerInfo.Persistence.Data.Models.PlayerCharacteristicsAggregate;
+using SoccerInfo.Domain.Models;
+using SoccerInfo.Domain.Repositories;
+using SoccerInfo.Domain.Repositories.Generic;
 using SoccerInfo.Shared.CQRS;
 
 namespace SoccerInfo.Application.Queries.GetPlayerCharacteristics;
 
 internal class GetPlayerCharacteristicsQueryHandler(
-    ApplicationDbContext dbContext, 
+    IPlayerRepository playerRepository,
+    IGenericRepository<Nationality> nationalityRepository,
     IMapper mapper) : IQueryHandler<GetPlayerCharacteristicsQuery, PlayerCharacteristicsDto>
 {
     public Task<PlayerCharacteristicsDto> Handle(GetPlayerCharacteristicsQuery request, CancellationToken cancellationToken)
     {
-        var isGoalkeeper = dbContext.Players
-            .Single(x => x.Id == request.PlayerId)
-            .Position == "Goalkeeper";
+        var player = playerRepository
+            .ToQuery()
+            .Single(x => x.Id == request.PlayerId);
 
-        PlayerCharacteristic characteristic = null!;
+        var isGoalkeeper = player.Position == "Goalkeeper";
 
-        if (isGoalkeeper)
-            characteristic = dbContext.PlayerCharacteristics.Single(x => x.PlayerId == request.PlayerId);
+        var dto = mapper.Map<PlayerCharacteristicsDto>(player.Characteristics);
+
+        if (dto is not null)
+        {
+            dto.IsGoalkeeper = isGoalkeeper;
+            dto.BrithPlace!.CountryBase64Image = GetCountryBase64Image(dto.BrithPlace.Country);
+
+            if (dto.NationalTeam != null)
+                dto.NationalTeam.CountryBase64Image = GetCountryBase64Image(dto.NationalTeam.Country);
+
+            return Task.FromResult(dto);
+        }
         else
-            characteristic = dbContext.PlayerCharacteristics.Single(x => x.PlayerId == request.PlayerId);
-
-
-        var dto = mapper.Map<PlayerCharacteristicsDto>(characteristic);
-
-        dto.IsGoalkeeper = isGoalkeeper;
-        dto.BrithPlace!.CountryBase64Image = GetCountryBase64Image(dto.BrithPlace.Country);
-
-        if (dto.NationalTeam != null)
-            dto.NationalTeam.CountryBase64Image = GetCountryBase64Image(dto.NationalTeam.Country);
-
-        return Task.FromResult(dto);
+            return Task.FromResult(new PlayerCharacteristicsDto());
     }
-
 
     private string? GetCountryBase64Image(string? countryName)
     {
-        return dbContext.Nationalities
+        return nationalityRepository
+            .ToQuery()
             .SingleOrDefault(x => x.Country == countryName)?
             .CountryFlag!.ImageSvgBase64;
     }

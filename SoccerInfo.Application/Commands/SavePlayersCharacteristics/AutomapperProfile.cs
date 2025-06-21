@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using SoccerInfo.Persistence.Data.Models.PlayerCharacteristicsAggregate;
+using SoccerInfo.Domain.Models.PlayerCharacteristicsAggregate;
 using static SoccerInfo.FrontendScraper.ScrapePlayersCharacterstics.Dto.PlayersCharacteristicsExtractionData;
 
 namespace SoccerInfo.Application.Commands.SavePlayersCharacteristics;

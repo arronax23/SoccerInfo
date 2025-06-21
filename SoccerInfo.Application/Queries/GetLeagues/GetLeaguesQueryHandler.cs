@@ -1,5 +1,5 @@
-﻿using SoccerInfo.Application.Queries.Dtos;
-using SoccerInfo.Persistence.Sql;
+﻿using SoccerInfo.Application.Interfaces;
+using SoccerInfo.Application.Queries.Dtos;
 using SoccerInfo.Shared.CQRS;
 
 namespace SoccerInfo.Application.Queries.GetLeagues;

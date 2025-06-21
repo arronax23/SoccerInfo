@@ -1,11 +1,12 @@
-﻿using SoccerInfo.Shared.Utilities;
+﻿using SoccerInfo.Application.JsonFileData;
+using SoccerInfo.Shared.Utilities;
 using System.Text;
 
 namespace SoccerInfo.Persistence.JsonFileData;
 
-public class JsonFileDataManager
+public class JsonFileDataManager : IJsonFileDataManager
 {
-    private const string DIRECTORY_NAME = "JsonData";  
+    private const string DIRECTORY_NAME = "JsonData";
     public async Task SaveData<T>(T data, string fileName)
     {
         VerifyDirectoryPresence(DIRECTORY_NAME);
@@ -13,7 +14,7 @@ public class JsonFileDataManager
         var isSuccess = false;
         var index = 0;
 
-        while (isSuccess == false) 
+        while (isSuccess == false)
         {
             var modifiedFileName = AddIndexSuffix(fileName, ++index);
             isSuccess = await JsonSerializerToFile.Save(data, Path.Combine(DIRECTORY_NAME, modifiedFileName));

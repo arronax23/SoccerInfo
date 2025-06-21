@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using SoccerInfo.Persistence.Data.Models.Extraction;
+using SoccerInfo.Domain.Models.Extraction;
 
 namespace SoccerInfo.Persistence.Data.Configurations;
 

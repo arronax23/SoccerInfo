@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using SoccerInfo.Persistence.Data.Models.Stats;
+using SoccerInfo.Domain.Models.Stats;
 
 namespace SoccerInfo.Persistence.Data.Configurations;
 internal sealed class PlayerStatisticConfiguration : IEntityTypeConfiguration<PlayerStatistic>

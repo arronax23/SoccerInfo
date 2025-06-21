@@ -14,7 +14,6 @@ public static class ServiceCollectionExtensions
 {
     public static void AddFrontendScraperServices(this IServiceCollection services)
     {
-        services.AddSingleton<PuppeteerManager>();
         services.AddSingleton<PlaywrightManager>();
         services.AddScoped<ImageFetcher>();
 

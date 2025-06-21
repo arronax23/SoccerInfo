@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Data.SqlClient;
 using Dapper;
+using SoccerInfo.Application.Interfaces;
 
 namespace SoccerInfo.Persistence.Sql;
 

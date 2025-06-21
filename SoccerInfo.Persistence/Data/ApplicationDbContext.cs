@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SoccerInfo.Persistence.Data.Models;
-using SoccerInfo.Persistence.Data.Models.Abstractions;
-using SoccerInfo.Persistence.Data.Models.Extraction;
-using SoccerInfo.Persistence.Data.Models.GeneralPosition;
-using SoccerInfo.Persistence.Data.Models.PlayerCharacteristicsAggregate;
-using SoccerInfo.Persistence.Data.Models.Stats;
+using SoccerInfo.Domain.Models;
+using SoccerInfo.Domain.Models.Abstractions;
+using SoccerInfo.Domain.Models.Extraction;
+using SoccerInfo.Domain.Models.GeneralPosition;
+using SoccerInfo.Domain.Models.PlayerCharacteristicsAggregate;
+using SoccerInfo.Domain.Models.Stats;
 
 namespace SoccerInfo.Persistence.Data;
 

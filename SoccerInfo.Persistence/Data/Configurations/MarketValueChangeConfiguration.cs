@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using SoccerInfo.Persistence.Data.Models;
-using System.Reflection.Emit;
+using SoccerInfo.Domain.Models;
 
 namespace SoccerInfo.Persistence.Data.Configurations;
 internal sealed class MarketValueChangeConfiguration : IEntityTypeConfiguration<MarketValueChange>

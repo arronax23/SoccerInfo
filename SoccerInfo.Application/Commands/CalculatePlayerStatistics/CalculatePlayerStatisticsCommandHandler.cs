@@ -1,24 +1,29 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using NodaTime;
-using SoccerInfo.Persistence.Data;
-using SoccerInfo.Persistence.Data.Models;
-using SoccerInfo.Persistence.Data.Models.PlayerCharacteristicsAggregate;
-using SoccerInfo.Persistence.Data.Models.Stats;
-using SoccerInfo.Persistence.EntityFrameworkExtensions;
+using SoccerInfo.Application.Intrefaces;
+using SoccerInfo.Domain.Models;
+using SoccerInfo.Domain.Models.Stats;
+using SoccerInfo.Domain.Repositories;
 using SoccerInfo.Shared.CQRS;
+using SoccerInfo.Domain.Models.PlayerCharacteristicsAggregate;
+using SoccerInfo.Domain.Repositories.Generic;
 
 namespace SoccerInfo.Application.Commands.CalculatePlayerStatistics;
 
-internal class CalculatePlayerStatisticsCommandHandler(IConfiguration configuration, ApplicationDbContext dbContext)
+internal class CalculatePlayerStatisticsCommandHandler(
+    IConfiguration configuration, 
+    IUnitOfWork unitOfWork,
+    IPlayerRepository playerRepository,
+    IGenericRepository<PlayerStatistic> statsRepository)
     : ICommandHandler<CalculatePlayerStatisticsCommand>
 {
     public async Task Handle(CalculatePlayerStatisticsCommand request, CancellationToken cancellationToken)
     {
-        using var transaction = dbContext.Database.BeginTransaction();
+        using var transaction = unitOfWork.BeginTransaction();
         var statistics = new List<PlayerStatistic>();
 
-        var dbPlayers = dbContext.Players.AsNoTracking();
+        var dbPlayers = playerRepository.ToQuery().AsNoTracking();
 
         foreach (var dbPlayer in dbPlayers)
         {
@@ -39,26 +44,26 @@ internal class CalculatePlayerStatisticsCommandHandler(IConfiguration configurat
                 PlayerId = dbPlayer.Id,
             };
 
-            var dbStats = dbContext
-                .PlayerStatistics
+            var dbStats = await statsRepository
+                .ToQuery()
                 .AsNoTracking()
-                .SingleOrDefault(s => s.PlayerId == dbPlayer.Id);
+                .SingleOrDefaultAsync(s => s.PlayerId == dbPlayer.Id);
 
             if (dbStats == null)
             {
-                dbContext.PlayerStatistics.Add(stats);
+                await statsRepository.AddAsync(stats);
             }
             else
             {
                 TrackEntity(stats, dbStats.Id);
-                dbContext.PlayerStatistics.Update(stats);
+                statsRepository.Update(stats);
             }
         }
 
-        dbContext.ChangeTracker.ShowEntries();
+        unitOfWork.ShowEntires();
 
-        await dbContext.SaveChangesAsync();
-        await transaction.ResolveAsync(configuration);
+        await unitOfWork.SaveChangesAsync();
+        await unitOfWork.ResolveTransactionAsync(transaction);
 
     }
 
@@ -155,10 +160,10 @@ internal class CalculatePlayerStatisticsCommandHandler(IConfiguration configurat
     private void TrackEntity(PlayerStatistic stats, int statsId)
     {
         stats.Id = statsId;
-        dbContext.Entry(stats).State = EntityState.Modified;
-        dbContext.Entry(stats).Reference(s => s.Age).TargetEntry!.State = EntityState.Modified;
+        unitOfWork.Entry(stats).State = EntityState.Modified;
+        unitOfWork.Entry(stats).Reference(s => s.Age).TargetEntry!.State = EntityState.Modified;
 
         if (stats.ContractPeriod is not null)
-            dbContext.Entry(stats).Reference(s => s.ContractPeriod).TargetEntry!.State = EntityState.Modified;
+            unitOfWork.Entry(stats).Reference(s => s.ContractPeriod).TargetEntry!.State = EntityState.Modified;
     }
 }

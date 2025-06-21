@@ -1,10 +1,9 @@
 ﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using SoccerInfo.Persistence.Data;
-using SoccerInfo.Persistence.Data.Models.PlayerCharacteristicsAggregate;
-using SoccerInfo.Persistence.EntityFrameworkExtensions;
+using SoccerInfo.Application.Intrefaces;
+using SoccerInfo.Domain.Models.PlayerCharacteristicsAggregate;
+using SoccerInfo.Domain.Repositories;
+using SoccerInfo.Domain.Repositories.Generic;
 using SoccerInfo.Shared.CQRS;
 using System.Text.RegularExpressions;
 
@@ -12,8 +11,9 @@ namespace SoccerInfo.Application.Commands.SavePlayersCharacteristics;
 
 internal class SavePlayersCharacteristicsFromFileCommandHandler(
     ILogger<SavePlayersCharacteristicsFromFileCommandHandler> logger,
-    IConfiguration configuration,
-    ApplicationDbContext dbContext,
+    IUnitOfWork unitOfWork,
+    IPlayerRepository playerRepository,
+    IGenericRepository<StatsLeague> statsLeagueRepository,
     IMapper mapper) 
     : ICommandHandler<SavePlayersCharacteristicsCommand>
 {
@@ -23,10 +23,10 @@ internal class SavePlayersCharacteristicsFromFileCommandHandler(
     {
         logger.LogInformation("Executing SavePlayersCharacteristicsCommand...");
 
-        using var transaction = dbContext.Database.BeginTransaction();
+        using var transaction = unitOfWork.BeginTransaction();
 
-        var dbPlayers = dbContext.Players;
-        var dbStatsLeagues = dbContext.StatsLeagues.ToList();
+        var dbPlayers = playerRepository.ToQuery();
+        var dbStatsLeagues = statsLeagueRepository.ToQuery().ToList();
 
         foreach (var extractedCharacteristic in request.Extraction!.PlayersCharacteristics)
         {
@@ -88,10 +88,10 @@ internal class SavePlayersCharacteristicsFromFileCommandHandler(
             }
 
         }
-        dbContext.ChangeTracker.ShowEntries();
+        unitOfWork.ShowEntires();
 
-        await dbContext.SaveChangesAsync();
-        await transaction.ResolveAsync(configuration);
+        await unitOfWork.SaveChangesAsync();
+        await unitOfWork.ResolveTransactionAsync(transaction);
 
         logger.LogInformation("Executing SavePlayersCharacteristicsCommand successfully saved data");
 

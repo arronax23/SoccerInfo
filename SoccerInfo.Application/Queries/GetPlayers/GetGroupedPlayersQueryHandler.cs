@@ -1,16 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SoccerInfo.Application.Queries.Dtos;
-using SoccerInfo.Persistence.Data;
+using SoccerInfo.Domain.Repositories;
 using SoccerInfo.Shared.CQRS;
 using static SoccerInfo.Application.Queries.Dtos.PlayersGroupDto;
 
 namespace SoccerInfo.Application.Queries.GetPlayers;
 
-internal class GetGroupedPlayersQueryHandler(ApplicationDbContext dbContext) : IQueryHandler<GetGroupedPlayersQuery, IEnumerable<PlayersGroupDto>>
+internal class GetGroupedPlayersQueryHandler(IPlayerRepository playerRepository) : IQueryHandler<GetGroupedPlayersQuery, IEnumerable<PlayersGroupDto>>
 {
     public Task<IEnumerable<PlayersGroupDto>> Handle(GetGroupedPlayersQuery request, CancellationToken cancellationToken)
     {
-        return Task.FromResult(dbContext.Players
+        return Task.FromResult(playerRepository
+            .ToQuery()
             .AsNoTracking()
             .Where(p => p.TeamId == request.TeamId)
             .GroupBy(p => new { p.GeneralPositionId, p.GeneralPosition.DisplayName })

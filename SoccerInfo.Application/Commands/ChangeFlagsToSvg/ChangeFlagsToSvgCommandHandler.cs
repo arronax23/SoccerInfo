@@ -1,21 +1,19 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Nager.Country;
-using Nager.Country.Translation;
 using Serilog;
-using SoccerInfo.Persistence.Data;
-using SoccerInfo.Persistence.Data.Models;
+using SoccerInfo.Application.Intrefaces;
+using SoccerInfo.Domain.Models;
+using SoccerInfo.Domain.Repositories.Generic;
 using SoccerInfo.Shared.CQRS;
 using System.Globalization;
-using System.Linq;
-using System.Net;
 using System.Reflection;
 
 namespace SoccerInfo.Application.Commands.ChangeFlagsToSvg;
 
 internal class ChangeFlagsToSvgCommandHandler(
     ILogger<ChangeFlagsToSvgCommandHandler> logger,
-    ApplicationDbContext dbContext
+    IGenericRepository<Nationality> nationalityRepository,
+    IUnitOfWork unitOfWork
     ) : ICommandHandler<ChangeFlagsToSvgCommand>
 {
     private readonly string[] extractCountriesCodes = ["ENG", "NIR", "SCT", "WLS", "XK"];
@@ -42,7 +40,7 @@ internal class ChangeFlagsToSvgCommandHandler(
 
         var files = ReadFiles();
 
-        var nationalities = dbContext.Nationalities.Where(x => x.CountryFlagId == null);
+        var nationalities = nationalityRepository.ToQuery().Where(x => x.CountryFlagId == null);
 
         var ENG = nationalities.Single(x => x.Country == "England");
         var SCT = nationalities.Single(x => x.Country == "Scotland");
@@ -86,7 +84,7 @@ internal class ChangeFlagsToSvgCommandHandler(
         };
 
 
-        dbContext.SaveChanges();
+        unitOfWork.SaveChanges();
 
     }
 

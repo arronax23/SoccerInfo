@@ -4,25 +4,24 @@ using Microsoft.AspNetCore.HttpOverrides;
 using SoccerInfo.API;
 using SoccerInfo.FrontendScraper;
 using SoccerInfo.Infrastructure;
-using SoccerInfo.Persistence.Sql;
 using SoccerInfo.Shared.CQRS;
 using SoccerInfo.Infrastructure.CQRS;
-using SoccerInfo.Persistence.Data;
 using SoccerInfo.Application;
 using SoccerInfo.Infrastructure.Swagger;
-using SoccerInfo.Persistence;
 using Quartz;
-using SoccerInfo.Infrastructure.Jobs;
+using SoccerInfo.Domain;
+using SoccerInfo.Persistence;
+using SoccerInfo.Persistence.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSerilog(cfg => cfg.ReadFrom.Configuration(builder.Configuration));
 
-builder.Services.AddTransient<ISqlExecutor, SqlExecutor>();
 builder.Services.AddScoped<IQueryDispatcher, QueryDispatcher>();
 builder.Services.AddScoped<ICommandDispatcher, CommandDispatcher>();
 
 builder.Services.AddApiServices();
+builder.Services.AddDomainServices();
 builder.Services.AddApplicationServices();
 builder.Services.AddFrontendScraperServices();
 builder.Services.AddPersistenceServices();

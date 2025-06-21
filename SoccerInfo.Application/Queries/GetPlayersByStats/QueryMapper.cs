@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using SoccerInfo.Application.Queries.Dtos.StatsPlayerDto;
 using SoccerInfo.Application.Queries.Dtos.StatsPlayerDto.Shared;
-using SoccerInfo.Persistence.Data.Models;
+using SoccerInfo.Domain.Models;
 using static SoccerInfo.Application.Queries.GetPlayersByStats.GetPlayersByStatsQuery.PlayerStatsFilterDto;
 
 namespace SoccerInfo.Application.Queries.GetPlayersByStats;

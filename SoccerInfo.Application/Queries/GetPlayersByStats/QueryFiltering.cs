@@ -1,4 +1,4 @@
-﻿using SoccerInfo.Persistence.Data.Models;
+﻿using SoccerInfo.Domain.Models;
 using System.Linq.Expressions;
 using static SoccerInfo.Application.Queries.GetPlayersByStats.GetPlayersByStatsQuery;
 using static SoccerInfo.Application.Queries.GetPlayersByStats.GetPlayersByStatsQuery.PlayerStatsFilterDto;

@@ -11,10 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Data\Models\PlayerCharacteristicsAggregate\PlayerExtensions.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <PackageReference Include="Ardalis.Specification.EntityFrameworkCore" Version="9.2.0" />
     <PackageReference Include="Dapper" Version="2.1.66" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.11" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.11">
@@ -27,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SoccerInfo.Application\SoccerInfo.Application.csproj" />
     <ProjectReference Include="..\SoccerInfo.Shared\SoccerInfo.Shared.csproj" />
   </ItemGroup>
 

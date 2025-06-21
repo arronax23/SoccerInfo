@@ -29,7 +29,9 @@
   <ItemGroup>
     <ProjectReference Include="..\SoccerInfo.API\SoccerInfo.API.csproj" />
     <ProjectReference Include="..\SoccerInfo.BackendScraper\SoccerInfo.BackendScraper.csproj" />
+    <ProjectReference Include="..\SoccerInfo.Domain\SoccerInfo.Domain.csproj" />
     <ProjectReference Include="..\SoccerInfo.FrontendScraper\SoccerInfo.FrontendScraper.csproj" />
+    <ProjectReference Include="..\SoccerInfo.Persistence\SoccerInfo.Persistence.csproj" />
     <ProjectReference Include="..\soccerInfo.web.client\soccerInfo.web.client.esproj">
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>

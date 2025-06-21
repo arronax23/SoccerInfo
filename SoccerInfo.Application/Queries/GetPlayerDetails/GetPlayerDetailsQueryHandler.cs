@@ -1,20 +1,21 @@
 ﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
 using SoccerInfo.Application.Queries.Dtos;
-using SoccerInfo.Persistence.Data;
-using SoccerInfo.Persistence.Data.Models;
+using SoccerInfo.Domain.Models;
+using SoccerInfo.Domain.Repositories;
+using SoccerInfo.Domain.Repositories.Generic;
 using SoccerInfo.Shared.CQRS;
 using static SoccerInfo.Application.Queries.Dtos.PlayerDetailsDto;
 
 namespace SoccerInfo.Application.Queries.GetPlayerDetails;
 
 internal class GetPlayerDetailsQueryHandler(
-    ApplicationDbContext dbContext,
+    IPlayerRepository playerRepository,
+    IGenericRepository<Team> teamRepository,
     IMapper mapper) : IQueryHandler<GetPlayerDetailsQuery, PlayerDetailsDto>
 {
     public Task<PlayerDetailsDto> Handle(GetPlayerDetailsQuery request, CancellationToken cancellationToken)
     {
-        var player = dbContext.Players.SingleOrDefault(x => x.Id == request.PlayerId);
+        var player = playerRepository.ToQuery().SingleOrDefault(x => x.Id == request.PlayerId);
 
         if (player == null)
             return Task.FromResult(new PlayerDetailsDto());
@@ -29,7 +30,7 @@ internal class GetPlayerDetailsQueryHandler(
 
     private MarketValueChangeDto Map(MarketValueChange marketValueChange)
     {
-        var team = dbContext.Teams.SingleOrDefault(y => y.Name == marketValueChange.Team);
+        var team = teamRepository.ToQuery().SingleOrDefault(y => y.Name == marketValueChange.Team);
         string? image = null;
 
         if (team != null)

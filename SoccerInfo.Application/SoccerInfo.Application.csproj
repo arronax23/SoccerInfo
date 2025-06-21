@@ -9,6 +9,7 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.1" />
     <PackageReference Include="CsvHelper" Version="33.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.11" />
     <PackageReference Include="Nager.Country" Version="4.0.0" />
     <PackageReference Include="Nager.Country.Translation" Version="3.1.0" />
     <PackageReference Include="NodaTime" Version="3.2.1" />
@@ -17,8 +18,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SoccerInfo.BackendScraper\SoccerInfo.BackendScraper.csproj" />
+    <ProjectReference Include="..\SoccerInfo.Domain\SoccerInfo.Domain.csproj" />
     <ProjectReference Include="..\SoccerInfo.FrontendScraper\SoccerInfo.FrontendScraper.csproj" />
-    <ProjectReference Include="..\SoccerInfo.Persistence\SoccerInfo.Persistence.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SoccerInfo.Domain.Models.GeneralPosition;
+using SoccerInfo.Domain.Repositories;
 using SoccerInfo.Persistence.Data;
-using SoccerInfo.Persistence.Data.Models.GeneralPosition;
 
 namespace SoccerInfo.Persistence.Repositories;
 internal class GeneralPositionLookupRepository(ApplicationDbContext dbContext) : IGeneralPositionLookupRepository

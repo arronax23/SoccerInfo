@@ -5,7 +5,7 @@ using SoccerInfo.Application.Commands.ExtarctPlayersGeneralnfo;
 using SoccerInfo.Application.Commands.ExtractMarketValueProgress;
 using SoccerInfo.Application.Commands.SavePlayersCharacteristics;
 using SoccerInfo.Application.Commands.SavePlayersGeneralInfo;
-using SoccerInfo.Persistence.Repositories;
+using SoccerInfo.Domain.Repositories;
 using SoccerInfo.Shared.CQRS;
 
 namespace SoccerInfo.Application.Commands.GeneralExtraction;
@@ -13,11 +13,11 @@ namespace SoccerInfo.Application.Commands.GeneralExtraction;
 internal class GeneralExtractionCommandHandler(
     ILogger<GeneralExtractionCommandHandler> logger,
     ICommandDispatcher commandDispatcher, 
-    IPlayerCharacteristicsRepository repository) : ICommandHandler<GeneralExtractionCommand>
+    IPlayerRepository repository) : ICommandHandler<GeneralExtractionCommand>
 {
     public async Task Handle(GeneralExtractionCommand request, CancellationToken cancellationToken)
     {
-        await ExtractAndSavePlayersGeneralInfo();
+        //await ExtractAndSavePlayersGeneralInfo();
         await ExtractAndSavePlayersCharacteristics();
         await commandDispatcher.Send(new ExtractMarketValueProgressCommand());
         await commandDispatcher.Send(new CalculatePlayerStatisticsCommand());
@@ -31,7 +31,7 @@ internal class GeneralExtractionCommandHandler(
 
     private async Task ExtractAndSavePlayersCharacteristics()
     {
-        var count = await repository.GetCharacteristicsCount();
+        var count = await repository.GetPlayersCount();
         var batchSize = 100;
         var totalBatches = Math.Ceiling((double)count / batchSize);
 

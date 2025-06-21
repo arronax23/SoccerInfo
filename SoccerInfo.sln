@@ -19,6 +19,10 @@ Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "soccerInfo.web.client", "so
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoccerInfo.BackendScraper", "SoccerInfo.BackendScraper\SoccerInfo.BackendScraper.csproj", "{ED3BEA29-0843-41AB-AB46-1A4EFA02ED94}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoccerInfo.Domain", "SoccerInfo.Domain\SoccerInfo.Domain.csproj", "{4E59073B-FE80-454E-817F-356E852F3975}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scrapers", "scrapers", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,9 +63,17 @@ Global
 		{ED3BEA29-0843-41AB-AB46-1A4EFA02ED94}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ED3BEA29-0843-41AB-AB46-1A4EFA02ED94}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ED3BEA29-0843-41AB-AB46-1A4EFA02ED94}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E59073B-FE80-454E-817F-356E852F3975}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E59073B-FE80-454E-817F-356E852F3975}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E59073B-FE80-454E-817F-356E852F3975}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E59073B-FE80-454E-817F-356E852F3975}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{80CF5216-D3E5-4032-9189-9DAB1ADD1C1D} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{ED3BEA29-0843-41AB-AB46-1A4EFA02ED94} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {82589CC2-F34E-43CF-AA03-EB8D2FDED050}

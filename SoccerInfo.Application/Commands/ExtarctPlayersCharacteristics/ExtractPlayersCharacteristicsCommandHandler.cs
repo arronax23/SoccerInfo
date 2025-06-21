@@ -1,16 +1,16 @@
 ﻿using Microsoft.Extensions.Logging;
+using SoccerInfo.Application.JsonFileData;
+using SoccerInfo.Domain.Repositories;
 using SoccerInfo.FrontendScraper.ScrapePlayersCharacterstics;
 using SoccerInfo.FrontendScraper.ScrapePlayersCharacterstics.Dto;
-using SoccerInfo.Persistence.Data;
-using SoccerInfo.Persistence.JsonFileData;
 using SoccerInfo.Shared.CQRS;
 using SoccerInfo.Shared.Utilities;
 
 namespace SoccerInfo.Application.Commands.ExtarctPlayersCharacteristics;
 internal class ExtractPlayersCharacteristicsCommandHandler(
     ILogger<ExtractPlayersCharacteristicsCommandHandler> logger,
-    JsonFileDataManager jsonFileDataManager,
-    ApplicationDbContext dbContext,
+    IJsonFileDataManager jsonFileDataManager,
+    IPlayerRepository playerRepository,
     PlayersCharacteristicsExtractor extractor
     ) : ICommandHandler<ExtractPlayersCharacteristicsCommand, PlayersCharacteristicsExtractionData?>
 {
@@ -18,7 +18,9 @@ internal class ExtractPlayersCharacteristicsCommandHandler(
     {
         var extraction = await Benchmark.ExecuteAndMeasureTimeAsync(async () =>
         {
-            var extractionInput = dbContext.Players
+            var extractionInput = playerRepository
+            .ToQuery()
+            .OrderByDescending(x => x.Id)
             .Where(x => !request.OnlyNewPlayers || x.Characteristics == null)
             .Skip(request.Skip)
             .Take(request.PlayerCount)

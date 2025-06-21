@@ -2,14 +2,18 @@
 using CsvHelper.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Nager.Country;
-using SoccerInfo.Persistence.Data;
-using SoccerInfo.Persistence.Data.Models;
+using SoccerInfo.Application.Intrefaces;
+using SoccerInfo.Domain.Models;
+using SoccerInfo.Domain.Repositories.Generic;
 using SoccerInfo.Shared.CQRS;
 using System.Globalization;
 
 namespace SoccerInfo.Application.Commands.SaveNationalities;
 
-internal class SaveNationalitiesCommandHandler(ApplicationDbContext dbContext) : ICommandHandler<SaveNationalitiesCommand>
+internal class SaveNationalitiesCommandHandler(
+    IUnitOfWork unitOfWork,
+    IGenericRepository<Nationality> nationalityRepository,
+    IGenericRepository<CountryFlag_Lookup> countryFlagRepository) : ICommandHandler<SaveNationalitiesCommand>
 {
     public async Task Handle(SaveNationalitiesCommand request, CancellationToken cancellationToken)
     {
@@ -43,20 +47,20 @@ internal class SaveNationalitiesCommandHandler(ApplicationDbContext dbContext) :
         }
 
 
-        dbContext.Nationalities.AddRange(records.Select(x => new Nationality()
+        await nationalityRepository.AddRangeAsync(records.Select(x => new Nationality()
         {
             Country = x.Name,
             Country_Lookup = x.CommonName,
-            CountryFlagId = dbContext.CountryFlags_Lookup.AsNoTracking().Single(y => y.Name == x.CommonName).Id,
+            CountryFlagId = countryFlagRepository.ToQuery().AsNoTracking().Single(y => y.Name == x.CommonName).Id,
         }));
 
-        dbContext.SaveChanges();
+        unitOfWork.SaveChanges();
 
     }
 
     public IEnumerable<Country> FilterOutExisingNationalities(IEnumerable<Country> records)
     {
-        var nationalities = dbContext.Nationalities.AsNoTracking();
+        var nationalities = nationalityRepository.ToQuery().AsNoTracking();
 
         return records.Where(x => !nationalities.Any(n => n.Country == x.Name));
     }

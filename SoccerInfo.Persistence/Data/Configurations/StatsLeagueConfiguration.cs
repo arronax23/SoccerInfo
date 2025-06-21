@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using SoccerInfo.Persistence.Data.Models.PlayerCharacteristicsAggregate;
-using System.Reflection.Emit;
+using SoccerInfo.Domain.Models.PlayerCharacteristicsAggregate;
 
 namespace SoccerInfo.Persistence.Data.Configurations;
 internal sealed class StatsLeagueConfiguration : IEntityTypeConfiguration<StatsLeague>

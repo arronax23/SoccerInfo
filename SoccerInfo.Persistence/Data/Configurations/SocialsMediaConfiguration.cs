@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using SoccerInfo.Persistence.Data.Models.PlayerCharacteristicsAggregate;
+using SoccerInfo.Domain.Models.PlayerCharacteristicsAggregate;
 
 namespace SoccerInfo.Persistence.Data.Configurations;
 internal sealed class SocialsMediaConfiguration : IEntityTypeConfiguration<SocialMedia>
