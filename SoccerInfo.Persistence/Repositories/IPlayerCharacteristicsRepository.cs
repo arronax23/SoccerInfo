@@ -2,6 +2,6 @@
 
 public interface IPlayerCharacteristicsRepository
 {
-    public Task<int> GetCharacteristicsCount();
+    Task<int> GetCharacteristicsCount();
 }
 

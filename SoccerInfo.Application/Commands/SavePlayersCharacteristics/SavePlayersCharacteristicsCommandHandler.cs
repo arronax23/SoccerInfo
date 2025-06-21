@@ -30,7 +30,13 @@ internal class SavePlayersCharacteristicsFromFileCommandHandler(
 
         foreach (var extractedCharacteristic in request.Extraction!.PlayersCharacteristics)
         {
-            var dbPlayer = dbPlayers.Single(x => x.TransfermarktId == extractedCharacteristic.TransfermarktId);
+            var dbPlayer = dbPlayers.SingleOrDefault(x => x.TransfermarktId == extractedCharacteristic.TransfermarktId);
+            
+            if (dbPlayer is null)
+            {
+                logger.LogWarning($"Player with TransfermarktId: {extractedCharacteristic.TransfermarktId} not found in db");
+                continue;
+            }
 
             dbPlayer.UpdateGeneralCharacteristics(
                 extractedCharacteristic.Height,

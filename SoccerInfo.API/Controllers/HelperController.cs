@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using SoccerInfo.API.Authorization;
 using SoccerInfo.Application.Commands.ChangeFlagsToSvg;
 using SoccerInfo.Application.Commands.SaveNationalities;
-using SoccerInfo.Application.Commands.UpdateToEnglish;
 using SoccerInfo.Shared.CQRS;
 namespace SoccerInfoWeb.API.Controllers;
 
@@ -14,13 +13,6 @@ public class HelperController(ICommandDispatcher commandDispatcher) : Controller
     public async Task<IActionResult> ChangeFlagsToSvg()
     {
         await commandDispatcher.Send(new ChangeFlagsToSvgCommand());
-        return Ok();
-    }
-
-    [HttpPut("api/UpdateToEnglish")]
-    public async Task<IActionResult> UpdateToEnglish()
-    {
-        await commandDispatcher.Send(new UpdateToEnglishCommand());
         return Ok();
     }
 

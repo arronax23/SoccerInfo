@@ -1,19 +1,19 @@
 ﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using SoccerInfo.Persistence.Data;
 using SoccerInfo.Persistence.Data.Models;
 using SoccerInfo.Persistence.Data.Models.Abstractions;
 using SoccerInfo.Persistence.Data.Models.GeneralPosition;
 using SoccerInfo.Persistence.EntityFrameworkExtensions;
+using SoccerInfo.Persistence.Repositories;
 using SoccerInfo.Shared.CQRS;
-using System.Text.RegularExpressions;
 
 namespace SoccerInfo.Application.Commands.SavePlayersGeneralInfo;
 
 internal class SavePlayersGeneralInfoCommandHandler(
     IConfiguration configuration,
     ApplicationDbContext dbContext,
+    IPlayerRepository playerRepository,
     IMapper mapper,
     GeneralPositionService generalPositionService) : ICommandHandler<SavePlayersGeneralInfoCommand>
 {
@@ -57,7 +57,7 @@ internal class SavePlayersGeneralInfoCommandHandler(
 
                 foreach (var extractedPlayer in extractedTeam.Players)
                 {
-                    var dbPlayer = dbContext.Players.SingleOrDefault(Player.Matches(extractedPlayer));
+                    var dbPlayer = await playerRepository.FindMatchingAsync(extractedPlayer);
                     Player currentPlayer = null!;
 
                     if (dbPlayer is not null)

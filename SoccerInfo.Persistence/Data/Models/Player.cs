@@ -1,4 +1,5 @@
-﻿using SoccerInfo.Persistence.Data.Models.Abstractions;
+﻿using Microsoft.EntityFrameworkCore;
+using SoccerInfo.Persistence.Data.Models.Abstractions;
 using SoccerInfo.Persistence.Data.Models.GeneralPosition;
 using SoccerInfo.Persistence.Data.Models.PlayerCharacteristicsAggregate;
 using SoccerInfo.Persistence.Data.Models.Stats;
