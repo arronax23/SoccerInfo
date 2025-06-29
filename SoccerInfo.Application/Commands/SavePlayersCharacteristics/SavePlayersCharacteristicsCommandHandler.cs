@@ -6,6 +6,7 @@ using SoccerInfo.Domain.Repositories;
 using SoccerInfo.Domain.Repositories.Generic;
 using SoccerInfo.Shared.CQRS;
 using System.Text.RegularExpressions;
+using static SoccerInfo.FrontendScraper.ScrapePlayersCharacterstics.Dto.PlayersCharacteristicsExtractionData;
 
 namespace SoccerInfo.Application.Commands.SavePlayersCharacteristics;
 
@@ -71,7 +72,7 @@ internal class SavePlayersCharacteristicsFromFileCommandHandler(
                 foreach (var goalKeeperStatsItem in extractedCharacteristic.GoalKeeperStats!)
                 {
                     var statsItem = mapper.Map<GoalKeeperStats>(goalKeeperStatsItem);
-                    EliminateStatsLeaguesDuplicates(dbStatsLeagues, statsItem);
+                    EliminateStatsLeaguesDuplicates(dbStatsLeagues, statsItem, extractedCharacteristic);
 
                     dbPlayer.UpdateStats(statsItem);
                 }
@@ -81,7 +82,7 @@ internal class SavePlayersCharacteristicsFromFileCommandHandler(
                 foreach (var outfieldPlayerStatsItem in extractedCharacteristic.OutfieldPlayerStats!)
                 {
                     var statsItem = mapper.Map<OutfieldPlayerStats>(outfieldPlayerStatsItem);
-                    EliminateStatsLeaguesDuplicates(dbStatsLeagues, statsItem);
+                    EliminateStatsLeaguesDuplicates(dbStatsLeagues, statsItem, extractedCharacteristic);
 
                     dbPlayer.UpdateStats(statsItem);
                 }
@@ -97,9 +98,16 @@ internal class SavePlayersCharacteristicsFromFileCommandHandler(
 
     }
 
-
-    private void EliminateStatsLeaguesDuplicates(List<StatsLeague> dbStatsLeagues, StatsBase statsItem)
+    private void EliminateStatsLeaguesDuplicates(List<StatsLeague> dbStatsLeagues, StatsBase statsItem, PlayerCharacteristicsData playerCharacteristicsData)
     {
+        if (statsItem.League.Base64Image == null) 
+        {
+            logger.LogCritical("Error statsItem.League.Base64Image is null");
+            logger.LogCritical($"Name: {statsItem.League.Name}");    
+            logger.LogCritical($"Base64Image: {statsItem.League.Base64Image}");    
+            logger.LogCritical($"TransfermarktId: {playerCharacteristicsData.TransfermarktId}");    
+        }
+
         statsItem.League.Base64Image = Regex.Unescape(statsItem.League.Base64Image!).Trim();
         var dbStatsLeague = dbStatsLeagues.SingleOrDefault(x => x.Equals(statsItem.League));
 
