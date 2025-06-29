@@ -51,7 +51,7 @@ public class LeaguesController(IQueryDispatcher queryDispatcher) : ControllerBas
     }
 
     [HttpGet("api/GetPlayerCharacteristics/{playerId}")]
-    public async Task<PlayerCharacteristicsDto> GetPlayerCharacteristics(int playerId)
+    public async Task<PlayerCharacteristicsDto?> GetPlayerCharacteristics(int playerId)
     {
         return await queryDispatcher.Send(new GetPlayerCharacteristicsQuery() { PlayerId = playerId });
     }

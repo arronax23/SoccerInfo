@@ -10,9 +10,9 @@ namespace SoccerInfo.Application.Queries.GetPlayerCharacteristics;
 internal class GetPlayerCharacteristicsQueryHandler(
     IPlayerRepository playerRepository,
     IGenericRepository<Nationality> nationalityRepository,
-    IMapper mapper) : IQueryHandler<GetPlayerCharacteristicsQuery, PlayerCharacteristicsDto>
+    IMapper mapper) : IQueryHandler<GetPlayerCharacteristicsQuery, PlayerCharacteristicsDto?>
 {
-    public Task<PlayerCharacteristicsDto> Handle(GetPlayerCharacteristicsQuery request, CancellationToken cancellationToken)
+    public Task<PlayerCharacteristicsDto?> Handle(GetPlayerCharacteristicsQuery request, CancellationToken cancellationToken)
     {
         var player = playerRepository
             .ToQuery()
@@ -30,10 +30,13 @@ internal class GetPlayerCharacteristicsQueryHandler(
             if (dto.NationalTeam != null)
                 dto.NationalTeam.CountryBase64Image = GetCountryBase64Image(dto.NationalTeam.Country);
 
-            return Task.FromResult(dto);
+            return Task.FromResult(dto)!;
         }
         else
-            return Task.FromResult(new PlayerCharacteristicsDto());
+            return Task.FromResult<PlayerCharacteristicsDto?>(null);
+
+
+        
     }
 
     private string? GetCountryBase64Image(string? countryName)
