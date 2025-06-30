@@ -1,6 +1,7 @@
 ﻿using HtmlAgilityPack;
 using HtmlAgilityPack.CssSelectors.NetCore;
 using Microsoft.Extensions.Logging;
+using Microsoft.Playwright;
 using SoccerInfo.FrontendScraper.Utilities;
 using SoccerInfo.Shared.Utilities;
 using static SoccerInfo.FrontendScraper.ScrapePlayersCharacterstics.Dto.PlayersCharacteristicsExtractionData;
@@ -53,11 +54,17 @@ public class StatsParser(ImageFetcher imageFetcher, ILogger<StatsParser> logger)
 
     private async Task<string?> FetchLeagueImage(HtmlNode leagueNode)
     {
-        return await imageFetcher.Fetch(
-            leagueNode
+        var imageSouce = leagueNode
             .GetChildElementNodes()
             .ElementAt(0)
             .QuerySelector("img")
-            .ExtractAttribute("src"));
+            .ExtractAttribute("src") ?? string.Empty;
+
+        if (imageSouce.StartsWith("http"))
+            return await imageFetcher.Fetch(imageSouce);
+        else if (imageSouce.StartsWith("data:image/svg+xml"))
+            return imageSouce.Split(',').ElementAt(1).Trim();
+        else
+            return null;
     }
 }
