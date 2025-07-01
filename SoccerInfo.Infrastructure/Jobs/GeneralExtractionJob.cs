@@ -4,17 +4,18 @@ using SoccerInfo.Shared.CQRS;
 
 namespace SoccerInfo.Infrastructure.Jobs;
 
+[DisallowConcurrentExecution]
 public class GeneralExtractionJob(
     ILogger<GeneralExtractionJob> logger,
     ICommandDispatcher commandDispatcher) : IJobService
 {
     public static string Name => "GeneralExtraction";
     public static JobKey Key => JobKey.Create(Name);
-    public static string Schedule => "0 0 20 * * ?";
+    public static string Schedule => "0 35 23 * * ?";
 
     public async Task Execute(IJobExecutionContext context)
     {
-        logger.LogInformation($"{Name} job executing, Start time: {DateTime.UtcNow.ToString()}");
+        logger.LogInformation($"{Name} job executing, Start time: {DateTime.Now.ToString()}");
 
         try
         {
@@ -31,7 +32,7 @@ public class GeneralExtractionJob(
         }
         finally
         {
-            logger.LogInformation($"{Name} job has finished, End time: {DateTime.UtcNow.ToString()}");
+            logger.LogInformation($"{Name} job has finished, End time: {DateTime.Now.ToString()}");
         }
     }
 }

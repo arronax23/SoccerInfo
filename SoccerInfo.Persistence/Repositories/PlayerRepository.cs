@@ -14,12 +14,15 @@ internal class PlayerRepository : GenericRepository<Player>, IPlayerRepository
     {
         _context = context;
     }
+
+    [Obsolete]
     public async Task<Player?> FindMatchingAsync(Player reference)
     {
         return await _context.Players
             .SingleOrDefaultAsync(BuildAccentInsensitivePredicate(reference));
     }
 
+    [Obsolete]
     private static Expression<Func<Player, bool>> BuildAccentInsensitivePredicate(Player other)
     {
         return p =>
@@ -31,4 +34,11 @@ internal class PlayerRepository : GenericRepository<Player>, IPlayerRepository
     {
         return await _context.Players.CountAsync();
     }
+
+    public async Task<int> GetPlayersWithoutCharacteristicsCount
+()
+    {
+        return await _context.Players.Where(p => p.Characteristics == null).CountAsync();
+    }
+
 }

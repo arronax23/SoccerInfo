@@ -7,5 +7,6 @@ public interface IPlayerRepository : IGenericRepository<Player>
 {
     Task<Player?> FindMatchingAsync(Player reference);
     Task<int> GetPlayersCount();
+    Task<int> GetPlayersWithoutCharacteristicsCount();
 }
 

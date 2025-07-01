@@ -31,7 +31,7 @@ internal class GeneralExtractionCommandHandler(
 
     private async Task ExtractAndSavePlayersCharacteristics()
     {
-        var count = await repository.GetPlayersCount();
+        var count = await repository.GetPlayersWithoutCharacteristicsCount();
         var batchSize = 100;
         var totalBatches = Math.Ceiling((double)count / batchSize);
 
@@ -39,7 +39,7 @@ internal class GeneralExtractionCommandHandler(
         {
             var playersCharacteristicsData = await commandDispatcher.Send(new ExtractPlayersCharacteristicsCommand()
             {
-                OnlyNewPlayers = false,
+                OnlyNewPlayers = true,
                 PlayerCount = batchSize,
                 Skip = batchSize * i
             });
