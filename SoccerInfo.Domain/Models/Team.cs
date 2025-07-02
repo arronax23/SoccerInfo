@@ -6,6 +6,7 @@ namespace SoccerInfo.Domain.Models;
 public class Team : BaseEntity
 {
     public string Name { get; set; } = null!;
+    public int TransfermarktId { get; set; }
     public string? TeamImageBase64 { get; set; }
     public virtual ICollection<Player> Players { get; set; } = new List<Player>();
     public int? LeagueId { get; set; }
@@ -18,6 +19,7 @@ public class Team : BaseEntity
     public void Update(Team team)
     {
         this.Name = team.Name;
+        this.TransfermarktId = team.TransfermarktId;
         this.TeamImageBase64 = team.TeamImageBase64;
     }
 }

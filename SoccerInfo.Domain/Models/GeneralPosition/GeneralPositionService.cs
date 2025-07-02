@@ -25,6 +25,6 @@ public class GeneralPositionService(IGeneralPositionLookupRepository repository)
         else if (player.Position == "Centre-Forward" || player.Position == "Striker" || player.Position == "Second Striker")
             player.GeneralPosition = await repository.Get(GeneralPosition.Forward);
         else
-            throw new Exception("Not valid position");
+            throw new Exception($"Not valid position: {player.Position}");
     }
 }

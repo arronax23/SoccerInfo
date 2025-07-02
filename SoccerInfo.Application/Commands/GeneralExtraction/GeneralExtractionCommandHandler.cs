@@ -17,7 +17,7 @@ internal class GeneralExtractionCommandHandler(
 {
     public async Task Handle(GeneralExtractionCommand request, CancellationToken cancellationToken)
     {
-        //await ExtractAndSavePlayersGeneralInfo();
+        await ExtractAndSavePlayersGeneralInfo();
         await ExtractAndSavePlayersCharacteristics();
         await commandDispatcher.Send(new ExtractMarketValueProgressCommand());
         await commandDispatcher.Send(new CalculatePlayerStatisticsCommand());
