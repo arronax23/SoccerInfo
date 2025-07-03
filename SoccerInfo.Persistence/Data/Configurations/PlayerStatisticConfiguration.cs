@@ -22,7 +22,5 @@ internal sealed class PlayerStatisticConfiguration : IEntityTypeConfiguration<Pl
         builder.HasIndex(x => x.TotalCleanSheets);
         builder.HasIndex(x => x.TotalGoalsConceded);
         builder.HasIndex(x => x.Height);
-
-
     }
 }
