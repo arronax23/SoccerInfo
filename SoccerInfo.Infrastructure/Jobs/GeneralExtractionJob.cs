@@ -11,7 +11,7 @@ public class GeneralExtractionJob(
 {
     public static string Name => "GeneralExtraction";
     public static JobKey Key => JobKey.Create(Name);
-    public static string Schedule => "0 35 20 * * ?";
+    public static string Schedule => "0 40 23 * * ?";
 
     public async Task Execute(IJobExecutionContext context)
     {

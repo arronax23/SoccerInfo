@@ -1,7 +1,8 @@
-﻿using SoccerInfo.Domain.Repositories;
+﻿using Microsoft.Extensions.Logging;
+using SoccerInfo.Domain.Repositories;
 
 namespace SoccerInfo.Domain.Models.GeneralPosition;
-public class GeneralPositionService(IGeneralPositionLookupRepository repository)
+public class GeneralPositionService(ILogger<GeneralPositionService> logger,IGeneralPositionLookupRepository repository)
 {
     public async Task AttachGeneralPosition(Player player)
     {
@@ -9,9 +10,16 @@ public class GeneralPositionService(IGeneralPositionLookupRepository repository)
             throw new Exception("Not valid player");
 
         if (player.Position == "Goalkeeper")
+        {
             player.GeneralPosition = await repository.Get(GeneralPosition.Goalkeeper);
-        else if (player.Position == "Centre-Back" || player.Position == "Right-Back" || player.Position == "Left-Back")
+        }
+        else if (player.Position == "Centre-Back" ||
+                 player.Position == "Right-Back" ||
+                 player.Position == "Left-Back" ||
+                 player.Position == "Defender")
+        {
             player.GeneralPosition = await repository.Get(GeneralPosition.Defender);
+        }
         else if (player.Position == "Attacking Midfield" ||
                  player.Position == "Central Midfield" ||
                  player.Position == "Defensive Midfield" ||
@@ -19,12 +27,17 @@ public class GeneralPositionService(IGeneralPositionLookupRepository repository)
                  player.Position == "Right Midfield" ||
                  player.Position == "Midfielder" ||
                  player.Position == "Right Winger" ||
-                 player.Position == "Left Winger"
-            )
+                 player.Position == "Left Winger")
+        {
             player.GeneralPosition = await repository.Get(GeneralPosition.Midfielder);
-        else if (player.Position == "Centre-Forward" || player.Position == "Striker" || player.Position == "Second Striker")
+        }
+        else if (player.Position == "Centre-Forward" ||
+                 player.Position == "Striker" ||
+                 player.Position == "Second Striker")
+        {
             player.GeneralPosition = await repository.Get(GeneralPosition.Forward);
+        }
         else
-            throw new Exception($"Not valid position: {player.Position}, player: {player.Name}, transfermarktId: {player.TransfermarktId}");
+            logger.LogCritical($"Not valid position: {player.Position}, player: {player.Name}, transfermarktId: {player.TransfermarktId}");
     }
 }
