@@ -16,7 +16,6 @@ internal class ExtarctPlayersGeneralInfoCommandHandler(
 {
     public async Task<GeneralInfoExtractionData?> Handle(ExtarctPlayersGeneralnfoCommand request, CancellationToken cancellationToken)
     {
-
         var leagueLinks = leagueLinkLookupRepository
             .ToQuery()
             .AsNoTracking()

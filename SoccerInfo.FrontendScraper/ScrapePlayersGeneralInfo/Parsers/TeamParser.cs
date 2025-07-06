@@ -11,6 +11,8 @@ public class TeamParser(
     {
         var teamImageSource = node.QuerySelector(".data-header__profile-container img").GetAttributeValue("src", "notFound");
 
+        var trId = int.Parse(teamImageSource.Split("head/")[1].Split('.')[0]);
+
         return new TeamData()
         {
             Name = node.QuerySelector(".data-header__headline-container").InnerText.FormatExtractedString(),

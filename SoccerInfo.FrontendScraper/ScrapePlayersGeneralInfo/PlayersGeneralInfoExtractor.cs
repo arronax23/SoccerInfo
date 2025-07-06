@@ -108,7 +108,9 @@ public class PlayersGeneralInfoExtractor(
                             throw new Exception($"Page GotoAsync() returned Http Response: {response.Status.ToString()} trying to navigate to following TEAM link:{teamLink}");
 
                         var node = await page.CreateHtmlNodeFromPage();
-                        league.Teams.Add(await GetTeam(node));
+                        var team = await GetTeam(node);
+                        team.TransfermarktURL = teamLink;
+                        league.Teams.Add(team);
                     }
                     catch (Exception ex)
                     {

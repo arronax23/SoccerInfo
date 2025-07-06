@@ -1,4 +1,5 @@
 using Serilog;
+using Quartz;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.HttpOverrides;
 using SoccerInfo.API;
@@ -8,10 +9,11 @@ using SoccerInfo.Shared.CQRS;
 using SoccerInfo.Infrastructure.CQRS;
 using SoccerInfo.Application;
 using SoccerInfo.Infrastructure.Swagger;
-using Quartz;
 using SoccerInfo.Domain;
 using SoccerInfo.Persistence;
+using SoccerInfo.BackendScraper;
 using SoccerInfo.Persistence.Data;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +26,7 @@ builder.Services.AddApiServices();
 builder.Services.AddDomainServices();
 builder.Services.AddApplicationServices();
 builder.Services.AddFrontendScraperServices();
+builder.Services.AddBackendScraperServices();
 builder.Services.AddPersistenceServices();
 
 builder.Services.AddHttpClient();

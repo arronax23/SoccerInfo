@@ -18,6 +18,7 @@ public class GeneralInfoExtractionData
         public string Name { get; set; } = null!;
         public string? TeamImageBase64 { get; set; }
         public int TransfermarktId { get; set; }
+        public string TransfermarktURL { get; set; } = null!;
         public List<PlayerData> Players { get; set; } = new List<PlayerData>();
     }
 

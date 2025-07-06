@@ -2,7 +2,7 @@
 using System.Net.Http.Json;
 using System.Text.RegularExpressions;
 
-namespace SoccerInfo.BackendScraper;
+namespace SoccerInfo.BackendScraper.MarketValueProgress;
 
 public class MarketValueProgressScraper(IHttpClientFactory httpClientFactory)
 {

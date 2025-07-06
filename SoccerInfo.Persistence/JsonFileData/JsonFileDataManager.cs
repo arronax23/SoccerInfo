@@ -29,5 +29,4 @@ public class JsonFileDataManager : IJsonFileDataManager
 
     private string AddIndexSuffix(string fileName, int index)
         => new StringBuilder(fileName).Append($"_{index}.json").ToString();
-
 }

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using SoccerInfo.Domain.Models;
-using static SoccerInfo.BackendScraper.MarketValueProgressScraper;
-using static SoccerInfo.BackendScraper.MarketValueProgressScraper.MarketValueProgressData;
+using static SoccerInfo.BackendScraper.MarketValueProgress.MarketValueProgressScraper;
+using static SoccerInfo.BackendScraper.MarketValueProgress.MarketValueProgressScraper.MarketValueProgressData;
 
 namespace SoccerInfo.Application.Commands.ExtractMarketValueProgress;
 public class AutomapperProfile : Profile

@@ -1,4 +1,5 @@
 ﻿using SoccerInfo.Domain.Models.Abstractions;
+using System.Diagnostics;
 using System.Linq.Expressions;
 
 namespace SoccerInfo.Domain.Models;
@@ -7,6 +8,7 @@ public class Team : BaseEntity
 {
     public string Name { get; set; } = null!;
     public int TransfermarktId { get; set; }
+    public string TransfermarktURL { get; set; } = null!;
     public string? TeamImageBase64 { get; set; }
     public virtual ICollection<Player> Players { get; set; } = new List<Player>();
     public int? LeagueId { get; set; }
@@ -19,7 +21,8 @@ public class Team : BaseEntity
     public void Update(Team team)
     {
         this.Name = team.Name;
-        this.TransfermarktId = team.TransfermarktId;
         this.TeamImageBase64 = team.TeamImageBase64;
+        this.TransfermarktId = team.TransfermarktId;
+        this.TransfermarktURL = team.TransfermarktURL;
     }
 }

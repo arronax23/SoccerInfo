@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SoccerInfo.Persistence.Data;
 
@@ -11,9 +12,11 @@ using SoccerInfo.Persistence.Data;
 namespace SoccerInfo.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250706170855_Add_Transfers_And_TransferClubs")]
+    partial class Add_Transfers_And_TransferClubs
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -596,13 +599,13 @@ namespace SoccerInfo.Persistence.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("FeeNormalized")
+                    b.Property<int?>("Fee")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("LastUpdatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("MarketValueNormalized")
+                    b.Property<int?>("MarketValue")
                         .HasColumnType("int");
 
                     b.Property<int?>("PlayerId")
@@ -897,25 +900,6 @@ namespace SoccerInfo.Persistence.Migrations
                         .WithMany("Transfers")
                         .HasForeignKey("PlayerId");
 
-                    b.OwnsOne("SoccerInfo.Domain.Models.Transfers.Transfer+Money", "Fee", b1 =>
-                        {
-                            b1.Property<int>("TransferId")
-                                .HasColumnType("int");
-
-                            b1.Property<string>("Suffix")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<string>("Value")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.HasKey("TransferId");
-
-                            b1.ToTable("Transfers");
-
-                            b1.WithOwner()
-                                .HasForeignKey("TransferId");
-                        });
-
                     b.OwnsOne("SoccerInfo.Domain.Models.Transfers.Transfer+ClubInfo", "From", b1 =>
                         {
                             b1.Property<int>("TransferId")
@@ -952,25 +936,6 @@ namespace SoccerInfo.Persistence.Migrations
                             b1.Navigation("Club");
 
                             b1.Navigation("Team");
-                        });
-
-                    b.OwnsOne("SoccerInfo.Domain.Models.Transfers.Transfer+Money", "MarketValue", b1 =>
-                        {
-                            b1.Property<int>("TransferId")
-                                .HasColumnType("int");
-
-                            b1.Property<string>("Suffix")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<string>("Value")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.HasKey("TransferId");
-
-                            b1.ToTable("Transfers");
-
-                            b1.WithOwner()
-                                .HasForeignKey("TransferId");
                         });
 
                     b.OwnsOne("SoccerInfo.Domain.Models.Transfers.Transfer+ClubInfo", "To", b1 =>
@@ -1011,12 +976,8 @@ namespace SoccerInfo.Persistence.Migrations
                             b1.Navigation("Team");
                         });
 
-                    b.Navigation("Fee");
-
                     b.Navigation("From")
                         .IsRequired();
-
-                    b.Navigation("MarketValue");
 
                     b.Navigation("To")
                         .IsRequired();

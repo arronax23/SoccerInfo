@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using SoccerInfo.API.Authorization;
 using SoccerInfo.Application.Commands.ExtarctPlayersCharacteristics;
 using SoccerInfo.Application.Commands.ExtarctPlayersGeneralnfo;
+using SoccerInfo.Application.Commands.ExtarctPlayersTransferHistory;
 using SoccerInfo.Application.Commands.ExtractMarketValueProgress;
 using SoccerInfo.Application.Commands.ExtractNationalities;
 using SoccerInfo.Application.Commands.SavePlayersCharacteristicsFromFile;
@@ -78,7 +79,12 @@ public class ExtractionController(ICommandDispatcher commandDispatcher) : Contro
         return Ok();
     }
 
-
+    [HttpPut("api/ExtarctPlayersTransferHistory")]
+    public async Task<IActionResult> ExtarctPlayersTransferHistory()
+    {
+        await commandDispatcher.Send(new ExtarctPlayersTransferHistoryCommand());
+        return Ok();
+    }
 
     [HttpPut("api/ExtractNationalities")]
     public async Task<IActionResult> ExtractNationalities()

@@ -9,7 +9,6 @@ public static class ServiceCollectionExtensions
 {
     public static void AddApplicationServices(this IServiceCollection services)
     {
-        services.AddScoped<MarketValueProgressScraper>();
         services.AddScoped<CustomMapper>();
 
         services.AddScoped<Queries.GetPlayersByStats.QueryMapper>();
