@@ -1,5 +1,4 @@
 ﻿using SoccerInfo.Domain.Models.Abstractions;
-using System.Linq.Expressions;
 
 namespace SoccerInfo.Domain.Models.Transfers;
 
@@ -13,8 +12,10 @@ public enum TransferType
 public class Transfer : BaseEntity
 {
     public int PlayerTransferMarktId { get; set; }
-    public ClubInfo From { get; set; } = null!;
-    public ClubInfo To { get; set; } = null!;
+    public virtual ClubInfo? From { get; set; } = null!;
+    public int? FromId { get; set; }
+    public virtual ClubInfo? To { get; set; } = null!;
+    public int? ToId { get; set; }
     public TransferType Type { get; set; }
     public DateTime Date { get; set; }
     public int Age { get; set; }
@@ -29,9 +30,9 @@ public class Transfer : BaseEntity
             t.PlayerTransferMarktId == other.PlayerTransferMarktId &&
             t.Date == other.Date;
 
-    public class ClubInfo
+    public class ClubInfo : BaseEntity
     {
-        private ClubInfo()
+        protected ClubInfo()
         {
         }
 
@@ -45,16 +46,16 @@ public class Transfer : BaseEntity
             this.Team = Team;   
         }
 
-        public void AssignClub(TransferClub transferClub)
+        public void AssignClub(ClubOverview club)
         {
-            this.Club = transferClub;
+            this.Club = club;
         }
 
         public int ClubTransfermarktId { get; private set; }
         public int? TeamId { get; private set; }
         public virtual Team? Team { get; private set; }
         public int? ClubId { get; private set; }
-        public virtual TransferClub? Club { get; private set; }
+        public virtual ClubOverview? Club { get; private set; }
     }
 
     public class Money

@@ -40,8 +40,10 @@ builder.Services.AddSwaggerGen(SwaggerHelper.Setup);
 builder.Services.AddJobs();
 
 builder.Services
-    .AddDbContext<ApplicationDbContext>(options => 
+    .AddDbContext<ApplicationDbContext>(options =>
         options
+            .EnableDetailedErrors()
+            .EnableSensitiveDataLogging()
             .UseLazyLoadingProxies()
             .UseSqlServer(builder.Configuration.GetConnectionString("Default")));
 

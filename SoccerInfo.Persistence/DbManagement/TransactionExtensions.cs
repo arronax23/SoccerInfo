@@ -23,9 +23,9 @@ public static class TransactionExtensions
         var unchanged = changeTracker.Entries().Where(x => x.State == EntityState.Unchanged).ToList();
         var detached = changeTracker.Entries().Where(x => x.State == EntityState.Detached).ToList();
 
-        var kh1 = added.SingleOrDefault(x => x.Entity is Player && (x.Entity as Player).Name == "Abdukodir Khusanov");
-        var kh2 = modified.SingleOrDefault(x => x.Entity is Player && (x.Entity as Player).Name == "Abdukodir Khusanov");
-        var kh3 = unchanged.SingleOrDefault(x => x.Entity is Player && (x.Entity as Player).Name == "Abdukodir Khusanov");
+        //var kh1 = added.SingleOrDefault(x => x.Entity is Player && (x.Entity as Player).Name == "Abdukodir Khusanov");
+        //var kh2 = modified.SingleOrDefault(x => x.Entity is Player && (x.Entity as Player).Name == "Abdukodir Khusanov");
+        //var kh3 = unchanged.SingleOrDefault(x => x.Entity is Player && (x.Entity as Player).Name == "Abdukodir Khusanov");
 
         Log.Logger.Information(
             $"Entires: ({entries.Count})\nAdded: ({added.Count})\nModified ({modified.Count})\nDetached: ({detached.Count})\n");

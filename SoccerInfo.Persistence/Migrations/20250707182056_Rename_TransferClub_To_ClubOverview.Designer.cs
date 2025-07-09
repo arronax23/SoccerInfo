@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SoccerInfo.Persistence.Data;
 
@@ -11,13 +12,15 @@ using SoccerInfo.Persistence.Data;
 namespace SoccerInfo.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250707182056_Rename_TransferClub_To_ClubOverview")]
+    partial class Rename_TransferClub_To_ClubOverview
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.17")
+                .HasAnnotation("ProductVersion", "8.0.16")
                 .HasAnnotation("Proxies:ChangeTracking", false)
                 .HasAnnotation("Proxies:CheckEquality", false)
                 .HasAnnotation("Proxies:LazyLoading", true)
@@ -609,9 +612,6 @@ namespace SoccerInfo.Persistence.Migrations
                     b.Property<int>("TransfermarktId")
                         .HasColumnType("int");
 
-                    b.Property<string>("TrasnfermarktUrl")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.ToTable("ClubsOverviews");
@@ -637,9 +637,6 @@ namespace SoccerInfo.Persistence.Migrations
                     b.Property<int?>("FeeNormalized")
                         .HasColumnType("int");
 
-                    b.Property<int?>("FromId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("LastUpdatedDate")
                         .HasColumnType("datetime2");
 
@@ -656,53 +653,14 @@ namespace SoccerInfo.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ToId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FromId");
-
                     b.HasIndex("PlayerId");
 
-                    b.HasIndex("ToId");
-
                     b.ToTable("Transfers");
-                });
-
-            modelBuilder.Entity("SoccerInfo.Domain.Models.Transfers.Transfer+ClubInfo", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("ClubId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ClubTransfermarktId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("LastUpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("TeamId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ClubId");
-
-                    b.HasIndex("TeamId");
-
-                    b.ToTable("ClubsInfos");
                 });
 
             modelBuilder.Entity("NationalityPlayer", b =>
@@ -938,19 +896,9 @@ namespace SoccerInfo.Persistence.Migrations
 
             modelBuilder.Entity("SoccerInfo.Domain.Models.Transfers.Transfer", b =>
                 {
-                    b.HasOne("SoccerInfo.Domain.Models.Transfers.Transfer+ClubInfo", "From")
-                        .WithMany()
-                        .HasForeignKey("FromId")
-                        .OnDelete(DeleteBehavior.NoAction);
-
                     b.HasOne("SoccerInfo.Domain.Models.Player", null)
                         .WithMany("Transfers")
                         .HasForeignKey("PlayerId");
-
-                    b.HasOne("SoccerInfo.Domain.Models.Transfers.Transfer+ClubInfo", "To")
-                        .WithMany()
-                        .HasForeignKey("ToId")
-                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.OwnsOne("SoccerInfo.Domain.Models.Transfers.Transfer+Money", "Fee", b1 =>
                         {
@@ -969,6 +917,44 @@ namespace SoccerInfo.Persistence.Migrations
 
                             b1.WithOwner()
                                 .HasForeignKey("TransferId");
+                        });
+
+                    b.OwnsOne("SoccerInfo.Domain.Models.Transfers.Transfer+ClubInfo", "From", b1 =>
+                        {
+                            b1.Property<int>("TransferId")
+                                .HasColumnType("int");
+
+                            b1.Property<int?>("ClubId")
+                                .HasColumnType("int");
+
+                            b1.Property<int>("ClubTransfermarktId")
+                                .HasColumnType("int");
+
+                            b1.Property<int?>("TeamId")
+                                .HasColumnType("int");
+
+                            b1.HasKey("TransferId");
+
+                            b1.HasIndex("ClubId");
+
+                            b1.HasIndex("TeamId");
+
+                            b1.ToTable("Transfers");
+
+                            b1.HasOne("SoccerInfo.Domain.Models.Transfers.ClubOverview", "Club")
+                                .WithMany()
+                                .HasForeignKey("ClubId");
+
+                            b1.HasOne("SoccerInfo.Domain.Models.Team", "Team")
+                                .WithMany()
+                                .HasForeignKey("TeamId");
+
+                            b1.WithOwner()
+                                .HasForeignKey("TransferId");
+
+                            b1.Navigation("Club");
+
+                            b1.Navigation("Team");
                         });
 
                     b.OwnsOne("SoccerInfo.Domain.Models.Transfers.Transfer+Money", "MarketValue", b1 =>
@@ -990,28 +976,53 @@ namespace SoccerInfo.Persistence.Migrations
                                 .HasForeignKey("TransferId");
                         });
 
+                    b.OwnsOne("SoccerInfo.Domain.Models.Transfers.Transfer+ClubInfo", "To", b1 =>
+                        {
+                            b1.Property<int>("TransferId")
+                                .HasColumnType("int");
+
+                            b1.Property<int?>("ClubId")
+                                .HasColumnType("int");
+
+                            b1.Property<int>("ClubTransfermarktId")
+                                .HasColumnType("int");
+
+                            b1.Property<int?>("TeamId")
+                                .HasColumnType("int");
+
+                            b1.HasKey("TransferId");
+
+                            b1.HasIndex("ClubId");
+
+                            b1.HasIndex("TeamId");
+
+                            b1.ToTable("Transfers");
+
+                            b1.HasOne("SoccerInfo.Domain.Models.Transfers.ClubOverview", "Club")
+                                .WithMany()
+                                .HasForeignKey("ClubId");
+
+                            b1.HasOne("SoccerInfo.Domain.Models.Team", "Team")
+                                .WithMany()
+                                .HasForeignKey("TeamId");
+
+                            b1.WithOwner()
+                                .HasForeignKey("TransferId");
+
+                            b1.Navigation("Club");
+
+                            b1.Navigation("Team");
+                        });
+
                     b.Navigation("Fee");
 
-                    b.Navigation("From");
+                    b.Navigation("From")
+                        .IsRequired();
 
                     b.Navigation("MarketValue");
 
-                    b.Navigation("To");
-                });
-
-            modelBuilder.Entity("SoccerInfo.Domain.Models.Transfers.Transfer+ClubInfo", b =>
-                {
-                    b.HasOne("SoccerInfo.Domain.Models.Transfers.ClubOverview", "Club")
-                        .WithMany()
-                        .HasForeignKey("ClubId");
-
-                    b.HasOne("SoccerInfo.Domain.Models.Team", "Team")
-                        .WithMany()
-                        .HasForeignKey("TeamId");
-
-                    b.Navigation("Club");
-
-                    b.Navigation("Team");
+                    b.Navigation("To")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("SoccerInfo.Domain.Models.League", b =>

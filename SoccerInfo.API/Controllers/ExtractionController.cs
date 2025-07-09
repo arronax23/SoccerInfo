@@ -1,10 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using SoccerInfo.API.Authorization;
+using SoccerInfo.Application.Commands.ExtarctClubOverview;
 using SoccerInfo.Application.Commands.ExtarctPlayersCharacteristics;
 using SoccerInfo.Application.Commands.ExtarctPlayersGeneralnfo;
 using SoccerInfo.Application.Commands.ExtarctPlayersTransferHistory;
 using SoccerInfo.Application.Commands.ExtractMarketValueProgress;
 using SoccerInfo.Application.Commands.ExtractNationalities;
+using SoccerInfo.Application.Commands.FindMissingClubsInTransfers;
 using SoccerInfo.Application.Commands.SavePlayersCharacteristicsFromFile;
 using SoccerInfo.Application.Commands.SavePlayersGeneralInfoFromFile;
 using SoccerInfo.Application.Commands.SaveTransfermarktCookie;
@@ -85,6 +87,21 @@ public class ExtractionController(ICommandDispatcher commandDispatcher) : Contro
         await commandDispatcher.Send(new ExtarctPlayersTransferHistoryCommand());
         return Ok();
     }
+
+    [HttpPut("api/ExtarctClubOverview")]
+    public async Task<IActionResult> ExtarctClubOverview()
+    {
+        await commandDispatcher.Send(new ExtarctClubOverviewCommand());
+        return Ok();
+    }
+
+    [HttpPut("api/FindMissingClubsInTransfers")]
+    public async Task<IActionResult> FindMissingClubsInTransfers()
+    {
+        await commandDispatcher.Send(new FindMissingClubsInTransfersCommand());
+        return Ok();
+    }
+
 
     [HttpPut("api/ExtractNationalities")]
     public async Task<IActionResult> ExtractNationalities()

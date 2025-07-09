@@ -13,6 +13,8 @@ public interface IGenericRepository<T> where T : class, IEntity
     Task<IEnumerable<T>> WhereAsync(Expression<Func<T, bool>> predicate);
     Task AddRangeAsync(IEnumerable<T> entities);
     Task AddAsync(T entity);
+    void Attach(T entity);
+    void AttachRange(IEnumerable<T> entities);
     void Update(T entity);
     void UpdateRange(IEnumerable<T> entities);
     void Remove(T entity);

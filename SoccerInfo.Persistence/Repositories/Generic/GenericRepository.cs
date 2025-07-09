@@ -51,6 +51,16 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class, IEnti
         await _dbSet.AddRangeAsync(entities);
     }
 
+    public virtual void Attach(T entity)
+    {
+        _dbSet.Attach(entity);
+    }
+
+    public virtual void  AttachRange(IEnumerable<T> entities)
+    {
+        _dbSet.AttachRange(entities);
+    }
+
     public virtual void Update(T entity)
     {
         _dbSet.Update(entity);

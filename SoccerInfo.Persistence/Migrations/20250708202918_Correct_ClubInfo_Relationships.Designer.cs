@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SoccerInfo.Persistence.Data;
 
@@ -11,9 +12,11 @@ using SoccerInfo.Persistence.Data;
 namespace SoccerInfo.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250708202918_Correct_ClubInfo_Relationships")]
+    partial class Correct_ClubInfo_Relationships
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -698,9 +701,13 @@ namespace SoccerInfo.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ClubId");
+                    b.HasIndex("ClubId")
+                        .IsUnique()
+                        .HasFilter("[ClubId] IS NOT NULL");
 
-                    b.HasIndex("TeamId");
+                    b.HasIndex("TeamId")
+                        .IsUnique()
+                        .HasFilter("[TeamId] IS NOT NULL");
 
                     b.ToTable("ClubsInfos");
                 });
@@ -1002,12 +1009,12 @@ namespace SoccerInfo.Persistence.Migrations
             modelBuilder.Entity("SoccerInfo.Domain.Models.Transfers.Transfer+ClubInfo", b =>
                 {
                     b.HasOne("SoccerInfo.Domain.Models.Transfers.ClubOverview", "Club")
-                        .WithMany()
-                        .HasForeignKey("ClubId");
+                        .WithOne()
+                        .HasForeignKey("SoccerInfo.Domain.Models.Transfers.Transfer+ClubInfo", "ClubId");
 
                     b.HasOne("SoccerInfo.Domain.Models.Team", "Team")
-                        .WithMany()
-                        .HasForeignKey("TeamId");
+                        .WithOne()
+                        .HasForeignKey("SoccerInfo.Domain.Models.Transfers.Transfer+ClubInfo", "TeamId");
 
                     b.Navigation("Club");
 

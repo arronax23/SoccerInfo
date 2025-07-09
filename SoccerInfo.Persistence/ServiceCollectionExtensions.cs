@@ -6,6 +6,7 @@ using SoccerInfo.Domain.Models;
 using SoccerInfo.Domain.Models.Extraction;
 using SoccerInfo.Domain.Models.PlayerCharacteristicsAggregate;
 using SoccerInfo.Domain.Models.Stats;
+using SoccerInfo.Domain.Models.Transfers;
 using SoccerInfo.Domain.Repositories;
 using SoccerInfo.Domain.Repositories.Generic;
 using SoccerInfo.Persistence.DbManagement;
@@ -36,6 +37,8 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IGenericRepository<LeagueLinkLookup>, GenericRepository<LeagueLinkLookup>>();
         services.AddScoped<IGenericRepository<CountryFlag_Lookup>, GenericRepository<CountryFlag_Lookup>>();
         services.AddScoped<IGenericRepository<StatsLeague>, GenericRepository<StatsLeague>>();
+        services.AddScoped<IGenericRepository<Transfer>, GenericRepository<Transfer>>();
+        services.AddScoped<IGenericRepository<ClubOverview>, GenericRepository<ClubOverview>>();
 
 
 

@@ -9,5 +9,6 @@ public static class ServiceCollectionExtensions
     {
         services.AddScoped<MarketValueProgressScraper>();
         services.AddScoped<PlayersTransfersScraper>();
+        services.AddScoped<ClubOverviewScraper>();
     }
 }

@@ -1,4 +1,4 @@
-﻿using System.Net.Http.Headers;
+﻿using SoccerInfo.BackendScraper.Utilities;
 using System.Net.Http.Json;
 using static SoccerInfo.BackendScraper.PlayersTransfers.PlayersTransfersScraper.PlayerTransfersData;
 using static SoccerInfo.BackendScraper.PlayersTransfers.PlayersTransfersScraper.PlayerTransfersData.TransferDetailsData;
@@ -9,7 +9,7 @@ public class PlayersTransfersScraper(IHttpClientFactory httpClientFactory)
     public async Task<IEnumerable<PlayerTransfersData>> Scrape(IEnumerable<int> playersTransfermarktIds)
     {
         using var client = httpClientFactory.CreateClient();
-        AddClientHeaders(client);
+        client.AddHeadersForScrape();
 
         List<PlayerTransfersData> collectionData = new();
 
@@ -19,7 +19,7 @@ public class PlayersTransfersScraper(IHttpClientFactory httpClientFactory)
             async (playerId, _) =>
             {
                 var responseModel = await client.GetFromJsonAsync<ResponseModel>($"https://tmapi-alpha.transfermarkt.technology/transfer/history/player/{playerId}");
-                var data = MapResponseModelToData(responseModel);
+                var data = Map(responseModel);
 
                 if (data is not null) 
                     collectionData.Add(data);
@@ -29,7 +29,7 @@ public class PlayersTransfersScraper(IHttpClientFactory httpClientFactory)
     }
 
 
-    private PlayerTransfersData? MapResponseModelToData(ResponseModel? responseModel)
+    private PlayerTransfersData? Map(ResponseModel? responseModel)
     {
         if (responseModel is null)
             return null;
@@ -68,13 +68,6 @@ public class PlayersTransfersScraper(IHttpClientFactory httpClientFactory)
                 }
             })
         };
-    }
-
-    private void AddClientHeaders(HttpClient client)
-    {
-        client.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0");
-        client.DefaultRequestHeaders.Accept.Clear();
-        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
     }
 
     private int? PrepareNormalizedAmount(int? value) 

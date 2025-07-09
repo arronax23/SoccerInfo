@@ -6,6 +6,7 @@ using SoccerInfo.Domain.Models.GeneralPosition;
 using SoccerInfo.Domain.Models.PlayerCharacteristicsAggregate;
 using SoccerInfo.Domain.Models.Stats;
 using SoccerInfo.Domain.Models.Transfers;
+using static SoccerInfo.Domain.Models.Transfers.Transfer;
 
 namespace SoccerInfo.Persistence.Data;
 
@@ -17,7 +18,8 @@ public class ApplicationDbContext : DbContext
     public DbSet<Team> Teams { get; set; }
     public DbSet<Player> Players { get; set; }
     public DbSet<Transfer> Transfers { get; set; }
-    public DbSet<TransferClub> TransferClubs { get; set; }
+    public DbSet<ClubOverview> ClubsOverviews { get; set; }
+    public DbSet<ClubInfo> ClubsInfos { get; set; }
     public DbSet<MarketValueChange> MarketValueChanges { get; set; }
     public DbSet<Nationality> Nationalities { get; set; }
     public DbSet<PlayerCharacteristic> PlayerCharacteristics { get; set; }
