@@ -82,9 +82,12 @@ public class ExtractionController(ICommandDispatcher commandDispatcher) : Contro
     }
 
     [HttpPut("api/ExtarctPlayersTransferHistory")]
-    public async Task<IActionResult> ExtarctPlayersTransferHistory()
+    public async Task<IActionResult> ExtarctPlayersTransferHistory(int playersSize)
     {
-        await commandDispatcher.Send(new ExtarctPlayersTransferHistoryCommand());
+        await commandDispatcher.Send(new ExtarctPlayersTransferHistoryCommand()
+        {
+            PlayersSize = playersSize
+        });
         return Ok();
     }
 

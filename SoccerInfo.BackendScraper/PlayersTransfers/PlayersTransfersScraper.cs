@@ -56,17 +56,28 @@ public class PlayersTransfersScraper(IHttpClientFactory httpClientFactory)
                     MarketValueNormalized = PrepareNormalizedAmount(x.Details.MarketValue?.Value),
                     Fee = new MoneyData()
                     {
-                        Value = x.Details.Fee?.Compact?.Content,
-                        Suffix = x.Details.Fee?.Compact?.Suffix?.ToLower(),
+                        Value = PrepareMoneyData(x.Details.Fee?.Compact?.Content),
+                        Suffix = PrepareMoneyData(x.Details.Fee?.Compact?.Suffix?.ToLower()),
                     },
                     MarketValue = new MoneyData()
                     {
-                        Value = x.Details.MarketValue?.Compact?.Content,
-                        Suffix = x.Details.MarketValue?.Compact?.Suffix?.ToLower(),
+                        Value = PrepareMoneyData(x.Details.MarketValue?.Compact?.Content),
+                        Suffix = PrepareMoneyData(x.Details.MarketValue?.Compact?.Suffix?.ToLower()),
                     },
                     Type = x.TypeDetails.Type
                 }
             })
+        };
+    }
+
+    public string? PrepareMoneyData(string? data)
+    {
+        return data switch
+        {
+            "-" => null,
+            "" => null,
+            "?" => null,
+            _ => data
         };
     }
 

@@ -5,6 +5,7 @@ using SoccerInfo.Application.Queries.GetLeagues;
 using SoccerInfo.Application.Queries.GetPlayerCharacteristics;
 using SoccerInfo.Application.Queries.GetPlayerDetails;
 using SoccerInfo.Application.Queries.GetPlayers;
+using SoccerInfo.Application.Queries.GetPlayerTransferHistory;
 using SoccerInfo.Application.Queries.GetTeam;
 using SoccerInfo.Application.Queries.GetTeams;
 using SoccerInfo.Shared.CQRS;
@@ -54,5 +55,11 @@ public class LeaguesController(IQueryDispatcher queryDispatcher) : ControllerBas
     public async Task<PlayerCharacteristicsDto?> GetPlayerCharacteristics(int playerId)
     {
         return await queryDispatcher.Send(new GetPlayerCharacteristicsQuery() { PlayerId = playerId });
+    }
+
+    [HttpGet("api/GetPlayerTransferHistory/{playerId}")]
+    public async Task<PlayerTransferHistoryDto?> GetPlayerTransferHistory(int playerId)
+    {
+        return await queryDispatcher.Send(new GetPlayerTransferHistoryQuery() { PlayerId = playerId });
     }
 }

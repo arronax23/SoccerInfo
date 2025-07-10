@@ -1,4 +1,4 @@
-import { handleMarketValueDisplay } from "../../utils/formatter";
+import { handleMarketValueDisplay, handleDateDisplay } from "../../utils/formatter";
 
 const PlayerGeneralInfo = ({ playerGeneralInfo }) => {
   return (
@@ -30,7 +30,7 @@ const PlayerGeneralInfo = ({ playerGeneralInfo }) => {
       <div className="birth-date">
         <div className="label">Birth Date</div>
         <div className="content">
-          {new Date(playerGeneralInfo.dateOfBirth).toLocaleDateString()}
+          {handleDateDisplay(playerGeneralInfo.dateOfBirth)}
         </div>
       </div>
       <div className="position">

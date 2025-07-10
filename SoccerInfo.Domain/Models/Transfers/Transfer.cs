@@ -43,7 +43,7 @@ public class Transfer : BaseEntity
         }
         public void AssignTeam(Team team)
         {
-            this.Team = Team;   
+            this.Team = team;   
         }
 
         public void AssignClub(ClubOverview club)

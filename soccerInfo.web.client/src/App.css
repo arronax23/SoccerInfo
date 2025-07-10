@@ -398,8 +398,8 @@ a.nav-link.active {
 
 /* Common */
 
-.player-general-info, .player-additional-info{
-    width: 700px;
+.player-general-info, .player-additional-info {
+    width: 833.8px;
     background: #fff; 
     padding: .5rem;
     border-radius: 1rem;
@@ -632,9 +632,56 @@ a.nav-link.active {
     opacity: .7;
 }
 
+
+/* Transfer history */
+
+
+.transfer-history-container{
+    width: 833.8px;
+    background: #fff; 
+    padding: .5rem;
+    border-radius: 1rem;
+    box-shadow: 5px 5px 10px black;
+}
+
+.transfer-history-container .header{
+    margin-bottom: .5rem;
+    font-size: 1.25rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-bottom: 2px solid black;
+}
+
+.transfer-history-container .table-header, .transfer-history-container .table-content .row  {
+    display: grid;
+    justify-content: center;
+    align-items: center;    
+    grid-template-columns: 1.2fr 1fr 2fr 3fr 1fr 1fr 3fr 1fr 1.5fr 1.5fr 1fr;
+}
+
+.transfer-history-container .table-header .column-header, .transfer-history-container .table-content .row .column   {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    margin-bottom: .5rem;
+}
+
+.transfer-history-container .table-header .column-header{
+    font-weight: bold;
+}
+
+.transfer-history-container .table-content .row .column:not(:last-child) {
+    border-right: 1px solid black;
+}
+
+.transfer-history-container .table-content .row .column img.club-image {
+    height: 2rem;
+}
+
 /* Stats */
 .stats-container {
-    width: 700px;
+    width: 833.8px;
     background: #fff; 
     padding: .5rem;
     border-radius: 1rem;
@@ -698,10 +745,17 @@ a.nav-link.active {
 }
 
 .chart-conatiner {
+    width: 833.8px;
     border-radius: 1rem;
     padding: .5rem;
     background: #fff;
     box-shadow: 5px 5px 10px black;
+}
+
+.chart-conatiner .chart {
+   display: flex;
+   justify-content: center;
+   align-items: center;
 }
 
 .chart-conatiner .header {

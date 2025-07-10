@@ -3,6 +3,7 @@ import { useParams } from "react-router";
 import PlayerGeneralInfo from "./PlayerGeneralInfo";
 import PlayerAdditionalInfo from "./PlayerAdditionalInfo";
 import MarketValueProgress from "./MarketValueProgress";
+import TransferHistory from "./TransferHistory";
 import PlayerStats from "./PlayerStats";
 
 const PlayerDetailsView = () => {
@@ -10,12 +11,14 @@ const PlayerDetailsView = () => {
   const [playerGeneralInfo, setPlayerGeneralInfo] = useState();
   const [marketValueChanges, setMarketValueChanges] = useState();
   const [playerAdditionalInfo, setPlayerAdditionalInfo] = useState();
+  const [transferHistory, setTransferHistory] = useState();
   const [isGoalKeeper, setIsGoalKeeper] = useState(false);
   const [stats, setStats] = useState();
 
   useEffect(() => {
     getPlayerDetails();
     getPlayerCharacteristics();
+    getPlayerTransferHistory();
   }, []);
 
   return (
@@ -32,6 +35,9 @@ const PlayerDetailsView = () => {
       {marketValueChanges && (
         <MarketValueProgress marketValueChanges={marketValueChanges} />
       )}
+      {transferHistory && (
+        <TransferHistory transferHistory={transferHistory} />
+      )}      
     </div>
   );
 
@@ -50,6 +56,8 @@ const PlayerDetailsView = () => {
       console.error("Failed to fetch player details:", error);
     }
   }
+
+
 
   async function getPlayerCharacteristics() {
     try {
@@ -79,6 +87,18 @@ const PlayerDetailsView = () => {
     delete data.goalKeeperStats;
     setPlayerAdditionalInfo(data)
   }
+
+  async function getPlayerTransferHistory() {
+    try {
+      const response = await fetch(`/api/GetPlayerTransferHistory/${playerId}`);
+      const data = await response.json();
+      console.log(data)
+      setTransferHistory(data);
+    } catch (error) {
+      console.error("Failed to fetch player transfer history:", error);
+    }
+  }  
+
 };
 
 export default PlayerDetailsView;

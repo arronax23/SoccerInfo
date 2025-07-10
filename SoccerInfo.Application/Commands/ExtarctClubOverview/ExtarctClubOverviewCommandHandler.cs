@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using SoccerInfo.BackendScraper.PlayersTransfers;
+﻿using SoccerInfo.BackendScraper.PlayersTransfers;
 using SoccerInfo.Domain.Models.Transfers;
 using SoccerInfo.Shared.CQRS;
 using static SoccerInfo.BackendScraper.PlayersTransfers.ClubOverviewScraper;
