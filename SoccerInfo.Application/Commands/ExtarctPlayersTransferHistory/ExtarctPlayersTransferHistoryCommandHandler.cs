@@ -2,6 +2,7 @@
 using SoccerInfo.Application.Intrefaces;
 using SoccerInfo.BackendScraper.PlayersTransfers;
 using SoccerInfo.Domain.Models;
+using SoccerInfo.Domain.Models.PlayerCharacteristicsAggregate;
 using SoccerInfo.Domain.Models.Transfers;
 using SoccerInfo.Domain.Repositories;
 using SoccerInfo.Domain.Repositories.Generic;
@@ -59,7 +60,7 @@ public class ExtarctPlayersTransferHistoryCommandHandler(
         return new Transfer()
         {
             Age = transferItem.Details.Age,
-            Date = DateTime.Parse(transferItem.Details.Date),
+            Date = ParseDate(transferItem.Details.Date),
             FeeNormalized = transferItem.Details.FeeNormalized,
             MarketValueNormalized = transferItem.Details.MarketValueNormalized,
             Fee = new Money(transferItem.Details?.Fee?.Value, transferItem.Details?.Fee?.Suffix),
@@ -71,6 +72,17 @@ public class ExtarctPlayersTransferHistoryCommandHandler(
             Type = MapTransferType(transferItem.Details.Type)
         };
     }
+
+    private DateTime? ParseDate(string dateString)
+    {
+        var success = DateTime.TryParse(dateString, out var date);
+
+        if (success)
+            return date;
+        else 
+            return null;
+    }
+
     private TransferType MapTransferType(string transferType)
     {
         return transferType switch

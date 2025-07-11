@@ -14,6 +14,7 @@ using SoccerInfo.Persistence.JsonFileData;
 using SoccerInfo.Persistence.Repositories;
 using SoccerInfo.Persistence.Repositories.Generic;
 using SoccerInfo.Persistence.Sql;
+using static SoccerInfo.Domain.Models.Transfers.Transfer;
 
 namespace SoccerInfo.Persistence;
 public static class ServiceCollectionExtensions
@@ -39,9 +40,6 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IGenericRepository<StatsLeague>, GenericRepository<StatsLeague>>();
         services.AddScoped<IGenericRepository<Transfer>, GenericRepository<Transfer>>();
         services.AddScoped<IGenericRepository<ClubOverview>, GenericRepository<ClubOverview>>();
-
-
-
-
+        services.AddScoped<IGenericRepository<ClubInfo>, GenericRepository<ClubInfo>>();
     }
 }

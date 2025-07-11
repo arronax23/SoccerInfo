@@ -1,5 +1,6 @@
 ﻿using SoccerInfo.BackendScraper.Utilities;
 using SoccerInfo.FrontendScraper.Utilities;
+using System.Collections.Concurrent;
 using System.Net.Http.Json;
 
 namespace SoccerInfo.BackendScraper.PlayersTransfers;
@@ -10,7 +11,7 @@ public class ClubOverviewScraper(IHttpClientFactory httpClientFactory, ImageFetc
         using var client = httpClientFactory.CreateClient();
         client.AddHeadersForScrape();
 
-        List<ClubOverviewData> collectionData = new();
+        ConcurrentBag<ClubOverviewData> collectionData = new();
 
         await Parallel.ForEachAsync(
             clubsTransfermarktIds,

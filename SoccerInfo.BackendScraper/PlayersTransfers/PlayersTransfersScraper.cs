@@ -1,28 +1,40 @@
-﻿using SoccerInfo.BackendScraper.Utilities;
+﻿using Microsoft.Extensions.Logging;
+using SoccerInfo.BackendScraper.Utilities;
+using System.Collections.Concurrent;
 using System.Net.Http.Json;
 using static SoccerInfo.BackendScraper.PlayersTransfers.PlayersTransfersScraper.PlayerTransfersData;
 using static SoccerInfo.BackendScraper.PlayersTransfers.PlayersTransfersScraper.PlayerTransfersData.TransferDetailsData;
 
 namespace SoccerInfo.BackendScraper.PlayersTransfers;
-public class PlayersTransfersScraper(IHttpClientFactory httpClientFactory)
+public class PlayersTransfersScraper(ILogger<PlayersTransfersScraper> logger, IHttpClientFactory httpClientFactory)
 {
     public async Task<IEnumerable<PlayerTransfersData>> Scrape(IEnumerable<int> playersTransfermarktIds)
     {
         using var client = httpClientFactory.CreateClient();
         client.AddHeadersForScrape();
 
-        List<PlayerTransfersData> collectionData = new();
+        ConcurrentBag<PlayerTransfersData> collectionData = new();
 
         await Parallel.ForEachAsync(
             playersTransfermarktIds,
             new ParallelOptions { MaxDegreeOfParallelism = 50 },
             async (playerId, _) =>
             {
-                var responseModel = await client.GetFromJsonAsync<ResponseModel>($"https://tmapi-alpha.transfermarkt.technology/transfer/history/player/{playerId}");
-                var data = Map(responseModel);
 
-                if (data is not null) 
-                    collectionData.Add(data);
+                try
+                {
+                    var responseModel = await client.GetFromJsonAsync<ResponseModel>($"https://tmapi-alpha.transfermarkt.technology/transfer/history/player/{playerId}");
+                    var data = Map(responseModel);
+
+                    if (data is not null)
+                        collectionData.Add(data);
+                }
+                catch (Exception ex)
+                {
+                    logger.LogWarning($"PlayersTransfersScraper Error: playerId: {playerId}");
+                    logger.LogWarning(ex.ToString());
+                }
+
             });
 
         return collectionData;
@@ -105,7 +117,7 @@ public class PlayersTransfersScraper(IHttpClientFactory httpClientFactory)
             public int? MarketValueNormalized { get; set; }
             public MoneyData? Fee { get; set; }
             public int? FeeNormalized { get; set; }
-            public int Age { get; set; }
+            public int? Age { get; set; }
             public string Date { get; set; } = null!;
             public string Type { get; set; } = null!;
 
@@ -154,7 +166,7 @@ public class PlayersTransfersScraper(IHttpClientFactory httpClientFactory)
         {
             public string Date { get; set; } = null!;
             public string ContractUntilDate { get; set; } = null!;
-            public int Age { get; set; }
+            public int? Age { get; set; }
             public SeasonModel Season { get; set; } = null!;
             public MarketValueModel? MarketValue { get; set; }
             public MarketValueModel? Fee { get; set; }

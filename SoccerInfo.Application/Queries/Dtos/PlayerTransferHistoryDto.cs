@@ -12,8 +12,8 @@ public class PlayerTransferHistoryDto
         public string ClubToName { get; set; } = null!;
         public string? CLubToBase64Image { get; set; } = null!;
         public string TransferType { get; set; } = null!;
-        public DateTime Date { get; set; }
-        public int Age { get; set; }
+        public DateTime? Date { get; set; }
+        public int? Age { get; set; }
         public string Season { get; set; } = null!;
         public MoneyDto? Fee { get; set; }
         public MoneyDto? MarketValue { get; set; }
