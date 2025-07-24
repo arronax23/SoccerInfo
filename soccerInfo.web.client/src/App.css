@@ -287,6 +287,37 @@ a.nav-link.active {
     width: 100%;
 }
 
+.search-types-container{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: .5rem;
+    gap: 1rem;
+
+    max-width: 10rem;
+    background: white;
+    padding: 1rem 1rem;
+    border-radius: 1rem;
+    box-shadow: 5px 5px 10px black;
+
+}
+
+.search-players-type, .search-teams-type {
+    cursor: pointer;
+    color: white;
+    background: black;
+    padding: .75rem;
+    border-radius: .25rem;
+    border: .15rem solid #fff;
+    opacity: .65;
+}
+
+.search-players-type.active, .search-teams-type.active {
+   border: .15rem solid #FFB22C;
+   opacity: unset;
+} 
+
 .search-players {
     width: 100%;
     display: flex;
@@ -332,7 +363,7 @@ a.nav-link.active {
         /* background-position: 95% center; */
 }
 
-.found-players {
+.search-results {
     margin-top: 1rem;
     display: flex;
     flex-direction: column;
@@ -343,7 +374,7 @@ a.nav-link.active {
     margin-bottom: 1rem; 
 }
 
-.player-overview {
+.player-overview, .team-overview {
     border-radius: .25rem;
     box-shadow: 5px 5px 10px black;
     display: flex;
@@ -354,13 +385,18 @@ a.nav-link.active {
     margin-bottom: .5rem;
 }
 
-.player-overview.active {
+.player-overview.active, .team-overview.active {
     cursor: pointer;
     color: white;
     background: #242423;
 }
 
-.player-overview img.face-image, .player-overview img.team-image, .player-overview img.league-image {
+.player-overview img.face-image,
+.player-overview img.team-image, 
+.player-overview img.league-image,
+.team-overview img.team-image,
+.team-overview img.league-image
+{
     height: 50px;
     border-radius: .15rem;
 }
@@ -369,19 +405,23 @@ a.nav-link.active {
     padding: 0 .25rem;
     background: #fff;
 }
-.player-overview img.team-image:hover, .player-overview img.league-image:hover {
+.player-overview img.team-image:hover, .player-overview img.league-image:hover, .team-overview img.league-image:hover {
     cursor: pointer;
     transition: transform .25s;
     transform: scale(1.35);
     background: transparent;
 }
 
-.player-overview p.name, .player-overview img.league-image  {
+.player-overview p.name,
+.player-overview img.league-image,
+.team-overview p.name,
+.team-overview img.league-image
+{
     margin-left: 1rem;
 }
 
 
-.player-overview img.team-image{
+.player-overview img.team-image, .team-overview img.league-image{
     margin-left: auto;
 }
 

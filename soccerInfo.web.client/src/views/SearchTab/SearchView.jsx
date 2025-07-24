@@ -1,14 +1,21 @@
 import { useState, useRef, useCallback } from "react";
 import Player from "./Player";
-import usePlayersSearch from "./usePlayersSearch";
+import Team from "./Team";
+import useSearch from "./useSearch";
 import LoadingIcon from "./LoadingIcon";
 
 const SearchView = () => {
   const [keyword, setKeyword] = useState("");
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(10);
+  const [isTeamsSearch, setIsTeamsSearch] = useState(false);
+  const [placeholder, setPlaceholder] = useState("Players");
 
-  const { players, loading, hasMore } = usePlayersSearch(
+  const searchTypePlayersDiv = useRef();
+  const searchTypeTeamsDiv = useRef();
+
+  const { data, loading, hasMore } = useSearch(
+    isTeamsSearch,
     keyword,
     pageNumber,
     pageSize
@@ -35,20 +42,38 @@ const SearchView = () => {
     setPageNumber(1);
   };
 
+  const handleSearchTypeClick = (e) => {
+    if (e.target.classList.contains('search-players-type')){
+      setIsTeamsSearch(false);
+      setPlaceholder("Players");
+    }
+    else if (e.target.classList.contains('search-teams-type')) {
+      setIsTeamsSearch(true);
+      setPlaceholder("Teams");
+    }
+
+    searchTypePlayersDiv.current.classList.toggle('active');
+    searchTypeTeamsDiv.current.classList.toggle('active');
+  }
+
   return (
     <div className="container">
+      <div className="search-types-container">
+        <div className="search-players-type active" ref={searchTypePlayersDiv} onClick={handleSearchTypeClick}>Players</div>
+        <div className="search-teams-type" ref={searchTypeTeamsDiv} onClick={handleSearchTypeClick}>Teams</div>
+      </div>
       <div className="search-players">
         <input
           value={keyword}
           onChange={handleSearch}
           className="search__input"
           type="text"
-          placeholder="Search players"
+          placeholder={`Search ${placeholder}`}
         ></input>
       </div>
-      <div className="found-players">
-        {players &&
-          players.map((p) => (
+      <div className="search-results">
+        {data && !isTeamsSearch &&
+          data.map((p) => (
             <Player
               key={p.id}
               id={p.id}
@@ -60,6 +85,18 @@ const SearchView = () => {
               leagueId={p.leagueId}
             />
           ))}
+        {data && isTeamsSearch &&
+          data.map((t) => (
+            <Team
+              key={t.id}
+              id={t.id}
+              name={t.name}
+              teamId={t.teamId}
+              teamImageBase64={t.teamImageBase64}
+              leagueImageBase64={t.leagueImageBase64}
+              leagueId={t.leagueId}
+            />
+          ))}          
         {loading && <LoadingIcon />}
         <div className="search-players-bottom" ref={bottomDivRef}></div>
       </div>
