@@ -6,7 +6,7 @@ import HomeView from "./views/HomeView/HomeView";
 import LeagueView from "./views/LeagueView/LeagueView";
 import TeamView from "./views/TeamView/TeamView";
 import BackButton from "./nav/BackButton";
-import PlayersView from "./views/PlayersTab/PlayersView"
+import SearchView from "./views/SearchTab/SearchView"
 import PlayerDetailsView from "./views/PlayerDetailsView/PlayerDetailsView";
 import StatsView from "./views/StatsTab/StatsView";
 
@@ -20,7 +20,7 @@ function App() {
         <Route path="/leagues" element={<LeaguesView />} />
         <Route path="/league/:leagueId" element={<LeagueView />} />
         <Route path="/team/:teamId" element={<TeamView />} />
-        <Route path="/players" element={<PlayersView />} />
+        <Route path="/search" element={<SearchView />} />
         <Route path="/player/:playerId" element={<PlayerDetailsView />} />
         <Route path="/stats" element={<StatsView />} />
       </Routes>

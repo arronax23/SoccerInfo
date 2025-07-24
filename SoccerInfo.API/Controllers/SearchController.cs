@@ -5,7 +5,7 @@ using SoccerInfo.Shared.CQRS;
 namespace SoccerInfoWeb.API.Controllers;
 
 [ApiController]
-public class PlayersController(IQueryDispatcher queryDispatcher) : ControllerBase
+public class SearchController(IQueryDispatcher queryDispatcher) : ControllerBase
 {
     [HttpGet("api/SearchPlayers/{keyword}/{pageNumber}/{pageSize}")]
     public async Task<IActionResult> SearchPlayers(string keyword, int pageNumber, int pageSize)

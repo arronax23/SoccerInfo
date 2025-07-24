@@ -14,9 +14,8 @@ const Navbar = () => {
         <NavLink className="nav-link" to="/leagues">
           <div className="nav-item">Leagues</div>
         </NavLink>        
-        <div className="nav-item">Teams</div>
-        <NavLink className="nav-link" to="/players">
-          <div className="nav-item">Players</div>
+        <NavLink className="nav-link" to="/search">
+          <div className="nav-item">Search</div>
         </NavLink>
         <NavLink className="nav-link" to="/stats">
           <div className="nav-item">Stats</div>

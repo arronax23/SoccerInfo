@@ -3,7 +3,7 @@ import Player from "./Player";
 import usePlayersSearch from "./usePlayersSearch";
 import LoadingIcon from "./LoadingIcon";
 
-const PlayersView = () => {
+const SearchView = () => {
   const [keyword, setKeyword] = useState("");
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(10);
@@ -67,4 +67,4 @@ const PlayersView = () => {
   );
 };
 
-export default PlayersView;
+export default SearchView;
