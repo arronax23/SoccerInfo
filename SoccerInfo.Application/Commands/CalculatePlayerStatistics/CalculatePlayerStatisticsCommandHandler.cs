@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using NodaTime;
-using SoccerInfo.Application.Intrefaces;
+using SoccerInfo.Application.Interfaces;
 using SoccerInfo.Domain.Models;
 using SoccerInfo.Domain.Models.Stats;
 using SoccerInfo.Domain.Repositories;

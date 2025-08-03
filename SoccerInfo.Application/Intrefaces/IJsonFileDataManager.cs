@@ -1,5 +1,4 @@
-﻿
-namespace SoccerInfo.Application.JsonFileData;
+﻿namespace SoccerInfo.Application.Interfaces;
 
 public interface IJsonFileDataManager
 {

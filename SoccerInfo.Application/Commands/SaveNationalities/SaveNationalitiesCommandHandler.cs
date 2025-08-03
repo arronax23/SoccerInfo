@@ -2,7 +2,7 @@
 using CsvHelper.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Nager.Country;
-using SoccerInfo.Application.Intrefaces;
+using SoccerInfo.Application.Interfaces;
 using SoccerInfo.Domain.Models;
 using SoccerInfo.Domain.Repositories.Generic;
 using SoccerInfo.Shared.CQRS;

@@ -9,7 +9,7 @@ public class NationalityParser()
     {
         return new NationalityData()
         {
-            Country = node.GetAttributeValue("title", "notFound")
+            Country = node.GetAttributeValue("title", "notFound").FormatExtractedString()
         };
     }
 }

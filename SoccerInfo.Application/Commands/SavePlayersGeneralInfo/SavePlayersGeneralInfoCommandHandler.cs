@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using SoccerInfo.Application.Intrefaces;
+using SoccerInfo.Application.Interfaces;
 using SoccerInfo.Domain.Models;
 using SoccerInfo.Domain.Models.GeneralPosition;
 using SoccerInfo.Domain.Repositories;
@@ -114,3 +114,4 @@ internal class SavePlayersGeneralInfoCommandHandler(
             .SingleOrDefault(Nationality.Matches(extractedNationality).Compile());
     }
 }
+&

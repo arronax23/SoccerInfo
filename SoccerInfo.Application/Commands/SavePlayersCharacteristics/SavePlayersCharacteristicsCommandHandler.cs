@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.Logging;
-using SoccerInfo.Application.Intrefaces;
+using SoccerInfo.Application.Interfaces;
 using SoccerInfo.Domain.Models.PlayerCharacteristicsAggregate;
 using SoccerInfo.Domain.Repositories;
 using SoccerInfo.Domain.Repositories.Generic;

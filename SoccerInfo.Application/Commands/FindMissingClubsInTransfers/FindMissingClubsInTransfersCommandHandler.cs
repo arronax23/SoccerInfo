@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using SoccerInfo.Application.Commands.ExtarctClubOverview;
-using SoccerInfo.Application.Intrefaces;
+using SoccerInfo.Application.Interfaces;
 using SoccerInfo.Domain.Models;
 using SoccerInfo.Domain.Models.Transfers;
 using SoccerInfo.Domain.Repositories.Generic;

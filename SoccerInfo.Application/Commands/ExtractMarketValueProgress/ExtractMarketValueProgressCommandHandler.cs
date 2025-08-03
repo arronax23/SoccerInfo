@@ -1,4 +1,4 @@
-﻿using SoccerInfo.Application.Intrefaces;
+﻿using SoccerInfo.Application.Interfaces;
 using SoccerInfo.BackendScraper.MarketValueProgress;
 using SoccerInfo.Domain.Repositories;
 using SoccerInfo.Shared.CQRS;

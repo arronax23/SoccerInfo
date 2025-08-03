@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SoccerInfo.Application.JsonFileData;
-using SoccerInfo.Domain.Models;
+using SoccerInfo.Application.Interfaces;
 using SoccerInfo.Domain.Models.Extraction;
 using SoccerInfo.Domain.Repositories.Generic;
 using SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo;
