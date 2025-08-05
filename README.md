@@ -1,4 +1,4 @@
-# JustChat
+# SoccerInfo
 
 ## Table of contents
 
@@ -13,7 +13,9 @@ http://207.180.246.96/
 
 ## General info
 
-A web scraper — that is, an application that extracts data from other websites. The data relates to football, which I store in my own database and display in the presentation layer. The project follows the Clean Architecture approach.
+A web scraper application designed to extract football-related data from external websites. The application fetches structured information such as leagues, teams, players, and transfers, and stores it in a local database.
+
+The solution is built using the Clean Architecture approach, which separates concerns into distinct layers (Presentation, Application, Domain, Persistence, Infrastructure). Data is displayed in a React frontend app, allowing users to browse up-to-date football information.
 
 ## Technologies
 
@@ -23,6 +25,7 @@ A web scraper — that is, an application that extracts data from other websites
 - Playwright
 - MS SQL
 - Entity Framework 
+- CI/CD (Github Actions)
 
 ## Screenshots
 

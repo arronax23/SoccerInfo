@@ -114,4 +114,3 @@ internal class SavePlayersGeneralInfoCommandHandler(
             .SingleOrDefault(Nationality.Matches(extractedNationality).Compile());
     }
 }
-&
