@@ -1,4 +1,4 @@
-﻿using SoccerInfo.Application.JsonFileData;
+﻿using SoccerInfo.Application.Interfaces;
 using SoccerInfo.Shared.Utilities;
 using System.Text;
 

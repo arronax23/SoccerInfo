@@ -1,7 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using SoccerInfo.Application.Interfaces;
-using SoccerInfo.Application.Intrefaces;
-using SoccerInfo.Application.JsonFileData;
 using SoccerInfo.Domain.Models;
 using SoccerInfo.Domain.Models.Extraction;
 using SoccerInfo.Domain.Models.PlayerCharacteristicsAggregate;

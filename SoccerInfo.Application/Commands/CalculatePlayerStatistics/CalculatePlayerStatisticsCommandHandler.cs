@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using NodaTime;
 using SoccerInfo.Application.Interfaces;
 using SoccerInfo.Domain.Models;
@@ -12,7 +11,6 @@ using SoccerInfo.Domain.Repositories.Generic;
 namespace SoccerInfo.Application.Commands.CalculatePlayerStatistics;
 
 internal class CalculatePlayerStatisticsCommandHandler(
-    IConfiguration configuration, 
     IUnitOfWork unitOfWork,
     IPlayerRepository playerRepository,
     IGenericRepository<PlayerStatistic> statsRepository)
