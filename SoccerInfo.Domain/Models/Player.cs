@@ -11,11 +11,11 @@ public class Player : BaseEntity
 {
     public string Name { get; set; } = null!;
     public string Position { get; set; } = null!;
-    public int Age { get; set; }
+    public int? Age { get; set; }
     public float? MarketValue { get; set; }
     public string? MarketValueUnit { get; set; }
     public float? MarketValueNormalized { get; private set; }
-    public DateTime DateOfBirth { get; set; }
+    public DateTime? DateOfBirth { get; set; }
     public string? FaceImageBase64 { get; set; }
     public int TransfermarktId { get; set; }
     public string TransfermarktURL { get; set; } = null!;
@@ -78,8 +78,4 @@ public class Player : BaseEntity
                 this.Transfers.Add(newTransfer);
         }
     }
-
-    public static Expression<Func<Player, bool>> Matches(Player other) =>
-        (Player p) => p.Name == other.Name && p.DateOfBirth == other.DateOfBirth;
-
 }

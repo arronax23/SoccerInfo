@@ -13,7 +13,6 @@ public class PlayerParser(
 {
     public async Task<PlayerData> Parse(HtmlNode node)
     {
-        //await Console.Out.WriteLineAsync(node.QuerySelector(".hauptlink").InnerText.FormatExtractedString());
         var (dateOfBirth, age) = ParseAgeAndDateOfBirth(node.QuerySelectorAll(".zentriert").ElementAt(1).InnerText);
         var (marketValue, marketValueUnit) = ParseMarketValue(node.QuerySelector(".rechts.hauptlink").InnerText);
         var (transfermarktId, transfermarktURL) = ParseTransfermarktNavigationData(
@@ -50,14 +49,27 @@ public class PlayerParser(
         return (transfermarktId, transfermarktURL);
 
     }
-    private (DateTime, int) ParseAgeAndDateOfBirth(string ageAndDateOfBirth)
+    private (DateTime?, int?) ParseAgeAndDateOfBirth(string ageAndDateOfBirth)
     {
-        var tab = ageAndDateOfBirth.Split('(', ')');
+        try
+        {
+            var tab = ageAndDateOfBirth.Split('(', ')');
+            var dateOfBirthParseSuccess = DateTime.TryParseExact(
+                tab[0].Trim(), "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out var dateOfBirth);
+            var ageParseSuccess = int.TryParse(tab[1].Trim(), out var age);
 
-        var dateOfBirth = DateTime.Parse(tab[0]);
-        var age = int.Parse(tab[1]);
+            DateTime? dateOfBirthNullable = dateOfBirthParseSuccess ? dateOfBirth : null;
+            int? ageNullable = ageParseSuccess ? age : null;
 
-        return (dateOfBirth, age);
+            return (dateOfBirthNullable, ageNullable);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError($"ageAndDateOfBirth: {ageAndDateOfBirth}");
+            logger.LogError($"Line 69");
+            logger.LogError(ex.ToString());
+            throw;
+        }
     }
 
     private (float?, string?) ParseMarketValue(string marketValueText)

@@ -59,6 +59,15 @@ public static class PlayerExtensions
         }
 	}
 
+
+    public static bool HasDateOfBirth(this Player player)
+	{
+		if (player.DateOfBirth is not null)
+			return true;
+		else
+			return false;
+	}
+
     public static bool ContainsOutfieldPlayerStats(this Player player)
     {
         if (player.Characteristics?.OutfieldPlayerStats != null && player.Characteristics.OutfieldPlayerStats.Any())

@@ -4,7 +4,7 @@ namespace SoccerInfo.Domain.Models.Stats;
 
 public class PlayerStatistic : BaseEntity
 {
-    public DateRange Age { get; set; } = null!;
+    public DateRange? Age { get; set; } = null!;
     public int? TotalGoals { get; set; }
     public int? TotalGoalsAndAssists { get; set; }
     public int? TotalAssists { get; set; }

@@ -103,10 +103,13 @@ internal class CalculatePlayerStatisticsCommandHandler(
     }
 
 
-    private DateRange CalculateAge(Player player)
+    private DateRange? CalculateAge(Player player)
     {
+        if (!player.HasDateOfBirth())
+            return null;
+
         var period = Period.Between(
-            LocalDateTime.FromDateTime(player.DateOfBirth),
+            LocalDateTime.FromDateTime(player.DateOfBirth!.Value),
             LocalDateTime.FromDateTime(DateTime.Today));
 
         return GetDateRangeFromPeriod(period);
