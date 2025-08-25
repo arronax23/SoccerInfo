@@ -19,7 +19,7 @@ public class GeneralExtractionJob(
 
         try
         {
-            await commandDispatcher.Send(new GeneralExtractionCommand());
+            await commandDispatcher.Send(new GeneralExtractionCommand(), context.CancellationToken);
         }
         catch (TaskCanceledException ex)
         {
