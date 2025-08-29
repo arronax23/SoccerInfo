@@ -33,6 +33,7 @@
     <ProjectReference Include="..\SoccerInfo.FrontendScraper\SoccerInfo.FrontendScraper.csproj" />
     <ProjectReference Include="..\SoccerInfo.Persistence\SoccerInfo.Persistence.csproj" />
     <ProjectReference Include="..\SoccerInfo.Rapid.API\SoccerInfo.Rapid.API.csproj" />
+    <ProjectReference Include="..\SoccerInfo.Rapid.Application\SoccerInfo.Rapid.Application.csproj" />
     <ProjectReference Include="..\soccerInfo.web.client\soccerInfo.web.client.esproj">
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>

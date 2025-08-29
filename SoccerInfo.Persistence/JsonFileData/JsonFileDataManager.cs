@@ -1,4 +1,4 @@
-﻿using SoccerInfo.Application.Interfaces;
+﻿using SoccerInfo.Application.Abstractions.Interfaces;
 using SoccerInfo.Shared.Utilities;
 using System.Text;
 

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
-using SoccerInfo.Application.Interfaces;
+using SoccerInfo.Application.Abstractions.Interfaces;
+using SoccerInfo.Application.Abstractions.Interfaces;
 using SoccerInfo.Domain.Repositories;
 using SoccerInfo.FrontendScraper.ScrapePlayersCharacterstics;
 using SoccerInfo.FrontendScraper.ScrapePlayersCharacterstics.Dto;

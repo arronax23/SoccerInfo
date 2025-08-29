@@ -11,7 +11,7 @@
   </ItemGroup>
 
    <ItemGroup>
-     <ProjectReference Include="..\SoccerInfo.Application\SoccerInfo.Application.csproj" />
+     <ProjectReference Include="..\SoccerInfo.Rapid.Application\SoccerInfo.Rapid.Application.csproj" />
      <ProjectReference Include="..\SoccerInfo.Shared\SoccerInfo.Shared.csproj" />
    </ItemGroup> 
   

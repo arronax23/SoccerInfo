@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Storage;
 
-namespace SoccerInfo.Application.Interfaces;
+namespace SoccerInfo.Application.Abstractions.Interfaces;
 
 public interface IUnitOfWork
 {

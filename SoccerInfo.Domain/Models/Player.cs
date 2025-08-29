@@ -3,7 +3,6 @@ using SoccerInfo.Domain.Models.GeneralPosition;
 using SoccerInfo.Domain.Models.PlayerCharacteristicsAggregate;
 using SoccerInfo.Domain.Models.Stats;
 using SoccerInfo.Domain.Models.Transfers;
-using System.Linq.Expressions;
 
 namespace SoccerInfo.Domain.Models;
 
@@ -16,7 +15,10 @@ public class Player : BaseEntity
     public string? MarketValueUnit { get; set; }
     public float? MarketValueNormalized { get; private set; }
     public DateTime? DateOfBirth { get; set; }
+    public Image? FaceImage { get; set; } = new Image();
+    public int? FaceImageId { get; set; }
     public string? FaceImageBase64 { get; set; }
+
     public int TransfermarktId { get; set; }
     public string TransfermarktURL { get; set; } = null!;
     public virtual ICollection<Nationality> Nationalities { get; set; } = new List<Nationality>();
@@ -37,7 +39,7 @@ public class Player : BaseEntity
         this.MarketValue = player.MarketValue;
         this.MarketValueUnit = player.MarketValueUnit;
         this.DateOfBirth = player.DateOfBirth;
-        this.FaceImageBase64 = player.FaceImageBase64;
+        this.FaceImage = player.FaceImage;
         this.TransfermarktId = player.TransfermarktId;
         this.TransfermarktURL = player.TransfermarktURL;
     }

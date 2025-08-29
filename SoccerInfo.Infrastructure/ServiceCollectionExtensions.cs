@@ -32,6 +32,7 @@ static class ServiceCollectionExtensions
     {
         return [
             typeof(SoccerInfo.Rapid.API.IAssemblyMarker),
+            typeof(SoccerInfo.Rapid.Application.IAssemblyMarker),
             typeof(SoccerInfo.API.IAssemblyMarker),
             typeof(SoccerInfo.Application.IAssemblyMarker),
             typeof(SoccerInfo.Domain.IAssemblyMarker),

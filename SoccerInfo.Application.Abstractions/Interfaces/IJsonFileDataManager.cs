@@ -1,4 +1,4 @@
-﻿namespace SoccerInfo.Application.Interfaces;
+﻿namespace SoccerInfo.Application.Abstractions.Interfaces;
 
 public interface IJsonFileDataManager
 {

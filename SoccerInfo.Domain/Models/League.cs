@@ -5,7 +5,9 @@ namespace SoccerInfo.Domain.Models;
 public class League : BaseEntity
 {
     public string Name { get; set; } = null!;
+    public Image? Logo { get; set; } = new Image();
     public string? LeagueImageBase64 { get; set; }
+    public int? LogoId { get; set; }
     public string Country { get; set; } = null!;
     public string? CountryFlagBase64 { get; set; }
     public virtual ICollection<Team> Teams { get; set; } = new List<Team>();
@@ -16,10 +18,8 @@ public class League : BaseEntity
     public void Update(League league)
     {
         this.Name = league.Name;
-        this.LeagueImageBase64 = league.LeagueImageBase64;
+        this.Logo = league.Logo;
         this.Country = league.Country;
         this.CountryFlagBase64 = league.CountryFlagBase64;
     }
-
-
 }

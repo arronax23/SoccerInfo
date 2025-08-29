@@ -27,6 +27,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "rapidapi", "rapidapi", "{FE
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoccerInfo.Rapid.API", "SoccerInfo.Rapid.API\SoccerInfo.Rapid.API.csproj", "{0510F7BB-E233-4E8F-A808-81BA6ECA519E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoccerInfo.Rapid.Application", "SoccerInfo.Rapid.Application\SoccerInfo.Rapid.Application.csproj", "{694D01AB-D5C5-4579-A479-8E8B4FE1FFD8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoccerInfo.Application.Abstractions", "SoccerInfo.Application.Abstractions\SoccerInfo.Application.Abstractions.csproj", "{18BAB005-4604-42D6-B37B-8C87973716EF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +79,14 @@ Global
 		{0510F7BB-E233-4E8F-A808-81BA6ECA519E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0510F7BB-E233-4E8F-A808-81BA6ECA519E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0510F7BB-E233-4E8F-A808-81BA6ECA519E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{694D01AB-D5C5-4579-A479-8E8B4FE1FFD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{694D01AB-D5C5-4579-A479-8E8B4FE1FFD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{694D01AB-D5C5-4579-A479-8E8B4FE1FFD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{694D01AB-D5C5-4579-A479-8E8B4FE1FFD8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18BAB005-4604-42D6-B37B-8C87973716EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18BAB005-4604-42D6-B37B-8C87973716EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18BAB005-4604-42D6-B37B-8C87973716EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18BAB005-4604-42D6-B37B-8C87973716EF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -83,6 +95,7 @@ Global
 		{80CF5216-D3E5-4032-9189-9DAB1ADD1C1D} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{ED3BEA29-0843-41AB-AB46-1A4EFA02ED94} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{0510F7BB-E233-4E8F-A808-81BA6ECA519E} = {FE02CE5D-0C28-483E-AFE8-BF88C5D45092}
+		{694D01AB-D5C5-4579-A479-8E8B4FE1FFD8} = {FE02CE5D-0C28-483E-AFE8-BF88C5D45092}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {82589CC2-F34E-43CF-AA03-EB8D2FDED050}

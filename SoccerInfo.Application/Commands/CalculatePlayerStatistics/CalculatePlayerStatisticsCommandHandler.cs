@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NodaTime;
-using SoccerInfo.Application.Interfaces;
 using SoccerInfo.Domain.Models;
 using SoccerInfo.Domain.Models.Stats;
 using SoccerInfo.Domain.Repositories;
 using SoccerInfo.Shared.CQRS;
 using SoccerInfo.Domain.Models.PlayerCharacteristicsAggregate;
 using SoccerInfo.Domain.Repositories.Generic;
+using SoccerInfo.Application.Abstractions.Interfaces;
 
 namespace SoccerInfo.Application.Commands.CalculatePlayerStatistics;
 

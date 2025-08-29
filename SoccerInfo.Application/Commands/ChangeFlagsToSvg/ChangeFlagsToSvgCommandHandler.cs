@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Nager.Country;
 using Serilog;
-using SoccerInfo.Application.Interfaces;
+using SoccerInfo.Application.Abstractions.Interfaces;
 using SoccerInfo.Domain.Models;
 using SoccerInfo.Domain.Repositories.Generic;
 using SoccerInfo.Shared.CQRS;

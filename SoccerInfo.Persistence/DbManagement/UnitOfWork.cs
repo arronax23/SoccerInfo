@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Configuration;
-using SoccerInfo.Application.Interfaces;
+using SoccerInfo.Application.Abstractions.Interfaces;
 using SoccerInfo.Persistence.Data;
 using SoccerInfo.Persistence.EntityFrameworkExtensions;
 

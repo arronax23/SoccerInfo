@@ -13,6 +13,7 @@ using SoccerInfo.Domain;
 using SoccerInfo.Persistence;
 using SoccerInfo.BackendScraper;
 using SoccerInfo.Persistence.Data;
+using SoccerInfo.Rapid.Application;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,6 +22,9 @@ builder.Services.AddSerilog(cfg => cfg.ReadFrom.Configuration(builder.Configurat
 
 builder.Services.AddScoped<IQueryDispatcher, QueryDispatcher>();
 builder.Services.AddScoped<ICommandDispatcher, CommandDispatcher>();
+
+
+builder.Services.AddRapidApiServices();
 
 builder.Services.AddApiServices();
 builder.Services.AddDomainServices();

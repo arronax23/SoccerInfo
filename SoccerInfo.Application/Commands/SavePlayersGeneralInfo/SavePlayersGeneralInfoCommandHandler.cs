@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using SoccerInfo.Application.Interfaces;
+using SoccerInfo.Application.Abstractions.Interfaces;
 using SoccerInfo.Domain.Models;
 using SoccerInfo.Domain.Models.GeneralPosition;
 using SoccerInfo.Domain.Repositories;

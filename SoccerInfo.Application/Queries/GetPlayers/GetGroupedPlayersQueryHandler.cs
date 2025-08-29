@@ -26,7 +26,7 @@ internal class GetGroupedPlayersQueryHandler(IPlayerRepository playerRepository)
                     Age = p.Age,
                     DateOfBirth = p.DateOfBirth,
                     Position = p.Position,
-                    FaceImageBase64 = p.FaceImageBase64,
+                    FaceImageBase64 = p.FaceImage.Base64,
                     MarketValue = p.MarketValue,
                     MarketValueUnit = p.MarketValueUnit,
                     NationalityImageBase64Collection = p.Nationalities.Select(n => n.CountryFlag!.ImageSvgBase64),

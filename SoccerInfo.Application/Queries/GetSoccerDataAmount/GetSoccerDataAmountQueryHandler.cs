@@ -1,4 +1,4 @@
-﻿using SoccerInfo.Application.Interfaces;
+﻿using SoccerInfo.Application.Abstractions.Interfaces;
 using SoccerInfo.Application.Queries.Dtos;
 using SoccerInfo.Shared.CQRS;
 

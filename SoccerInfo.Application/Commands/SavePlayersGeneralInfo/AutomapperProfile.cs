@@ -12,7 +12,7 @@ public class AutomapperProfile : Profile
             .ForMember(x => x.Id, opt => opt.Ignore());
 
         CreateMap<TeamData, Team>()
-            .ForMember(x => x.TeamImageBase64, opt => opt.MapFrom(z => z.TeamImageBase64))
+            .ForMember(x => x.Logo.Base64, opt => opt.MapFrom(z => z.TeamImageBase64))
             .ForMember(x => x.Id, opt => opt.Ignore())
             .ForMember(x => x.LeagueId, opt => opt.Ignore());
 

@@ -34,7 +34,7 @@ internal class GetPlayerDetailsQueryHandler(
         string? image = null;
 
         if (team != null)
-            image = team.TeamImageBase64;
+            image = team.Logo.Base64;
 
         var dto = new MarketValueChangeDto()
         {

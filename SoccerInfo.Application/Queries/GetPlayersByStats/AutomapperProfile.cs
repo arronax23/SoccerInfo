@@ -12,7 +12,7 @@ public class AutomapperProfile : Profile
     {
         CreateMap<Player, StatsPlayerBaseDto>()
             .ForMember(dest => dest.PlayerId, opt => opt.MapFrom(src => src.Id))
-            .ForMember(dest => dest.FaceImageBase64, opt => opt.MapFrom(src => src.FaceImageBase64))
+            .ForMember(dest => dest.FaceImageBase64, opt => opt.MapFrom(src => src.FaceImage.Base64))
             .ForMember(dest => dest.Position, opt => opt.MapFrom(src => src.Position))
             .ForMember(dest => dest.Nationalities, opt =>
                 opt.MapFrom(src => src.Nationalities.Select(n => new NationalityDto()
@@ -23,13 +23,13 @@ public class AutomapperProfile : Profile
             .ForMember(dest => dest.Team, opt => opt.MapFrom(src => new TeamDto()
             {
                 Name = src.Team.Name,
-                TeamImageBase64 = src.Team.TeamImageBase64,
+                TeamImageBase64 = src.Team.Logo.Base64,
                 TeamId = src.TeamId
             }))
             .ForMember(dest => dest.League, opt => opt.MapFrom(src => new LeagueDto()
             {
                 Name = src.Team.League!.Name,
-                LeagueImageBase64 = src.Team.League!.LeagueImageBase64,
+                LeagueImageBase64 = src.Team.League!.Logo.Base64,
                 LeagueId = src.Team.LeagueId!.Value
             }));
 

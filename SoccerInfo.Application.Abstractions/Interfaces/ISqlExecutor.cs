@@ -1,4 +1,4 @@
-﻿namespace SoccerInfo.Application.Interfaces;
+﻿namespace SoccerInfo.Application.Abstractions.Interfaces;
 public interface ISqlExecutor
 {
     public Task<IEnumerable<TResult>> SqlQueryAsync<TResult>(string sql, object? param = null);
