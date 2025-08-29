@@ -35,7 +35,8 @@ builder.Services.RegisterMediatR();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(SwaggerHelper.Setup);
+builder.Services.AddUISwagger();
+builder.Services.AddRapidSwagger();
 
 builder.Services.AddJobs();
 
@@ -61,7 +62,7 @@ app.UseSerilogRequestLogging();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.ConfigureSwaggerUI();
 }
 
 //app.UseHttpsRedirection();
