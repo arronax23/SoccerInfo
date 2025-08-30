@@ -15,7 +15,7 @@ public class Player : BaseEntity
     public string? MarketValueUnit { get; set; }
     public float? MarketValueNormalized { get; private set; }
     public DateTime? DateOfBirth { get; set; }
-    public Image? FaceImage { get; set; } = new Image();
+    public virtual Image? FaceImage { get; set; } = new Image();
     public int? FaceImageId { get; set; }
     public string? FaceImageBase64 { get; set; }
 

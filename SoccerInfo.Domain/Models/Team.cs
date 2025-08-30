@@ -9,7 +9,7 @@ public class Team : BaseEntity
     public string Name { get; set; } = null!;
     public int TransfermarktId { get; set; }
     public string TransfermarktURL { get; set; } = null!;
-    public Image? Logo { get; set; } = new Image();
+    public virtual Image? Logo { get; set; }
     public int? LogoId { get; set; }
     public string? TeamImageBase64 { get; set; }
     public virtual ICollection<Player> Players { get; set; } = new List<Player>();

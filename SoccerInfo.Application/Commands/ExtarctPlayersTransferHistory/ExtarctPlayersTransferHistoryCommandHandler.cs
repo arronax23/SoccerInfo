@@ -47,14 +47,23 @@ public class ExtarctPlayersTransferHistoryCommandHandler(
         var clubInfoFrom = ClubInfo.Create(transferItem.ClubFrom.TransfermarktId);
         var clubInfoTo = ClubInfo.Create(transferItem.ClubTo.TransfermarktId);
 
-        var teamFrom = teamRepository.ToQuery().SingleOrDefault(t => t.TransfermarktId == transferItem.ClubFrom.TransfermarktId);
-        var teamTo = teamRepository.ToQuery().SingleOrDefault(t => t.TransfermarktId == transferItem.ClubTo.TransfermarktId);
-        
-        if (teamFrom is not null)
-            clubInfoFrom.AssignTeam(teamFrom);
+        var teamFromId = teamRepository
+            .ToQuery()
+            .Where(t => t.TransfermarktId == transferItem.ClubFrom.TransfermarktId)
+            .Select(t => t.Id)
+            .SingleOrDefault();
 
-        if (teamTo is not null)
-            clubInfoTo.AssignTeam(teamTo);
+        var teamToId = teamRepository
+            .ToQuery()
+             .Where(t => t.TransfermarktId == transferItem.ClubTo.TransfermarktId)
+            .Select(t => t.Id)
+            .SingleOrDefault();
+
+        if (teamFromId != 0)
+            clubInfoFrom.AssignTeamById(teamFromId);
+
+        if (teamToId != 0)
+            clubInfoTo.AssignTeamById(teamToId);
 
         return new Transfer()
         {

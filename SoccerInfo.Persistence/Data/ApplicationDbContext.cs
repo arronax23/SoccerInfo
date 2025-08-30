@@ -17,6 +17,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<League> Leagues { get; set; }
     public DbSet<Team> Teams { get; set; }
     public DbSet<Player> Players { get; set; }
+    public DbSet<Image> Images { get; set; }
     public DbSet<Transfer> Transfers { get; set; }
     public DbSet<ClubOverview> ClubsOverviews { get; set; }
     public DbSet<ClubInfo> ClubsInfos { get; set; }

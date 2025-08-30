@@ -41,14 +41,14 @@ public class Transfer : BaseEntity
             return new ClubInfo { ClubTransfermarktId = transfermarktId };
         
         }
-        public void AssignTeam(Team team)
+        public void AssignTeamById(int teamId)
         {
-            this.Team = team;   
+            this.TeamId = teamId;   
         }
 
-        public void AssignClub(ClubOverview club)
+        public void AssignClubById(int clubOverviewId)
         {
-            this.Club = club;
+            this.ClubId = clubOverviewId;
         }
 
         public int ClubTransfermarktId { get; private set; }

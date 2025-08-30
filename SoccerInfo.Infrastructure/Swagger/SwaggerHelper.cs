@@ -1,62 +1,45 @@
 ﻿using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace SoccerInfo.Infrastructure.Swagger;
 public static class SwaggerHelper
 {
-    public static void AddUISwagger(this IServiceCollection services)
+    public static void Configure(SwaggerGenOptions options)
     {
-        services.AddSwaggerGen(opt =>
+        options.SwaggerDoc("ui-v1", new OpenApiInfo
         {
-            opt.SwaggerDoc("ui-v1", new OpenApiInfo
-            {
-                Title = "SoccerInfo API (React)",
-                Version = "v1",
-                Description = "API for React UI"
-            });
-
-            opt.DocInclusionPredicate((docName, apiDesc) =>
-            {
-                if (apiDesc!.RelativePath!.StartsWith("api/"))
-                    return true;
-
-                return false;
-            });
-
-            SetupApiKey(opt);
+            Title = "SoccerInfo API (React)",
+            Version = "v1",
+            Description = "API for React UI"
+        });
+        options.SwaggerDoc("rapid-v1", new OpenApiInfo
+        {
+            Title = "SoccerInfo Rapid API",
+            Version = "v1",
+            Description = "Rapid API Endpoints"
         });
 
-    }
-    public static void AddRapidSwagger(this IServiceCollection services)
-    {
-        services.AddSwaggerGen(opt =>
+
+        options.DocInclusionPredicate((docName, apiDesc) =>
         {
-            opt.SwaggerDoc("rapid-v1", new OpenApiInfo
-            {
-                Title = "SoccerInfo Rapid API",
-                Version = "v1",
-                Description = "Rapid API Endpoints"
-            });
+            if (docName == "ui-v1" && apiDesc.RelativePath!.StartsWith("api/", StringComparison.OrdinalIgnoreCase))
+                return true;
 
+            if (docName == "rapid-v1" && apiDesc.RelativePath!.StartsWith("rapidapi/", StringComparison.OrdinalIgnoreCase))
+                return true;
 
-            opt.DocInclusionPredicate((docName, apiDesc) =>
-            {
-                if (apiDesc!.RelativePath!.StartsWith("rapidapi/"))
-                    return true;
-
-                return false;
-            });
+            return false;
         });
+
+        SetupApiKey(options);
     }
 
-
-    public static void ConfigureSwaggerUI(this WebApplication? app)
+    public static void ConfigureUI(SwaggerUIOptions options)
     {
-        app.UseSwaggerUI(c =>
-        {
-            c.SwaggerEndpoint("/swagger/ui-v1/swagger.json", "UI API v1");
-            c.SwaggerEndpoint("/swagger/rapid-v1/swagger.json", "Rapid API v1");
-        });
+        options.SwaggerEndpoint("/swagger/ui-v1/swagger.json", "UI API v1");
+        options.SwaggerEndpoint("/swagger/rapid-v1/swagger.json", "Rapid API v1");
     }
 
     private static void SetupApiKey(SwaggerGenOptions options)

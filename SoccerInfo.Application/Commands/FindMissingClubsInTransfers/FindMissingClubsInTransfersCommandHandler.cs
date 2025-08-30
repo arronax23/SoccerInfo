@@ -26,16 +26,24 @@ internal class FindMissingClubsInTransfersCommandHandler(
 
         foreach (var item in clubInfos)
         {
-            var dbTeam = teamRepository.ToQuery().SingleOrDefault(t => t.TransfermarktId == item.ClubTransfermarktId);
+            var dbTeamId = teamRepository
+                .ToQuery()
+                .Where(t => t.TransfermarktId == item.ClubTransfermarktId)
+                .Select(t => t.Id)
+                .SingleOrDefault();
 
-            if (dbTeam is not null)
-                item.AssignTeam(dbTeam);
+            if (dbTeamId != 0)
+                item.AssignTeamById(dbTeamId);
             else
             {
-                var dbClub = clubOverviewRepository.ToQuery().SingleOrDefault(co => co.TransfermarktId == item.ClubTransfermarktId);
-               
-                if (dbClub is not null)
-                    item.AssignClub(dbClub);
+                var dbClubId = clubOverviewRepository
+                    .ToQuery()
+                    .Where(t => t.TransfermarktId == item.ClubTransfermarktId)
+                    .Select(t => t.Id)
+                    .SingleOrDefault();
+
+                if (dbClubId != 0)
+                    item.AssignClubById(dbClubId);
                 else
                 {
                     searchClubsTransfermarktIds.Add(item.ClubTransfermarktId);
@@ -56,7 +64,7 @@ internal class FindMissingClubsInTransfersCommandHandler(
         {
             try
             {
-                item.AssignClub(clubsOverviews.Single(co => co.TransfermarktId == item.ClubTransfermarktId));
+                item.AssignClubById(clubsOverviews.Single(co => co.TransfermarktId == item.ClubTransfermarktId).Id);
             }
             catch (Exception ex)
             {
