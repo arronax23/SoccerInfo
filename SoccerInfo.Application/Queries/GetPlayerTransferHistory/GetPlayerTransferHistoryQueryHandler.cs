@@ -31,10 +31,10 @@ internal class GetPlayerTransferHistoryQueryHandler(IPlayerRepository playerRepo
                 Fee = MoneyDto.Create(t.Fee?.Value, t.Fee?.Suffix),
                 Season = t.Season,
                 MarketValue = MoneyDto.Create(t.MarketValue?.Value, t.MarketValue?.Suffix),
-                ClubFromName = t.From!.Team?.Name ?? t.From.Club!.Name,
-                ClubToName = t.To!.Team?.Name ?? t.To.Club!.Name,
-                CLubFromBase64Image = t.From!.Team?.Logo.Base64 ?? t.From.Club!.ClubImageBase64,
-                CLubToBase64Image = t.To!.Team?.Logo.Base64 ?? t.To.Club!.ClubImageBase64,
+                ClubFromName = t.From!.Team?.Name ?? t.From.Club?.Name ?? "Unknown",
+                ClubToName = t.To!.Team?.Name ?? t.To.Club?.Name ?? "Unknown",
+                CLubFromBase64Image = t.From!.Team?.Logo!.Base64 ?? t.From.Club?.ClubImageBase64,
+                CLubToBase64Image = t.To!.Team?.Logo!.Base64 ?? t.To.Club?.ClubImageBase64,
                 TransferType = MapTransferType(t.Type)
             });
 
