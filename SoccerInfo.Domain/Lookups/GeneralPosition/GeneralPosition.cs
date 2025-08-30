@@ -1,4 +1,4 @@
-﻿namespace SoccerInfo.Domain.Models.GeneralPosition;
+﻿namespace SoccerInfo.Domain.Lookups.GeneralPosition;
 public enum GeneralPosition
 {
     Goalkeeper,

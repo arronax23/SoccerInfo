@@ -1,7 +1,6 @@
-﻿
-using SoccerInfo.Domain.Models.Abstractions;
+﻿using SoccerInfo.Domain.Models.Abstractions;
 
-namespace SoccerInfo.Domain.Models;
+namespace SoccerInfo.Domain.Lookups;
 public class CountryFlag_Lookup : IEntity
 {
     public int Id { get; set; }

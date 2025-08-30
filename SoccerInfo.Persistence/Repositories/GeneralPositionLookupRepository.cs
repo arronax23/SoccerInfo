@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SoccerInfo.Domain.Models.GeneralPosition;
+using SoccerInfo.Domain.Lookups.GeneralPosition;
 using SoccerInfo.Domain.Repositories;
 using SoccerInfo.Persistence.Data;
 

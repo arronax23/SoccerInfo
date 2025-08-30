@@ -1,4 +1,5 @@
-﻿using SoccerInfo.Domain.Models.Abstractions;
+﻿using SoccerInfo.Domain.Lookups;
+using SoccerInfo.Domain.Models.Abstractions;
 using System.Linq.Expressions;
 
 namespace SoccerInfo.Domain.Models;

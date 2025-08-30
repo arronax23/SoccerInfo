@@ -1,4 +1,4 @@
-﻿using SoccerInfo.Domain.Models.GeneralPosition;
+﻿using SoccerInfo.Domain.Lookups.GeneralPosition;
 
 namespace SoccerInfo.Domain.Repositories;
 

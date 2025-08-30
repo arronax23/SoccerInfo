@@ -1,5 +1,5 @@
-﻿using SoccerInfo.Domain.Models.Abstractions;
-using SoccerInfo.Domain.Models.GeneralPosition;
+﻿using SoccerInfo.Domain.Lookups.GeneralPosition;
+using SoccerInfo.Domain.Models.Abstractions;
 using SoccerInfo.Domain.Models.PlayerCharacteristicsAggregate;
 using SoccerInfo.Domain.Models.Stats;
 using SoccerInfo.Domain.Models.Transfers;

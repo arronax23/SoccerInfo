@@ -2,6 +2,7 @@
 using Nager.Country;
 using Serilog;
 using SoccerInfo.Application.Abstractions.Interfaces;
+using SoccerInfo.Domain.Lookups;
 using SoccerInfo.Domain.Models;
 using SoccerInfo.Domain.Repositories.Generic;
 using SoccerInfo.Shared.CQRS;
