@@ -30,6 +30,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<CountryFlag_Lookup> CountryFlags_Lookup { get; set; }
     public DbSet<GeneralPosition_Lookup> GeneralPositions_Lookup { get; set; }
     public DbSet<LeagueLinkLookup> LeagueLinksLookup { get; set; }
+    public DbSet<DummyImageLookup> DummyImagesLookup { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
