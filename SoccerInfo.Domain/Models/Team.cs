@@ -11,7 +11,6 @@ public class Team : BaseEntity
     public string TransfermarktURL { get; set; } = null!;
     public virtual Image? Logo { get; set; }
     public int? LogoId { get; set; }
-    public string? TeamImageBase64 { get; set; }
     public virtual ICollection<Player> Players { get; set; } = new List<Player>();
     public int? LeagueId { get; set; }
     public virtual League? League { get; set; }

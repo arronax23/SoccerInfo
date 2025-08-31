@@ -10,15 +10,21 @@ internal class SearchTeamsQueryHandler(ISqlExecutor sqlExecutor) : IQueryHandler
         return (await
            sqlExecutor
            .SqlQueryAsync<TeamOverviewDto>(
-               $@"SELECT 
+               $@"
+                SELECT 
                     t.Id, 
                     t.Name,
-                    t.TeamImageBase64,
                     l.Id as LeagueId,
-                    l.LeagueImageBase64 FROM Teams t
-                 JOIN Leagues l on l.Id = t.LeagueId
-                 WHERE t.Name COLLATE Latin1_general_CI_AI
-                 LIKE @KeywordPhrase COLLATE Latin1_general_CI_AI", new { KeywordPhrase = $"%{request.Keyword}%" }))
+                    il.Base64 as LeagueLogo,
+                    il.MimeType as LeagueLogoMimeType,
+                    it.Base64 as TeamLogo,
+                    it.MimeType as TeamLogoMimeType       
+                FROM Teams t
+                JOIN Leagues l on l.Id = t.LeagueId
+                LEFT JOIN Images il ON il.Id = l.LogoId
+                LEFT JOIN Images it ON it.Id = t.LogoId        
+                WHERE t.Name COLLATE Latin1_general_CI_AI
+                LIKE @KeywordPhrase COLLATE Latin1_general_CI_AI", new { KeywordPhrase = $"%{request.Keyword}%" }))
            .Skip((request.PageNumber - 1) * request.PageSize)
            .Take(request.PageSize);
     }

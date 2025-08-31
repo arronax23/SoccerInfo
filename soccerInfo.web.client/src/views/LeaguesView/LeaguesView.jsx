@@ -15,7 +15,8 @@ function LeaguesView() {
             key={league.id}
             id={league.id}
             name={league.name}
-            leagueImageBase64={league.leagueImageBase64}
+            logoBase64={league.logoBase64}
+            logoMimeType={league.logoMimeType}
             countryFlagBase64={league.countryFlagBase64}
           />
         ))}

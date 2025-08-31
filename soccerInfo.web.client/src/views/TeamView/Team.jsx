@@ -12,7 +12,7 @@ const Team = ({ id }) => {
         <h2 className="header">{team.name}</h2>
         <img
           className="t-img"
-          src={`data:image/jpeg;base64,${team.teamImageBase64}`}
+          src={`data:${team.logoMimeType};base64,${team.logoBase64}`}
         />
       </div>
     ))

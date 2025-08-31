@@ -28,6 +28,7 @@ const PlayersGroup = ({ generalPositionDisplay, players }) => {
                 name={p.name}
                 position={p.position}
                 faceImageBase64={p.faceImageBase64}
+                faceImageMimeType={p.faceImageMimeType}
                 age={p.age}
                 dateOfBirth={p.dateOfBirth}
                 marketValue={p.marketValue}

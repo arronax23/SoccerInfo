@@ -4,10 +4,11 @@ import { useNavigate } from "react-router";
 const Team = ({
   id,
   name,
-  teamImageBase64,
-  teamId,
+  teamLogo,
+  teamLogoMimeType,
+  leagueLogo,
+  leagueLogoMimeType,
   leagueId,
-  leagueImageBase64,
 }) => {
   const navigate = useNavigate();
   const teamOverview = useRef();
@@ -25,7 +26,7 @@ const Team = ({
       <img
         ref={teamImage}
         className="team-image"
-        src={`data:image/jpeg;base64,${teamImageBase64}`}
+        src={`data:${teamLogoMimeType};base64,${teamLogo}`}
       />        
       <p className="name">{name}</p>
       <img
@@ -36,7 +37,7 @@ const Team = ({
           navigate(`/league/${leagueId}`);
         }}
         className="league-image"
-        src={`data:image/jpeg;base64,${leagueImageBase64}`}
+        src={`data:${leagueLogoMimeType};base64,${leagueLogo}`}
       />
     </div>
   );

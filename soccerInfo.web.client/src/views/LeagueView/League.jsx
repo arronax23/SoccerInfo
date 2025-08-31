@@ -13,7 +13,7 @@ const League = ({ leagueId }) => {
         <h2 className="header">{league.name}</h2>
         <img
           className="l-img"
-          src={`data:image/jpeg;base64,${league.leagueImageBase64}`}
+          src={`data:${league.logoMimeType};base64,${league.logoBase64}`}
         />
       </div>
     ))

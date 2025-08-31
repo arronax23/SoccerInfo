@@ -6,7 +6,6 @@ public class League : BaseEntity
 {
     public string Name { get; set; } = null!;
     public virtual Image? Logo { get; set; } = new Image();
-    public string? LeagueImageBase64 { get; set; }
     public int? LogoId { get; set; }
     public string Country { get; set; } = null!;
     public string? CountryFlagBase64 { get; set; }

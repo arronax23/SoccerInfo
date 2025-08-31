@@ -78,10 +78,13 @@ const SearchView = () => {
               key={p.id}
               id={p.id}
               name={p.name}
-              faceImageBase64={p.faceImageBase64}
+              faceImage={p.faceImage}
+              faceImageMimeType={p.faceImageMimeType}
               teamId={p.teamId}
-              teamImageBase64={p.teamImageBase64}
-              leagueImageBase64={p.leagueImageBase64}
+              teamLogo={p.teamLogo}
+              teamLogoMimeType={p.teamLogoMimeType}
+              leagueLogo={p.leagueLogo}
+              leagueLogoMimeType={p.leagueLogoMimeType}
               leagueId={p.leagueId}
             />
           ))}
@@ -91,9 +94,10 @@ const SearchView = () => {
               key={t.id}
               id={t.id}
               name={t.name}
-              teamId={t.teamId}
-              teamImageBase64={t.teamImageBase64}
-              leagueImageBase64={t.leagueImageBase64}
+              teamLogo={t.teamLogo}
+              teamLogoMimeType={t.teamLogoMimeType}
+              leagueLogo={t.leagueLogo}
+              leagueLogoMimeType={t.leagueLogoMimeType}
               leagueId={t.leagueId}
             />
           ))}          

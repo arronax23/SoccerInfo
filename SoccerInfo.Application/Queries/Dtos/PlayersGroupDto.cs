@@ -14,6 +14,7 @@ public class PlayersGroupDto
         public string? MarketValueUnit { get; set; }
         public DateTime? DateOfBirth { get; set; }
         public string? FaceImageBase64 { get; set; }
+        public string? FaceImageMimeType { get; set; }
         public IEnumerable<string?>? NationalityImageBase64Collection { get; set; }
     }
 }

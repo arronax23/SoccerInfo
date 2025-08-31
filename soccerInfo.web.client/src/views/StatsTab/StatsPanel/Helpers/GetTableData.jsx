@@ -36,7 +36,7 @@ export default function getTableData(
               height: 55,
               borderRadius: 1,
             }}
-            src={`data:image/jpeg;base64,${row.original.faceImageBase64}`}
+            src={`data:${row.original.faceImageMimeType};base64,${row.original.faceImageBase64}`}
           />
         </div>
       ),
@@ -88,7 +88,7 @@ export default function getTableData(
             sx={{
               height: 55,
             }}
-            src={`data:image/jpeg;base64,${row.original.team.teamImageBase64}`}
+            src={`data:${row.original.team.logoMimeType};base64,${row.original.team.logo}`}
           />
         </div>
       ),
@@ -112,7 +112,7 @@ export default function getTableData(
             sx={{
               height: 55,
             }}
-            src={`data:image/jpeg;base64,${row.original.league.leagueImageBase64}`}
+            src={`data:${row.original.league.logoMimeType};base64,${row.original.league.logo}`}
           />
         </div>
       ),

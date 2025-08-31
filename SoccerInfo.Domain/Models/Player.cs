@@ -17,8 +17,6 @@ public class Player : BaseEntity
     public DateTime? DateOfBirth { get; set; }
     public virtual Image? FaceImage { get; set; } = new Image();
     public int? FaceImageId { get; set; }
-    public string? FaceImageBase64 { get; set; }
-
     public int TransfermarktId { get; set; }
     public string TransfermarktURL { get; set; } = null!;
     public virtual ICollection<Nationality> Nationalities { get; set; } = new List<Nationality>();

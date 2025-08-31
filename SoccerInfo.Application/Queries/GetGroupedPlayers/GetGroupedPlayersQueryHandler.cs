@@ -4,7 +4,7 @@ using SoccerInfo.Domain.Repositories;
 using SoccerInfo.Shared.CQRS;
 using static SoccerInfo.Application.Queries.Dtos.PlayersGroupDto;
 
-namespace SoccerInfo.Application.Queries.GetPlayers;
+namespace SoccerInfo.Application.Queries.GetGroupedPlayers;
 
 internal class GetGroupedPlayersQueryHandler(IPlayerRepository playerRepository) : IQueryHandler<GetGroupedPlayersQuery, IEnumerable<PlayersGroupDto>>
 {
@@ -27,6 +27,7 @@ internal class GetGroupedPlayersQueryHandler(IPlayerRepository playerRepository)
                     DateOfBirth = p.DateOfBirth,
                     Position = p.Position,
                     FaceImageBase64 = p.FaceImage.Base64,
+                    FaceImageMimeType = p.FaceImage.MimeType,
                     MarketValue = p.MarketValue,
                     MarketValueUnit = p.MarketValueUnit,
                     NationalityImageBase64Collection = p.Nationalities.Select(n => n.CountryFlag!.ImageSvgBase64),

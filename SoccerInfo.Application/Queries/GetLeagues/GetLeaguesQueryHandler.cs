@@ -9,6 +9,8 @@ internal class GetLeagueQueryHandler(ISqlExecutor sqlExecutor) : IQueryHandler<G
     public async Task<IEnumerable<LeagueDto>> Handle(GetLeaguesQuery request, CancellationToken cancellationToken)
     {
         return await
-            sqlExecutor.SqlQueryAsync<LeagueDto>(@"SELECT Id, Name, LeagueImageBase64, CountryFlagBase64 FROM Leagues");
+            sqlExecutor.SqlQueryAsync<LeagueDto>(
+                @"SELECT l.Id, l.Name,i.Base64 as LogoBase64, i.MimeType as LogoMimeType, l.CountryFlagBase64  FROM Leagues l
+                  JOIN Images i on l.LogoId = i.Id");
     }
 }

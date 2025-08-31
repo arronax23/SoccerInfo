@@ -16,7 +16,8 @@ const Teams = ({ leagueId }) => {
             key={team.id}
             id={team.id}
             name={team.name}
-            teamImageBase64={team.teamImageBase64}
+            logoBase64={team.logoBase64}
+            logoMimeType={team.logoMimeType}
           />
         ))}
     </div>
@@ -25,7 +26,6 @@ const Teams = ({ leagueId }) => {
   async function getTeams() {
     const response = await fetch(`/api/GetTeams/${leagueId}`);
     const data = await response.json();
-    console.log("dsdsdsd");
     console.log(data);
     setTeams(data);
   }

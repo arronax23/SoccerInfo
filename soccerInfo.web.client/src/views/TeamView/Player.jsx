@@ -6,6 +6,7 @@ const Player = ({
   name,
   position,
   faceImageBase64,
+  faceImageMimeType,
   age,
   dateOfBirth,
   marketValue,
@@ -19,7 +20,7 @@ const Player = ({
       <h1 className="player-header">{name}</h1>
       <img
         className="player-image"
-        src={`data:image/jpeg;base64,${faceImageBase64}`}
+        src={`data:${faceImageMimeType};base64,${faceImageBase64}`}
       />
       <p className="position">{position}</p>
       <p className="age">Age: {age}</p>

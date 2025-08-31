@@ -9,7 +9,10 @@ internal class GetTeamQueryHandler(ISqlExecutor sqlExecutor) : IQueryHandler<Get
     public async Task<TeamDto> Handle(GetTeamQuery request, CancellationToken cancellationToken)
     {
         return await
-            sqlExecutor.SqlQuerySingleAsync<TeamDto>(@$"SELECT Id, Name, TeamImageBase64 FROM Teams where Id = @TeamId",
+            sqlExecutor.SqlQuerySingleAsync<TeamDto>(@$"
+                SELECT t.Id, t.Name, i.Base64 as LogoBase64, i.MimeType as LogoMimeType FROM Teams t
+                JOIN Images i on i.Id = t.LogoId
+                WHERE t.Id = @TeamId",
             new { TeamId = request.TeamId });
     }
 }

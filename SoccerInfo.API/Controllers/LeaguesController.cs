@@ -4,7 +4,7 @@ using SoccerInfo.Application.Queries.GetLeague;
 using SoccerInfo.Application.Queries.GetLeagues;
 using SoccerInfo.Application.Queries.GetPlayerCharacteristics;
 using SoccerInfo.Application.Queries.GetPlayerDetails;
-using SoccerInfo.Application.Queries.GetPlayers;
+using SoccerInfo.Application.Queries.GetGroupedPlayers;
 using SoccerInfo.Application.Queries.GetPlayerTransferHistory;
 using SoccerInfo.Application.Queries.GetTeam;
 using SoccerInfo.Application.Queries.GetTeams;

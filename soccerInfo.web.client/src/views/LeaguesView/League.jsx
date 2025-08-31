@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router";
 
-const League = ({ id, name, leagueImageBase64, countryFlagBase64 }) => {
+const League = ({ id, name, logoBase64, logoMimeType, countryFlagBase64 }) => {
   const navigate = useNavigate();
 
   const leagueClick = (e) => {
@@ -12,7 +12,7 @@ const League = ({ id, name, leagueImageBase64, countryFlagBase64 }) => {
       <p className="header">{name}</p>
       <img
         className="league-logo"
-        src={`data:image/jpeg;base64,${leagueImageBase64}`}
+        src={`data:${logoMimeType};base64,${logoBase64}`}
         alt="league img"
       />
       <img

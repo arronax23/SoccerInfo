@@ -7,16 +7,13 @@ const Players = ({ teamId }) => {
     getPlayers();
   }, []);
 
-
   async function getPlayers() {
     const response = await fetch(`/api/GetGroupedPlayers/${teamId}`);
     const data = await response.json();
     console.log(data);
     setPlayersGroups(data);
   }
-
-
-
+  
   return (
     <div className="players">
 
