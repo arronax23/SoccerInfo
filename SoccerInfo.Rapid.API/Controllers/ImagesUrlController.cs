@@ -8,12 +8,17 @@ namespace SoccerInfo.Rapid.API.Controllers;
 [Route($"{RapidAPIConst.ApiPrefix}/{RapidAPIConst.Version}")]
 public class ImagesUrlController(IQueryDispatcher queryDispatcher) : ControllerBase
 {
-    [HttpGet("League/{leagueId}.png")]
-    public async Task<IActionResult> GetLeagueImage(int leagueId)
+    [HttpGet("Images/{imageId}")]
+    public async Task<IActionResult> GetLeagueImage(int imageId)
     {
-        var base64Image = await queryDispatcher.Send(new GetLeagueImageQuery() { LeagueId = leagueId });
+        var imageDto = await queryDispatcher.Send(new GetLeagueImageQuery() { ImageId = imageId });
 
-        var bytes = Convert.FromBase64String(base64Image);
-        return File(bytes, "image/png");
+        if( imageDto is not null)
+        {
+            var imageBytes = Convert.FromBase64String(imageDto.Base64);
+            return File(imageBytes, imageDto.MimeType);
+        }
+        else
+            return NotFound();
     }
 }

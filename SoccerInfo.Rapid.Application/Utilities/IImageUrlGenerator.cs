@@ -3,5 +3,5 @@
 namespace SoccerInfo.Rapid.Application.Utilities;
 public interface IImageUrlGenerator
 {
-    string Generate(HttpContext httpContext, Guid imageId, string imageType);
+    string Generate(int imageId);
 }

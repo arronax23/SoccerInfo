@@ -5,6 +5,5 @@ public class LeagueDto
     public int Id { get; set; }
     public string Name { get; set; } = null!;
     public string? LeagueImageUrl { get; set; }
-    public string? LeagueImageBase64 { get; set; }
-    public string? CountryFlagUrl { get; set; }
+    public string? CountryFlagUrl { get; set; } // to do
 }

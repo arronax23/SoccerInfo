@@ -19,4 +19,11 @@ public class SqlExecutor(IConfiguration configuration) : ISqlExecutor
         await dbConnection.OpenAsync();
         return await dbConnection.QuerySingleAsync<TResult>(sql, param);
     }
+
+    public async Task<TResult?> SqlQuerySingleorDefaultAsync<TResult>(string sql, object? param = null)
+    {
+        using var dbConnection = new SqlConnection(configuration.GetConnectionString("Default"));
+        await dbConnection.OpenAsync();
+        return await dbConnection.QuerySingleOrDefaultAsync<TResult?>(sql, param);
+    }
 }

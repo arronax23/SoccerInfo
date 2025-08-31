@@ -1,19 +1,31 @@
-﻿using SoccerInfo.Domain.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using SoccerInfo.Domain.Models;
 using SoccerInfo.Domain.Repositories.Generic;
 using SoccerInfo.Rapid.Application.Queries.Dtos;
+using SoccerInfo.Rapid.Application.Utilities;
 using SoccerInfo.Shared.CQRS;
 
 namespace SoccerInfo.Rapid.Application.Queries.GetLeague;
-internal class GetLeagueQueryHandler(IGenericRepository<League> repository) : IQueryHandler<GetLeagueQuery, LeagueDto>
+internal class GetLeagueQueryHandler(
+    IGenericRepository<League> repository, 
+    IImageUrlGenerator imageUrlGenerator) : IQueryHandler<GetLeagueQuery, LeagueDto?>
 {
-    public Task<LeagueDto> Handle(GetLeagueQuery request, CancellationToken cancellationToken)
+    public async Task<LeagueDto?> Handle(GetLeagueQuery request, CancellationToken cancellationToken)
     {
-        var league = repository.ToQuery().SingleOrDefault(l => l.Id == request.LeagueId);
+        var league = await repository.ToQuery().SingleOrDefaultAsync(l => l.Id == request.LeagueId);
 
-        return Task.FromResult(new LeagueDto()
+        if (league is not null)
         {
-            Id = league.Id,
-            Name = league.Name
-        });
+            var imageUrl = league.LogoId != null ? imageUrlGenerator.Generate(league.LogoId.Value) : null;
+            return new LeagueDto()
+            {
+                Id = league.Id,
+                Name = league.Name,
+                LeagueImageUrl = imageUrl
+            };
+        }
+        else
+            return null;
+
     }
 }
