@@ -16,7 +16,7 @@ public class PlayerDetailsDto
     public class NationalityDto
     {
         public string Country { get; set; } = null!;
-        public string? CountryFlagBase64Image { get; set; }
+        public ImageDto? CountryFlag { get; set; }
     }
 
     public class MarketValueChangeDto

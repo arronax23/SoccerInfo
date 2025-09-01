@@ -15,7 +15,7 @@ const PlayerGeneralInfo = ({ playerGeneralInfo }) => {
             key={x.country}
             className="nationality-img"
             title={x.country}
-            src={`data:image/svg+xml; base64, ${x.countryFlagBase64Image}`}
+            src={`data:${x.countryFlag.mimeType}; base64, ${x.countryFlag.base64}`}
           />
         ))}
       </div>

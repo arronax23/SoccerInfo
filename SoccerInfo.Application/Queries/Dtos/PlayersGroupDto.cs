@@ -15,6 +15,7 @@ public class PlayersGroupDto
         public DateTime? DateOfBirth { get; set; }
         public string? FaceImageBase64 { get; set; }
         public string? FaceImageMimeType { get; set; }
-        public IEnumerable<string?>? NationalityImageBase64Collection { get; set; }
+        public IEnumerable<ImageDto>? NationalityImages { get; set; }
+
     }
 }

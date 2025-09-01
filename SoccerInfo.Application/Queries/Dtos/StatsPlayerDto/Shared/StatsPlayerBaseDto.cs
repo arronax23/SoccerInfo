@@ -30,6 +30,6 @@ public abstract class StatsPlayerBaseDto
     public class NationalityDto
     {
         public string Name { get; set; } = null!;
-        public string ImageBase64 { get; set; } = null!;
+        public ImageDto CountryFlag { get; set; } = null!;
     }
 }

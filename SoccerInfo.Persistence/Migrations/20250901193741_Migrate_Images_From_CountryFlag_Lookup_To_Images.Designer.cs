@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SoccerInfo.Persistence.Data;
 
@@ -11,9 +12,11 @@ using SoccerInfo.Persistence.Data;
 namespace SoccerInfo.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250901193741_Migrate_Images_From_CountryFlag_Lookup_To_Images")]
+    partial class Migrate_Images_From_CountryFlag_Lookup_To_Images
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,6 +53,10 @@ namespace SoccerInfo.Persistence.Migrations
 
                     b.Property<int>("ImageId")
                         .HasColumnType("int");
+
+                    b.Property<string>("ImageSvgBase64")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()

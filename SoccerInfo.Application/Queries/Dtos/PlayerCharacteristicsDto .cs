@@ -19,7 +19,7 @@ public class PlayerCharacteristicsDto
     {
         public string? City { get; set; }
         public string? Country { get; set; }
-        public string? CountryBase64Image { get; set; }
+        public ImageDto? CountryImage { get; set; }
     }
 
     public class NationalTeamDto
@@ -28,7 +28,7 @@ public class PlayerCharacteristicsDto
         public int Caps { get; set; }
         public int Goals { get; set; }
         public string? Country { get; set; }
-        public string? CountryBase64Image { get; set; }
+        public ImageDto? CountryImage { get; set; }
     }
 
     public class SocialMediaDto

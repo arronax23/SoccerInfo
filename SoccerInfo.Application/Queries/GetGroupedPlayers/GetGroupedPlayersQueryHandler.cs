@@ -30,7 +30,11 @@ internal class GetGroupedPlayersQueryHandler(IPlayerRepository playerRepository)
                     FaceImageMimeType = p.FaceImage.MimeType,
                     MarketValue = p.MarketValue,
                     MarketValueUnit = p.MarketValueUnit,
-                    NationalityImageBase64Collection = p.Nationalities.Select(n => n.CountryFlag!.ImageSvgBase64),
+                    NationalityImages = p.Nationalities.Select(n => new ImageDto()
+                    {
+                        Base64 = n.CountryFlag!.Image.Base64,
+                        MimeType = n.CountryFlag!.Image.MimeType
+                    }),
                 })
             })
             .AsEnumerable());

@@ -66,7 +66,7 @@ export default function getTableData(
                 borderRadius: 1,
                 border: "2px solid black",
               }}
-              src={`data:image/svg+xml; base64, ${n.imageBase64}`}
+              src={`data:${n.countryFlag.mimeType}; base64, ${n.countryFlag.base64}`}
             />
           </div>
         )),

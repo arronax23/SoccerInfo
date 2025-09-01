@@ -25,7 +25,7 @@ const PlayerAdditionalInfo = ({ playerAdditionalInfo }) => {
             <img
               className="country-flag-img"
               title={playerAdditionalInfo.brithPlace.country}
-              src={`data:image/svg+xml; base64, ${playerAdditionalInfo.brithPlace.countryBase64Image}`}
+              src={`data:${playerAdditionalInfo.brithPlace.countryImage.mimeType};base64, ${playerAdditionalInfo.brithPlace.countryImage.base64}`}
             />
           </div>
         </div>
@@ -45,7 +45,7 @@ const PlayerAdditionalInfo = ({ playerAdditionalInfo }) => {
               <img
                 className="country-flag-img"
                 title={playerAdditionalInfo.nationalTeam.country}
-                src={`data:image/svg+xml; base64, ${playerAdditionalInfo.nationalTeam.countryBase64Image}`}
+                src={`data:${playerAdditionalInfo.nationalTeam.countryImage.mimeType};base64, ${playerAdditionalInfo.nationalTeam.countryImage.base64}`}
               />
             </div>
           </div>

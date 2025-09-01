@@ -18,7 +18,11 @@ public class AutomapperProfile : Profile
             .ForMember(dest => dest.Nationalities, opt =>
                 opt.MapFrom(src => src.Nationalities.Select(n => new NationalityDto()
                 {
-                    ImageBase64 = n.CountryFlag!.ImageSvgBase64,
+                    CountryFlag = new Dtos.ImageDto()
+                    { 
+                        Base64 = n.CountryFlag!.Image.Base64,
+                        MimeType = n.CountryFlag!.Image.MimeType,
+                    },
                     Name = n.Country_Lookup
                 })))
             .ForMember(dest => dest.Team, opt => opt.MapFrom(src => new TeamDto()

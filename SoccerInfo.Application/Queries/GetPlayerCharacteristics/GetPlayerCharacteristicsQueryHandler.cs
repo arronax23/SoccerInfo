@@ -4,6 +4,7 @@ using SoccerInfo.Domain.Models;
 using SoccerInfo.Domain.Repositories;
 using SoccerInfo.Domain.Repositories.Generic;
 using SoccerInfo.Shared.CQRS;
+using static SoccerInfo.Application.Queries.Dtos.PlayerCharacteristicsDto;
 
 namespace SoccerInfo.Application.Queries.GetPlayerCharacteristics;
 
@@ -25,25 +26,31 @@ internal class GetPlayerCharacteristicsQueryHandler(
         if (dto is not null)
         {
             dto.IsGoalkeeper = isGoalkeeper;
-            dto.BrithPlace!.CountryBase64Image = GetCountryBase64Image(dto.BrithPlace.Country);
+            dto.BrithPlace!.CountryImage = GetCountryImage(dto.BrithPlace.Country);
 
             if (dto.NationalTeam != null)
-                dto.NationalTeam.CountryBase64Image = GetCountryBase64Image(dto.NationalTeam.Country);
+                dto.NationalTeam.CountryImage = GetCountryImage(dto.NationalTeam.Country);
 
             return Task.FromResult(dto)!;
         }
         else
             return Task.FromResult<PlayerCharacteristicsDto?>(null);
-
-
-        
     }
 
-    private string? GetCountryBase64Image(string? countryName)
+    private ImageDto? GetCountryImage(string? countryName)
     {
-        return nationalityRepository
+        var img = nationalityRepository
             .ToQuery()
             .SingleOrDefault(x => x.Country == countryName)?
-            .CountryFlag!.ImageSvgBase64;
+            .CountryFlag?.Image;
+
+        if (img is null) 
+            return null;
+
+        return new ImageDto()
+        {
+            Base64 = img.Base64,
+            MimeType = img.MimeType,
+        };
     }
 }
