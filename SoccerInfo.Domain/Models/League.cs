@@ -8,7 +8,8 @@ public class League : BaseEntity
     public virtual Image? Logo { get; set; } = new Image();
     public int? LogoId { get; set; }
     public string Country { get; set; } = null!;
-    public string? CountryFlagBase64 { get; set; }
+    public virtual Image? CountryFlag { get; set; }
+    public int? CountryFlagId { get; set; }
     public virtual ICollection<Team> Teams { get; set; } = new List<Team>();
 
     public static Expression<Func<League, bool>> Matches(League other) =>
@@ -19,6 +20,6 @@ public class League : BaseEntity
         this.Name = league.Name;
         this.Logo = league.Logo;
         this.Country = league.Country;
-        this.CountryFlagBase64 = league.CountryFlagBase64;
+        this.CountryFlag = league.CountryFlag;
     }
 }

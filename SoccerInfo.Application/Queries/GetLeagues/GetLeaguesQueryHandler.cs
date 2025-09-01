@@ -10,7 +10,16 @@ internal class GetLeagueQueryHandler(ISqlExecutor sqlExecutor) : IQueryHandler<G
     {
         return await
             sqlExecutor.SqlQueryAsync<LeagueDto>(
-                @"SELECT l.Id, l.Name,i.Base64 as LogoBase64, i.MimeType as LogoMimeType, l.CountryFlagBase64  FROM Leagues l
-                  JOIN Images i on l.LogoId = i.Id");
+                @"
+                SELECT 
+                    l.Id, 
+                    l.Name,
+                    i1.Base64 as LogoBase64,
+                    i1.MimeType as LogoMimeType,
+                    i2.Base64 as CountryFlagBase64,
+                    i2.MimeType as CountryFlagMimeType  
+                FROM Leagues l
+                LEFT JOIN Images i1 on l.LogoId = i1.Id
+                LEFT JOIN Images i2 on l.CountryFlagId = i2.Id");
     }
 }

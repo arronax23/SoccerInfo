@@ -7,4 +7,5 @@ public class LeagueDto
     public string? LogoBase64 { get; set; }
     public string? LogoMimeType { get; set; }
     public string? CountryFlagBase64 { get; set; }
+    public string? CountryFlagMimeType { get; set; }
 }

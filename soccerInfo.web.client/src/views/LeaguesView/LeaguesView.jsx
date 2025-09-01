@@ -18,6 +18,7 @@ function LeaguesView() {
             logoBase64={league.logoBase64}
             logoMimeType={league.logoMimeType}
             countryFlagBase64={league.countryFlagBase64}
+            countryFlagMimeType={league.countryFlagMimeType}
           />
         ))}
     </div>

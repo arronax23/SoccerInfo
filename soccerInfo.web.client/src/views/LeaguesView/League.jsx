@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router";
 
-const League = ({ id, name, logoBase64, logoMimeType, countryFlagBase64 }) => {
+const League = ({ id, name, logoBase64, logoMimeType, countryFlagBase64, countryFlagMimeType }) => {
   const navigate = useNavigate();
 
   const leagueClick = (e) => {
@@ -17,7 +17,7 @@ const League = ({ id, name, logoBase64, logoMimeType, countryFlagBase64 }) => {
       />
       <img
         className="country-flag"
-        src={`data:image/jpeg;base64,${countryFlagBase64}`}
+        src={`data:${countryFlagMimeType};base64,${countryFlagBase64}`}
         alt="country img"
       />
     </div>
