@@ -16,6 +16,9 @@ public static class ServiceCollectionExtensions
     {
         services.AddSingleton<PlaywrightManager>();
         services.AddScoped<ImageFetcher>();
+        services.AddScoped<ImageService>();
+        services.AddScoped<MimeTypeService>();
+
 
         services.AddScoped<PlayersGeneralInfoExtractor>();
         services.AddScoped<Traverser>();

@@ -145,8 +145,8 @@ public class PlayersGeneralInfoExtractor(
 
         foreach (var nationalityImageNode in nationalityImageNodes)
         {
-            var nationalityImage = await GetNationality(nationalityImageNode);
-            player.Nationalities.Add(nationalityImage);
+            var nationality = await GetNationality(nationalityImageNode);
+            player.Nationalities.Add(nationality);
         }
 
         return player;

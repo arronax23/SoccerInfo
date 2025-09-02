@@ -9,7 +9,8 @@ using static SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo.Dto.GeneralInfo
 namespace SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo.Parsers;
 public class PlayerParser(
     ILogger<PlayerParser> logger,
-    ImageFetcher imageFetcher)
+    ImageService imageService
+)
 {
     public async Task<PlayerData> Parse(HtmlNode node)
     {
@@ -29,8 +30,8 @@ public class PlayerParser(
             DateOfBirth = dateOfBirth,
             MarketValue = marketValue,
             MarketValueUnit = marketValueUnit,
-            FaceImageBase64 = await imageFetcher.Fetch(
-                node.QuerySelector("img.bilderrahmen-fixed").GetAttributeValue("data-src", "notFound"))
+            FaceImage = await imageService.CreateImageFromUrl(
+                node.QuerySelector("img.bilderrahmen-fixed").ExtractAttribute("data-src"))
         };
 
         return player;
@@ -102,4 +103,6 @@ public class PlayerParser(
             return (null, null);
         }
     }
+
+
 }

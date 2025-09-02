@@ -8,7 +8,7 @@ public class ImageFetcher(
 {
     public async Task<string?> Fetch(string? imageUrl)
     {
-        if (imageUrl == null || imageUrl == "notFound")
+        if (imageUrl == null)
             return null;
 
         using (var client = httpClientFactory.CreateClient())

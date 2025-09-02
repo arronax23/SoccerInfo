@@ -8,7 +8,6 @@ using SoccerInfo.Domain.Repositories.Generic;
 using SoccerInfo.Shared.CQRS;
 
 namespace SoccerInfo.Application.Commands.SavePlayersGeneralInfo;
-
 internal class SavePlayersGeneralInfoCommandHandler(
     IMapper mapper,
     IUnitOfWork unitOfWork,

@@ -3,10 +3,9 @@ using HtmlAgilityPack.CssSelectors.NetCore;
 using SoccerInfo.FrontendScraper.Utilities;
 using static SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo.Dto.GeneralInfoExtractionData;
 
-
 namespace SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo.Parsers;
 public class LeagueParser(
-    ImageFetcher imageFetcher)
+    ImageService imageService)
 {
     public async Task<LeagueData> Parse(HtmlNode node)
     {
@@ -14,10 +13,10 @@ public class LeagueParser(
         {
             Name = node.QuerySelector(".data-header__headline-container").InnerText.FormatExtractedString(),
             Country = node.QuerySelector(".data-header__club").InnerText.FormatExtractedString(),
-            CountryFlagBase64 = await imageFetcher.Fetch(
-                node.QuerySelector(".data-header__box__club-link img").GetAttributeValue("src", "notFound")),
-            LeagueImageBase64 = await imageFetcher.Fetch(
-                node.QuerySelector(".data-header__profile-container img").GetAttributeValue("src", "notFound"))
+            CountryFlag = await imageService.CreateImageFromUrl(
+                node.QuerySelector(".data-header__box__club-link img").ExtractAttribute("src")),
+            Logo = await imageService.CreateImageFromUrl(
+                node.QuerySelector(".data-header__profile-container img").ExtractAttribute("src"))
         };
     }
 }

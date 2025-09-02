@@ -4,8 +4,7 @@ using SoccerInfo.FrontendScraper.Utilities;
 using static SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo.Dto.GeneralInfoExtractionData;
 
 namespace SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo.Parsers;
-public class TeamParser(
-    ImageFetcher imageFetcher)
+public class TeamParser(ImageService imageService)
 {
     public async Task<TeamData> Parse(HtmlNode node)
     {
@@ -17,7 +16,7 @@ public class TeamParser(
         {
             Name = node.QuerySelector(".data-header__headline-container").InnerText.FormatExtractedString(),
             TransfermarktId = int.Parse(teamImageSource.Split("head/")[1].Split('.')[0]),
-            TeamImageBase64 = await imageFetcher.Fetch(teamImageSource)
+            Logo = await imageService.CreateImageFromUrl(teamImageSource)
         };
     }
 }
