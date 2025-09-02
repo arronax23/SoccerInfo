@@ -23,7 +23,7 @@ internal class ExtarctPlayersGeneralInfoCommandHandler(
 
         var extraction = await playersGeneralInfoExtractor.TryExtarct(leagueLinks);
 
-        if (extraction == null)
+        if (extraction is not null)
             await jsonFileDataManager.SaveData(extraction, "players_general_info_data");
 
         return extraction;
