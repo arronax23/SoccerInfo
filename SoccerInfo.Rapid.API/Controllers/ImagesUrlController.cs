@@ -8,7 +8,7 @@ namespace SoccerInfo.Rapid.API.Controllers;
 [Route($"{RapidAPIConst.ApiPrefix}/{RapidAPIConst.Version}")]
 public class ImagesUrlController(IQueryDispatcher queryDispatcher) : ControllerBase
 {
-    [HttpGet("Images/{imageId}")]
+    [HttpGet("images/{imageId}")]
     public async Task<IActionResult> GetLeagueImage(int imageId)
     {
         var imageDto = await queryDispatcher.Send(new GetLeagueImageQuery() { ImageId = imageId });

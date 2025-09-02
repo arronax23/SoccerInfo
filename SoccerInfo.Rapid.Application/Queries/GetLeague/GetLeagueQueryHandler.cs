@@ -17,15 +17,17 @@ internal class GetLeagueQueryHandler(
         if (league is not null)
         {
             var imageUrl = league.LogoId != null ? imageUrlGenerator.Generate(league.LogoId.Value) : null;
+            var countryFlagUrl = league.CountryFlagId != null ? imageUrlGenerator.Generate(league.CountryFlagId.Value) : null;
+
             return new LeagueDto()
             {
                 Id = league.Id,
                 Name = league.Name,
-                LeagueImageUrl = imageUrl
+                LeagueImageUrl = imageUrl,
+                CountryFlagUrl = countryFlagUrl
             };
         }
         else
             return null;
-
     }
 }
