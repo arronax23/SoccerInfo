@@ -32,9 +32,7 @@ public class League : BaseEntity
             if (this.Logo != null)
                 this.Logo.Update(logo);
             else
-            {
                 this.Logo = logo;
-            }
         }
     }
 
@@ -45,9 +43,7 @@ public class League : BaseEntity
             if (this.CountryFlag != null)
                 this.CountryFlag.Update(countryFlag);
             else
-            {
                 this.CountryFlag = countryFlag;
-            }
         }
     }
 }

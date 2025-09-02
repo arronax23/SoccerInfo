@@ -2,7 +2,6 @@
 using SoccerInfo.Domain.Models;
 using static SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo.Dto.GeneralInfoExtractionData;
 
-
 namespace SoccerInfo.Application.Commands.SavePlayersGeneralInfo;
 public class AutomapperProfile : Profile
 {

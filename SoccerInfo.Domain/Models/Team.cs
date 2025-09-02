@@ -22,8 +22,20 @@ public class Team : BaseEntity
     public void Update(Team team)
     {
         this.Name = team.Name;
-        this.Logo = team.Logo;
         this.TransfermarktId = team.TransfermarktId;
         this.TransfermarktURL = team.TransfermarktURL;
+
+        UpdateLogo(team.Logo);
+    }
+
+    private void UpdateLogo(Image? logo)
+    {
+        if (logo != null)
+        {
+            if (this.Logo != null)
+                this.Logo.Update(logo);
+            else
+                this.Logo = logo;
+        }
     }
 }

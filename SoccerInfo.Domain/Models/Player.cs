@@ -15,7 +15,7 @@ public class Player : BaseEntity
     public string? MarketValueUnit { get; set; }
     public float? MarketValueNormalized { get; private set; }
     public DateTime? DateOfBirth { get; set; }
-    public virtual Image? FaceImage { get; set; } = new Image();
+    public virtual Image? FaceImage { get; set; }
     public int? FaceImageId { get; set; }
     public int TransfermarktId { get; set; }
     public string TransfermarktURL { get; set; } = null!;
@@ -37,9 +37,22 @@ public class Player : BaseEntity
         this.MarketValue = player.MarketValue;
         this.MarketValueUnit = player.MarketValueUnit;
         this.DateOfBirth = player.DateOfBirth;
-        this.FaceImage = player.FaceImage;
         this.TransfermarktId = player.TransfermarktId;
         this.TransfermarktURL = player.TransfermarktURL;
+
+        UpdateFaceImage(player.FaceImage);
+    }
+
+
+    private void UpdateFaceImage(Image? faceImage)
+    {
+        if (faceImage != null)
+        {
+            if (this.FaceImage != null)
+                this.FaceImage.Update(faceImage);
+            else
+                this.FaceImage = faceImage;
+        }
     }
 
     public void AddNewMarketValueChanges(IEnumerable<MarketValueChange> marketValueChanges)
