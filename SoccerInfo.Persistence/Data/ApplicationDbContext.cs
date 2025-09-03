@@ -29,8 +29,10 @@ public class ApplicationDbContext : DbContext
     public DbSet<PlayerStatistic> PlayerStatistics { get; set; }
     public DbSet<CountryFlag_Lookup> CountryFlags_Lookup { get; set; }
     public DbSet<GeneralPosition_Lookup> GeneralPositions_Lookup { get; set; }
-    public DbSet<LeagueLinkLookup> LeagueLinksLookup { get; set; }
     public DbSet<DummyImageLookup> DummyImagesLookup { get; set; }
+
+    public DbSet<LeagueLinkLookup> LeagueLinksLookup { get; set; }
+    public DbSet<ExtractionInfo> ExtractionInfos { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

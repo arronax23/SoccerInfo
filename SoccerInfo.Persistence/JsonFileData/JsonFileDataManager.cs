@@ -7,18 +7,21 @@ namespace SoccerInfo.Persistence.JsonFileData;
 public class JsonFileDataManager : IJsonFileDataManager
 {
     private const string DIRECTORY_NAME = "JsonData";
-    public async Task SaveData<T>(T data, string fileName)
+    public async Task<string> SaveData<T>(T data, string fileName)
     {
         VerifyDirectoryPresence(DIRECTORY_NAME);
 
+        var fullFileName = string.Empty;
         var isSuccess = false;
         var index = 0;
 
         while (isSuccess == false)
         {
-            var modifiedFileName = AddIndexSuffix(fileName, ++index);
-            isSuccess = await JsonSerializerToFile.Save(data, Path.Combine(DIRECTORY_NAME, modifiedFileName));
+            fullFileName = AddIndexSuffix(fileName, ++index);
+            isSuccess = await JsonSerializerToFile.Save(data, Path.Combine(DIRECTORY_NAME, fullFileName));
         }
+
+        return fullFileName;
     }
 
     private void VerifyDirectoryPresence(string directoryName)

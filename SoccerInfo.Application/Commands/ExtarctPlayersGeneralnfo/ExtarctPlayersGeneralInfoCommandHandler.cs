@@ -1,15 +1,19 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SoccerInfo.Application.Abstractions.Interfaces;
+using SoccerInfo.Application.Services;
 using SoccerInfo.Domain.Models.Extraction;
 using SoccerInfo.Domain.Repositories.Generic;
 using SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo;
 using SoccerInfo.FrontendScraper.ScrapePlayersGeneralInfo.Dto;
 using SoccerInfo.Shared.CQRS;
+using static SoccerInfo.Domain.Models.Extraction.ExtractionInfo;
 
 namespace SoccerInfo.Application.Commands.ExtarctPlayersGeneralnfo;
 
 internal class ExtarctPlayersGeneralInfoCommandHandler(
     IGenericRepository<LeagueLinkLookup> leagueLinkLookupRepository,
+    ExtractionInfoService extractionInfoService,
+    IUnitOfWork unitOfWork,
     PlayersGeneralInfoExtractor playersGeneralInfoExtractor,
     IJsonFileDataManager jsonFileDataManager) : ICommandHandler<ExtarctPlayersGeneralnfoCommand, GeneralInfoExtractionData?>
 {
@@ -21,11 +25,16 @@ internal class ExtarctPlayersGeneralInfoCommandHandler(
             .Where(l => l.IsActive)
             .Select(l => l.Value);
 
-        var extraction = await playersGeneralInfoExtractor.TryExtarct(leagueLinks);
+        var infoGuid = await extractionInfoService.CreateExtractionInfo(ExtractionType.PlayersGeneralInfo);
+        var extractionData = await playersGeneralInfoExtractor.TryExtarct(leagueLinks);
 
-        if (extraction is not null)
-            await jsonFileDataManager.SaveData(extraction, "players_general_info_data");
+        var fullFileName =  string.Empty;   
 
-        return extraction;
+        if (extractionData is not null)
+            fullFileName = await jsonFileDataManager.SaveData(extractionData, "players_general_info_data");
+
+        await extractionInfoService.FinishExtractionInfo(infoGuid, fullFileName);
+
+        return extractionData;
     }
 }

@@ -2,7 +2,7 @@
 
 namespace SoccerInfo.Domain.Models.PlayerCharacteristicsAggregate;
 
-public class SocialMedia : BaseEntity, IEntity, IEquatable<SocialMedia>
+public class SocialMedia : BaseEntity, IEquatable<SocialMedia>
 {
     public string? Platform { get; set; }
     public string? Link { get; set; }

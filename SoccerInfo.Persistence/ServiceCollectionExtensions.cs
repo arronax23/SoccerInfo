@@ -34,11 +34,13 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IGenericRepository<Nationality>, GenericRepository<Nationality>>();
         services.AddScoped<IGenericRepository<PlayerCharacteristic>, GenericRepository<PlayerCharacteristic>>();
         services.AddScoped<IGenericRepository<PlayerStatistic>, GenericRepository<PlayerStatistic>>();
-        services.AddScoped<IGenericRepository<LeagueLinkLookup>, GenericRepository<LeagueLinkLookup>>();
         services.AddScoped<IGenericRepository<CountryFlag_Lookup>, GenericRepository<CountryFlag_Lookup>>();
         services.AddScoped<IGenericRepository<StatsLeague>, GenericRepository<StatsLeague>>();
         services.AddScoped<IGenericRepository<Transfer>, GenericRepository<Transfer>>();
         services.AddScoped<IGenericRepository<ClubOverview>, GenericRepository<ClubOverview>>();
         services.AddScoped<IGenericRepository<ClubInfo>, GenericRepository<ClubInfo>>();
+
+        services.AddScoped<IGenericRepository<LeagueLinkLookup>, GenericRepository<LeagueLinkLookup>>();
+        services.AddScoped<IGenericRepository<ExtractionInfo>, GenericRepository<ExtractionInfo>>();
     }
 }

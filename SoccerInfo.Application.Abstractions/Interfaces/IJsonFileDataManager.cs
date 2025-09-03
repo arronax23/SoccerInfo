@@ -2,5 +2,5 @@
 
 public interface IJsonFileDataManager
 {
-    Task SaveData<T>(T data, string fileName);
+    Task<string> SaveData<T>(T data, string fileName);
 }
