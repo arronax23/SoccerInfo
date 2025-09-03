@@ -13,6 +13,9 @@ public class ImageService(
         var base64 = await imageFetcher.Fetch(faceImageUrl);
         var mimeType = mimeTypeService.DetermineMimeTypeByImageUrl(faceImageUrl);
 
+        if (base64 is null) 
+            return null; 
+
         return new ImageData() { Base64 = base64, MimeType = mimeType };
     }
 }
