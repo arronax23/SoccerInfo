@@ -13,7 +13,6 @@ namespace SoccerInfo.Application.Commands.ExtarctPlayersGeneralnfo;
 internal class ExtarctPlayersGeneralInfoCommandHandler(
     IGenericRepository<LeagueLinkLookup> leagueLinkLookupRepository,
     ExtractionInfoService extractionInfoService,
-    IUnitOfWork unitOfWork,
     PlayersGeneralInfoExtractor playersGeneralInfoExtractor,
     IJsonFileDataManager jsonFileDataManager) : ICommandHandler<ExtarctPlayersGeneralnfoCommand, GeneralInfoExtractionData?>
 {
@@ -25,7 +24,7 @@ internal class ExtarctPlayersGeneralInfoCommandHandler(
             .Where(l => l.IsActive)
             .Select(l => l.Value);
 
-        var infoGuid = await extractionInfoService.CreateExtractionInfo(ExtractionType.PlayersGeneralInfo);
+        var infoGuid = await extractionInfoService.StartExtractionInfo(ExtractionType.PlayersGeneralInfo);
         var extractionData = await playersGeneralInfoExtractor.TryExtarct(leagueLinks);
 
         var fullFileName =  string.Empty;   

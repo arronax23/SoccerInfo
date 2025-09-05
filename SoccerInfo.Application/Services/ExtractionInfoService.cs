@@ -7,7 +7,7 @@ public class ExtractionInfoService(
     IUnitOfWork unitOfWork
     )
 {
-    public async Task<Guid> CreateExtractionInfo(ExtractionInfo.ExtractionType type)
+    public async Task<Guid> StartExtractionInfo(ExtractionInfo.ExtractionType type)
     {
         var extractionInfo = ExtractionInfo.CreateAndStart(type);
         await extractionInfoRepository.AddAsync(extractionInfo);
