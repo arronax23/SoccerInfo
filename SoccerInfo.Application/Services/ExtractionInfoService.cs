@@ -31,6 +31,7 @@ public class ExtractionInfoService(
             ExtractionInfo.ExtractionType.PlayersGeneralInfo => "players_general_info_data",
             ExtractionInfo.ExtractionType.PlayersCharacteristics => "characteristics_data",
             ExtractionInfo.ExtractionType.MarketValueProgress => "market_value_data",
+            ExtractionInfo.ExtractionType.TransferHistory => "transfer_history_data",
             _ => throw new Exception("Not valid ExtractionType")
         };
     }

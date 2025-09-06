@@ -41,7 +41,8 @@ public class ExtractionInfo : BaseEntity
     {
         PlayersGeneralInfo,
         PlayersCharacteristics,
-        MarketValueProgress
+        MarketValueProgress,
+        TransferHistory
     }
 
 

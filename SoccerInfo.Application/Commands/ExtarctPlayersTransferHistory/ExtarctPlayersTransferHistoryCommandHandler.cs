@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using SoccerInfo.Application.Abstractions.Interfaces;
+using SoccerInfo.Application.Services;
 using SoccerInfo.BackendScraper.PlayersTransfers;
 using SoccerInfo.Domain.Models;
 using SoccerInfo.Domain.Models.Transfers;
@@ -7,6 +8,7 @@ using SoccerInfo.Domain.Repositories;
 using SoccerInfo.Domain.Repositories.Generic;
 using SoccerInfo.Shared.CQRS;
 using static SoccerInfo.BackendScraper.PlayersTransfers.PlayersTransfersScraper.PlayerTransfersData;
+using static SoccerInfo.Domain.Models.Extraction.ExtractionInfo;
 using static SoccerInfo.Domain.Models.Transfers.Transfer;
 
 namespace SoccerInfo.Application.Commands.ExtarctPlayersTransferHistory;
@@ -16,13 +18,20 @@ public class ExtarctPlayersTransferHistoryCommandHandler(
     PlayersTransfersScraper scraper,
     IUnitOfWork unitOfWork,
     IPlayerRepository playerRepository,
+    ExtractionInfoService extractionInfoService,
     IGenericRepository<Team> teamRepository) : ICommandHandler<ExtarctPlayersTransferHistoryCommand>
 {
     public async Task Handle(ExtarctPlayersTransferHistoryCommand request, CancellationToken cancellationToken)
     {
         var players = playerRepository.ToQuery();
 
-        var data = await scraper.Scrape(players.Select(p => p.TransfermarktId));
+
+        var data = await extractionInfoService.Use(async () =>
+        {
+            return await scraper.Scrape(players.Select(p => p.TransfermarktId));
+        },
+        ExtractionType.TransferHistory, saveToFile: false);
+
 
         foreach (var extractedTransfers in data)
         {

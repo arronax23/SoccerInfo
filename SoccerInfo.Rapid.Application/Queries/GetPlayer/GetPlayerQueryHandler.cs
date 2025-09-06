@@ -21,7 +21,7 @@ internal class GetPlayerQueryHandler(
             Age = player.Age,
             MarketValue = $"{player.MarketValue}{player.MarketValueUnit}€",
             Name = player.Name,
-            Team = new PlayerDto.TeamDto()
+            Team = new PlayerDto.TeamOverviewDto()
             {
                 Id = player.Team.Id,
                 Name = player.Team.Name,
