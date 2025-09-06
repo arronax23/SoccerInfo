@@ -68,7 +68,7 @@ public class MarketValueProgressScraper(IHttpClientFactory httpClientFactory)
                     MarketValue = ParseMarketValue(x.Mw).Item1,
                     MarketValueUnit = ParseMarketValue(x.Mw).Item2,
                     Age = x.Age,
-                    ChangeDate = DateTime.Parse(x.Datum_mw, CultureInfo.InvariantCulture),
+                    ChangeDate = DateTime.Parse(x.Datum_mw),
                     Team = x.Verein
                 })
             };

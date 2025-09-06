@@ -1,19 +1,20 @@
-using Serilog;
-using Quartz;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.EntityFrameworkCore;
+using Quartz;
+using Serilog;
 using SoccerInfo.API;
+using SoccerInfo.Application;
+using SoccerInfo.BackendScraper;
+using SoccerInfo.Domain;
 using SoccerInfo.FrontendScraper;
 using SoccerInfo.Infrastructure;
-using SoccerInfo.Shared.CQRS;
 using SoccerInfo.Infrastructure.CQRS;
-using SoccerInfo.Application;
+using SoccerInfo.Infrastructure.Language;
 using SoccerInfo.Infrastructure.Swagger;
-using SoccerInfo.Domain;
 using SoccerInfo.Persistence;
-using SoccerInfo.BackendScraper;
 using SoccerInfo.Persistence.Data;
 using SoccerInfo.Rapid.Application;
+using SoccerInfo.Shared.CQRS;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -50,6 +51,8 @@ builder.Services
             .EnableSensitiveDataLogging()
             .UseLazyLoadingProxies()
             .UseSqlServer(builder.Configuration.GetConnectionString("Default")));
+
+LanguageHelper.SetCultureToPL();
 
 var app = builder.Build();
 

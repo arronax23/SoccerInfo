@@ -46,10 +46,6 @@ internal class ExtractMarketValueProgressCommandHandler(
             }
         }
 
-        playerRepository.UpdateRange(players);
-
-        var entries = unitOfWork.GetEntires();
-
         await unitOfWork.SaveChangesAsync();
     }
 }
