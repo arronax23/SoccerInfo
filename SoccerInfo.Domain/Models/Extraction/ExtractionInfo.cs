@@ -40,7 +40,8 @@ public class ExtractionInfo : BaseEntity
     public enum ExtractionType
     {
         PlayersGeneralInfo,
-        PlayersCharacteristics
+        PlayersCharacteristics,
+        MarketValueProgress
     }
 
 

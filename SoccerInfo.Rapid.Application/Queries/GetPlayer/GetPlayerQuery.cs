@@ -3,7 +3,7 @@ using SoccerInfo.Shared.CQRS;
 
 namespace SoccerInfo.Rapid.Application.Queries.GetLeague;
 
-public class GetLeagueImageQuery : IQuery<ImageDto?>
+public class GetPlayerQuery : IQuery<PlayerDto?>
 {
-    public int ImageId { get; set; }
+    public int PlayerId { get; set; }
 }

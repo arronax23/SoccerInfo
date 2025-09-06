@@ -1,5 +1,4 @@
 ﻿using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
@@ -8,6 +7,8 @@ public static class SwaggerHelper
 {
     public static void Configure(SwaggerGenOptions options)
     {
+        options.CustomSchemaIds(type => type.FullName);
+
         options.SwaggerDoc("ui-v1", new OpenApiInfo
         {
             Title = "SoccerInfo API (React)",
@@ -20,6 +21,7 @@ public static class SwaggerHelper
             Version = "v1",
             Description = "Rapid API Endpoints"
         });
+
 
 
         options.DocInclusionPredicate((docName, apiDesc) =>

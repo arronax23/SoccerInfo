@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SoccerInfo.Rapid.Application.Queries.GetImage;
 using SoccerInfo.Rapid.Application.Queries.GetLeague;
 using SoccerInfo.Shared.CQRS;
 
@@ -11,7 +12,7 @@ public class ImagesUrlController(IQueryDispatcher queryDispatcher) : ControllerB
     [HttpGet("images/{imageId}")]
     public async Task<IActionResult> GetLeagueImage(int imageId)
     {
-        var imageDto = await queryDispatcher.Send(new GetLeagueImageQuery() { ImageId = imageId });
+        var imageDto = await queryDispatcher.Send(new GetImageQuery() { ImageId = imageId });
 
         if( imageDto is not null)
         {

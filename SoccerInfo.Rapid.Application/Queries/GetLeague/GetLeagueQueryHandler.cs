@@ -12,7 +12,7 @@ internal class GetLeagueQueryHandler(
 {
     public async Task<LeagueDto?> Handle(GetLeagueQuery request, CancellationToken cancellationToken)
     {
-        var league = await repository.ToQuery().SingleOrDefaultAsync(l => l.Id == request.LeagueId);
+        var league = await repository.ToQuery().AsNoTracking().SingleOrDefaultAsync(l => l.Id == request.LeagueId);
 
         if (league is not null)
         {

@@ -2,10 +2,10 @@
 using SoccerInfo.Rapid.Application.Queries.Dtos;
 using SoccerInfo.Shared.CQRS;
 
-namespace SoccerInfo.Rapid.Application.Queries.GetLeague;
-internal class GetLeagueImageQueryHandler(ISqlExecutor sqlExecutor) : IQueryHandler<GetLeagueImageQuery, ImageDto?>
+namespace SoccerInfo.Rapid.Application.Queries.GetImage;
+internal class GetImageQueryHandler(ISqlExecutor sqlExecutor) : IQueryHandler<GetImageQuery, ImageDto?>
 {
-    public async Task<ImageDto?> Handle(GetLeagueImageQuery request, CancellationToken cancellationToken)
+    public async Task<ImageDto?> Handle(GetImageQuery request, CancellationToken cancellationToken)
     {
         return await
             sqlExecutor.SqlQuerySingleorDefaultAsync<ImageDto?>(

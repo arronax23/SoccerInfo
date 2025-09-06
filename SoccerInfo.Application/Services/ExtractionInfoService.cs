@@ -4,10 +4,39 @@ using SoccerInfo.Domain.Repositories.Generic;
 namespace SoccerInfo.Application.Services;
 public class ExtractionInfoService(
     IGenericRepository<ExtractionInfo> extractionInfoRepository,
-    IUnitOfWork unitOfWork
-    )
+    IJsonFileDataManager jsonFileDataManager,
+    IUnitOfWork unitOfWork)
+
 {
-    public async Task<Guid> StartExtractionInfo(ExtractionInfo.ExtractionType type)
+    public async Task<TData> Use<TData>(Func<Task<TData>> extraction, ExtractionInfo.ExtractionType type, bool saveToFile)
+    {
+        var infoGuid = await StartExtractionInfo(type);
+        var extractionData = await extraction();
+
+        var fullFileName = string.Empty;
+
+        if (saveToFile && extractionData is not null)
+            fullFileName = await jsonFileDataManager.SaveData(extractionData, GetExtractionFileNameByType(type));
+
+        await FinishExtractionInfo(infoGuid, fullFileName);
+
+        return extractionData;
+    }
+
+
+    private string GetExtractionFileNameByType(ExtractionInfo.ExtractionType type)
+    {
+        return type switch
+        {
+            ExtractionInfo.ExtractionType.PlayersGeneralInfo => "players_general_info_data",
+            ExtractionInfo.ExtractionType.PlayersCharacteristics => "characteristics_data",
+            ExtractionInfo.ExtractionType.MarketValueProgress => "market_value_data",
+            _ => throw new Exception("Not valid ExtractionType")
+        };
+    }
+
+
+    private async Task<Guid> StartExtractionInfo(ExtractionInfo.ExtractionType type)
     {
         var extractionInfo = ExtractionInfo.CreateAndStart(type);
         await extractionInfoRepository.AddAsync(extractionInfo);

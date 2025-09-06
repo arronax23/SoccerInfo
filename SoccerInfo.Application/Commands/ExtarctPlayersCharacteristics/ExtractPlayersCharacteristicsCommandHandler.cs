@@ -6,12 +6,11 @@ using SoccerInfo.Domain.Repositories;
 using SoccerInfo.FrontendScraper.ScrapePlayersCharacterstics;
 using SoccerInfo.FrontendScraper.ScrapePlayersCharacterstics.Dto;
 using SoccerInfo.Shared.CQRS;
-using SoccerInfo.Shared.Utilities;
+using static SoccerInfo.Domain.Models.Extraction.ExtractionInfo;
 
 namespace SoccerInfo.Application.Commands.ExtarctPlayersCharacteristics;
 internal class ExtractPlayersCharacteristicsCommandHandler(
     ILogger<ExtractPlayersCharacteristicsCommandHandler> logger,
-    IJsonFileDataManager jsonFileDataManager,
     IPlayerRepository playerRepository,
     ExtractionInfoService extractionInfoService,
     PlayersCharacteristicsExtractor extractor
@@ -33,18 +32,15 @@ internal class ExtractPlayersCharacteristicsCommandHandler(
         })
         .ToList();
 
-        var infoGuid =  await extractionInfoService.StartExtractionInfo(ExtractionInfo.ExtractionType.PlayersCharacteristics);
-        var extraction = await extractor.TryExtract(extractionInput, cancellationToken);
-
-        var fullFileName = string.Empty;
-        if (extraction != null)
-            fullFileName = await jsonFileDataManager.SaveData(extraction, "characteristics_data");
-
-        await extractionInfoService.FinishExtractionInfo(infoGuid, fullFileName);
+        var extractionData = await extractionInfoService.Use(async () =>
+        {
+            return await extractor.TryExtract(extractionInput, cancellationToken);
+        }, 
+        ExtractionType.PlayersCharacteristics, saveToFile: true);
 
         logger.LogInformation("ExtarctPlayersCharacteristicsCommand has finished");
 
-        return extraction;
+        return extractionData;
 
     }
 }
