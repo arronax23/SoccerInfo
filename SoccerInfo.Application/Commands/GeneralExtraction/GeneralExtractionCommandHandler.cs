@@ -2,7 +2,9 @@
 using SoccerInfo.Application.Commands.CalculatePlayerStatistics;
 using SoccerInfo.Application.Commands.ExtarctPlayersCharacteristics;
 using SoccerInfo.Application.Commands.ExtarctPlayersGeneralnfo;
+using SoccerInfo.Application.Commands.ExtarctPlayersTransferHistory;
 using SoccerInfo.Application.Commands.ExtractMarketValueProgress;
+using SoccerInfo.Application.Commands.FindMissingClubsInTransfers;
 using SoccerInfo.Application.Commands.SavePlayersCharacteristics;
 using SoccerInfo.Application.Commands.SavePlayersGeneralInfo;
 using SoccerInfo.Domain.Repositories;
@@ -20,6 +22,8 @@ internal class GeneralExtractionCommandHandler(
         await ExtractAndSavePlayersGeneralInfo();
         await ExtractAndSavePlayersCharacteristics();
         await commandDispatcher.Send(new ExtractMarketValueProgressCommand());
+        await commandDispatcher.Send(new ExtarctPlayersTransferHistoryCommand());
+        await commandDispatcher.Send(new FindMissingClubsInTransfersCommand());
         await commandDispatcher.Send(new CalculatePlayerStatisticsCommand());
     }
 

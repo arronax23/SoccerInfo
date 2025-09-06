@@ -20,7 +20,7 @@ public class ExtarctPlayersTransferHistoryCommandHandler(
 {
     public async Task Handle(ExtarctPlayersTransferHistoryCommand request, CancellationToken cancellationToken)
     {
-        var players = playerRepository.ToQuery().Take(request.PlayersSize);
+        var players = playerRepository.ToQuery();
 
         var data = await scraper.Scrape(players.Select(p => p.TransfermarktId));
 
