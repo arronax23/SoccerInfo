@@ -7,7 +7,7 @@ internal static class SwaggerHelper
 {
     public static void Configure(SwaggerGenOptions options)
     {
-        options.CustomSchemaIds(type => type.FullName);
+        options.CustomSchemaIds(x => x.FullName);
 
         options.SwaggerDoc("ui-v1", new OpenApiInfo
         {
@@ -35,7 +35,7 @@ internal static class SwaggerHelper
             return false;
         });
 
-        SetupApiKey(options);
+        //SetupApiKey(options);
     }
 
     public static void ConfigureUI(SwaggerUIOptions options)

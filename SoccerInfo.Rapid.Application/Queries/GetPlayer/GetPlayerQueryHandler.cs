@@ -3,7 +3,7 @@ using SoccerInfo.Rapid.Application.Queries.Dtos;
 using SoccerInfo.Rapid.Application.Utilities;
 using SoccerInfo.Shared.CQRS;
 
-namespace SoccerInfo.Rapid.Application.Queries.GetLeague;
+namespace SoccerInfo.Rapid.Application.Queries.GetPlayer;
 internal class GetPlayerQueryHandler(
     IPlayerRepository playerRepository, 
     IImageUrlGenerator imageUrlGenerator) : IQueryHandler<GetPlayerQuery, PlayerDto?>
@@ -21,7 +21,12 @@ internal class GetPlayerQueryHandler(
             Age = player.Age,
             MarketValue = $"{player.MarketValue}{player.MarketValueUnit}€",
             Name = player.Name,
-            Team = new PlayerDto.TeamOverviewDto()
+            FaceImage = new ImageDto() 
+            { 
+                Base64 = player.FaceImage!.Base64,
+                MimeType = player.FaceImage!.MimeType
+            }, 
+            Team = new PlayerDto.TeamDto()
             {
                 Id = player.Team.Id,
                 Name = player.Team.Name,

@@ -15,7 +15,7 @@ public class SearchController(IQueryDispatcher queryDispatcher) : ControllerBase
             return BadRequest("Page number starts with 1");
 
         if (keyword == null || keyword.Length < 2)
-            return NoContent();
+            return BadRequest("Keyword must be at least two characters");
 
         return Ok(await queryDispatcher.Send(
             new SearchPlayersQuery() 
