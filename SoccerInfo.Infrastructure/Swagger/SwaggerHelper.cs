@@ -35,7 +35,7 @@ internal static class SwaggerHelper
             return false;
         });
 
-        //SetupApiKey(options);
+        SetupApiKey(options);
     }
 
     public static void ConfigureUI(SwaggerUIOptions options)

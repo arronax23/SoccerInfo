@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SoccerInfo.API.Authorization;
 using SoccerInfo.Application.Commands.ExtarctClubOverview;
-using SoccerInfo.Application.Commands.ExtarctPlayersCharacteristics;
+using SoccerInfo.Application.Commands.ExtractPlayersCharacteristics;
 using SoccerInfo.Application.Commands.ExtarctPlayersGeneralnfo;
 using SoccerInfo.Application.Commands.ExtarctPlayersTransferHistory;
 using SoccerInfo.Application.Commands.ExtractMarketValueProgress;
@@ -11,6 +11,7 @@ using SoccerInfo.Application.Commands.SavePlayersCharacteristicsFromFile;
 using SoccerInfo.Application.Commands.SavePlayersGeneralInfoFromFile;
 using SoccerInfo.Application.Commands.SaveTransfermarktCookie;
 using SoccerInfo.Shared.CQRS;
+using SoccerInfo.Application.Commands.ExtractAndSavePlayersCharacteristics;
 
 namespace SoccerInfoWeb.API.Controllers;
 
@@ -25,18 +26,10 @@ public class ExtractionController(ICommandDispatcher commandDispatcher) : Contro
         return Ok();
     }
 
-    [HttpPut("api/ExtarctPlayersCharacteristics")]
-    public async Task<IActionResult> ExtarctPlayersCharacteristics(
-        int playerCount, 
-        bool onlyNewPlayers, 
-        CancellationToken cancellationToken)
+    [HttpPut("api/ExtarctAndSavePlayersCharacteristics")]
+    public async Task<IActionResult> ExtarctAndSavePlayersCharacteristics()
     {
-        await commandDispatcher.Send(new ExtractPlayersCharacteristicsCommand()
-        {
-            PlayerCount  = playerCount,
-            OnlyNewPlayers = onlyNewPlayers
-        }, 
-        cancellationToken);
+        await commandDispatcher.Send(new ExtractAndSavePlayersCharacteristicsCommand());
         return Ok();
     }
 

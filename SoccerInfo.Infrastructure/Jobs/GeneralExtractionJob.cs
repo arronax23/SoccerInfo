@@ -7,16 +7,26 @@ namespace SoccerInfo.Infrastructure.Jobs;
 [DisallowConcurrentExecution]
 public class GeneralExtractionJob(
     ILogger<GeneralExtractionJob> logger,
+    IConfiguration configuration,
     ICommandDispatcher commandDispatcher) : IJobService
 {
     public static string Name => "GeneralExtraction";
     public static JobKey Key => JobKey.Create(Name);
-    public static string Schedule => "0 45 23 * * ?";
+    public static string Schedule => "0 30 20 * * ?";
+
+    private readonly bool _isActive = configuration.GetValue<bool>("GeneralExtraction:IsActive");
 
     public async Task Execute(IJobExecutionContext context)
     {
-        logger.LogInformation($"{Name} job executing, Start time: {DateTime.Now.ToString()}");
+        if (_isActive)
+            await Run(context);
+        else
+            logger.LogInformation($"{Name} job disabled");
+    }
 
+    private async Task Run(IJobExecutionContext context)
+    {
+        logger.LogInformation($"{Name} job executing, Start time: {DateTime.Now.ToString()}");
         try
         {
             await commandDispatcher.Send(new GeneralExtractionCommand(), context.CancellationToken);

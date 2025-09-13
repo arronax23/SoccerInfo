@@ -14,7 +14,10 @@ public class PlayersController(IQueryDispatcher queryDispatcher) : ControllerBas
     [HttpGet("players/{playerId}")]
     public async Task<PlayerDto?> GetPlayer(int playerId) => await queryDispatcher.Send(new GetPlayerQuery() { PlayerId = playerId });
     [HttpGet("players/search/{keyword}/{pageNumber}/{pageSize}")]
-    public async Task<IActionResult> SearchPlayers(string keyword, int pageNumber, int pageSize)
+    public async Task<IActionResult> SearchPlayers(
+        [FromRoute] string keyword,
+        [FromRoute] int pageNumber,
+        [FromRoute] int pageSize)
     {
         if (pageNumber < 1)
             return BadRequest("Page number starts with 1");
