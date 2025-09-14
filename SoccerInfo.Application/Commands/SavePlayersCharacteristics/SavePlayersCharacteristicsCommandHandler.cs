@@ -67,6 +67,8 @@ internal class SavePlayersCharacteristicsFromFileCommandHandler(
                 dbPlayer.UpdateSocials(mapper.Map<IEnumerable<SocialMedia>>(extractedCharacteristic.Socials));
             }
 
+            dbPlayer.ClearStats();
+
             if (extractedCharacteristic.IsGoalkeeper)
             {
                 foreach (var goalKeeperStatsItem in extractedCharacteristic.GoalKeeperStats!)

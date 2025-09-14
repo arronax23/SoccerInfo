@@ -21,6 +21,7 @@ public static class TransactionExtensions
         var modified = changeTracker.Entries().Where(x => x.State == EntityState.Modified).ToList();
         var unchanged = changeTracker.Entries().Where(x => x.State == EntityState.Unchanged).ToList();
         var detached = changeTracker.Entries().Where(x => x.State == EntityState.Detached).ToList();
+        var deleted = changeTracker.Entries().Where(x => x.State == EntityState.Deleted).ToList();
 
         Log.Logger.Information(
             $"Entires: ({entries.Count})\nAdded: ({added.Count})\nModified ({modified.Count})\nDetached: ({detached.Count})\n");

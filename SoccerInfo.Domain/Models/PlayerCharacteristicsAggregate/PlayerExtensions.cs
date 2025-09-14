@@ -85,16 +85,28 @@ public static class PlayerExtensions
     }
 
 
+	public static bool IsGoalKeeper(this Player player) => player.Position == "Goalkeeper";
+
+    public static void ClearStats(this Player player)
+	{
+        if (player.Characteristics is not null)
+		{
+			if (player.IsGoalKeeper() && player.Characteristics.GoalKeeperStats is not null)
+				player.Characteristics.GoalKeeperStats.Clear();
+			else if (player.Characteristics.OutfieldPlayerStats is not null)
+                player.Characteristics.OutfieldPlayerStats.Clear();
+        }
+    }
+
     public static void UpdateStats<T>(this Player player, T stats) where T : StatsBase, new()
 	{
 		if (stats == null)
 			throw new Exception("stats are null");
 
-		if (player.Position == "Goalkeeper")
+		if (player.IsGoalKeeper())
 			player.UpdateGoalKeeperStats((stats as GoalKeeperStats)!);
 		else
             player.UpdateOutfieldPlayerStats((stats as OutfieldPlayerStats)!);
-
     }
 
     private static void UpdateOutfieldPlayerStats(this Player player, OutfieldPlayerStats stats)
