@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using SoccerInfo.Application.Abstractions.Interfaces;
+using SoccerInfo.Application.Services;
 using SoccerInfo.Domain.Lookups.GeneralPosition;
 using SoccerInfo.Domain.Models;
 using SoccerInfo.Domain.Repositories;
@@ -15,7 +16,7 @@ internal class SavePlayersGeneralInfoCommandHandler(
     IGenericRepository<League> leagueRepository,
     IGenericRepository<Team> teamRepository,
     IGenericRepository<Nationality> nationalityRepository,
-    GeneralPositionService generalPositionService) : ICommandHandler<SavePlayersGeneralInfoCommand>
+    IGeneralPositionService generalPositionService) : ICommandHandler<SavePlayersGeneralInfoCommand>
 {
     public async Task Handle(SavePlayersGeneralInfoCommand request, CancellationToken cancellationToken)
     {
@@ -58,7 +59,6 @@ internal class SavePlayersGeneralInfoCommandHandler(
                 foreach (var extractedPlayer in extractedTeam.Players)
                 {
                     var dbPlayer = await playerRepository
-                        .ToQuery()
                         .SingleOrDefaultAsync(p => p.TransfermarktId == extractedPlayer.TransfermarktId);
                     
                     Player currentPlayer = null!;

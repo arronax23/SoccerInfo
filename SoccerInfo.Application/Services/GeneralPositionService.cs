@@ -1,9 +1,12 @@
 ﻿using Microsoft.Extensions.Logging;
+using SoccerInfo.Domain.Lookups.GeneralPosition;
 using SoccerInfo.Domain.Models;
 using SoccerInfo.Domain.Repositories;
 
-namespace SoccerInfo.Domain.Lookups.GeneralPosition;
-public class GeneralPositionService(ILogger<GeneralPositionService> logger,IGeneralPositionLookupRepository repository)
+namespace SoccerInfo.Application.Services;
+public class GeneralPositionService(
+    ILogger<GeneralPositionService> logger,
+    IGeneralPositionLookupRepository repository) : IGeneralPositionService
 {
     public async Task AttachGeneralPosition(Player player)
     {

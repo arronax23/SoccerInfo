@@ -13,6 +13,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<ExtractionInfoService>();
 
         services.AddScoped<Queries.GetPlayersByStats.QueryMapper>();
+        services.AddScoped<IGeneralPositionService, GeneralPositionService>();
 
         services.AddResiliencePipeline(NationalityExtractionPipeline.Name, NationalityExtractionPipeline.Configure);
     }

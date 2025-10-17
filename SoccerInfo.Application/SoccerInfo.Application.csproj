@@ -17,6 +17,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <InternalsVisibleTo Include="SoccerInfo.UnitTests" />
+    <InternalsVisibleTo Include="SoccerInfo.IntegrationTests" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\SoccerInfo.Application.Abstractions\SoccerInfo.Application.Abstractions.csproj" />
     <ProjectReference Include="..\SoccerInfo.BackendScraper\SoccerInfo.BackendScraper.csproj" />
     <ProjectReference Include="..\SoccerInfo.Domain\SoccerInfo.Domain.csproj" />

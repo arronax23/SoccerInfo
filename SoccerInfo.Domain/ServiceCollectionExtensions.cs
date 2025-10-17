@@ -6,6 +6,6 @@ public static class ServiceCollectionExtensions
 {
     public static void AddDomainServices(this IServiceCollection services)
     {
-        services.AddScoped<GeneralPositionService>();
+        //services.AddScoped<GeneralPositionService>();
     }
 }

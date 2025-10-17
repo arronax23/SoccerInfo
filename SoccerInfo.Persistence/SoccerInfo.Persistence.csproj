@@ -23,6 +23,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <InternalsVisibleTo Include="SoccerInfo.UnitTests" />
+    <InternalsVisibleTo Include="SoccerInfo.IntegrationTests" />
+  </ItemGroup>
+
+
+  <ItemGroup>
     <ProjectReference Include="..\SoccerInfo.Application\SoccerInfo.Application.csproj" />
     <ProjectReference Include="..\SoccerInfo.Shared\SoccerInfo.Shared.csproj" />
   </ItemGroup>

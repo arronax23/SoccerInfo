@@ -1,6 +1,7 @@
 ﻿using SoccerInfo.Application.Abstractions.Interfaces;
 using SoccerInfo.Domain.Models.Extraction;
 using SoccerInfo.Domain.Repositories.Generic;
+
 namespace SoccerInfo.Application.Services;
 public class ExtractionInfoService(
     IGenericRepository<ExtractionInfo> extractionInfoRepository,
