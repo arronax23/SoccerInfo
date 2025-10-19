@@ -20,7 +20,8 @@ public class GetPlayersByStatsQuery : IQuery<IEnumerable<StatsPlayerBaseDto>>
 
         public enum CriteriaType
         {
-            Value,
+            MarketValue,
+            MarketValueProgress,
             Goals,
             Assists,
             GoalsAndAssists,

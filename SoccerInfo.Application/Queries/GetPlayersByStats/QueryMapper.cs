@@ -11,7 +11,8 @@ internal class QueryMapper(IMapper mapper)
     {
         return criteria switch
         {
-            CriteriaType.Value => MapToEnumerableOf<StatsPlayerMarketValueDto>(query),
+            CriteriaType.MarketValue => MapToEnumerableOf<StatsPlayerMarketValueDto>(query),
+            CriteriaType.MarketValueProgress => MapToEnumerableOf<StatsPlayerMarketValueProgressDto>(query),
             CriteriaType.Goals => MapToEnumerableOf<StatsPlayerGoalsDto>(query),
             CriteriaType.Assists => MapToEnumerableOf<StatsPlayerAssistsDto>(query),
             CriteriaType.GoalsAndAssists => MapToEnumerableOf<StatsPlayerGoalsAndAssistsDto>(query),

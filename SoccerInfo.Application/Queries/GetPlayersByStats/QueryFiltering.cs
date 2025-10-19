@@ -23,9 +23,13 @@ internal static class QueryFiltering
 
         query = filter.Criteria switch
         {
-            CriteriaType.Value => query
+            CriteriaType.MarketValue => query
                 .Where(p => p.Stats.MarketValueNormalized != null)
                 .Sort(p => p.Stats.MarketValueNormalized, filter.IsSortDescending),
+
+            CriteriaType.MarketValueProgress => query
+                .Where(p => p.Stats.LastMarkeValueProgressNormalized != null)
+                .Sort(p => p.Stats.LastMarkeValueProgressNormalized, filter.IsSortDescending),
 
             CriteriaType.Goals => query
                 .Where(p => p.Stats.TotalGoals != null)

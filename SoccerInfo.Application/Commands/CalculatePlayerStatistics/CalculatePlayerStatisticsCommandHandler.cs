@@ -1,16 +1,19 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using NodaTime;
+using Serilog.Core;
+using SoccerInfo.Application.Abstractions.Interfaces;
 using SoccerInfo.Domain.Models;
+using SoccerInfo.Domain.Models.PlayerCharacteristicsAggregate;
 using SoccerInfo.Domain.Models.Stats;
 using SoccerInfo.Domain.Repositories;
-using SoccerInfo.Shared.CQRS;
-using SoccerInfo.Domain.Models.PlayerCharacteristicsAggregate;
 using SoccerInfo.Domain.Repositories.Generic;
-using SoccerInfo.Application.Abstractions.Interfaces;
+using SoccerInfo.Shared.CQRS;
 
 namespace SoccerInfo.Application.Commands.CalculatePlayerStatistics;
 
 internal class CalculatePlayerStatisticsCommandHandler(
+    ILogger<CalculatePlayerStatisticsCommandHandler> logger,
     IUnitOfWork unitOfWork,
     IPlayerRepository playerRepository,
     IGenericRepository<PlayerStatistic> statsRepository)
@@ -19,12 +22,17 @@ internal class CalculatePlayerStatisticsCommandHandler(
     public async Task Handle(CalculatePlayerStatisticsCommand request, CancellationToken cancellationToken)
     {
         using var transaction = unitOfWork.BeginTransaction();
-        var statistics = new List<PlayerStatistic>();
-
+        
         var dbPlayers = playerRepository.ToQuery().AsNoTracking();
 
         foreach (var dbPlayer in dbPlayers)
         {
+            var (lastMarkeValueProgressNormalized, 
+                lastMarkeValueProgress,
+                lastMarkeValueProgressUnit)  = CalculateLastMarkeValueProgress(dbPlayer);
+
+            logger.LogCritical($"{lastMarkeValueProgress}{lastMarkeValueProgressUnit}");
+
             var stats = new PlayerStatistic()
             {
                 Age = CalculateAge(dbPlayer),
@@ -38,7 +46,9 @@ internal class CalculatePlayerStatisticsCommandHandler(
                 MarketValueUnit = dbPlayer.MarketValueUnit,
                 MarketValueNormalized = dbPlayer.MarketValueNormalized,
                 ContractPeriod = CalculateContractPeriod(dbPlayer),
-                LastMarkeValueProgress = CalculateLastMarkeValueProgress(dbPlayer),
+                LastMarkeValueProgress = lastMarkeValueProgress,
+                LastMarkeValueProgressUnit = lastMarkeValueProgressUnit,
+                LastMarkeValueProgressNormalized = lastMarkeValueProgressNormalized,
                 PlayerId = dbPlayer.Id,
             };
 
@@ -146,16 +156,32 @@ internal class CalculatePlayerStatisticsCommandHandler(
         return Period.Between(referenceDate, referenceDate.Plus(period), PeriodUnits.Days).Days;
     }
 
-    private float? CalculateLastMarkeValueProgress(Player player)
+    private (float?, float?, string?) CalculateLastMarkeValueProgress(Player player)
     {
         var marketValueProgress = player.MarketValueProgress;
 
         if (marketValueProgress is null || marketValueProgress.Count < 2)
-            return null;
+            return (null,null,null);
 
         var orderedMarketValueProgress = marketValueProgress.OrderByDescending(m => m.ChangeDate);
 
-        return (orderedMarketValueProgress.ElementAt(0).MarketValueNormalized - orderedMarketValueProgress.ElementAt(1).MarketValueNormalized);
+        var lastMarkeValueProgressNormalized = orderedMarketValueProgress.ElementAt(0).MarketValueNormalized - orderedMarketValueProgress.ElementAt(1).MarketValueNormalized;
+        var (lastMarkeValueProgress, lastMarkeValueProgressUnit) = ParseMarketValueNormalized(lastMarkeValueProgressNormalized);
+
+        return (lastMarkeValueProgressNormalized, lastMarkeValueProgress, lastMarkeValueProgressUnit);
+    }
+
+    private (float?, string?) ParseMarketValueNormalized(float? lastMarkeValueProgressNormalized)
+    {
+        if (lastMarkeValueProgressNormalized == null)
+            return (null, null);
+
+        if (lastMarkeValueProgressNormalized.Value < 1_000_000 && lastMarkeValueProgressNormalized.Value > -1_000_000)
+            return (lastMarkeValueProgressNormalized.Value, "k");
+        else if (lastMarkeValueProgressNormalized >= 1_000_000 || lastMarkeValueProgressNormalized <= -1_000_000)
+            return (lastMarkeValueProgressNormalized.Value / 1_000_000, "m");
+        else
+            throw new ArgumentException();
     }
 
     private void TrackEntity(PlayerStatistic stats, int statsId)

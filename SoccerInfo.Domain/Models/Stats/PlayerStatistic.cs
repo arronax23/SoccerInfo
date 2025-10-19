@@ -14,6 +14,8 @@ public class PlayerStatistic : BaseEntity
     public string? MarketValueUnit { get; set; }
     public float? MarketValueNormalized { get; set; }
     public float? LastMarkeValueProgress { get; set; }
+    public string? LastMarkeValueProgressUnit { get; set; }
+    public float? LastMarkeValueProgressNormalized { get; set; }
     public float? Height { get; set; }
     public DateRange? ContractPeriod { get; set; }
     public int PlayerId { get; set; } 

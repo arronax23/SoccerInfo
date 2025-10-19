@@ -1,5 +1,6 @@
 import {
   handleMarketValueDisplay,
+  handleMarketValueProgressDisplay,
   handleDateRangeDisplay,
 } from "../../../../utils/formatter";
 import { Box } from "@mui/material";
@@ -128,6 +129,15 @@ export default function getTableData(
     },
   ];
 
+    const marketValueProgressColumns = [
+    {
+      accessorKey: "marketValueProgressFormatted",
+      header: "Market Value Progress",
+      enableColumnFilter: false,
+      size: 100,
+    },
+  ];
+
   const goalsColumns = [
     {
       accessorKey: "goals",
@@ -204,6 +214,16 @@ export default function getTableData(
     }));
   };
 
+    const prepareMarketValueProgressData = (data) => {
+    return data.map((item) => ({
+      ...item,
+      marketValueProgressFormatted: handleMarketValueProgressDisplay(
+        item.marketValueChange,
+        item.marketValueUnit
+      ),
+    }));
+  };
+
   const prepareAgeData = (data) => {
     return data.map((item) => ({
       ...item,
@@ -229,6 +249,11 @@ export default function getTableData(
         columns: [...sharedColumns, ...marketValueColumns],
         data: prepareMarketValueData(data),
       };
+    case "Market Value Progress":
+      return {
+        columns: [...sharedColumns, ...marketValueProgressColumns],
+        data: prepareMarketValueProgressData(data),
+      };      
     case "Goals":
       return {
         columns: [...sharedColumns, ...goalsColumns],

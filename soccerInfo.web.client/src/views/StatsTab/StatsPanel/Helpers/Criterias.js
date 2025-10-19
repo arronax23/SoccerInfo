@@ -1,38 +1,42 @@
 const Criterias = {
-    VALUE: {
+    MARKET_VALUE: {
       Type: 0,
       Text: "Market Value",
     },
-    GOALS: {
+    MARKET_VALUE_PROGRESS: {
       Type: 1,
+      Text: "Market Value Progress",
+    },
+    GOALS: {
+      Type: 2,
       Text: "Goals",
     },
     ASSISTS: {
-      Type: 2,
+      Type: 3,
       Text: "Assists",
     },
     GOALS_AND_ASSISTS: {
-      Type: 3,
+      Type: 4,
       Text: "Goals and Assists",
     },
     CLEAN_SHEETS: {
-      Type: 4,
+      Type: 5,
       Text: "Clean Sheets",
     },
     GOALS_CONCEDED: {
-      Type: 5,
+      Type: 6,
       Text: "Goals Condeded",
     },
     HEIGHT: {
-      Type: 6,
+      Type: 7,
       Text: "Height",
     },
     AGE: {
-      Type: 7,
+      Type: 8,
       Text: "Age",
     },
     CONTRACT_EXPIRATION: {
-      Type: 8,
+      Type: 9,
       Text: "Contract Duration",
     },
   };

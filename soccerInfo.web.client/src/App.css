@@ -820,6 +820,10 @@ a.nav-link.active {
 
 .stats-option {
     width: 10rem;
+    height: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background: #242423;
     color: white;
     position: relative;

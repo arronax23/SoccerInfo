@@ -45,6 +45,12 @@ public class AutomapperProfile : Profile
             .ForMember(dest => dest.MarketValue, opt => opt.MapFrom(src => src.Stats.MarketValue))
             .ForMember(dest => dest.MarketValueUnit, opt => opt.MapFrom(src => src.Stats.MarketValueUnit));
 
+        CreateMap<Player, StatsPlayerMarketValueProgressDto>()
+            .IncludeBase<Player, StatsPlayerBaseDto>()
+            .ForMember(dest => dest.MarketValueChange, opt => opt.MapFrom(src => src.Stats.LastMarkeValueProgress))
+            .ForMember(dest => dest.MarketValueUnit, opt => opt.MapFrom(src => src.Stats.LastMarkeValueProgressUnit));
+
+
         CreateMap<Player, StatsPlayerGoalsDto>()
             .IncludeBase<Player, StatsPlayerBaseDto>()
             .ForMember(dest => dest.Goals, opt => opt.MapFrom(src => src.Stats.TotalGoals));

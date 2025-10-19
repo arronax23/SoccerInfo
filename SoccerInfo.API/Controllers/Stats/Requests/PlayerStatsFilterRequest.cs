@@ -13,7 +13,8 @@ public class PlayerStatsFilterRequest
 
     public enum CriteriaType
     {
-        Value,
+        MarketValue,
+        MarketValueProgress,
         Goals,
         Assists,
         GoalsAndAssists,
