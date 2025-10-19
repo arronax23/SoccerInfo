@@ -364,5 +364,3 @@ FodyWeavers.xsd
 
 # Extracted data in json files
 JsonData/
-/SoccerInfo.IntegrationTests/
-/SoccerInfo.UnitTests/
