@@ -32,8 +32,7 @@ jobs:
 
     - name: Build ASP.NET App
       run: |
-        dotnet publish -c Release -o publish --runtime linux-x64
-        
+        dotnet publish SoccerInfo.Infrastructure/SoccerInfo.Infrastructure.csproj -c Release -o publish --runtime linux-x64
     - name: Rename playwright folder
       run: |
         mv ./publish/.playwright ./publish/playwright
