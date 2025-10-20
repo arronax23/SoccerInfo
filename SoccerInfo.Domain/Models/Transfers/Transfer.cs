@@ -32,6 +32,12 @@ public class Transfer : BaseEntity
 
     public class ClubInfo : BaseEntity
     {
+        public int ClubTransfermarktId { get; private set; }
+        public int? TeamId { get; private set; }
+        public virtual Team? Team { get; private set; }
+        public int? ClubId { get; private set; }
+        public virtual ClubOverview? Club { get; private set; }
+
         protected ClubInfo()
         {
         }
@@ -51,11 +57,12 @@ public class Transfer : BaseEntity
             this.ClubId = clubOverviewId;
         }
 
-        public int ClubTransfermarktId { get; private set; }
-        public int? TeamId { get; private set; }
-        public virtual Team? Team { get; private set; }
-        public int? ClubId { get; private set; }
-        public virtual ClubOverview? Club { get; private set; }
+
+        public void AssignClub(ClubOverview clubOverview)
+        {
+            this.Club = clubOverview;
+        }
+
     }
 
     public class Money

@@ -1,10 +1,14 @@
-﻿using SoccerInfo.BackendScraper.Utilities;
+﻿using Microsoft.Extensions.Logging;
+using SoccerInfo.BackendScraper.Utilities;
 using SoccerInfo.FrontendScraper.Utilities;
 using System.Collections.Concurrent;
 using System.Net.Http.Json;
 
 namespace SoccerInfo.BackendScraper.PlayersTransfers;
-public class ClubOverviewScraper(IHttpClientFactory httpClientFactory, ImageFetcher imageFetcher)
+public class ClubOverviewScraper(
+    ILogger<ClubOverviewScraper> logger,
+    IHttpClientFactory httpClientFactory, 
+    ImageFetcher imageFetcher)
 {
     public async Task<IEnumerable<ClubOverviewData>> Scrape(IEnumerable<int> clubsTransfermarktIds)
     {
@@ -18,11 +22,20 @@ public class ClubOverviewScraper(IHttpClientFactory httpClientFactory, ImageFetc
             new ParallelOptions { MaxDegreeOfParallelism = 50 },
             async (clubId, _) =>
             {
-                var clubModel = await client.GetFromJsonAsync<ClubModel>($"https://tmapi-alpha.transfermarkt.technology/club/{clubId}");
-                var data = await Map(clubModel!, clubId);
+                try
+                {
+                    var clubModel = await client.GetFromJsonAsync<ClubModel>($"https://tmapi-alpha.transfermarkt.technology/club/{clubId}");
+                    var data = await Map(clubModel!, clubId);
 
-                if (data is not null) 
-                    collectionData.Add(data);
+                    if (data is not null)
+                        collectionData.Add(data);
+                }
+                catch (Exception ex)
+                {
+                    logger.LogWarning($"ClubOverviewScraper failed to fetch club transfermarkt Id = {clubId}");
+                    logger.LogWarning(ex.ToString());
+                }
+
             });
 
         return collectionData;

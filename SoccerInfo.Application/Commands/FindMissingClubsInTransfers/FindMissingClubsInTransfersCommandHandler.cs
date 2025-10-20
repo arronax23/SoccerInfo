@@ -64,7 +64,10 @@ internal class FindMissingClubsInTransfersCommandHandler(
         {
             try
             {
-                item.AssignClubById(clubsOverviews.Single(co => co.TransfermarktId == item.ClubTransfermarktId).Id);
+                var club = clubsOverviews.SingleOrDefault(co => co.TransfermarktId == item.ClubTransfermarktId);
+                
+                if (club is not null)
+                    item.AssignClub(club);
             }
             catch (Exception ex)
             {
