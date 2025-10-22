@@ -76,6 +76,11 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class, IEnti
         _dbSet.Remove(entity);
     }
 
+    public virtual void RemoveRange(IEnumerable<T> entities)
+    {
+        _dbSet.RemoveRange(entities);
+    }
+
     public virtual async Task SaveChangesAsync()
     {
         await _dbContext.SaveChangesAsync();

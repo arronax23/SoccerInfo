@@ -18,5 +18,6 @@ public interface IGenericRepository<T> where T : class, IEntity
     void Update(T entity);
     void UpdateRange(IEnumerable<T> entities);
     void Remove(T entity);
+    void RemoveRange(IEnumerable<T> entities);
     Task SaveChangesAsync();
 }

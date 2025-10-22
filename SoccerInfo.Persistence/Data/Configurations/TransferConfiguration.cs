@@ -14,11 +14,11 @@ internal sealed class TransferConfiguration : IEntityTypeConfiguration<Transfer>
         builder.HasOne(t => t.From)
             .WithMany()
             .HasForeignKey(t => t.FromId)
-            .OnDelete(DeleteBehavior.NoAction);
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasOne(t => t.To)
             .WithMany()
             .HasForeignKey(t => t.ToId)
-            .OnDelete(DeleteBehavior.NoAction);
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using SoccerInfo.API.Authorization;
 using SoccerInfo.Application.Commands.ExtarctClubOverview;
-using SoccerInfo.Application.Commands.ExtractPlayersCharacteristics;
 using SoccerInfo.Application.Commands.ExtarctPlayersGeneralnfo;
 using SoccerInfo.Application.Commands.ExtarctPlayersTransferHistory;
 using SoccerInfo.Application.Commands.ExtractMarketValueProgress;
