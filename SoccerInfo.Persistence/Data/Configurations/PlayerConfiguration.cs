@@ -21,6 +21,11 @@ internal sealed class PlayerConfiguration : IEntityTypeConfiguration<Player>
             .WithOne();
 
         builder
+            .HasMany(x => x.Transfers)
+            .WithOne()
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder
             .HasOne(x => x.GeneralPosition)
             .WithMany();
 
