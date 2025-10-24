@@ -1,86 +1,99 @@
-﻿//using Microsoft.Extensions.Logging;
-//using SoccerInfo.Application.Commands.ExtarctClubOverview;
-//using SoccerInfo.Application.Abstractions.Interfaces;
-//using SoccerInfo.Domain.Models;
-//using SoccerInfo.Domain.Models.Transfers;
-//using SoccerInfo.Domain.Repositories.Generic;
-//using SoccerInfo.Shared.CQRS;
-//using static SoccerInfo.Domain.Models.Transfers.Transfer;
+﻿using Microsoft.Extensions.Logging;
+using SoccerInfo.Application.Commands.ExtarctClubOverview;
+using SoccerInfo.Application.Abstractions.Interfaces;
+using SoccerInfo.Domain.Models;
+using SoccerInfo.Domain.Models.Transfers;
+using SoccerInfo.Domain.Repositories.Generic;
+using SoccerInfo.Shared.CQRS;
+using static SoccerInfo.Domain.Models.Transfers.Transfer;
 
-//namespace SoccerInfo.Application.Commands.FindMissingClubsInTransfers;
-//internal class FindMissingClubsInTransfersCommandHandler(
-//    ILogger<ExtarctClubOverviewCommandHandler> logger,
-//    IUnitOfWork unitOfWork,
-//    IGenericRepository<ClubInfo> clubInfoRepository,
-//    IGenericRepository<Team> teamRepository,
-//    IGenericRepository<ClubOverview> clubOverviewRepository,
-//    ICommandDispatcher commandDispatcher) : ICommandHandler<FindMissingClubsInTransfersCommand>
-//{
-//    private readonly HashSet<int> searchClubsTransfermarktIds = new();
-//    private readonly HashSet<ClubInfo> missing = new();
-//    public async Task Handle(FindMissingClubsInTransfersCommand request, CancellationToken cancellationToken)
-//    {
-//        var clubInfos = clubInfoRepository
-//            .ToQuery()
-//            .Where(t => t.TeamId == null && t.ClubId == null);
+namespace SoccerInfo.Application.Commands.FindMissingClubsInTransfers;
+internal class FindMissingClubsInTransfersCommandHandler(
+    ILogger<ExtarctClubOverviewCommandHandler> logger,
+    IUnitOfWork unitOfWork,
+    IGenericRepository<Transfer> transferRepository,
+    IGenericRepository<Team> teamRepository,
+    IGenericRepository<ClubOverview> clubOverviewRepository,
+    ICommandDispatcher commandDispatcher) : ICommandHandler<FindMissingClubsInTransfersCommand>
+{
+    public async Task Handle(FindMissingClubsInTransfersCommand request, CancellationToken cancellationToken)
+    {
+        var transaction = unitOfWork.BeginTransaction();
 
-//        foreach (var item in clubInfos)
-//        {
-//            var dbTeamId = teamRepository
-//                .ToQuery()
-//                .Where(t => t.TransfermarktId == item.ClubTransfermarktId)
-//                .Select(t => t.Id)
-//                .SingleOrDefault();
+        var transfers = transferRepository
+            .ToQuery()
+            .Where(t =>
+                (t.From!.TeamId == null && t.From.ClubId == null) ||
+                (t.To!.TeamId == null && t.To.ClubId == null))
+            .ToList();
 
-//            if (dbTeamId != 0)
-//                item.AssignTeamById(dbTeamId);
-//            else
-//            {
-//                var dbClubId = clubOverviewRepository
-//                    .ToQuery()
-//                    .Where(t => t.TransfermarktId == item.ClubTransfermarktId)
-//                    .Select(t => t.Id)
-//                    .SingleOrDefault();
+        var missingClubTransfermarktIds = new HashSet<int>();
 
-//                if (dbClubId != 0)
-//                    item.AssignClubById(dbClubId);
-//                else
-//                {
-//                    searchClubsTransfermarktIds.Add(item.ClubTransfermarktId);
-//                    missing.Add(item);
-//                }
-//            }
-//        }
+        foreach (var transfer in transfers)
+        {
+            ProcessClubInfo(transfer.From!, teamRepository, clubOverviewRepository, missingClubTransfermarktIds);
+            ProcessClubInfo(transfer.To!, teamRepository, clubOverviewRepository, missingClubTransfermarktIds);
+        }
 
+        var clubsOverviews =
+            (await commandDispatcher.Send(new ExtarctClubOverviewCommand()
+            {
+                ClubsTransfermarktIds = missingClubTransfermarktIds
+            }))
+            .ToList();
 
-//        var clubsOverviews = 
-//            (await commandDispatcher.Send(new ExtarctClubOverviewCommand() 
-//            {
-//                ClubsTransfermarktIds = searchClubsTransfermarktIds.Distinct()}
-//            ))
-//            .ToList();
+        foreach (var transfer in transfers)
+        {
+            TryAssignFromClubs(transfer.From!, clubsOverviews, logger);
+            TryAssignFromClubs(transfer.To!, clubsOverviews, logger);
+        }
 
-//        foreach (var item in missing)
-//        {
-//            try
-//            {
-//                var club = clubsOverviews.SingleOrDefault(co => co.TransfermarktId == item.ClubTransfermarktId);
-                
-//                if (club is not null)
-//                    item.AssignClub(club);
-//            }
-//            catch (Exception ex)
-//            {
-//                logger.LogCritical(ex.ToString());
-//                logger.LogCritical($"item.From.ClubTransfermarktId = {item.ClubTransfermarktId}");
-//            }
+        unitOfWork.ShowEntires();
+        await unitOfWork.SaveChangesAsync();
+        await unitOfWork.ResolveTransactionAsync(transaction);
+        logger.LogInformation($"{nameof(FindMissingClubsInTransfersCommand)} has finished");
+    }
 
-//        }
+    private static void ProcessClubInfo(
+        ClubInfo clubInfo,
+        IGenericRepository<Team> teamRepository,
+        IGenericRepository<ClubOverview> clubOverviewRepository,
+        HashSet<int> missingIds)
+    {
+        var dbTeamId = teamRepository
+            .ToQuery()
+            .Where(t => t.TransfermarktId == clubInfo.ClubTransfermarktId)
+            .Select(t => t.Id)
+            .SingleOrDefault();
 
-//        unitOfWork.ShowEntires();
+        if (dbTeamId != 0)
+            clubInfo.AssignTeamById(dbTeamId);
+        else
+        {
+            var dbClubId = clubOverviewRepository
+                .ToQuery()
+                .Where(c => c.TransfermarktId == clubInfo.ClubTransfermarktId)
+                .Select(c => c.Id)
+                .SingleOrDefault();
 
-//        await unitOfWork.SaveChangesAsync();
+            if (dbClubId != 0)
+                clubInfo.AssignClubById(dbClubId);
+            else
+                missingIds.Add(clubInfo.ClubTransfermarktId);
+        }
+    }
 
-//        logger.LogInformation($"{nameof(FindMissingClubsInTransfersCommand)} has finished");
-//    }
-//}
+    private static void TryAssignFromClubs(ClubInfo clubInfo, List<ClubOverview> clubsOverviews, ILogger logger)
+    {
+        try
+        {
+            var club = clubsOverviews.SingleOrDefault(c => c.TransfermarktId == clubInfo.ClubTransfermarktId);
+            if (club is not null)
+                clubInfo.AssignClub(club);
+        }
+        catch (Exception ex)
+        {
+            logger.LogCritical(ex, $"Error assigning club for {clubInfo.ClubTransfermarktId}");
+        }
+    }
+}

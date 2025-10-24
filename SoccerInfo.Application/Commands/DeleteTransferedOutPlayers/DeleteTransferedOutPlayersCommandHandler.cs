@@ -25,12 +25,6 @@ internal class DeleteTransferedOutPlayersCommandHandler(
         });
 
         var playersTransferredOut = playersWithLastTransfers.Where(p => p.LastTransfer!.ClubId != null).Select(p => p.Player);
-
-        foreach (var p in playersTransferredOut)
-        {
-            transferRepository.RemoveRange(p.Transfers);
-        }
-
         playerRepository.RemoveRange(playersTransferredOut);
 
         unitOfWork.ShowEntires();

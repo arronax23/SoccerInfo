@@ -47,20 +47,28 @@ public class Transfer : BaseEntity
         }
         public void AssignTeamById(int teamId)
         {
+            if (ClubId is not null)
+                throw new InvalidOperationException("ClubInfo cannot have both Club and Team");
+
             this.TeamId = teamId;   
         }
 
         public void AssignClubById(int clubOverviewId)
         {
+            if (TeamId is not null)
+                throw new InvalidOperationException("ClubInfo cannot have both Club and Team");
+
             this.ClubId = clubOverviewId;
         }
 
 
         public void AssignClub(ClubOverview clubOverview)
         {
+            if (TeamId is not null)
+                throw new InvalidOperationException("ClubInfo cannot have both Club and Team");
+
             this.Club = clubOverview;
         }
-
     }
 
     public class Money
