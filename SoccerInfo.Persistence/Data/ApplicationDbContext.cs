@@ -21,7 +21,6 @@ public class ApplicationDbContext : DbContext
     public DbSet<Image> Images { get; set; }
     public DbSet<Transfer> Transfers { get; set; }
     public DbSet<ClubOverview> ClubsOverviews { get; set; }
-    public DbSet<ClubInfo> ClubsInfos { get; set; }
     public DbSet<MarketValueChange> MarketValueChanges { get; set; }
     public DbSet<Nationality> Nationalities { get; set; }
     public DbSet<PlayerCharacteristic> PlayerCharacteristics { get; set; }
@@ -30,7 +29,6 @@ public class ApplicationDbContext : DbContext
     public DbSet<CountryFlag_Lookup> CountryFlags_Lookup { get; set; }
     public DbSet<GeneralPosition_Lookup> GeneralPositions_Lookup { get; set; }
     public DbSet<DummyImageLookup> DummyImagesLookup { get; set; }
-
     public DbSet<LeagueLinkLookup> LeagueLinksLookup { get; set; }
     public DbSet<ExtractionInfo> ExtractionInfos { get; set; }
 

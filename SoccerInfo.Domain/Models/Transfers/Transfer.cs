@@ -12,10 +12,8 @@ public enum TransferType
 public class Transfer : BaseEntity
 {
     public int PlayerTransferMarktId { get; set; }
-    public virtual ClubInfo? From { get; set; } = null!;
-    public int? FromId { get; set; }
-    public virtual ClubInfo? To { get; set; } = null!;
-    public int? ToId { get; set; }
+    public ClubInfo? From { get; set; } = null!;
+    public ClubInfo? To { get; set; } = null!;
     public TransferType Type { get; set; }
     public DateTime? Date { get; set; }
     public int? Age { get; set; }
@@ -30,7 +28,7 @@ public class Transfer : BaseEntity
             t.PlayerTransferMarktId == other.PlayerTransferMarktId &&
             t.Date == other.Date;
 
-    public class ClubInfo : BaseEntity
+    public class ClubInfo
     {
         public int ClubTransfermarktId { get; private set; }
         public int? TeamId { get; private set; }

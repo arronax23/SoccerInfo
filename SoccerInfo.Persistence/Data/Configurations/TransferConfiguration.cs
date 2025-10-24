@@ -11,14 +11,26 @@ internal sealed class TransferConfiguration : IEntityTypeConfiguration<Transfer>
         builder.OwnsOne(x => x.Fee);
         builder.OwnsOne(x => x.MarketValue);
 
-        builder.HasOne(t => t.From)
-            .WithMany()
-            .HasForeignKey(t => t.FromId)
-            .OnDelete(DeleteBehavior.NoAction);
+        builder.OwnsOne(t => t.From, from =>
+        {
+            from.HasOne(ci => ci.Club)
+                .WithMany()
+                .HasForeignKey(ci => ci.ClubId);
 
-        builder.HasOne(t => t.To)
-            .WithMany()
-            .HasForeignKey(t => t.ToId)
-            .OnDelete(DeleteBehavior.NoAction);
+            from.HasOne(ci => ci.Team)
+                .WithMany()
+                .HasForeignKey(ci => ci.TeamId);
+        });
+
+        builder.OwnsOne(t => t.To, to =>
+        {
+            to.HasOne(ci => ci.Club)
+                .WithMany()
+                .HasForeignKey(ci => ci.ClubId);
+
+            to.HasOne(ci => ci.Team)
+                .WithMany()
+                .HasForeignKey(ci => ci.TeamId);
+        });
     }
 }
