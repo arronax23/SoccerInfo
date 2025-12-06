@@ -14,20 +14,30 @@ export default function getTableData(
 ) {
   console.log("f", filteringOptions);
   const sharedColumns = [
-    { accessorKey: "index", header: "#", enableColumnFilter: false, size: 70 },
+    {
+      accessorKey: "index",
+      header: "#",
+      enableColumnFilter: false,
+      enableSorting: false,
+      size: 70,
+    },
     {
       accessorKey: "name",
       header: "Name",
       enableColumnFilter: false,
+      enableSorting: false,
       size: 130,
       Cell: ({ row }) => (
-        <Link className="name-link" to={`/player/${row.original.playerId}`}>{row.original.name}</Link>
+        <Link className="name-link" to={`/player/${row.original.playerId}`}>
+          {row.original.name}
+        </Link>
       ),
     },
     {
       accessorKey: "portrait",
       header: "Portrait",
       enableColumnFilter: false,
+      enableSorting: false,
       size: 100,
       Cell: ({ row }) => (
         <div className="img-cell-wrapper">
@@ -48,6 +58,7 @@ export default function getTableData(
       size: 120,
       filterVariant: "multi-select",
       filterSelectOptions: filteringOptions.positions,
+      enableSorting: false,
     },
     {
       accessorKey: "nationality",
@@ -55,6 +66,7 @@ export default function getTableData(
       size: 120,
       filterVariant: "multi-select",
       filterSelectOptions: filteringOptions.nationalities,
+      enableSorting: false,
       Cell: ({ row }) =>
         row.original.nationalities.map((n) => (
           <div key={n.name} title={n.name} className="img-cell-wrapper">
@@ -78,6 +90,7 @@ export default function getTableData(
       size: 90,
       filterVariant: "multi-select",
       filterSelectOptions: filteringOptions.teams,
+      enableSorting: false,
       Cell: ({ row }) => (
         <div
           onClick={() => handleLogoClick("team", row.original.team.teamId)}
@@ -100,6 +113,7 @@ export default function getTableData(
       size: 90,
       filterVariant: "multi-select",
       filterSelectOptions: filteringOptions.leagues,
+      enableSorting: false,
       Cell: ({ row }) => (
         <div
           onClick={() =>
@@ -124,12 +138,23 @@ export default function getTableData(
     {
       accessorKey: "marketValueFormatted",
       header: "Market Value",
+      muiTableHeadCellProps: ({ column }) => ({
+        onClick: (event) => {
+          // blokujesz natywne działanie kliknięcia, żeby przejąć kontrolę
+          event.stopPropagation();
+
+          console.log("Mój custom handler sortowania!");
+
+          // nadal możesz wywołać sortowanie zwykłą metodą MRT
+          column.toggleSorting();
+        },
+      }),
       enableColumnFilter: false,
       size: 100,
     },
   ];
 
-    const marketValueProgressColumns = [
+  const marketValueProgressColumns = [
     {
       accessorKey: "marketValueProgressFormatted",
       header: "Market Value Progress",
@@ -214,7 +239,7 @@ export default function getTableData(
     }));
   };
 
-    const prepareMarketValueProgressData = (data) => {
+  const prepareMarketValueProgressData = (data) => {
     return data.map((item) => ({
       ...item,
       marketValueProgressFormatted: handleMarketValueProgressDisplay(
@@ -253,7 +278,7 @@ export default function getTableData(
       return {
         columns: [...sharedColumns, ...marketValueProgressColumns],
         data: prepareMarketValueProgressData(data),
-      };      
+      };
     case "Goals":
       return {
         columns: [...sharedColumns, ...goalsColumns],

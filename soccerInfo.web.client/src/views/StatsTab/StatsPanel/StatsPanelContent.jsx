@@ -24,7 +24,7 @@ const StatsPanelContent = ({ criteria }) => {
     setRequestFilter(prev => ({...prev, pageNumber: prev.pageNumber + 1 }))
   }, [requestFilter]);
 
-  const table = useTableConfig(columns, stats, loading, incrementPageNumber, setRequestFilter);
+  const table = useTableConfig(columns, stats, loading, incrementPageNumber, requestFilter, setRequestFilter);
 
   return (
     <div className="stats-panel-content">

@@ -6,6 +6,7 @@ export default function useTableConfig(
   stats,
   loading,
   incrementPageNumber, 
+  requestFilter,
   setRequestFilter
 ) {
   const enableFetchRef = useRef(false);
@@ -74,6 +75,14 @@ export default function useTableConfig(
     enablePagination: false,
     enableRowVirtualization: true,
     enableHiding: false,
+    onSortingChange: () => {
+      setRequestFilter(prev => ({
+        ...prev,
+        pageNumber: 1,
+        isSortDescending: !requestFilter.isSortDescending,
+    }))
+    console.log("sorting chnaged")
+    },
     // enableFilters: false,
     // enableFilters: false,
     // onColumnFiltersChange: (e) =>handleFilterChange(e),

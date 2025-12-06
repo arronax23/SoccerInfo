@@ -31,6 +31,7 @@ export default function useStatsFetch(
     requestFilter.teams,
     requestFilter.leagues,
     requestFilter.nationalities,
+    requestFilter.isSortDescending,
   ]);
 
   useEffect(() => {
@@ -66,6 +67,7 @@ export default function useStatsFetch(
     requestFilter.teams,
     requestFilter.leagues,
     requestFilter.nationalities,
+    requestFilter.isSortDescending
   ]);
 
   return { stats, columns, loading };
