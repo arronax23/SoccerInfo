@@ -8,6 +8,7 @@ using SoccerInfo.Application.Commands.FindMissingClubsInTransfers;
 using SoccerInfo.Application.Commands.SavePlayersGeneralInfo;
 using SoccerInfo.Domain.Repositories;
 using SoccerInfo.Shared.CQRS;
+using SoccerInfo.Application.Commands.ExtractAndSavePlayersCharacteristics;
 
 namespace SoccerInfo.Application.Commands.GeneralExtraction;
 
@@ -19,7 +20,7 @@ internal class GeneralExtractionCommandHandler(
     public async Task Handle(GeneralExtractionCommand request, CancellationToken cancellationToken)
     {
         await ExtractAndSavePlayersGeneralInfo();
-        //await ExtractAndSavePlayersCharacteristics();  // to do
+        await commandDispatcher.Send(new ExtractAndSavePlayersCharacteristicsCommand());
         await commandDispatcher.Send(new ExtractMarketValueProgressCommand());
         await commandDispatcher.Send(new ExtarctPlayersTransferHistoryCommand());
         await commandDispatcher.Send(new FindMissingClubsInTransfersCommand());

@@ -12,7 +12,7 @@ public class GeneralExtractionJob(
 {
     public static string Name => "GeneralExtraction";
     public static JobKey Key => JobKey.Create(Name);
-    public static string Schedule => "0 30 20 * * ?";
+    public static string Schedule => "0 35 11 ? * WED";
 
     private readonly bool _isActive = configuration.GetValue<bool>("GeneralExtraction:IsActive");
 
