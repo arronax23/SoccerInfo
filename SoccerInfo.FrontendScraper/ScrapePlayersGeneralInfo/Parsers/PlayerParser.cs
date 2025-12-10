@@ -56,7 +56,7 @@ public class PlayerParser(
         {
             var tab = ageAndDateOfBirth.Split('(', ')');
             var dateOfBirthParseSuccess = DateTime.TryParseExact(
-                tab[0].Trim(), "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out var dateOfBirth);
+                tab[0].Trim(), "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out var dateOfBirth);
             var ageParseSuccess = int.TryParse(tab[1].Trim(), out var age);
 
             DateTime? dateOfBirthNullable = dateOfBirthParseSuccess ? dateOfBirth : null;
@@ -67,7 +67,6 @@ public class PlayerParser(
         catch (Exception ex)
         {
             logger.LogError($"ageAndDateOfBirth: {ageAndDateOfBirth}");
-            logger.LogError($"Line 69");
             logger.LogError(ex.ToString());
             throw;
         }
