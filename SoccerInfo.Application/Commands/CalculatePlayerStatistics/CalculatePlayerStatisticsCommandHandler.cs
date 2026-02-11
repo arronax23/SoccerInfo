@@ -188,7 +188,9 @@ internal class CalculatePlayerStatisticsCommandHandler(
     {
         stats.Id = statsId;
         unitOfWork.Entry(stats).State = EntityState.Modified;
-        unitOfWork.Entry(stats).Reference(s => s.Age).TargetEntry!.State = EntityState.Modified;
+
+        if (stats.Age is not null)
+            unitOfWork.Entry(stats).Reference(s => s.Age).TargetEntry!.State = EntityState.Modified;
 
         if (stats.ContractPeriod is not null)
             unitOfWork.Entry(stats).Reference(s => s.ContractPeriod).TargetEntry!.State = EntityState.Modified;
