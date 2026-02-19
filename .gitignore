@@ -364,3 +364,4 @@ FodyWeavers.xsd
 
 # Extracted data in json files
 JsonData/
+/SoccerInfo.Infrastructure/appsettings.Production.json
