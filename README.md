@@ -9,7 +9,7 @@
 
 ## Website URL
 
-http://207.180.246.96/
+https://soccerinfo.duckdns.org/
 
 ## General info
 
